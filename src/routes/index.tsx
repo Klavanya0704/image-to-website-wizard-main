@@ -141,7 +141,7 @@ function Index() {
                 Lab Tagline
               </p>
               <p className="text-sm font-extrabold text-foreground mt-1">
-                Innovate. Create. Inspire.
+                Innovate. Create. Inspire. — AICTE IDEA Lab
               </p>
             </div>
           </div>

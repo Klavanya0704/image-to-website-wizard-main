@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import {
   Search,
   User,
@@ -21,6 +22,7 @@ import {
   Bot,
   MapPin,
   Home,
+  Tag,
 } from "lucide-react";
 
 import { useStore } from "@/lib/store";
@@ -309,138 +311,86 @@ export function Header() {
         </div>
       </div>
 
-      {/* Category Navigation Bar (Row 2 / Bottom Row) - Desktop & Mobile */}
-      <div className="border-t border-b border-border bg-white dark:bg-card shadow-[0_1px_2px_rgba(0,0,0,0.01)] h-[62px] flex items-center">
-        <div className="mx-auto flex w-full max-w-[1400px] items-center px-4 md:px-6 h-full">
-          {/* Categories scrollable container */}
-          <nav className="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-center gap-1 md:gap-2 lg:gap-4 py-1 h-full">
-            {/* Home */}
-            <Link
-              to="/"
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
-              activeProps={{
-                className: "text-primary is-active",
-              }}
-            >
-              <Home className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
-                Home
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
-            </Link>
+      {/* Student Discount Ticket Banner (Row 2 / Bottom Row) */}
+      <div className="bg-white dark:bg-background border-b border-border py-4 px-4 sm:px-6">
+        <div className="mx-auto max-w-[1400px] relative">
+          {/* Main Ticket Outer Container */}
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#052217] via-[#0A3728] to-[#0D4433] text-white p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_8px_32px_0_rgba(10,55,40,0.2)] border border-primary/20 backdrop-blur-sm">
+            {/* Ticket Notches */}
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 bg-white dark:bg-background rounded-full -ml-2.5 z-10 border-r border-primary/20" />
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 bg-white dark:bg-background rounded-full -mr-2.5 z-10 border-l border-primary/20" />
 
-            {/* 3D Printing */}
-            <Link
-              to="/category/$slug"
-              params={{ slug: "3d-printing" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
-              activeProps={{
-                className: "text-primary is-active",
-              }}
-            >
-              <Printer className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
-                3D Printing
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
-            </Link>
+            {/* Left Side: Main Ticket Body */}
+            <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center gap-6 z-10 pl-2">
+              <div className="bg-primary/10 border border-primary/30 p-3 rounded-xl flex items-center justify-center shrink-0">
+                <Tag className="h-7 w-7 text-primary animate-pulse" />
+              </div>
+              <div className="space-y-1.5">
+                <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight flex items-center gap-2">
+                  15% OFF FOR STUDENTS
+                  <span className="bg-red-500 text-white text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full animate-bounce">
+                    New Offer
+                  </span>
+                </h2>
+                <p className="text-xs sm:text-sm text-emerald-100/80 font-medium max-w-2xl leading-relaxed">
+                  Unlock exclusive discount on all 3D printing &amp; innovation gear. Verify student
+                  ID at checkout.
+                </p>
+                <div className="pt-1">
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText("STUDENT15");
+                      toast.success("Coupon STUDENT15 copied to clipboard!", {
+                        description: "Use it at checkout to claim your 15% discount.",
+                      });
+                    }}
+                    className="inline-flex items-center gap-2 bg-primary text-white text-xs font-bold px-5 py-2.5 rounded-full hover:bg-primary/90 transition-all shadow-md active:scale-95 cursor-pointer"
+                  >
+                    Claim 15% Off
+                  </button>
+                </div>
+              </div>
+            </div>
 
-            {/* Laser Cutting */}
-            <Link
-              to="/category/$slug"
-              params={{ slug: "laser-cutting" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
-              activeProps={{
-                className: "text-primary is-active",
-              }}
-            >
-              <Scissors className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
-                Laser Cutting
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
-            </Link>
+            {/* Perforation Line Divider (only md and up) */}
+            <div className="hidden md:block h-20 border-l-2 border-dashed border-white/25 mx-4 z-10" />
+            <div className="md:hidden w-full border-t-2 border-dashed border-white/20 my-2 z-10" />
 
-            {/* CNC Machining */}
-            <Link
-              to="/category/$slug"
-              params={{ slug: "cnc-machining" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
-              activeProps={{
-                className: "text-primary is-active",
-              }}
-            >
-              <Settings className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
-                CNC Machining
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
-            </Link>
+            {/* Right Side: Ticket Stub */}
+            <div className="flex flex-col items-center justify-center text-center shrink-0 z-10 pr-2 min-w-[200px]">
+              <div
+                onClick={() => {
+                  navigator.clipboard.writeText("STUDENT15");
+                  toast.success("Coupon STUDENT15 copied to clipboard!");
+                }}
+                className="bg-white/5 border border-white/10 px-4 py-2.5 rounded-xl text-center select-all cursor-pointer group hover:bg-white/10 transition-colors w-full"
+              >
+                <span className="block text-[10px] text-emerald-200/60 font-black uppercase tracking-wider mb-0.5">
+                  Coupon Code
+                </span>
+                <code className="text-sm font-black tracking-widest text-emerald-300 font-mono group-hover:text-white">
+                  STUDENT15
+                </code>
+              </div>
 
-            {/* Electronics */}
-            <Link
-              to="/category/$slug"
-              params={{ slug: "electronics" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
-              activeProps={{
-                className: "text-primary is-active",
-              }}
-            >
-              <Cpu className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
-                Electronics
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
-            </Link>
-
-            {/* Drones & Parts */}
-            <Link
-              to="/category/$slug"
-              params={{ slug: "drones-parts" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
-              activeProps={{
-                className: "text-primary is-active",
-              }}
-            >
-              <Plane className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
-                Drones &amp; Parts
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
-            </Link>
-
-            {/* Acrylic Products */}
-            <Link
-              to="/category/$slug"
-              params={{ slug: "acrylic-products" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
-              activeProps={{
-                className: "text-primary is-active",
-              }}
-            >
-              <Layers className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
-                Acrylic Products
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
-            </Link>
-
-            {/* DIY Kits */}
-            <Link
-              to="/category/$slug"
-              params={{ slug: "diy-kits" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
-              activeProps={{
-                className: "text-primary is-active",
-              }}
-            >
-              <Bot className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
-                DIY Kits
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
-            </Link>
-          </nav>
+              {/* Barcode Graphic or Badge */}
+              <div className="mt-3.5 flex flex-col items-center gap-1 opacity-70">
+                <div className="flex gap-0.5 h-6 items-center">
+                  <div className="w-1.5 h-full bg-white rounded-sm" />
+                  <div className="w-0.5 h-full bg-white rounded-sm" />
+                  <div className="w-1 h-full bg-white rounded-sm" />
+                  <div className="w-0.5 h-full bg-white rounded-sm" />
+                  <div className="w-1.5 h-full bg-white rounded-sm" />
+                  <div className="w-0.5 h-full bg-white rounded-sm" />
+                  <div className="w-1 h-full bg-white rounded-sm" />
+                  <div className="w-2 h-full bg-white rounded-sm" />
+                </div>
+                <span className="text-[9px] font-bold text-emerald-100/50 uppercase tracking-widest">
+                  SPECIAL OFFER
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </header>

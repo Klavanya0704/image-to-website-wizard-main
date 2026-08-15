@@ -131,20 +131,18 @@ function Index() {
               </li>
             </ul>
           </div>
-          <div className="relative">
+          <div className="flex flex-col gap-3">
             <img
               src={heroImg}
               alt="AICTE IDEA Lab innovation workspace products"
               width={1200}
               height={800}
-              className="h-[300px] md:h-[400px] w-full rounded-xl object-cover shadow-2xl"
+              className="h-[300px] md:h-[380px] w-full rounded-xl object-cover shadow-2xl"
             />
-            <div className="absolute -bottom-4 -left-4 bg-card border border-border p-4 rounded-xl shadow-lg hidden lg:block max-w-[200px]">
-              <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider">
-                Lab Tagline
-              </p>
-              <p className="text-sm font-extrabold text-foreground mt-1">
-                Innovate. Create. Inspire. — AICTE IDEA Lab
+            <div className="self-end bg-black/40 backdrop-blur-md border border-white/10 px-4.5 py-2.5 rounded-xl shadow-inner max-w-md select-none text-right">
+              <p className="text-xs sm:text-sm font-medium tracking-wide text-[#F8FAFC] italic">
+                Innovate. Create. Inspire.{" "}
+                <span className="text-[#86EFAC] not-italic font-bold ml-1">— AICTE IDEA LAB</span>
               </p>
             </div>
           </div>

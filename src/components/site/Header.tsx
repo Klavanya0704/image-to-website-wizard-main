@@ -20,6 +20,7 @@ import {
   Layers,
   Bot,
   MapPin,
+  Home,
 } from "lucide-react";
 
 import { useStore } from "@/lib/store";
@@ -139,6 +140,27 @@ export function Header() {
             </Link>
           </div>
         </div>
+
+        {/* Search Bar - Desktop Centered */}
+        <form
+          onSubmit={handleSearch}
+          className="hidden md:flex flex-1 max-w-xl mx-6 h-[44px] items-center rounded-full border border-border bg-background p-1 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 shadow-[0_1px_2px_rgba(0,0,0,0.02)] hover:shadow-sm transition-all duration-200"
+        >
+          <input
+            type="search"
+            placeholder="Search for products, materials, specs..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full bg-transparent px-4 h-full text-sm outline-none placeholder:text-muted-foreground"
+          />
+          <Button
+            type="submit"
+            size="icon"
+            className="h-9 w-9 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 active:scale-95 shadow-sm hover:shadow transition-all duration-200 shrink-0"
+          >
+            <Search className="h-4 w-4" />
+          </Button>
+        </form>
 
         {/* Right side: Location & Action Items */}
         <div className="flex items-center gap-6 shrink-0">
@@ -292,6 +314,21 @@ export function Header() {
         <div className="mx-auto flex w-full max-w-[1400px] items-center px-4 md:px-6 h-full">
           {/* Categories scrollable container */}
           <nav className="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-center gap-1 md:gap-2 lg:gap-4 py-1 h-full">
+            {/* Home */}
+            <Link
+              to="/"
+              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
+              activeProps={{
+                className: "text-primary is-active",
+              }}
+            >
+              <Home className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
+              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
+                Home
+              </span>
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+            </Link>
+
             {/* 3D Printing */}
             <Link
               to="/category/$slug"

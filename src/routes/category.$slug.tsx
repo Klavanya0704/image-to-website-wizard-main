@@ -197,19 +197,6 @@ function CategoryDetail() {
 
   return (
     <div className="pb-20">
-      {/* Breadcrumbs */}
-      <div className="bg-muted/10">
-        <div className="mx-auto flex max-w-[1400px] items-center gap-2 px-6 py-3.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-          <Link to="/" className="hover:text-primary transition-colors">
-            Home
-          </Link>
-          <ChevronRight className="h-3 w-3" />
-          <span className="text-muted-foreground">Categories</span>
-          <ChevronRight className="h-3 w-3" />
-          <span className="text-foreground font-bold">{category.name}</span>
-        </div>
-      </div>
-
       {/* Category Hero */}
       <section className="mx-auto max-w-[1400px] px-6 pt-6">
         <div
@@ -271,7 +258,7 @@ function CategoryDetail() {
                     max={maxPriceLimit}
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(Number(e.target.value))}
-                    className="w-full accent-primary bg-muted rounded-lg appearance-none h-1 cursor-pointer"
+                    className="w-full accent-[#0a3728] dark:accent-[#10b981] bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg appearance-none h-2 cursor-pointer"
                   />
                   <div className="flex justify-between text-[10px] text-muted-foreground font-semibold">
                     <span>{inr(0)}</span>
@@ -418,7 +405,7 @@ function CategoryDetail() {
                   max={maxPriceLimit}
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
-                  className="w-full accent-primary bg-muted rounded-lg appearance-none h-1 cursor-pointer"
+                  className="w-full accent-[#0a3728] dark:accent-[#10b981] bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg appearance-none h-2 cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-muted-foreground font-semibold">
                   <span>{inr(0)}</span>

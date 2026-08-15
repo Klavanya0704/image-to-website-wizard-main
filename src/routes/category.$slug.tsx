@@ -209,10 +209,10 @@ function CategoryDetail() {
               <category.icon className="h-8 w-8" />
             </div>
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+              <h1 className="text-3xl font-extrabold tracking-tight text-white md:text-4xl">
                 {category.name}
               </h1>
-              <p className="mt-2 max-w-2xl text-sm md:text-base text-muted-foreground leading-relaxed">
+              <p className="mt-2 max-w-2xl text-sm md:text-base text-[#E2E8F0] leading-relaxed">
                 {category.description}
               </p>
             </div>

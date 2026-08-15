@@ -94,40 +94,40 @@ function Index() {
           className="grid items-center gap-8 overflow-hidden rounded-2xl px-6 py-12 md:grid-cols-2 md:px-12 md:py-16"
           style={{ background: "var(--gradient-hero)" }}
         >
-          <div className="text-hero-foreground">
-            <p className="text-sm font-semibold text-primary uppercase tracking-wider">
-              AICTE IDEA Lab Store
+          <div className="text-white">
+            <p className="text-sm font-semibold text-[#86EFAC] uppercase tracking-wider">
+              AICTE IDEA LAB STORE
             </p>
-            <h1 className="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl leading-tight">
-              Where Ideas <span className="text-primary font-bold">Become</span> Reality
+            <h1 className="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl leading-tight text-white">
+              Where Ideas <span className="text-white font-bold">Become</span> Reality
             </h1>
-            <p className="mt-4 max-w-md text-sm md:text-base leading-relaxed opacity-80">
+            <p className="mt-4 max-w-md text-sm md:text-base leading-relaxed opacity-85 text-emerald-50">
               High-quality 3D printed, laser cut, CNC machined products and electronics for
               innovators, makers, and creators.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 to="/shop"
-                className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-[#0A3728] transition-all hover:bg-white/95 hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
               >
                 Shop Catalog <ArrowRight className="h-4 w-4" />
               </Link>
               <a
                 href="#categories"
-                className="inline-flex items-center rounded-lg border border-hero-foreground/30 px-6 py-3 text-sm font-semibold text-hero-foreground transition-colors hover:bg-hero-foreground/10"
+                className="inline-flex items-center rounded-lg border-[1.5px] border-white px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/10 hover:-translate-y-0.5 cursor-pointer"
               >
                 Explore Categories
               </a>
             </div>
-            <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-xs opacity-80">
+            <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-xs opacity-90 text-white">
               <li className="flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-primary" /> Premium Quality
+                <ShieldCheck className="h-4 w-4 text-[#86EFAC]" /> Premium Quality
               </li>
               <li className="flex items-center gap-2">
-                <CreditCard className="h-4 w-4 text-primary" /> Secure Payments
+                <CreditCard className="h-4 w-4 text-[#86EFAC]" /> Secure Payments
               </li>
               <li className="flex items-center gap-2">
-                <Truck className="h-4 w-4 text-primary" /> Fast Delivery
+                <Truck className="h-4 w-4 text-[#86EFAC]" /> Fast Delivery
               </li>
             </ul>
           </div>

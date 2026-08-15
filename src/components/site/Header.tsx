@@ -23,6 +23,8 @@ import {
   MapPin,
   Home,
   Tag,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 import { useStore } from "@/lib/store";
@@ -59,7 +61,7 @@ const NAV_LINKS = [
 // CATEGORIES are statically rendered in the navigation bar to pass TanStack Router's compile checks
 
 export function Header() {
-  const { cartCount, wishlist, cartSubtotal } = useStore();
+  const { cartCount, wishlist, cartSubtotal, theme, toggleTheme } = useStore();
   const { user, isAdmin, displayName, signOut } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
@@ -271,6 +273,20 @@ export function Header() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          {/* Theme Toggle Switcher */}
+          <button
+            onClick={toggleTheme}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-[var(--shadow-card)] hover:text-primary transition-all active:scale-95 cursor-pointer shrink-0"
+            aria-label="Toggle theme"
+            title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {theme === "dark" ? (
+              <Sun className="h-[18px] w-[18px] text-[#fbbf24] fill-[#fbbf24]" />
+            ) : (
+              <Moon className="h-[18px] w-[18px] text-[#4a5d55]" />
+            )}
+          </button>
 
           {/* Wishlist */}
           <Link

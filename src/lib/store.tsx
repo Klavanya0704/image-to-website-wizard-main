@@ -47,6 +47,8 @@ interface StoreValue {
   isWishlisted: (productId: string) => boolean;
   toggleWishlist: (productId: string) => boolean;
   removeFromWishlist: (productId: string) => void;
+  theme: "light" | "dark";
+  toggleTheme: () => void;
 }
 
 const StoreContext = createContext<StoreValue | null>(null);
@@ -55,6 +57,28 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
   const [cart, setCart] = useState<CartLine[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof window === "undefined") return "light";
+    const stored = window.localStorage.getItem("idealab.theme");
+    if (stored === "light" || stored === "dark") return stored;
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+    return "light";
+  });
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const root = window.document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    window.localStorage.setItem("idealab.theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     setCart(readJSON<CartLine[]>(CART_KEY, []));
@@ -125,6 +149,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       isWishlisted: (id: string) => wishlist.includes(id),
       toggleWishlist,
       removeFromWishlist,
+      theme,
+      toggleTheme,
     }),
     [
       hydrated,
@@ -136,6 +162,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       clearCart,
       toggleWishlist,
       removeFromWishlist,
+      theme,
+      toggleTheme,
     ],
   );
 

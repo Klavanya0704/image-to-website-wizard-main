@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Heart, ShoppingCart, Eye } from "lucide-react";
 import { toast } from "sonner";
 
@@ -16,6 +16,7 @@ export function ProductCard({
   product: Product;
   onQuickView?: (p: Product) => void;
 }) {
+  const navigate = useNavigate();
   const { addToCart, toggleWishlist, isWishlisted } = useStore();
   const off = discountPercent(product);
   const wished = isWishlisted(product.id);
@@ -113,7 +114,7 @@ export function ProductCard({
               imageKey: product.image_key,
               price: effectivePrice(product),
             });
-            toast.success("Added to cart", { description: product.name });
+            navigate({ to: "/checkout" });
           }}
         >
           <ShoppingCart className="mr-1.5 h-4 w-4" /> Buy Now

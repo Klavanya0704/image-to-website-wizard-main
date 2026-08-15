@@ -116,7 +116,7 @@ export function ProductCard({
             toast.success("Added to cart", { description: product.name });
           }}
         >
-          <ShoppingCart className="mr-1.5 h-4 w-4" /> Add to Cart
+          <ShoppingCart className="mr-1.5 h-4 w-4" /> Buy Now
         </Button>
       </div>
     </article>

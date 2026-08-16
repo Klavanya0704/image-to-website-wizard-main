@@ -259,6 +259,191 @@ function ConfettiCanvas() {
   );
 }
 
+// Custom Animated Delivery Truck Order Confirmation Button Component
+interface AnimatedTruckOrderButtonProps {
+  disabled?: boolean;
+  onPlaceOrder: () => void;
+  validateBeforeOrder: () => boolean;
+}
+
+function AnimatedTruckOrderButton({
+  disabled,
+  onPlaceOrder,
+  validateBeforeOrder,
+}: AnimatedTruckOrderButtonProps) {
+  const [buttonState, setButtonState] = useState<"idle" | "driving" | "placed">("idle");
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (disabled || buttonState !== "idle") return;
+
+    if (!validateBeforeOrder()) {
+      return;
+    }
+
+    // Morph button into road track & launch truck animation
+    setButtonState("driving");
+
+    // Phase 1: Truck reaches right edge at 1.8s, background transitions to emerald green
+    setTimeout(() => {
+      setButtonState("placed");
+    }, 1800);
+
+    // Phase 2: Total 2.5s duration, trigger final order placement callback
+    setTimeout(() => {
+      onPlaceOrder();
+    }, 2500);
+  };
+
+  return (
+    <div className="w-full sm:w-auto">
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+        @keyframes roadStripesMove {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-40px); }
+        }
+        @keyframes truckDriveAcross {
+          0% { transform: translateX(0) translateY(0); }
+          25% { transform: translateX(70px) translateY(-1px); }
+          50% { transform: translateX(150px) translateY(1px); }
+          75% { transform: translateX(230px) translateY(-0.5px); }
+          100% { transform: translateX(340px) translateY(0); }
+        }
+        @keyframes spinWheel {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        @keyframes popInCheck {
+          0% { transform: scale(0.6); opacity: 0; }
+          60% { transform: scale(1.15); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-road-stripes {
+          animation: roadStripesMove 0.4s linear infinite;
+        }
+        .animate-truck-move {
+          animation: truckDriveAcross 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .animate-spin-wheel {
+          animation: spinWheel 0.25s linear infinite;
+          transform-origin: center;
+        }
+        .animate-placed-text {
+          animation: popInCheck 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+      `,
+        }}
+      />
+
+      <button
+        type="button"
+        disabled={disabled || buttonState !== "idle"}
+        onClick={handleClick}
+        className={`relative overflow-hidden transition-all duration-500 select-none cursor-pointer flex items-center justify-center font-black ${
+          buttonState === "idle"
+            ? "w-full sm:w-[240px] h-[52px] rounded-2xl bg-primary hover:bg-primary/95 text-primary-foreground shadow-md hover:shadow-lg active:scale-[0.98]"
+            : buttonState === "driving"
+              ? "w-full sm:w-[320px] h-[54px] rounded-2xl bg-slate-950 border border-slate-700 shadow-inner text-white"
+              : "w-full sm:w-[320px] h-[54px] rounded-2xl bg-[#16A34A] text-white shadow-xl shadow-emerald-500/30"
+        }`}
+      >
+        {/* State 1: Idle Button */}
+        {buttonState === "idle" && (
+          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-extrabold uppercase tracking-wider">
+            <span>Place Order</span>
+            <ArrowRight className="h-4 w-4" />
+          </div>
+        )}
+
+        {/* State 2: Driving Truck Along Road */}
+        {buttonState === "driving" && (
+          <div className="relative w-full h-full flex items-center overflow-hidden bg-slate-900">
+            {/* Depot Building Graphic (Left Side) */}
+            <div className="absolute left-2.5 z-10 flex flex-col items-center justify-center">
+              <div className="h-7 w-7 rounded-md bg-slate-800 border border-slate-600 flex items-center justify-center shadow-sm">
+                <Building className="h-4 w-4 text-emerald-400" />
+              </div>
+              <span className="text-[7px] font-black uppercase tracking-wider text-slate-400 mt-0.5">
+                DEPOT
+              </span>
+            </div>
+
+            {/* Road Track Asphalt & Center Dashed Moving Line */}
+            <div className="absolute inset-0 left-10 flex items-center overflow-hidden">
+              <div className="w-[800px] flex items-center gap-2 animate-road-stripes opacity-75">
+                {Array.from({ length: 40 }).map((_, i) => (
+                  <div key={i} className="h-[2.5px] w-5 rounded-full bg-amber-400/90 shrink-0" />
+                ))}
+              </div>
+            </div>
+
+            {/* Moving Delivery Truck */}
+            <div className="absolute left-10 z-20 animate-truck-move flex items-center">
+              {/* Delivery Truck SVG Graphic */}
+              <svg
+                width="48"
+                height="28"
+                viewBox="0 0 48 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="drop-shadow-md"
+              >
+                {/* Truck Cargo Box */}
+                <rect x="2" y="2" width="28" height="18" rx="2" fill="#10B981" />
+                <rect x="4" y="4" width="24" height="2" fill="#34D399" opacity="0.6" />
+                {/* Speed Logo on Box */}
+                <path d="M7 11H20" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M10 14H18" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+
+                {/* Truck Cabin */}
+                <path
+                  d="M30 7H37C39 7 41 9 42 11L45 15C45.6 15.8 46 16.8 46 18V20H30V7Z"
+                  fill="#065F46"
+                />
+                {/* Windshield */}
+                <path d="M32 9H36.5C37.8 9 39 10.2 39.5 11.5L41.5 14H32V9Z" fill="#93C5FD" />
+                {/* Headlight Beam */}
+                <circle cx="45" cy="18" r="1.5" fill="#FDE047" />
+
+                {/* Chassis base */}
+                <rect x="2" y="20" width="44" height="3" fill="#1E293B" />
+
+                {/* Back Wheel */}
+                <g className="animate-spin-wheel" style={{ transformOrigin: "11px 23px" }}>
+                  <circle cx="11" cy="23" r="4.5" fill="#0F172A" stroke="#E2E8F0" strokeWidth="1" />
+                  <circle cx="11" cy="23" r="2" fill="#64748B" />
+                  <line x1="11" y1="18.5" x2="11" y2="27.5" stroke="#94A3B8" strokeWidth="0.8" />
+                  <line x1="6.5" y1="23" x2="15.5" y2="23" stroke="#94A3B8" strokeWidth="0.8" />
+                </g>
+
+                {/* Front Wheel */}
+                <g className="animate-spin-wheel" style={{ transformOrigin: "37px 23px" }}>
+                  <circle cx="37" cy="23" r="4.5" fill="#0F172A" stroke="#E2E8F0" strokeWidth="1" />
+                  <circle cx="37" cy="23" r="2" fill="#64748B" />
+                  <line x1="37" y1="18.5" x2="37" y2="27.5" stroke="#94A3B8" strokeWidth="0.8" />
+                  <line x1="32.5" y1="23" x2="41.5" y2="23" stroke="#94A3B8" strokeWidth="0.8" />
+                </g>
+              </svg>
+            </div>
+          </div>
+        )}
+
+        {/* State 3: Order Placed Success */}
+        {buttonState === "placed" && (
+          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-black text-white animate-placed-text">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white text-[#16A34A] text-xs font-black shadow">
+              ✓
+            </span>
+            <span className="tracking-wide">Order Placed!</span>
+          </div>
+        )}
+      </button>
+    </div>
+  );
+}
+
 const INITIAL_SAVED_ADDRESSES: SavedAddress[] = [
   {
     id: "addr-1",
@@ -460,74 +645,72 @@ function Checkout() {
     navigate({ to: "/" });
   };
 
-  const handlePlaceOrder = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-
+  // Validation function before triggering the Truck Order Animation
+  const validateBeforeOrder = (): boolean => {
     if (activePaymentMethod === "upi" && upiSub === "id" && !upiId.trim()) {
       toast.error("Please enter your UPI ID.");
-      return;
+      return false;
     }
 
     if (activePaymentMethod === "card") {
       if (!cardNumber || !cardExpiry || !cardCvv) {
         toast.error("Please fill in complete Card details.");
-        return;
+        return false;
       }
     }
 
     if (activePaymentMethod === "netbanking" && !selectedBank) {
       toast.error("Please choose your bank for Net Banking.");
-      return;
+      return false;
     }
 
     if (activePaymentMethod === "cod" && captchaInput !== generatedCaptcha) {
       toast.error("Please enter the correct security captcha.");
-      return;
+      return false;
     }
 
     if (activePaymentMethod === "emi") {
       toast.error("EMI is currently unavailable for this order size.");
-      return;
+      return false;
     }
 
-    setIsProcessing(true);
+    return true;
+  };
+
+  // Callback after Truck Animation finishes (approx. 2.5s)
+  const handleCompleteOrder = () => {
+    const generatedId = "IDEA-" + Math.floor(100000 + Math.random() * 900000);
+    setOrderId(generatedId);
+
+    const estimatedDate = new Date();
+    estimatedDate.setDate(
+      estimatedDate.getDate() +
+        (deliveryMethod === "pickup" ? 1 : deliveryMethod === "express" ? 2 : 4),
+    );
+    const dateStr = estimatedDate.toLocaleDateString("en-IN", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    setEstimatedDelivery(dateStr);
+
+    playVictorySound();
+    setShowCelebration(true);
     setPurchasedItems(cart);
+    clearCart();
+    toast.success("Order Placed Successfully!");
 
-    // Simulate order placement with celebration modal overlay
-    setTimeout(() => {
-      setIsProcessing(false);
-      const generatedId = "IDEA-" + Math.floor(100000 + Math.random() * 900000);
-      setOrderId(generatedId);
-
-      const estimatedDate = new Date();
-      estimatedDate.setDate(
-        estimatedDate.getDate() +
-          (deliveryMethod === "pickup" ? 1 : deliveryMethod === "express" ? 2 : 4),
-      );
-      const dateStr = estimatedDate.toLocaleDateString("en-IN", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-      setEstimatedDelivery(dateStr);
-
-      playVictorySound();
-      setShowCelebration(true);
-      clearCart();
-      toast.success("Order Placed Successfully!");
-
-      let currentCountdown = 5;
-      const interval = setInterval(() => {
-        currentCountdown -= 1;
-        setCountdown(currentCountdown);
-        if (currentCountdown <= 0) {
-          clearInterval(interval);
-          setShowCelebration(false);
-          navigate({ to: "/" });
-        }
-      }, 1000);
-    }, 1500);
+    let currentCountdown = 5;
+    const interval = setInterval(() => {
+      currentCountdown -= 1;
+      setCountdown(currentCountdown);
+      if (currentCountdown <= 0) {
+        clearInterval(interval);
+        setShowCelebration(false);
+        navigate({ to: "/" });
+      }
+    }, 1000);
   };
 
   // If cart is empty and celebration is not active
@@ -2107,41 +2290,12 @@ function Checkout() {
                         <span className="text-lg font-black text-price">{inr(finalPayable)}</span>
                       </div>
 
-                      <Button
-                        type="button"
+                      {/* Animated Delivery Truck Order Confirmation Button */}
+                      <AnimatedTruckOrderButton
                         disabled={isProcessing || activePaymentMethod === "emi"}
-                        onClick={handlePlaceOrder}
-                        className="w-full sm:w-auto min-w-[200px] bg-primary hover:bg-primary/95 text-primary-foreground font-black text-xs sm:text-sm py-3.5 px-8 rounded-xl shadow-md transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
-                      >
-                        {isProcessing ? (
-                          <>
-                            <svg
-                              className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                              />
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                              />
-                            </svg>
-                            Processing...
-                          </>
-                        ) : (
-                          <>
-                            PLACE ORDER <ArrowRight className="h-4 w-4" />
-                          </>
-                        )}
-                      </Button>
+                        validateBeforeOrder={validateBeforeOrder}
+                        onPlaceOrder={handleCompleteOrder}
+                      />
                     </div>
                   </div>
                 </div>

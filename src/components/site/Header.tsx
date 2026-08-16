@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
   Search,
@@ -68,6 +68,10 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
+  const routerState = useRouterState();
+  const pathname = routerState.location.pathname;
+  const isMakerspace = pathname.startsWith("/services") || pathname.startsWith("/bulk-orders");
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
@@ -110,6 +114,34 @@ export function Header() {
                 </SheetTrigger>
               </div>
 
+              {/* Mobile Brand Toggle Pills */}
+              <div className="px-5 pt-4 pb-2">
+                <div className="flex items-center bg-muted p-1 rounded-full text-xs font-bold w-full">
+                  <Link
+                    to="/"
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex-1 text-center py-1.5 rounded-full transition-all duration-200 ${
+                      !isMakerspace
+                        ? "bg-primary text-primary-foreground shadow-sm font-black"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    Store
+                  </Link>
+                  <Link
+                    to="/services"
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex-1 text-center py-1.5 rounded-full transition-all duration-200 ${
+                      isMakerspace
+                        ? "bg-primary text-primary-foreground shadow-sm font-black"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    Makerspace
+                  </Link>
+                </div>
+              </div>
+
               {/* Mobile Nav Links */}
               <nav className="flex-1 overflow-y-auto px-5 py-4 space-y-1">
                 {NAV_LINKS.map((link) => (
@@ -132,13 +164,24 @@ export function Header() {
         <div className="flex items-center gap-4">
           <Logo />
           {/* Brand Toggle Pills */}
-          <div className="hidden md:flex items-center gap-2 bg-muted p-1 rounded-full text-xs font-semibold">
-            <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full shadow-sm cursor-default">
+          <div className="hidden md:flex items-center bg-muted p-1 rounded-full text-xs font-bold border border-border/40">
+            <Link
+              to="/"
+              className={`px-3.5 py-1 rounded-full transition-all duration-200 ${
+                !isMakerspace
+                  ? "bg-primary text-primary-foreground shadow-sm font-black"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+              }`}
+            >
               Store
-            </span>
+            </Link>
             <Link
               to="/services"
-              className="text-muted-foreground hover:text-foreground px-3 py-1 rounded-full transition-colors"
+              className={`px-3.5 py-1 rounded-full transition-all duration-200 ${
+                isMakerspace
+                  ? "bg-primary text-primary-foreground shadow-sm font-black"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+              }`}
             >
               Makerspace
             </Link>

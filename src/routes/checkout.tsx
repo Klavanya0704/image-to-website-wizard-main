@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useStore } from "@/lib/store";
 import { productImage } from "@/lib/product-images";
 import { inr } from "@/lib/format";
@@ -20,7 +20,8 @@ import {
   Edit3,
   Check,
   AlertCircle,
-  HelpCircle,
+  Copy,
+  ExternalLink,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -31,9 +32,229 @@ export const Route = createFileRoute("/checkout")({
 
 type PaymentMethodKey = "recommended" | "upi" | "card" | "cod" | "giftcard" | "netbanking" | "emi";
 
+// Web Audio API victory chime generator
+function playVictorySound() {
+  try {
+    const AudioCtx =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    if (ctx.state === "suspended") {
+      ctx.resume();
+    }
+
+    // Melodic victory chord sequence: C5 (523.25Hz), E5 (659.25Hz), G5 (783.99Hz), C6 (1046.5Hz)
+    const notes = [523.25, 659.25, 783.99, 1046.5];
+    const now = ctx.currentTime;
+
+    notes.forEach((freq, index) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(freq, now + index * 0.09);
+
+      gain.gain.setValueAtTime(0, now + index * 0.09);
+      gain.gain.linearRampToValueAtTime(0.22, now + index * 0.09 + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + index * 0.09 + 0.7);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now + index * 0.09);
+      osc.stop(now + index * 0.09 + 0.75);
+    });
+  } catch (e) {
+    console.debug("Victory audio note skipped:", e);
+  }
+}
+
+// Particle definition for Canvas Confetti & Fireworks
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  color: string;
+  rotation: number;
+  vRotation: number;
+  shape: "rect" | "circle";
+  alpha: number;
+  gravity: number;
+  drag: number;
+}
+
+// Canvas Confetti & Fireworks Cannons Component
+function ConfettiCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const colors = [
+      "#10B981", // Emerald
+      "#34D399", // Mint
+      "#F59E0B", // Amber Gold
+      "#EF4444", // Coral
+      "#3B82F6", // Sky Blue
+      "#8B5CF6", // Violet
+      "#EC4899", // Pink
+      "#FBBF24", // Sun Gold
+      "#0A3728", // Forest Green
+    ];
+
+    const particles: Particle[] = [];
+
+    // Left cannon burst
+    const spawnCannonLeft = () => {
+      for (let i = 0; i < 70; i++) {
+        const angle = -Math.PI / 4 + (Math.random() - 0.5) * 0.8; // ~45 deg upwards right
+        const speed = 14 + Math.random() * 22;
+        particles.push({
+          x: 0,
+          y: height * 0.85,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: 6 + Math.random() * 8,
+          color: colors[Math.floor(Math.random() * colors.length)] ?? "#10B981",
+          rotation: Math.random() * Math.PI * 2,
+          vRotation: (Math.random() - 0.5) * 0.2,
+          shape: Math.random() > 0.4 ? "rect" : "circle",
+          alpha: 1,
+          gravity: 0.35 + Math.random() * 0.15,
+          drag: 0.965,
+        });
+      }
+    };
+
+    // Right cannon burst
+    const spawnCannonRight = () => {
+      for (let i = 0; i < 70; i++) {
+        const angle = (-3 * Math.PI) / 4 + (Math.random() - 0.5) * 0.8; // ~135 deg upwards left
+        const speed = 14 + Math.random() * 22;
+        particles.push({
+          x: width,
+          y: height * 0.85,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: 6 + Math.random() * 8,
+          color: colors[Math.floor(Math.random() * colors.length)] ?? "#10B981",
+          rotation: Math.random() * Math.PI * 2,
+          vRotation: (Math.random() - 0.5) * 0.2,
+          shape: Math.random() > 0.4 ? "rect" : "circle",
+          alpha: 1,
+          gravity: 0.35 + Math.random() * 0.15,
+          drag: 0.965,
+        });
+      }
+    };
+
+    // Center fireworks explosion
+    const spawnCenterFireworks = () => {
+      const cx = width / 2;
+      const cy = height * 0.3;
+      for (let i = 0; i < 90; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 4 + Math.random() * 16;
+        particles.push({
+          x: cx,
+          y: cy,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: 5 + Math.random() * 7,
+          color: colors[Math.floor(Math.random() * colors.length)] ?? "#F59E0B",
+          rotation: Math.random() * Math.PI * 2,
+          vRotation: (Math.random() - 0.5) * 0.3,
+          shape: Math.random() > 0.5 ? "rect" : "circle",
+          alpha: 1,
+          gravity: 0.22,
+          drag: 0.97,
+        });
+      }
+    };
+
+    // Trigger initial bursts
+    spawnCannonLeft();
+    spawnCannonRight();
+    setTimeout(spawnCenterFireworks, 250);
+    setTimeout(spawnCannonLeft, 800);
+    setTimeout(spawnCannonRight, 1000);
+
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        if (!p) continue;
+
+        p.vx *= p.drag;
+        p.vy *= p.drag;
+        p.vy += p.gravity;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rotation += p.vRotation;
+        p.alpha -= 0.0035;
+
+        if (p.alpha <= 0 || p.y > height + 50) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.alpha);
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.fillStyle = p.color;
+
+        if (p.shape === "circle") {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * 0.65);
+        }
+
+        ctx.restore();
+      }
+
+      animationId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
+
+  return (
+    <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-10 w-full h-full" />
+  );
+}
+
 function Checkout() {
   const { cart, clearCart, cartSubtotal } = useStore();
   const navigate = useNavigate();
+
+  // Snapshot of cart items for the celebration modal
+  const [purchasedItems, setPurchasedItems] = useState(cart);
 
   // Shipping & Contact Details
   const [name, setName] = useState("Alex Johnson");
@@ -72,25 +293,39 @@ function Checkout() {
 
   // COD Captcha
   const [captchaInput, setCaptchaInput] = useState("");
-  const [generatedCaptcha, setGeneratedCaptcha] = useState("7492");
+  const [generatedCaptcha] = useState("7492");
 
   // Processing & Celebration States
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [orderId, setOrderId] = useState("");
   const [showCelebration, setShowCelebration] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [estimatedDelivery, setEstimatedDelivery] = useState("");
+  const [copiedId, setCopiedId] = useState(false);
+
+  // Update snapshot when cart changes before checkout
+  useEffect(() => {
+    if (cart.length > 0) {
+      setPurchasedItems(cart);
+    }
+  }, [cart]);
 
   // Price calculations
-  const totalItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const mrpTotal = Math.round(cartSubtotal * 1.25); // Original MRP reference
-  const mrpDiscount = mrpTotal - cartSubtotal; // Catalog MRP discount
-  const studentCouponDiscount = voucherApplied ? Math.round(cartSubtotal * 0.15) : 0; // STUDENT15 15% discount
+  const totalItemsCount = (cart.length > 0 ? cart : purchasedItems).reduce(
+    (sum, item) => sum + item.quantity,
+    0,
+  );
+  const effectiveSubtotal =
+    cart.length > 0
+      ? cartSubtotal
+      : purchasedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const mrpTotal = Math.round(effectiveSubtotal * 1.25);
+  const mrpDiscount = mrpTotal - effectiveSubtotal;
+  const studentCouponDiscount = voucherApplied ? Math.round(effectiveSubtotal * 0.15) : 0;
   const deliveryCharges = deliveryMethod === "pickup" ? 0 : deliveryMethod === "express" ? 150 : 80;
-  const handlingFee = 0; // FREE Lab Handling
-  const subtotalAfterDiscounts = cartSubtotal - studentCouponDiscount;
-  const taxes = Math.round(subtotalAfterDiscounts * 0.18); // 18% GST
+  const handlingFee = 0;
+  const subtotalAfterDiscounts = effectiveSubtotal - studentCouponDiscount;
+  const taxes = Math.round(subtotalAfterDiscounts * 0.18);
   const finalPayable = subtotalAfterDiscounts + taxes + deliveryCharges + handlingFee;
   const totalSavings = mrpDiscount + studentCouponDiscount;
 
@@ -115,9 +350,18 @@ function Checkout() {
     }
   };
 
-  const handleSkipCelebration = () => {
+  const handleCopyOrderId = () => {
+    if (orderId) {
+      navigator.clipboard.writeText(orderId);
+      setCopiedId(true);
+      toast.success("Order ID copied to clipboard!");
+      setTimeout(() => setCopiedId(false), 2000);
+    }
+  };
+
+  const handleCloseCelebration = () => {
     setShowCelebration(false);
-    setIsSuccess(true);
+    navigate({ to: "/" });
   };
 
   const handlePlaceOrder = (e?: React.FormEvent) => {
@@ -158,7 +402,10 @@ function Checkout() {
 
     setIsProcessing(true);
 
-    // Simulate order placement
+    // Freeze purchased items snapshot before clearing cart
+    setPurchasedItems(cart);
+
+    // Simulate order placement with celebration modal overlay
     setTimeout(() => {
       setIsProcessing(false);
       const generatedId = "IDEA-" + Math.floor(100000 + Math.random() * 900000);
@@ -177,10 +424,15 @@ function Checkout() {
       });
       setEstimatedDelivery(dateStr);
 
+      // Play Victory Chime Sound
+      playVictorySound();
+
+      // Launch full-screen animated celebratory modal overlay
       setShowCelebration(true);
       clearCart();
       toast.success("Order Placed Successfully!");
 
+      // Start 5-second auto-redirect countdown
       let currentCountdown = 5;
       const interval = setInterval(() => {
         currentCountdown -= 1;
@@ -188,65 +440,14 @@ function Checkout() {
         if (currentCountdown <= 0) {
           clearInterval(interval);
           setShowCelebration(false);
-          setIsSuccess(true);
+          navigate({ to: "/" });
         }
       }, 1000);
-    }, 2000);
+    }, 1500);
   };
 
-  // If order is completed successfully
-  if (isSuccess) {
-    return (
-      <div className="mx-auto max-w-lg px-6 py-20 text-center">
-        <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-success/10 text-success mb-6">
-          <CheckCircle className="h-12 w-12" />
-        </div>
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold mb-3">
-          <ShieldCheck className="h-4 w-4" /> AICTE IDEA LAB CONFIRMED
-        </span>
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
-          Order Placed Successfully!
-        </h1>
-        <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-          Your innovation order and fabrication files have been logged into the makerspace lab
-          queue.
-        </p>
-        <div className="mt-6 border border-border bg-card p-5 rounded-2xl shadow-sm space-y-3 text-left">
-          <div className="flex justify-between items-center text-xs">
-            <span className="text-muted-foreground font-semibold">Order ID</span>
-            <span className="font-extrabold text-foreground tracking-wider">{orderId}</span>
-          </div>
-          <div className="flex justify-between items-center text-xs">
-            <span className="text-muted-foreground font-semibold">Estimated Delivery</span>
-            <span className="font-bold text-foreground">{estimatedDelivery}</span>
-          </div>
-          <div className="flex justify-between items-center text-xs">
-            <span className="text-muted-foreground font-semibold">Payment Status</span>
-            <span className="font-bold text-success flex items-center gap-1">
-              <Check className="h-3.5 w-3.5" /> Confirmed
-            </span>
-          </div>
-        </div>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground hover:bg-primary/95 transition-all shadow-md active:scale-95 cursor-pointer"
-          >
-            Return to Store
-          </Link>
-          <Link
-            to="/shop"
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-6 py-3.5 text-sm font-bold text-foreground hover:bg-muted transition-all active:scale-95 cursor-pointer"
-          >
-            Browse More Gear <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  // If cart is empty
-  if (cart.length === 0 && !showCelebration) {
+  // If cart is empty and celebration is not active
+  if (cart.length === 0 && !showCelebration && !orderId) {
     return (
       <div className="mx-auto max-w-md px-6 py-24 text-center">
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted/10 text-muted-foreground mb-6">
@@ -267,80 +468,62 @@ function Checkout() {
   }
 
   return (
-    <div className="min-h-screen bg-surface/30 pb-24">
-      {/* Celebratory Modal Overlay */}
+    <div className="min-h-screen bg-surface/30 pb-24 relative">
+      {/* Full-Screen Animated Celebratory Modal Overlay */}
       {showCelebration && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {Array.from({ length: 60 }).map((_, idx) => {
-              const colors = ["#ffd700", "#ff4757", "#2ed573", "#1e90ff", "#ffa500", "#10b981"];
-              const randomColor = colors[idx % colors.length];
-              const randomLeft = Math.random() * 100;
-              const randomDelay = Math.random() * 3;
-              const randomDuration = 3 + Math.random() * 2;
-              const randomScale = 0.5 + Math.random() * 1;
-              return (
-                <div
-                  key={idx}
-                  className="confetti-piece"
-                  style={{
-                    left: `${randomLeft}%`,
-                    animationDelay: `${randomDelay}s`,
-                    animationDuration: `${randomDuration}s`,
-                    backgroundColor: randomColor,
-                    transform: `scale(${randomScale})`,
-                  }}
-                />
-              );
-            })}
-          </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 overflow-y-auto animate-in fade-in duration-300">
+          {/* Active Canvas Confetti Cannon & Fireworks */}
+          <ConfettiCanvas />
 
           <style
             dangerouslySetInnerHTML={{
               __html: `
-            @keyframes confetti-fall {
-              0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-              100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+            @keyframes bouncePopIn {
+              0% { transform: scale(0.3) translateY(-30px); opacity: 0; }
+              60% { transform: scale(1.1) translateY(0); opacity: 1; }
+              100% { transform: scale(1) translateY(0); opacity: 1; }
             }
-            .confetti-piece {
-              position: absolute;
-              width: 10px;
-              height: 10px;
-              top: -10px;
-              animation: confetti-fall 4s linear infinite;
-            }
-            @keyframes scaleCheck {
-              0% { transform: scale(0); opacity: 0; }
-              50% { transform: scale(1.2); }
-              100% { transform: scale(1); opacity: 1; }
-            }
-            @keyframes drawCheck {
-              0% { stroke-dashoffset: 48; }
+            @keyframes checkmarkDraw {
+              0% { stroke-dashoffset: 50; }
               100% { stroke-dashoffset: 0; }
             }
-            .animate-checkmark-circle {
-              animation: scaleCheck 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            @keyframes pulseGlow {
+              0%, 100% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.45); transform: scale(1); }
+              50% { box-shadow: 0 0 45px rgba(16, 185, 129, 0.75); transform: scale(1.05); }
             }
-            .animate-checkmark-path {
-              stroke-dasharray: 48;
-              stroke-dashoffset: 48;
-              animation: drawCheck 0.5s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+            @keyframes textSlideDown {
+              0% { transform: translateY(-20px); opacity: 0; }
+              100% { transform: translateY(0); opacity: 1; }
+            }
+            .animate-pop-badge {
+              animation: bouncePopIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, pulseGlow 2.5s infinite 0.7s;
+            }
+            .animate-check-svg {
+              stroke-dasharray: 50;
+              stroke-dashoffset: 50;
+              animation: checkmarkDraw 0.5s ease-out 0.45s forwards;
+            }
+            .animate-title-slide {
+              animation: textSlideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
             }
           `,
             }}
           />
 
-          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-card p-8 shadow-2xl text-center z-10 animate-in fade-in zoom-in-95 duration-300">
-            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-success/10 text-success mb-6 animate-checkmark-circle">
+          {/* Glassmorphic Order Confirmation Card */}
+          <div className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-white/20 dark:border-white/10 bg-card/90 backdrop-blur-2xl p-6 sm:p-8 shadow-2xl text-center z-20 animate-in zoom-in-95 duration-300">
+            {/* Pop-in Glowing Green Checkmark Badge */}
+            <div className="relative mx-auto mb-5 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-gradient-to-tr from-emerald-600 via-emerald-500 to-teal-400 text-white shadow-xl animate-pop-badge">
+              <span className="absolute inset-0 rounded-full bg-emerald-400 opacity-30 animate-ping" />
               <svg
-                className="h-14 w-14"
+                className="h-10 w-10 sm:h-12 sm:w-12 drop-shadow-md"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                strokeWidth="2.5"
+                strokeWidth="3.2"
               >
                 <path
-                  className="animate-checkmark-path"
+                  className="animate-check-svg"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   d="M5 13l4 4L19 7"
@@ -348,43 +531,128 @@ function Checkout() {
               </svg>
             </div>
 
-            <h2 className="text-2xl font-black tracking-tight text-foreground">
-              Order Successfully Placed! 🎉
-            </h2>
-            <p className="mt-2 text-xs text-muted-foreground font-semibold">
-              Your innovation gear is verified and scheduled for fabrication.
-            </p>
+            {/* Title & Tagline with Slide-Down Animation */}
+            <div className="animate-title-slide">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-extrabold uppercase tracking-wider mb-2">
+                <ShieldCheck className="h-3.5 w-3.5" /> AICTE IDEA LAB CONFIRMED
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
+                🎉 Order Placed Successfully!
+              </h2>
+              <p className="mt-1 text-xs text-muted-foreground font-semibold">
+                Your innovation gear has been logged into the makerspace fabrication queue.
+              </p>
+            </div>
 
-            <div className="mt-6 border border-border bg-muted/20 p-5 rounded-2xl text-left space-y-3">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-muted-foreground font-medium">Order Reference</span>
-                <span className="font-extrabold text-foreground">{orderId}</span>
+            {/* Glassmorphic Order Details Box */}
+            <div className="mt-5 border border-border/80 bg-muted/30 dark:bg-muted/10 p-4 sm:p-5 rounded-2xl text-left space-y-3 text-xs shadow-inner">
+              {/* Order ID with Copy Action */}
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground font-semibold">Order Reference ID</span>
+                <button
+                  type="button"
+                  onClick={handleCopyOrderId}
+                  className="flex items-center gap-1.5 font-mono font-black text-foreground hover:text-primary transition-colors bg-background/80 px-2.5 py-1 rounded-lg border border-border text-xs cursor-pointer active:scale-95"
+                >
+                  <span>{orderId}</span>
+                  {copiedId ? (
+                    <Check className="h-3.5 w-3.5 text-success" />
+                  ) : (
+                    <Copy className="h-3.5 w-3.5 text-muted-foreground" />
+                  )}
+                </button>
               </div>
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-muted-foreground font-medium">Payment Status</span>
-                <span className="inline-flex items-center gap-1.5 font-bold text-success bg-success/10 border border-success/15 px-2 py-0.5 rounded-full text-[10px]">
+
+              {/* Payment Status */}
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground font-semibold">Payment Status</span>
+                <span className="inline-flex items-center gap-1.5 font-bold text-success bg-success/10 border border-success/20 px-2.5 py-0.5 rounded-full text-[11px]">
                   <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-                  Confirmed
+                  Payment Confirmed (
+                  {activePaymentMethod === "cod" ? "COD" : activePaymentMethod.toUpperCase()})
                 </span>
               </div>
-              <div className="flex justify-between items-start text-xs pt-1 border-t border-border/60">
-                <span className="text-muted-foreground font-medium mt-0.5">Estimated Delivery</span>
-                <span className="font-bold text-foreground text-right max-w-[200px] leading-tight">
+
+              {/* Estimated Delivery */}
+              <div className="flex justify-between items-start pt-1 border-t border-border/60">
+                <span className="text-muted-foreground font-semibold mt-0.5">
+                  Estimated Delivery
+                </span>
+                <span className="font-bold text-foreground text-right max-w-[220px] leading-tight">
                   {estimatedDelivery}
                 </span>
               </div>
+
+              {/* Total Paid & Savings */}
+              <div className="flex justify-between items-center pt-1 border-t border-border/60">
+                <span className="text-muted-foreground font-semibold">Total Paid</span>
+                <div className="text-right">
+                  <span className="font-black text-sm text-price">{inr(finalPayable)}</span>
+                  {studentCouponDiscount > 0 && (
+                    <span className="block text-[10px] text-success font-bold">
+                      Saved {inr(studentCouponDiscount)} with STUDENT15
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Purchased Items Thumbnail Row */}
+              {purchasedItems.length > 0 && (
+                <div className="pt-2 border-t border-border/60">
+                  <span className="text-[10px] uppercase font-bold text-muted-foreground block mb-1.5">
+                    Items In This Order ({purchasedItems.length})
+                  </span>
+                  <div className="flex items-center gap-2 overflow-x-auto py-1">
+                    {purchasedItems.map((item) => (
+                      <div
+                        key={item.productId}
+                        className="h-12 w-12 shrink-0 rounded-lg border border-border bg-surface overflow-hidden relative"
+                        title={item.name}
+                      >
+                        <img
+                          src={productImage(item.imageKey)}
+                          alt={item.name}
+                          className="h-full w-full object-cover"
+                        />
+                        <span className="absolute bottom-0 right-0 bg-black/75 text-[9px] font-bold text-white px-1 rounded-tl">
+                          ×{item.quantity}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            <div className="mt-8 space-y-3">
-              <Button
-                onClick={handleSkipCelebration}
-                className="w-full bg-primary hover:bg-primary/95 text-primary-foreground font-extrabold py-3.5 rounded-xl transition-all shadow-md text-xs flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                View Order Details <ArrowRight className="h-3.5 w-3.5" />
-              </Button>
-              <p className="text-[10px] text-muted-foreground font-semibold">
-                Redirecting automatically in{" "}
-                <span className="text-foreground font-bold">{countdown}</span> seconds...
+            {/* Countdown Progress & Primary Action Button */}
+            <div className="mt-6 space-y-3">
+              {/* Animated Countdown Progress Bar */}
+              <div className="w-full bg-muted/40 h-1.5 rounded-full overflow-hidden">
+                <div
+                  className="bg-primary h-full transition-all duration-1000 ease-linear"
+                  style={{ width: `${(countdown / 5) * 100}%` }}
+                />
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-2.5">
+                <Button
+                  onClick={handleCloseCelebration}
+                  className="flex-1 bg-primary hover:bg-primary/95 text-primary-foreground font-black py-3.5 rounded-xl transition-all shadow-md text-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+                >
+                  Return to Store <ArrowRight className="h-3.5 w-3.5" />
+                </Button>
+                <Link
+                  to="/shop"
+                  onClick={() => setShowCelebration(false)}
+                  className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card px-4 py-3 text-xs font-bold text-foreground hover:bg-muted transition-all active:scale-95 cursor-pointer"
+                >
+                  Browse Catalog <ExternalLink className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+
+              <p className="text-[11px] text-muted-foreground font-semibold">
+                Auto-redirecting to homepage in{" "}
+                <span className="text-foreground font-bold">{countdown}</span>s...
               </p>
             </div>
           </div>
@@ -1359,10 +1627,10 @@ function Checkout() {
               {/* Items in Cart Summary Accordion / Preview */}
               <div className="border-t border-border bg-muted/10 p-4 space-y-3">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">
-                  Items in this order ({cart.length})
+                  Items in this order ({(cart.length > 0 ? cart : purchasedItems).length})
                 </span>
                 <div className="max-h-40 overflow-y-auto space-y-2.5 pr-1">
-                  {cart.map((item) => (
+                  {(cart.length > 0 ? cart : purchasedItems).map((item) => (
                     <div key={item.productId} className="flex items-center gap-3 text-xs">
                       <img
                         src={productImage(item.imageKey)}

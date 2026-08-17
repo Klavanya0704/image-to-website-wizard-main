@@ -200,27 +200,6 @@ function Index() {
   const navigate = useNavigate();
   const [carouselIndex, setCarouselIndex] = useState(0);
 
-  // Countdown timer state
-  const [timeLeft, setTimeLeft] = useState({
-    days: 6,
-    hours: 23,
-    mins: 45,
-    secs: 12,
-  });
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.secs > 0) return { ...prev, secs: prev.secs - 1 };
-        if (prev.mins > 0) return { ...prev, mins: 59, secs: 59 };
-        if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, mins: 59, secs: 59 };
-        if (prev.days > 0) return { ...prev, days: prev.days - 1, hours: 23, mins: 59, secs: 59 };
-        return prev;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
   const handleNextProduct = () => {
     setCarouselIndex((prev) => (prev + 1) % referenceProducts.length);
   };
@@ -308,98 +287,113 @@ function Index() {
         </div>
       </section>
 
-      {/* 2. Student Discount Banner (Blue Version from reference) */}
+      {/* 2. Student Discount Ticket Banner (Exact Reference Layout) */}
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6">
-        <div className="relative overflow-hidden rounded-[24px] sm:rounded-[28px] bg-gradient-to-r from-[#081534] via-[#0B1A40] to-[#0A225C] text-white p-6 sm:p-8 lg:p-10 shadow-lg border border-blue-950/80">
-          {/* Subtle wave line pattern overlay */}
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#00AEEF_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+        <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-r from-[#040E29] via-[#071B4D] to-[#0A2E7A] text-white border border-[#D4AF37]/50 shadow-[0_8px_30px_rgba(7,27,77,0.35)] min-h-[220px] flex flex-col md:flex-row items-stretch">
+          {/* Subtle gold center glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)] pointer-events-none" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-            {/* Left Box: Student Discount Badge & Title (7 cols) */}
-            <div className="lg:col-span-7 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-              {/* Outlined Student Discount Icon Badge */}
-              <div className="flex flex-col items-center justify-center h-24 w-28 shrink-0 rounded-2xl border border-blue-400/30 bg-blue-900/20 p-3 text-center">
-                <GraduationCap className="h-7 w-7 text-[#00AEEF] mb-1" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-200 leading-tight">
-                  STUDENT DISCOUNT
-                </span>
-              </div>
+          {/* LEFT RAIL: Vertical Rotated Brand Text */}
+          <div className="hidden md:flex items-center justify-center w-14 lg:w-16 shrink-0 border-r border-[#D4AF37]/30 py-6 z-10 select-none bg-black/10">
+            <span className="[writing-mode:vertical-rl] rotate-180 text-[10px] lg:text-[11px] font-bold tracking-[0.28em] text-[#D4AF37] uppercase whitespace-nowrap">
+              INNOVATE &bull; CREATE &bull; INSPIRE
+            </span>
+          </div>
 
-              {/* Main Discount Text */}
-              <div className="space-y-1.5">
-                <p className="text-xs font-bold uppercase tracking-wider text-blue-200">
-                  Exclusive Offer for Students
-                </p>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-4xl sm:text-5xl font-black text-white tracking-tight">
-                    15%
-                  </span>
-                  <span className="text-4xl sm:text-5xl font-black text-[#00AEEF] tracking-tight">
-                    OFF
-                  </span>
+          {/* CENTER CONTENT: Main Offer, Flourish, Heading, Description & 3-Part Box */}
+          <div className="flex-1 flex flex-col items-center justify-center text-center p-6 sm:p-7 lg:py-8 lg:px-10 z-10 space-y-3.5">
+            {/* Top Filigree Flourish & Small Label */}
+            <div className="flex flex-col items-center space-y-1.5">
+              <div className="flex items-center justify-center gap-2 text-[#D4AF37]">
+                <svg viewBox="0 0 100 16" fill="currentColor" className="h-3.5 w-24 text-[#D4AF37]">
+                  <path d="M0,8 C20,3 30,13 40,8 C45,5 47,8 50,4 C53,8 55,5 60,8 C70,13 80,3 100,8 C80,5 70,11 60,8 C55,11 53,8 50,12 C47,8 45,11 40,8 C30,11 20,5 0,8 Z" />
+                </svg>
+                <div className="flex h-5 w-5 items-center justify-center rounded-full border border-[#D4AF37] bg-black/40">
+                  <Star className="h-3 w-3 fill-[#D4AF37] text-[#D4AF37]" />
                 </div>
-                <p className="text-xs text-blue-100/80 font-medium max-w-md">
-                  Unlock your creativity with 15% off on all student projects. Verify with student
-                  ID.
-                </p>
-                <div className="pt-2">
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText("STUDENT15");
-                      toast.success("Coupon code STUDENT15 copied to clipboard!", {
-                        description: "Apply at checkout for 15% instant discount.",
-                      });
-                    }}
-                    className="inline-flex items-center rounded-full border border-blue-400/50 bg-blue-950/40 hover:bg-blue-800/60 px-5 py-1.5 text-xs font-bold text-white transition-colors cursor-pointer"
-                  >
-                    Verify Now
-                  </button>
-                </div>
+                <svg viewBox="0 0 100 16" fill="currentColor" className="h-3.5 w-24 text-[#D4AF37]">
+                  <path d="M0,8 C20,3 30,13 40,8 C45,5 47,8 50,4 C53,8 55,5 60,8 C70,13 80,3 100,8 C80,5 70,11 60,8 C55,11 53,8 50,12 C47,8 45,11 40,8 C30,11 20,5 0,8 Z" />
+                </svg>
               </div>
+              <span className="text-[10px] sm:text-[11px] font-bold tracking-[3px] text-[#D4AF37] uppercase">
+                SPECIAL OFFER &bull; AICTE IDEA LAB
+              </span>
             </div>
 
-            {/* Vertical Divider (Desktop) */}
-            <div className="hidden lg:block lg:col-span-1 h-20 border-r border-dashed border-white/20" />
+            {/* Main Heading */}
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-white tracking-tight leading-none">
+              15% OFF FOR STUDENTS
+            </h2>
 
-            {/* Right Side: Gift Icon, Limited Time Offer & Countdown Timer (4 cols) */}
-            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-row items-center gap-6 justify-between lg:justify-end">
-              {/* Circular Gift Icon */}
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1455D9] text-white shadow-md shrink-0">
-                <Gift className="h-6 w-6" />
-              </div>
+            {/* Decorative Gold Divider under heading */}
+            <div className="flex items-center justify-center gap-2 my-1">
+              <span className="h-[1px] w-16 sm:w-28 bg-gradient-to-r from-transparent to-[#D4AF37]/70" />
+              <span className="h-1.5 w-1.5 rotate-45 border border-[#D4AF37] bg-[#D4AF37]" />
+              <span className="h-[1px] w-16 sm:w-28 bg-gradient-to-l from-transparent to-[#D4AF37]/70" />
+            </div>
 
-              {/* Countdown Display */}
-              <div className="text-center sm:text-left space-y-1">
-                <span className="block text-[10px] font-bold uppercase tracking-widest text-blue-300">
-                  LIMITED TIME OFFER
+            {/* Description */}
+            <p className="text-xs sm:text-[13px] text-slate-200 font-medium max-w-xl text-center leading-relaxed">
+              Unlock exclusive discount on all 3D printing &amp; innovation gear. Verify student ID
+              at checkout.
+            </p>
+
+            {/* Bottom 3-Column Info Box */}
+            <div className="w-full max-w-lg rounded-xl border border-[#D4AF37]/50 bg-black/25 backdrop-blur-xs grid grid-cols-3 divide-x divide-[#D4AF37]/40 py-2 mt-1">
+              <div className="flex flex-col items-center justify-center px-2">
+                <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] font-bold">
+                  DISCOUNT
                 </span>
-                <div className="flex items-center gap-2 font-mono text-xl sm:text-2xl font-black tracking-wider text-white">
-                  <span>{String(timeLeft.days).padStart(2, "0")}</span>
-                  <span className="text-blue-400">:</span>
-                  <span>{String(timeLeft.hours).padStart(2, "0")}</span>
-                  <span className="text-blue-400">:</span>
-                  <span>{String(timeLeft.mins).padStart(2, "0")}</span>
-                  <span className="text-blue-400">:</span>
-                  <span>{String(timeLeft.secs).padStart(2, "0")}</span>
-                </div>
-                <div className="flex items-center justify-between text-[9px] font-bold uppercase tracking-wider text-blue-300/80 px-0.5">
-                  <span>DAYS</span>
-                  <span>HRS</span>
-                  <span>MINS</span>
-                  <span>SECS</span>
-                </div>
+                <span className="text-xs sm:text-sm font-black text-white mt-0.5">15% OFF</span>
               </div>
+              <div className="flex flex-col items-center justify-center px-2">
+                <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] font-bold">
+                  ELIGIBILITY
+                </span>
+                <span className="text-xs sm:text-sm font-black text-white mt-0.5">STUDENTS</span>
+              </div>
+              <div className="flex flex-col items-center justify-center px-2">
+                <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] font-bold">
+                  CODE
+                </span>
+                <span className="text-xs sm:text-sm font-black text-[#FACC15] tracking-wider mt-0.5">
+                  STUDENT15
+                </span>
+              </div>
+            </div>
+          </div>
 
-              {/* Quick STUDENT15 Copy Pill Button */}
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText("STUDENT15");
-                  toast.success("Coupon code STUDENT15 copied!");
-                }}
-                className="rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] text-white px-4 py-2 text-xs font-black tracking-wider shadow-sm transition-transform active:scale-95 cursor-pointer uppercase shrink-0"
-              >
-                STUDENT15
-              </button>
+          {/* RIGHT SIDE: Vertical Ticket Stub with Cutouts & Gold Button */}
+          <div className="relative flex flex-col items-center justify-between border-t md:border-t-0 md:border-l-2 border-dashed border-[#D4AF37]/50 p-6 md:px-8 lg:px-10 shrink-0 bg-black/15 z-10">
+            {/* Top and Bottom Notch Cutouts */}
+            <div className="hidden md:block absolute -top-3.5 left-0 -translate-x-1/2 w-7 h-7 rounded-full bg-[#F8FAFC] dark:bg-background border border-[#D4AF37]/50 z-20" />
+            <div className="hidden md:block absolute -bottom-3.5 left-0 -translate-x-1/2 w-7 h-7 rounded-full bg-[#F8FAFC] dark:bg-background border border-[#D4AF37]/50 z-20" />
+
+            {/* Top Rotated Text */}
+            <div className="hidden md:block select-none pb-2">
+              <span className="[writing-mode:vertical-rl] rotate-180 text-[10px] font-bold tracking-[0.2em] text-[#D4AF37] uppercase whitespace-nowrap">
+                CLAIM 15% DISCOUNT
+              </span>
+            </div>
+
+            {/* Glowing Gold STUDENT15 Button */}
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText("STUDENT15");
+                toast.success("Coupon code STUDENT15 copied to clipboard!", {
+                  description: "Apply at checkout for 15% instant discount.",
+                });
+              }}
+              className="rounded-full bg-gradient-to-r from-[#F5B000] via-[#FACC15] to-[#EAB308] text-[#071B4D] px-7 py-3 text-xs sm:text-sm font-black tracking-wider shadow-[0_0_22px_rgba(245,176,0,0.5)] hover:shadow-[0_0_30px_rgba(245,176,0,0.7)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer uppercase shrink-0"
+            >
+              STUDENT15
+            </button>
+
+            {/* Bottom ID Code */}
+            <div className="pt-3 text-center">
+              <span className="text-[9px] font-mono text-[#D4AF37] font-bold tracking-wider uppercase">
+                № 8629384 &bull; AICTE
+              </span>
             </div>
           </div>
         </div>

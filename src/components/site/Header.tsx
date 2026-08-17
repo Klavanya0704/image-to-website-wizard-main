@@ -122,7 +122,7 @@ export function Header() {
                     onClick={() => setMobileOpen(false)}
                     className={`flex-1 text-center py-1.5 rounded-full transition-all duration-200 ${
                       !isMakerspace
-                        ? "bg-primary text-primary-foreground shadow-sm font-black"
+                        ? "bg-[#E52320] text-white shadow-sm font-black"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
@@ -133,7 +133,7 @@ export function Header() {
                     onClick={() => setMobileOpen(false)}
                     className={`flex-1 text-center py-1.5 rounded-full transition-all duration-200 ${
                       isMakerspace
-                        ? "bg-primary text-primary-foreground shadow-sm font-black"
+                        ? "bg-[#8CC63F] text-slate-950 shadow-sm font-black"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
@@ -150,7 +150,7 @@ export function Header() {
                     to={link.to}
                     onClick={() => setMobileOpen(false)}
                     className="block py-2.5 px-3 text-sm font-semibold rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
-                    activeProps={{ className: "text-primary bg-primary/5" }}
+                    activeProps={{ className: "text-[#00AEEF] bg-[#00AEEF]/10 font-bold" }}
                   >
                     {link.name}
                   </Link>
@@ -169,7 +169,7 @@ export function Header() {
               to="/"
               className={`px-3.5 py-1 rounded-full transition-all duration-200 ${
                 !isMakerspace
-                  ? "bg-primary text-primary-foreground shadow-sm font-black"
+                  ? "bg-[#E52320] text-white shadow-sm font-black"
                   : "text-muted-foreground hover:text-foreground hover:bg-card/40"
               }`}
             >
@@ -179,7 +179,7 @@ export function Header() {
               to="/services"
               className={`px-3.5 py-1 rounded-full transition-all duration-200 ${
                 isMakerspace
-                  ? "bg-primary text-primary-foreground shadow-sm font-black"
+                  ? "bg-[#8CC63F] text-slate-950 shadow-sm font-black"
                   : "text-muted-foreground hover:text-foreground hover:bg-card/40"
               }`}
             >
@@ -203,7 +203,7 @@ export function Header() {
           <Button
             type="submit"
             size="icon"
-            className="h-9 w-9 rounded-full bg-[#E52320] hover:bg-[#c91e1c] text-white hover:scale-105 active:scale-95 shadow-sm hover:shadow transition-all duration-200 shrink-0"
+            className="h-9 w-9 rounded-full bg-[#E52320] hover:bg-[#c91e1c] text-white hover:scale-105 active:scale-95 shadow-sm hover:shadow transition-all duration-200 shrink-0 cursor-pointer"
           >
             <Search className="h-4 w-4" />
           </Button>
@@ -212,20 +212,20 @@ export function Header() {
         {/* Right side: Location & Action Items */}
         <div className="flex items-center gap-6 shrink-0">
           {/* Delivery Location Selector */}
-          <div className="hidden lg:flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors cursor-pointer select-none">
+          <div className="hidden lg:flex items-center gap-1.5 text-xs text-muted-foreground hover:text-[#00AEEF] transition-colors cursor-pointer select-none">
             <MapPin className="h-4 w-4 text-[#00AEEF]" />
             <div className="leading-tight">
               <span className="block font-medium">Deliver to</span>
-              <span className="block font-bold text-foreground hover:text-primary">
+              <span className="block font-bold text-foreground hover:text-[#00AEEF]">
                 Bengaluru 560001 &gt;
               </span>
             </div>
           </div>
 
-          {/* Login Dropdown Button in Sky Blue */}
+          {/* Login Dropdown Button in Sky Blue with Dark Text */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-1 bg-[#00AEEF] hover:bg-[#0098d3] text-white px-5 py-2 rounded-lg font-bold text-sm transition-all shadow-sm focus:outline-none cursor-pointer">
+              <button className="flex items-center gap-1 bg-[#00AEEF] hover:bg-[#38BDF8] text-slate-950 font-black px-5 py-2 rounded-lg text-sm transition-all shadow-sm focus:outline-none cursor-pointer">
                 {user ? `Hi, ${displayName.split(" ")[0]}` : "Login"}
                 <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
               </button>
@@ -240,7 +240,7 @@ export function Header() {
                       <DropdownMenuItem asChild>
                         <Link
                           to="/admin"
-                          className="flex items-center gap-2 font-semibold text-primary"
+                          className="flex items-center gap-2 font-semibold text-[#004B9B]"
                         >
                           <LayoutDashboard className="h-4 w-4" /> Admin Dashboard
                         </Link>
@@ -274,7 +274,7 @@ export function Header() {
               ) : (
                 <>
                   <DropdownMenuItem asChild>
-                    <Link to="/login" className="font-bold text-primary">
+                    <Link to="/login" className="font-bold text-[#004B9B]">
                       Login / Sign In
                     </Link>
                   </DropdownMenuItem>
@@ -293,7 +293,7 @@ export function Header() {
           {/* More Dropdown Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="hidden sm:flex items-center gap-1 text-sm font-semibold text-foreground hover:text-primary transition-colors focus:outline-none py-2">
+              <button className="hidden sm:flex items-center gap-1 text-sm font-semibold text-foreground hover:text-[#00AEEF] transition-colors focus:outline-none py-2 cursor-pointer">
                 More
                 <ChevronDown className="h-4 w-4" />
               </button>
@@ -331,39 +331,39 @@ export function Header() {
             )}
           </button>
 
-          {/* Wishlist */}
+          {/* Wishlist in Bright Yellow */}
           <Link
             to="/wishlist"
-            className="relative flex items-center gap-1.5 hover:text-primary transition-colors group shrink-0"
+            className="relative flex items-center gap-1.5 hover:text-[#F5B000] transition-colors group shrink-0"
             title="Wishlist"
           >
             <div className="relative">
-              <Heart className="h-[22px] w-[22px] text-muted-foreground group-hover:text-[#E52320] transition-colors" />
+              <Heart className="h-[22px] w-[22px] text-[#F5B000] group-hover:scale-110 transition-transform" />
               {wishlist.length > 0 && (
                 <span className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#F5B000] text-[8px] font-black text-slate-950 border border-background shadow-sm">
                   {wishlist.length}
                 </span>
               )}
             </div>
-            <span className="hidden xl:block text-xs font-bold text-foreground group-hover:text-primary transition-colors">
+            <span className="hidden xl:block text-xs font-bold text-foreground group-hover:text-[#F5B000] transition-colors">
               Wishlist
             </span>
           </Link>
 
-          {/* Cart Link */}
+          {/* Cart Link in Bright Yellow */}
           <Link
             to="/cart"
-            className="flex items-center gap-2.5 hover:text-primary transition-colors group shrink-0"
+            className="flex items-center gap-2.5 hover:text-[#F5B000] transition-colors group shrink-0"
           >
             <div className="relative">
-              <ShoppingCart className="h-[22px] w-[22px] text-muted-foreground group-hover:text-[#004B9B] transition-colors" />
+              <ShoppingCart className="h-[22px] w-[22px] text-[#F5B000] group-hover:scale-110 transition-transform" />
               {cartCount > 0 && (
                 <span className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#F5B000] text-[8px] font-black text-slate-950 border border-background shadow-sm">
                   {cartCount}
                 </span>
               )}
             </div>
-            <span className="hidden xl:block text-xs font-bold text-foreground group-hover:text-primary transition-colors">
+            <span className="hidden xl:block text-xs font-bold text-foreground group-hover:text-[#F5B000] transition-colors">
               Cart
             </span>
           </Link>

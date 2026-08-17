@@ -37,12 +37,12 @@ export function ProductCard({
           className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         {off > 0 && (
-          <span className="absolute left-3 top-3 rounded-full bg-[#DC2626] px-2.5 py-1 text-[11px] font-black text-white shadow-sm tracking-wide">
+          <span className="absolute left-3 top-3 rounded-full bg-[#E52320] px-2.5 py-1 text-[11px] font-black text-white shadow-sm tracking-wider uppercase">
             {off}% OFF
           </span>
         )}
         {product.bestseller && (
-          <span className="absolute left-3 top-11 rounded-full bg-gold px-2.5 py-1 text-[11px] font-bold text-gold-foreground">
+          <span className="absolute left-3 top-11 rounded-full bg-[#F5B000] px-2.5 py-1 text-[11px] font-black text-slate-950 shadow-sm tracking-wider uppercase">
             Bestseller
           </span>
         )}

@@ -395,36 +395,47 @@ function Index() {
       {/* Stats Counter Section */}
       <section className="mx-auto max-w-[1400px] px-6 pt-8">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4 rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] divide-y divide-border md:divide-y-0 md:divide-x divide-border">
-          {stats.map((stat, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center justify-center text-center p-4 md:p-0"
-            >
-              <span className="text-3xl font-extrabold tracking-tight text-primary">
-                {stat.value}
-              </span>
-              <span className="text-xs text-muted-foreground font-medium mt-1 uppercase tracking-wider">
-                {stat.label}
-              </span>
-            </div>
-          ))}
+          {stats.map((stat, i) => {
+            const statColors = ["#F5B000", "#8CC63F", "#E52320", "#00AEEF"];
+            const color = statColors[i % statColors.length];
+            return (
+              <div
+                key={i}
+                className="flex flex-col items-center justify-center text-center p-4 md:p-0"
+              >
+                <span className="text-3xl sm:text-4xl font-black tracking-tight" style={{ color }}>
+                  {stat.value}
+                </span>
+                <span className="text-xs text-muted-foreground font-bold mt-1 uppercase tracking-wider">
+                  {stat.label}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </section>
 
       {/* Perks */}
       <section className="mx-auto max-w-[1400px] px-6 pt-8">
         <div className="grid gap-6 rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-border">
-          {perks.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="flex items-center gap-4 lg:px-6">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <Icon className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="text-sm font-semibold">{title}</p>
-                <p className="text-xs text-muted-foreground">{desc}</p>
+          {perks.map(({ icon: Icon, title, desc }, i) => {
+            const perkColors = ["#8CC63F", "#E52320", "#F5B000", "#00AEEF"];
+            const color = perkColors[i % perkColors.length];
+            return (
+              <div key={title} className="flex items-center gap-4 lg:px-6">
+                <span
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl shadow-xs"
+                  style={{ backgroundColor: `${color}20`, color }}
+                >
+                  <Icon className="h-5 w-5" />
+                </span>
+                <div>
+                  <p className="text-sm font-bold text-foreground">{title}</p>
+                  <p className="text-xs text-muted-foreground font-medium">{desc}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

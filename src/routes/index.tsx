@@ -153,23 +153,23 @@ function Index() {
       <section className="mx-auto max-w-[1400px] px-6 pt-6">
         <div className="relative">
           {/* Main Ticket Outer Container */}
-          <div className="relative overflow-hidden rounded-2xl bg-[#121212] text-white p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_12px_40px_rgba(0,0,0,0.6)] border border-[#C5A880]/25">
+          <div className="relative overflow-hidden rounded-2xl bg-slate-900 dark:bg-slate-950 text-white p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_12px_40px_rgba(250,204,21,0.12)] border-2 border-[#FACC15]/40">
             {/* Jagged Left Perforations (White/Background Circle Overlays) */}
-            <div className="absolute left-0 top-0 bottom-0 w-3 flex flex-col justify-between py-3 -ml-1.5 z-10 overflow-hidden select-none pointer-events-none">
+            <div className="absolute left-0 top-0 bottom-0 w-3.5 flex flex-col justify-between py-3 -ml-2 z-10 overflow-hidden select-none pointer-events-none">
               {Array.from({ length: 11 }).map((_, i) => (
                 <div
                   key={i}
-                  className="w-3 h-3 bg-white dark:bg-background rounded-full shrink-0"
+                  className="w-3.5 h-3.5 bg-white dark:bg-background border-r border-[#FACC15]/40 rounded-full shrink-0"
                 />
               ))}
             </div>
 
             {/* Jagged Right Perforations (White/Background Circle Overlays) */}
-            <div className="absolute right-0 top-0 bottom-0 w-3 flex flex-col justify-between py-3 -mr-1.5 z-10 overflow-hidden select-none pointer-events-none">
+            <div className="absolute right-0 top-0 bottom-0 w-3.5 flex flex-col justify-between py-3 -mr-2 z-10 overflow-hidden select-none pointer-events-none">
               {Array.from({ length: 11 }).map((_, i) => (
                 <div
                   key={i}
-                  className="w-3 h-3 bg-white dark:bg-background rounded-full shrink-0"
+                  className="w-3.5 h-3.5 bg-white dark:bg-background border-l border-[#FACC15]/40 rounded-full shrink-0"
                 />
               ))}
             </div>
@@ -177,9 +177,9 @@ function Index() {
             {/* Left Side: Main Ticket Body */}
             <div className="flex-1 flex flex-col md:flex-row items-center gap-6 z-10 pl-2 w-full">
               {/* Left Vertical text (Desktop only) */}
-              <div className="hidden md:block border-r border-[#C5A880]/20 pr-4 shrink-0">
+              <div className="hidden md:block border-r border-[#FACC15]/30 pr-4 shrink-0">
                 <span
-                  className="font-serif text-[10px] text-[#C5A880] tracking-[0.25em] uppercase select-none opacity-45 block"
+                  className="font-serif text-[10px] text-[#FACC15] tracking-[0.25em] uppercase select-none font-bold block"
                   style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
                 >
                   INNOVATE • CREATE • INSPIRE
@@ -191,105 +191,113 @@ function Index() {
                 {/* Top Emblem / Crest & Filigree */}
                 <div className="flex flex-col items-center justify-center w-full mb-1">
                   <svg
-                    className="w-48 h-12 text-[#C5A880]"
+                    className="w-48 h-12 text-[#FACC15]"
                     viewBox="0 0 200 50"
                     fill="none"
                     stroke="currentColor"
                   >
                     {/* Center Circle Seal */}
-                    <circle cx="100" cy="25" r="11" strokeWidth="1" strokeDasharray="3 1.5" />
-                    <circle cx="100" cy="25" r="8" strokeWidth="0.75" />
+                    <circle cx="100" cy="25" r="11" strokeWidth="1.2" strokeDasharray="3 1.5" />
+                    <circle cx="100" cy="25" r="8" strokeWidth="1" />
                     {/* Star inside seal */}
                     <path
                       d="M100 20 L102 24 L106 24 L103 26 L104 30 L100 28 L96 30 L97 26 L94 24 L98 24 Z"
-                      fill="#C5A880"
+                      fill="#FACC15"
                       strokeWidth="0"
                     />
                     {/* Filigree scrolls on left */}
                     <path
                       d="M85 25 C75 15, 65 35, 50 25 C40 17, 50 10, 60 20 C65 25, 60 30, 55 27"
-                      strokeWidth="0.75"
+                      strokeWidth="1"
                     />
-                    <path d="M45 23 C35 20, 30 30, 20 25" strokeWidth="0.5" />
+                    <path d="M45 23 C35 20, 30 30, 20 25" strokeWidth="0.8" />
                     {/* Filigree scrolls on right */}
                     <path
                       d="M115 25 C125 15, 135 35, 150 25 C160 17, 150 10, 140 20 C135 25, 140 30, 145 27"
-                      strokeWidth="0.75"
+                      strokeWidth="1"
                     />
-                    <path d="M155 23 C165 20, 170 30, 180 25" strokeWidth="0.5" />
+                    <path d="M155 23 C165 20, 170 30, 180 25" strokeWidth="0.8" />
                   </svg>
 
                   {/* Emblem text */}
-                  <div className="text-[9px] font-bold tracking-[0.2em] text-[#C5A880] uppercase -mt-2.5">
+                  <div className="text-[10px] font-black tracking-[0.25em] text-[#FACC15] uppercase -mt-2.5">
                     SPECIAL OFFER • AICTE IDEA LAB
                   </div>
-                  <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-[#C5A880]/30 to-transparent mt-1" />
+                  <div className="w-28 h-[1.5px] bg-gradient-to-r from-transparent via-[#FACC15]/60 to-transparent mt-1" />
                 </div>
 
                 {/* Large Vintage serif title */}
-                <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal text-[#F5F2EB] tracking-wider uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-2">
+                <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#FFFFFF] tracking-wider uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] mt-2">
                   15% OFF FOR STUDENTS
                 </h2>
 
                 {/* Vintage Divider flourish */}
                 <div className="relative flex items-center justify-center w-full mt-2 mb-3">
-                  <div className="w-48 h-[1px] bg-gradient-to-r from-transparent via-[#C5A880]/20 to-transparent" />
-                  <div className="absolute w-1.5 h-1.5 rotate-45 border border-[#C5A880]/50 bg-[#121212]" />
+                  <div className="w-52 h-[1px] bg-gradient-to-r from-transparent via-[#FACC15]/40 to-transparent" />
+                  <div className="absolute w-2 h-2 rotate-45 border border-[#FACC15] bg-[#FACC15]/20" />
                 </div>
 
                 {/* Subtitle */}
-                <p className="text-xs sm:text-sm text-[#F5F2EB]/80 font-medium max-w-xl leading-relaxed mb-5">
+                <p className="text-xs sm:text-sm text-slate-100 font-semibold max-w-xl leading-relaxed mb-5">
                   Unlock exclusive discount on all 3D printing &amp; innovation gear. Verify student
                   ID at checkout.
                 </p>
 
                 {/* Bottom Details Strip */}
-                <div className="grid grid-cols-3 border border-[#C5A880]/25 rounded-md overflow-hidden bg-black/35 text-[9px] sm:text-xs text-[#C5A880] tracking-widest font-mono text-center max-w-lg mx-auto w-full shadow-inner">
-                  <div className="py-2 border-r border-[#C5A880]/25 px-1.5">
-                    <span className="block text-[8px] text-[#C5A880]/50 mb-0.5">DISCOUNT</span>
-                    <span className="font-bold text-[#F5F2EB]">15% OFF</span>
+                <div className="grid grid-cols-3 border-2 border-[#FACC15]/40 rounded-xl overflow-hidden bg-black/60 text-xs text-white tracking-widest font-mono text-center max-w-lg mx-auto w-full shadow-lg">
+                  <div className="py-2.5 border-r border-[#FACC15]/30 px-2 bg-slate-900/60">
+                    <span className="block text-[9px] font-black text-[#FACC15] uppercase mb-0.5">
+                      DISCOUNT
+                    </span>
+                    <span className="font-black text-[#FFFFFF] text-xs sm:text-sm">15% OFF</span>
                   </div>
-                  <div className="py-2 border-r border-[#C5A880]/25 px-1.5">
-                    <span className="block text-[8px] text-[#C5A880]/50 mb-0.5">ELIGIBILITY</span>
-                    <span className="font-bold text-[#F5F2EB]">STUDENTS</span>
+                  <div className="py-2.5 border-r border-[#FACC15]/30 px-2 bg-slate-900/60">
+                    <span className="block text-[9px] font-black text-[#FACC15] uppercase mb-0.5">
+                      ELIGIBILITY
+                    </span>
+                    <span className="font-black text-[#FFFFFF] text-xs sm:text-sm">STUDENTS</span>
                   </div>
-                  <div className="py-2 px-1.5">
-                    <span className="block text-[8px] text-[#C5A880]/50 mb-0.5">CODE</span>
-                    <span className="font-bold text-[#F5F2EB] select-all">STUDENT15</span>
+                  <div className="py-2.5 px-2 bg-slate-900/60">
+                    <span className="block text-[9px] font-black text-[#FACC15] uppercase mb-0.5">
+                      CODE
+                    </span>
+                    <span className="font-black text-[#FACC15] text-xs sm:text-sm select-all">
+                      STUDENT15
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Perforation Line Divider (Horizontal on mobile, Vertical on desktop) */}
-            <div className="hidden md:flex h-36 items-center relative shrink-0 mx-2 select-none pointer-events-none">
+            <div className="hidden md:flex h-40 items-center relative shrink-0 mx-2 select-none pointer-events-none">
               {/* Semi-circular notch cutouts */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white dark:bg-background border-b border-[#C5A880]/25 z-20" />
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-8 h-8 rounded-full bg-white dark:bg-background border-t border-[#C5A880]/25 z-20" />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white dark:bg-background border-b-2 border-[#FACC15]/40 z-20" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-8 h-8 rounded-full bg-white dark:bg-background border-t-2 border-[#FACC15]/40 z-20" />
               {/* Vertical dashed line */}
-              <div className="h-full border-l-2 border-dashed border-[#C5A880]/30" />
+              <div className="h-full border-l-2 border-dashed border-[#FACC15]/50" />
             </div>
 
             <div className="md:hidden w-full flex items-center relative my-1 select-none pointer-events-none">
               {/* Semi-circular notch cutouts */}
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white dark:bg-background border-r border-[#C5A880]/25 z-20" />
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 rounded-full bg-white dark:bg-background border-l border-[#C5A880]/25 z-20" />
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white dark:bg-background border-r-2 border-[#FACC15]/40 z-20" />
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 rounded-full bg-white dark:bg-background border-l-2 border-[#FACC15]/40 z-20" />
               {/* Horizontal dashed line */}
-              <div className="w-full border-t-2 border-dashed border-[#C5A880]/30" />
+              <div className="w-full border-t-2 border-dashed border-[#FACC15]/50" />
             </div>
 
             {/* Right Side: Ticket Stub */}
-            <div className="flex flex-col items-center justify-center text-center shrink-0 z-10 pr-2 md:pl-2 min-w-[180px] w-full md:w-auto">
+            <div className="flex flex-col items-center justify-center text-center shrink-0 z-10 pr-2 md:pl-2 min-w-[190px] w-full md:w-auto">
               {/* Vertical text stub header */}
               <div className="flex md:flex-row items-center gap-3">
                 <span
-                  className="hidden md:block font-serif text-[9px] text-[#C5A880] tracking-[0.25em] uppercase select-none opacity-50"
+                  className="hidden md:block font-serif text-[10px] text-[#FACC15] tracking-[0.25em] uppercase select-none font-black"
                   style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
                 >
-                  ADMIT ONE / CLAIM DISCOUNT
+                  CLAIM 15% DISCOUNT
                 </span>
-                <span className="md:hidden font-serif text-[9px] text-[#C5A880] tracking-[0.2em] uppercase select-none opacity-50 mb-2">
-                  ADMIT ONE / CLAIM DISCOUNT
+                <span className="md:hidden font-serif text-[10px] text-[#FACC15] tracking-[0.2em] uppercase select-none font-black mb-2">
+                  CLAIM 15% DISCOUNT
                 </span>
               </div>
 
@@ -301,14 +309,14 @@ function Index() {
                     description: "Use it at checkout to claim your 15% discount.",
                   });
                 }}
-                className="mt-2 w-full bg-gradient-to-r from-[#D4AF37] to-[#C5A880] text-black text-xs font-black tracking-widest px-6 py-3 rounded-lg hover:brightness-105 active:scale-95 transition-all shadow-md cursor-pointer uppercase border border-black/10 font-mono"
+                className="mt-2 w-full bg-gradient-to-r from-[#FACC15] via-[#FDE047] to-[#EAB308] text-slate-950 text-xs sm:text-sm font-black tracking-widest px-6 py-3.5 rounded-xl hover:brightness-110 active:scale-95 transition-all shadow-[0_0_15px_rgba(250,204,21,0.35)] cursor-pointer uppercase border border-amber-300 font-mono flex items-center justify-center gap-2"
               >
-                STUDENT15
+                <span>STUDENT15</span>
               </button>
 
               {/* Serial Number decoration */}
-              <span className="mt-3.5 text-[9px] font-bold text-[#C5A880]/40 tracking-[0.15em] uppercase font-mono">
-                № 8629384
+              <span className="mt-3 text-[10px] font-black text-[#FACC15] tracking-[0.2em] uppercase font-mono">
+                № 8629384 • AICTE
               </span>
             </div>
           </div>

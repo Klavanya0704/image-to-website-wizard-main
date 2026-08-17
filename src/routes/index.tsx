@@ -700,26 +700,34 @@ function Index() {
             {referenceProducts.map((product) => (
               <div
                 key={product.id}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#DCE5F2] dark:border-border bg-white dark:bg-card p-3 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(20,85,217,0.08)]"
+                onClick={(e) => {
+                  if ((e.target as HTMLElement).closest("button")) return;
+                  navigate({ to: "/product/$slug", params: { slug: product.slug } });
+                }}
+                className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#DCE5F2] dark:border-border bg-white dark:bg-card p-3 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(20,85,217,0.12)] cursor-pointer"
               >
                 {/* Product Image Area with Badge */}
-                <Link
-                  to="/product/$slug"
-                  params={{ slug: product.slug }}
-                  className="relative aspect-square w-full overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900/50 block"
-                >
+                <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900/50 block">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                   />
+
+                  {/* Hover "View Details" Overlay Badge */}
+                  <div className="absolute inset-0 bg-[#0B1736]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                    <span className="rounded-full bg-white/95 dark:bg-card/95 backdrop-blur-xs px-2.5 py-1 text-[10px] font-black text-[#1455D9] shadow-md uppercase tracking-wider transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      View Details
+                    </span>
+                  </div>
+
                   {/* Status Badge */}
                   <span
                     className={`absolute left-2.5 top-2.5 rounded-full px-2 py-0.5 text-[9px] font-black tracking-wider uppercase shadow-xs ${product.badgeColor}`}
                   >
                     {product.badge}
                   </span>
-                </Link>
+                </div>
 
                 {/* Meta details */}
                 <div className="flex flex-1 flex-col pt-3 justify-between space-y-2">
@@ -727,14 +735,12 @@ function Index() {
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[#52627A] dark:text-slate-400 block">
                       {product.category}
                     </span>
-                    <Link
-                      to="/product/$slug"
-                      params={{ slug: product.slug }}
-                      className="text-xs sm:text-sm font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-[1.35] min-h-[2.6rem] sm:min-h-[2.75rem] hover:text-[#1455D9] transition-colors flex items-start"
+                    <h3
+                      className="text-xs sm:text-sm font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-[1.35] min-h-[2.6rem] sm:min-h-[2.75rem] group-hover:text-[#1455D9] transition-colors flex items-start"
                       title={product.name}
                     >
                       {product.name}
-                    </Link>
+                    </h3>
 
                     {/* Rating with Orange Stars */}
                     <div className="flex items-center gap-1 text-[11px] font-semibold text-[#52627A] dark:text-slate-400 pt-0.5">
@@ -763,7 +769,8 @@ function Index() {
 
                     {/* Add to Cart Button */}
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         addToCart({
                           productId: product.id,
                           slug: product.slug,

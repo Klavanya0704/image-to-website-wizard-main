@@ -21,21 +21,37 @@ export function ProductCard({
   const off = discountPercent(product);
   const wished = isWishlisted(product.id);
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // If target was an interactive button or child of button, do not duplicate navigation
+    if ((e.target as HTMLElement).closest("button")) {
+      return;
+    }
+    navigate({ to: "/product/$slug", params: { slug: product.slug } });
+  };
+
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)]">
-      <Link
-        to="/product/$slug"
-        params={{ slug: product.slug }}
-        className="relative block overflow-hidden bg-surface"
-      >
+    <article
+      onClick={handleCardClick}
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(20,85,217,0.12)] cursor-pointer"
+    >
+      {/* Product Image Stage */}
+      <div className="relative block aspect-square w-full overflow-hidden bg-surface">
         <img
           src={productImage(product.image_key)}
           alt={product.name}
           loading="lazy"
           width={600}
           height={600}
-          className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
+
+        {/* Hover "View Details" Overlay Badge */}
+        <div className="absolute inset-0 bg-[#0B1736]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+          <span className="rounded-full bg-white/90 dark:bg-card/90 backdrop-blur-xs px-3.5 py-1.5 text-xs font-black text-[#1455D9] shadow-md uppercase tracking-wider transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-1.5">
+            <Eye className="h-3.5 w-3.5" /> View Details
+          </span>
+        </div>
+
         {off > 0 && (
           <span className="absolute left-3 top-3 rounded-full bg-[#E52320] px-2.5 py-1 text-[11px] font-black text-white shadow-sm tracking-wider uppercase">
             {off}% OFF
@@ -51,20 +67,22 @@ export function ProductCard({
             Out of stock
           </span>
         )}
-      </Link>
+      </div>
 
-      <div className="absolute right-3 top-3 flex flex-col gap-2 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
+      {/* Floating Action Buttons (Wishlist / Quick View) */}
+      <div className="absolute right-3 top-3 z-10 flex flex-col gap-2 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
         <button
           type="button"
           aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             const added = toggleWishlist(product.id);
             toast[added ? "success" : "message"](
               added ? "Added to wishlist" : "Removed from wishlist",
             );
           }}
-          className={`flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card shadow-[var(--shadow-card)] transition-colors hover:text-primary ${
-            wished ? "text-primary" : "text-muted-foreground"
+          className={`flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card shadow-[var(--shadow-card)] transition-transform hover:scale-110 active:scale-95 hover:text-primary cursor-pointer ${
+            wished ? "text-primary border-primary" : "text-muted-foreground"
           }`}
         >
           <Heart className={`h-4 w-4 ${wished ? "fill-primary" : ""}`} />
@@ -73,25 +91,25 @@ export function ProductCard({
           <button
             type="button"
             aria-label="Quick view"
-            onClick={() => onQuickView(product)}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-[var(--shadow-card)] transition-colors hover:text-primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              onQuickView(product);
+            }}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-[var(--shadow-card)] transition-transform hover:scale-110 active:scale-95 hover:text-primary cursor-pointer"
           >
             <Eye className="h-4 w-4" />
           </button>
         )}
       </div>
 
+      {/* Card Body Information */}
       <div className="flex flex-1 flex-col gap-2 p-4">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
           {product.category_slug.replace(/-/g, " ")}
         </p>
-        <Link
-          to="/product/$slug"
-          params={{ slug: product.slug }}
-          className="line-clamp-2 text-sm font-semibold leading-snug hover:text-primary"
-        >
+        <h3 className="line-clamp-2 text-sm font-semibold leading-snug group-hover:text-[#1455D9] transition-colors">
           {product.name}
-        </Link>
+        </h3>
         <div className="flex items-center gap-1.5">
           <Stars rating={num(product.rating)} />
           <span className="text-xs text-muted-foreground">({product.review_count})</span>
@@ -102,11 +120,14 @@ export function ProductCard({
             <span className="text-xs text-muted-foreground line-through">{inr(product.price)}</span>
           )}
         </div>
+
+        {/* Isolated Add to Cart Action Button */}
         <Button
           size="sm"
           className="mt-2 w-full bg-[#1455D9] hover:bg-[#0F44B2] text-white font-bold transition-all shadow-xs active:scale-95 cursor-pointer rounded-xl"
           disabled={product.stock === 0}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             addToCart({
               productId: product.id,
               slug: product.slug,

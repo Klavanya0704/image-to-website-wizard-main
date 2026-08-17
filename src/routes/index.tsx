@@ -210,22 +210,79 @@ function Index() {
 
   return (
     <div className="bg-[#F8FAFC] dark:bg-background pb-20 space-y-8 sm:space-y-10">
-      {/* 1. Hero Section (Exact Visual Layout & Styling) */}
+      {/* 1. Enhanced Hero Section with Subtle Blue Glow Animation */}
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6 pt-5 sm:pt-7">
-        <div className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] bg-gradient-to-br from-[#E6EFFD] via-[#EFF5FE] to-[#F8FAFD] dark:from-[#0D1E42] dark:via-[#091530] dark:to-[#080F22] border border-[#DCE5F2] dark:border-blue-950/60 p-6 sm:p-10 lg:p-14 shadow-[0_4px_25px_rgba(20,85,217,0.06)]">
-          {/* Subtle Radial Glow in background */}
-          <div className="absolute right-0 top-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-[#1455D9]/10 blur-3xl pointer-events-none" />
+        <div
+          onMouseMove={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            e.currentTarget.style.setProperty("--mouse-x", `${x * 20}px`);
+            e.currentTarget.style.setProperty("--mouse-y", `${y * 20}px`);
+          }}
+          className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] bg-gradient-to-r from-[#EFF6FF] via-[#F4F8FE] to-[#E5F0FD] dark:from-[#0D1E42] dark:via-[#091530] dark:to-[#080F22] border border-[#D9E5F7] dark:border-blue-950/60 p-6 sm:p-10 lg:p-12 xl:py-14 shadow-[0_4px_30px_rgba(20,85,217,0.06)] group"
+          style={{ "--mouse-x": "0px", "--mouse-y": "0px" } as React.CSSProperties}
+        >
+          {/* Subtle Blue Particle / Dot Grid Background */}
+          <div className="absolute inset-0 opacity-25 bg-[radial-gradient(#1455D9_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Heading, Subtitle, CTAs, Trust Badges (7 cols) */}
-            <div className="lg:col-span-7 flex flex-col items-start z-10">
+          {/* Animated Blue Floating Blobs / Glow Orbs */}
+          <div
+            className="absolute -right-16 -top-16 h-80 w-80 rounded-full bg-[#2563EB]/15 blur-3xl pointer-events-none animate-hero-float"
+            style={{ transform: "translate3d(var(--mouse-x), var(--mouse-y), 0)" }}
+          />
+          <div
+            className="absolute right-1/4 top-1/3 h-72 w-72 rounded-full bg-[#1455D9]/18 blur-2xl pointer-events-none animate-hero-glow"
+            style={{
+              transform: "translate3d(calc(var(--mouse-x) * 1.5), calc(var(--mouse-y) * 1.5), 0)",
+            }}
+          />
+          <div
+            className="absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-[#00AEEF]/12 blur-3xl pointer-events-none animate-hero-float-reverse"
+            style={{
+              transform: "translate3d(calc(var(--mouse-x) * -1), calc(var(--mouse-y) * -1), 0)",
+            }}
+          />
+
+          {/* 14 Subtle Animated Blue Particles */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {[
+              { top: "15%", left: "10%", delay: "0s", size: "h-1.5 w-1.5" },
+              { top: "25%", left: "38%", delay: "1.5s", size: "h-1 w-1" },
+              { top: "70%", left: "18%", delay: "2.8s", size: "h-2 w-2" },
+              { top: "45%", left: "48%", delay: "4s", size: "h-1 w-1" },
+              { top: "80%", left: "40%", delay: "1.2s", size: "h-1.5 w-1.5" },
+              { top: "20%", left: "85%", delay: "3.2s", size: "h-2 w-2" },
+              { top: "60%", left: "90%", delay: "0.8s", size: "h-1.5 w-1.5" },
+              { top: "85%", left: "75%", delay: "2.1s", size: "h-1 w-1" },
+              { top: "35%", left: "70%", delay: "3.7s", size: "h-2 w-2" },
+              { top: "10%", left: "55%", delay: "1.9s", size: "h-1.5 w-1.5" },
+              { top: "50%", left: "25%", delay: "2.5s", size: "h-1 w-1" },
+              { top: "75%", left: "5%", delay: "4.2s", size: "h-1.5 w-1.5" },
+            ].map((p, idx) => (
+              <span
+                key={idx}
+                className={`absolute rounded-full bg-[#1455D9]/50 shadow-[0_0_8px_#2563EB] ${p.size}`}
+                style={{
+                  top: p.top,
+                  left: p.left,
+                  animation: `heroParticleFloat 6s ease-in-out infinite`,
+                  animationDelay: p.delay,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
+            {/* Left Column: Heading, Subtitle, CTAs, Trust Badges (6.5 cols) */}
+            <div className="lg:col-span-7 xl:col-span-6 flex flex-col items-start z-10">
               {/* Blue Pill Eyebrow */}
               <div className="inline-flex items-center gap-1.5 rounded-full bg-[#1455D9] px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-xs">
                 ACTE IDEA LAB STORE
               </div>
 
               {/* Main Headline */}
-              <h1 className="mt-4 sm:mt-5 text-4xl sm:text-5xl lg:text-[58px] font-black tracking-tight leading-[1.12] text-[#0B1736] dark:text-white">
+              <h1 className="mt-4 sm:mt-5 text-4xl sm:text-5xl lg:text-[54px] xl:text-[58px] font-black tracking-tight leading-[1.12] text-[#0B1736] dark:text-white">
                 Where Ideas <br />
                 <span className="text-[#1455D9] dark:text-[#3B82F6]">Become Reality</span>
               </h1>
@@ -240,19 +297,19 @@ function Index() {
               <div className="mt-7 sm:mt-8 flex flex-wrap items-center gap-3.5 sm:gap-4">
                 <Link
                   to="/shop"
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] px-7 py-3.5 text-sm font-bold text-white transition-all shadow-[0_4px_14px_rgba(20,85,217,0.3)] hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] px-7 py-3.5 text-sm font-bold text-white transition-all duration-200 shadow-[0_4px_16px_rgba(20,85,217,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_22px_rgba(20,85,217,0.45)] active:scale-95 cursor-pointer"
                 >
                   Shop Now <ArrowRight className="h-4 w-4" />
                 </Link>
                 <a
                   href="#categories"
-                  className="inline-flex items-center rounded-xl border border-[#DCE5F2] dark:border-slate-700 bg-white dark:bg-card hover:bg-slate-50 dark:hover:bg-slate-800 px-6 py-3.5 text-sm font-bold text-[#0B1736] dark:text-white transition-all hover:-translate-y-0.5 active:scale-95 cursor-pointer shadow-xs"
+                  className="inline-flex items-center rounded-xl border border-[#D9E5F7] dark:border-slate-700 bg-white dark:bg-card hover:bg-blue-50/50 dark:hover:bg-slate-800 px-6 py-3.5 text-sm font-bold text-[#0B1736] dark:text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1455D9]/40 active:scale-95 cursor-pointer shadow-xs"
                 >
                   Explore Categories
                 </a>
               </div>
 
-              {/* 4 Small Trust Indicators with Blue Icons */}
+              {/* 4 Small Trust Indicators with Blue Outline Icons */}
               <div className="mt-10 sm:mt-12 flex flex-wrap items-center gap-y-3 gap-x-6 sm:gap-x-8 text-xs font-bold text-[#52627A] dark:text-slate-400">
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4 text-[#1455D9]" />
@@ -273,13 +330,25 @@ function Index() {
               </div>
             </div>
 
-            {/* Right Column: Hero Product Composition (5 cols) */}
-            <div className="lg:col-span-5 flex items-center justify-center relative">
-              <div className="relative w-full max-w-[480px] lg:max-w-none group">
+            {/* Right Column: Hero Product Composition with Floating Animation (5.5 cols) */}
+            <div className="lg:col-span-5 xl:col-span-6 flex items-center justify-center relative">
+              {/* Product Glow Halo */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="h-72 w-72 sm:h-96 sm:w-96 rounded-full bg-gradient-to-tr from-[#1455D9]/20 to-[#2563EB]/30 blur-3xl animate-hero-glow" />
+              </div>
+
+              {/* Product Image with Subtle Float & Mouse Offset */}
+              <div
+                className="relative w-full max-w-[540px] lg:max-w-none animate-hero-product"
+                style={{
+                  transform:
+                    "translate3d(calc(var(--mouse-x) * 0.4), calc(var(--mouse-y) * 0.4), 0)",
+                }}
+              >
                 <img
                   src={heroShowcaseImg}
                   alt="ACTE IDEA LAB Innovation Showcase"
-                  className="w-full h-auto object-contain rounded-2xl drop-shadow-[0_12px_24px_rgba(20,85,217,0.12)] transition-transform duration-500 group-hover:scale-102"
+                  className="w-full h-auto object-contain drop-shadow-[0_16px_32px_rgba(20,85,217,0.14)] select-none"
                 />
               </div>
             </div>

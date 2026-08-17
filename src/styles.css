@@ -203,3 +203,94 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+/* Hero Section Blue Ambient & Floating Animations */
+@keyframes heroBlueFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(15px, -12px, 0) scale(1.06);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes heroBlueFloatReverse {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-18px, 14px, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes heroProductFloat {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroGlowPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes heroParticleFloat {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-16px) scale(1.2);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.2;
+  }
+}
+
+.animate-hero-float {
+  animation: heroBlueFloat 10s ease-in-out infinite;
+}
+
+.animate-hero-float-reverse {
+  animation: heroBlueFloatReverse 12s ease-in-out infinite;
+}
+
+.animate-hero-product {
+  animation: heroProductFloat 6s ease-in-out infinite;
+}
+
+.animate-hero-glow {
+  animation: heroGlowPulse 8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-float,
+  .animate-hero-float-reverse,
+  .animate-hero-product,
+  .animate-hero-glow,
+  .animate-hero-particle {
+    animation: none !important;
+    transform: none !important;
+  }
+}

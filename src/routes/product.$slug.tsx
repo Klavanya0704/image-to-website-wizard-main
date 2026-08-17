@@ -142,7 +142,7 @@ function ProductDetail() {
     return () => clearInterval(interval);
   }, [isAutoPlay, isHovered, viewAngles.length]);
 
-  // Compute 3D Card Stack Position & Perspective Depth
+  // Compute 3D Card Stack Position & Perspective Depth (Strictly Contained Bounds)
   const getCardTransform = (index: number) => {
     const total = viewAngles.length;
     const diff = (index - activeImageIndex + total) % total;
@@ -153,8 +153,8 @@ function ProductDetail() {
         zIndex: 30,
         opacity: 1,
         transform:
-          "translate3d(0, 0, 30px) scale(1) rotateY(var(--tilt-y, 0deg)) rotateX(var(--tilt-x, 0deg))",
-        boxShadow: "0 20px 40px -15px rgba(20, 85, 217, 0.22), 0 0 0 1px rgba(20, 85, 217, 0.15)",
+          "translate3d(0, 0, 15px) scale(0.95) rotateY(var(--tilt-y, 0deg)) rotateX(var(--tilt-x, 0deg))",
+        boxShadow: "0 14px 30px -10px rgba(20, 85, 217, 0.18), 0 0 0 1px rgba(20, 85, 217, 0.12)",
         cursor: "default",
         pointerEvents: "auto" as const,
       };
@@ -163,9 +163,9 @@ function ProductDetail() {
       // Right Stacked Card (Next)
       return {
         zIndex: 20,
-        opacity: 0.65,
-        transform: "translate3d(24%, 6px, -50px) scale(0.86) rotateY(-10deg) rotate(4deg)",
-        boxShadow: "0 10px 25px -10px rgba(0, 0, 0, 0.15)",
+        opacity: 0.45,
+        transform: "translate3d(14%, 4px, -35px) scale(0.78) rotateY(-8deg) rotate(3deg)",
+        boxShadow: "0 8px 18px -8px rgba(0, 0, 0, 0.12)",
         cursor: "pointer",
         pointerEvents: "auto" as const,
       };
@@ -174,9 +174,9 @@ function ProductDetail() {
       // Left Stacked Card (Previous)
       return {
         zIndex: 20,
-        opacity: 0.65,
-        transform: "translate3d(-24%, 6px, -50px) scale(0.86) rotateY(10deg) rotate(-4deg)",
-        boxShadow: "0 10px 25px -10px rgba(0, 0, 0, 0.15)",
+        opacity: 0.45,
+        transform: "translate3d(-14%, 4px, -35px) scale(0.78) rotateY(8deg) rotate(-3deg)",
+        boxShadow: "0 8px 18px -8px rgba(0, 0, 0, 0.12)",
         cursor: "pointer",
         pointerEvents: "auto" as const,
       };
@@ -185,7 +185,7 @@ function ProductDetail() {
     return {
       zIndex: 10,
       opacity: 0,
-      transform: "translate3d(0, 10px, -100px) scale(0.75)",
+      transform: "translate3d(0, 8px, -80px) scale(0.65)",
       boxShadow: "none",
       cursor: "pointer",
       pointerEvents: "none" as const,
@@ -226,8 +226,8 @@ function ProductDetail() {
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* ================= LEFT COLUMN: 3D Animated Card Stack Gallery (5 Cols) ================= */}
-          <div className="lg:col-span-5 flex flex-col gap-5 sticky top-24">
-            {/* 3D Stack Stage Container */}
+          <div className="lg:col-span-5 flex flex-col gap-4 sticky top-24 [isolation:isolate] z-0">
+            {/* 3D Stack Stage Container with Strict Overflow Bounds */}
             <div
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={(e) => {
@@ -239,19 +239,19 @@ function ProductDetail() {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width - 0.5;
                 const y = (e.clientY - rect.top) / rect.height - 0.5;
-                e.currentTarget.style.setProperty("--tilt-x", `${-y * 8}deg`);
-                e.currentTarget.style.setProperty("--tilt-y", `${x * 8}deg`);
+                e.currentTarget.style.setProperty("--tilt-x", `${-y * 6}deg`);
+                e.currentTarget.style.setProperty("--tilt-y", `${x * 6}deg`);
               }}
-              className="relative w-full aspect-square flex items-center justify-center [perspective:1200px] [transform-style:preserve-3d] select-none py-2"
+              className="relative w-full max-w-[440px] aspect-square mx-auto flex items-center justify-center [perspective:1000px] [transform-style:preserve-3d] select-none overflow-hidden rounded-2xl sm:rounded-3xl border border-[#DCE5F2] dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 p-2 sm:p-3 shadow-xs"
               style={{ "--tilt-x": "0deg", "--tilt-y": "0deg" } as React.CSSProperties}
             >
               {/* Product Badges (Top-Left of Deck) */}
-              <div className="absolute top-2 left-2 z-40 flex flex-col gap-1.5 pointer-events-none">
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#1455D9] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-md">
+              <div className="absolute top-3 left-3 z-40 flex flex-col gap-1.5 pointer-events-none">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#1455D9] px-2.5 py-0.5 text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-white shadow-sm">
                   <Sparkles className="h-3 w-3" /> ACTE LAB CERTIFIED
                 </span>
                 {product.bestseller && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#F5B000] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[#071B4D] shadow-md">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[#F5B000] px-2.5 py-0.5 text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-[#071B4D] shadow-sm">
                     BEST SELLER
                   </span>
                 )}
@@ -266,12 +266,12 @@ function ProductDetail() {
                     added ? "Added to wishlist!" : "Removed from wishlist",
                   );
                 }}
-                className={`absolute top-2 right-2 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-[#DCE5F2] dark:border-slate-700 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs shadow-md hover:scale-110 active:scale-95 transition-all text-[#52627A] hover:text-[#1455D9] cursor-pointer ${
+                className={`absolute top-3 right-3 z-40 flex h-9 w-9 items-center justify-center rounded-full border border-[#DCE5F2] dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xs shadow-sm hover:scale-110 active:scale-95 transition-all text-[#52627A] hover:text-[#1455D9] cursor-pointer ${
                   wished ? "text-[#1455D9] border-[#1455D9] bg-blue-50/80" : ""
                 }`}
                 aria-label="Wishlist"
               >
-                <Heart className={`h-5 w-5 ${wished ? "fill-[#1455D9] text-[#1455D9]" : ""}`} />
+                <Heart className={`h-4 w-4 ${wished ? "fill-[#1455D9] text-[#1455D9]" : ""}`} />
               </button>
 
               {/* 3D Stack Cards */}
@@ -284,25 +284,25 @@ function ProductDetail() {
                     key={view.id}
                     onClick={() => setActiveImageIndex(idx)}
                     style={style}
-                    className="absolute inset-x-4 inset-y-2 sm:inset-x-6 sm:inset-y-3 rounded-2xl sm:rounded-3xl bg-white dark:bg-card border border-[#DCE5F2] dark:border-slate-800 p-6 sm:p-8 flex items-center justify-center overflow-hidden transition-all duration-450 ease-[cubic-bezier(0.34,1.56,0.64,1)] group"
+                    className="absolute inset-x-3 inset-y-2 sm:inset-x-4 sm:inset-y-3 rounded-xl sm:rounded-2xl bg-white dark:bg-card border border-[#DCE5F2] dark:border-slate-800 p-4 sm:p-6 flex items-center justify-center overflow-hidden transition-all duration-450 ease-[cubic-bezier(0.34,1.56,0.64,1)] group"
                   >
                     {/* CAD Blueprint Grid Overlay if CAD active card */}
                     {view.viewType === "cad" && isActive && (
-                      <div className="absolute inset-0 pointer-events-none opacity-30 bg-[linear-gradient(to_right,#00AEEF_1px,transparent_1px),linear-gradient(to_bottom,#00AEEF_1px,transparent_1px)] bg-[size:18px_18px] z-5" />
+                      <div className="absolute inset-0 pointer-events-none opacity-30 bg-[linear-gradient(to_right,#00AEEF_1px,transparent_1px),linear-gradient(to_bottom,#00AEEF_1px,transparent_1px)] bg-[size:16px_16px] z-5" />
                     )}
 
                     {/* Image with specific perspective style */}
                     <img
                       src={view.src}
                       alt={`${product.name} - ${view.label}`}
-                      className={`h-full w-full object-contain transition-all duration-300 select-none ${
+                      className={`h-full max-h-[300px] sm:max-h-[340px] w-auto object-contain transition-all duration-300 select-none ${
                         isActive ? view.stageStyle : view.thumbStyle
                       }`}
                     />
 
                     {/* Active Floating Label inside Active Card */}
                     {isActive && (
-                      <div className="absolute bottom-3 right-3 z-10 rounded-lg bg-[#0B1736]/90 backdrop-blur-xs border border-white/15 px-3 py-1 text-[10px] font-bold text-white uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                      <div className="absolute bottom-2.5 right-2.5 z-10 rounded-lg bg-[#0B1736]/90 backdrop-blur-xs border border-white/15 px-2.5 py-0.5 text-[9px] sm:text-[10px] font-bold text-white uppercase tracking-wider shadow-sm flex items-center gap-1.5">
                         <Sliders className="h-3 w-3 text-[#00AEEF]" />
                         <span>
                           {view.badgeTitle} &bull; {view.angle}
@@ -320,10 +320,10 @@ function ProductDetail() {
                   e.stopPropagation();
                   setActiveImageIndex((prev) => (prev - 1 + viewAngles.length) % viewAngles.length);
                 }}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-40 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 dark:bg-card/90 border border-[#DCE5F2] dark:border-slate-700 text-[#0B1736] dark:text-white shadow-md hover:bg-white hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                className="absolute left-1.5 top-1/2 -translate-y-1/2 z-40 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 dark:bg-card/95 border border-[#DCE5F2] dark:border-slate-700 text-[#0B1736] dark:text-white shadow-md hover:bg-white hover:scale-110 active:scale-95 transition-all cursor-pointer"
                 aria-label="Previous view"
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-3.5 w-3.5" />
               </button>
 
               <button
@@ -332,10 +332,10 @@ function ProductDetail() {
                   e.stopPropagation();
                   setActiveImageIndex((prev) => (prev + 1) % viewAngles.length);
                 }}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-40 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 dark:bg-card/90 border border-[#DCE5F2] dark:border-slate-700 text-[#0B1736] dark:text-white shadow-md hover:bg-white hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 z-40 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 dark:bg-card/95 border border-[#DCE5F2] dark:border-slate-700 text-[#0B1736] dark:text-white shadow-md hover:bg-white hover:scale-110 active:scale-95 transition-all cursor-pointer"
                 aria-label="Next view"
               >
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-3.5 w-3.5" />
               </button>
             </div>
 

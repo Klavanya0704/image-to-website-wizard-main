@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { toast } from "sonner";
 import {
   Search,
   User,
@@ -8,30 +7,24 @@ import {
   Menu,
   ChevronDown,
   Heart,
-  Headphones,
   LogOut,
   LayoutDashboard,
   X,
-  Store,
   Printer,
   Scissors,
   Settings,
   Cpu,
   Plane,
   Layers,
-  Bot,
-  MapPin,
+  Gift,
   Home,
-  Tag,
-  Sun,
-  Moon,
+  Box,
 } from "lucide-react";
 
 import { useStore } from "@/lib/store";
 import { useAuth } from "@/lib/store";
 import { Logo } from "@/components/site/Logo";
 import { Button } from "@/components/ui/button";
-import { inr } from "@/lib/format";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -58,19 +51,12 @@ const NAV_LINKS = [
   { name: "Contact Us", to: "/contact" },
 ];
 
-// CATEGORIES are statically rendered in the navigation bar to pass TanStack Router's compile checks
-
 export function Header() {
-  const { cartCount, wishlist, cartSubtotal, theme, toggleTheme } = useStore();
+  const { cartCount, wishlist } = useStore();
   const { user, isAdmin, displayName, signOut } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
-
-  const routerState = useRouterState();
-  const pathname = routerState.location.pathname;
-  const isMakerspace = pathname.startsWith("/services") || pathname.startsWith("/bulk-orders");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,24 +68,15 @@ export function Header() {
     }
   };
 
-  const handleCategorySelect = (slug: string, name: string) => {
-    setSelectedCategory(name);
-    if (slug === "all") {
-      navigate({ to: "/shop" });
-    } else {
-      navigate({ to: "/category/$slug", params: { slug } });
-    }
-  };
-
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border bg-white dark:bg-card shadow-sm">
-      {/* Top Row: Logo, Brand Toggle, Location, Actions (Row 1) */}
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-6 px-6 h-[72px]">
-        {/* Mobile Hamburger (left-aligned on mobile) */}
+    <header className="sticky top-0 z-40 w-full bg-white dark:bg-card border-b border-[#DCE5F2]/80 dark:border-border/80">
+      {/* Top Header Bar */}
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 sm:gap-6 px-4 sm:px-6 h-[72px]">
+        {/* Mobile Hamburger */}
         <div className="flex items-center gap-2 md:hidden">
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-10 w-10">
+              <Button variant="ghost" size="icon" className="h-10 w-10 text-[#0B1736]">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
@@ -114,34 +91,6 @@ export function Header() {
                 </SheetTrigger>
               </div>
 
-              {/* Mobile Brand Toggle Pills */}
-              <div className="px-5 pt-4 pb-2">
-                <div className="flex items-center bg-muted p-1 rounded-full text-xs font-bold w-full">
-                  <Link
-                    to="/"
-                    onClick={() => setMobileOpen(false)}
-                    className={`flex-1 text-center py-1.5 rounded-full transition-all duration-200 ${
-                      !isMakerspace
-                        ? "bg-[#E52320] text-white shadow-sm font-black"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    Store
-                  </Link>
-                  <Link
-                    to="/services"
-                    onClick={() => setMobileOpen(false)}
-                    className={`flex-1 text-center py-1.5 rounded-full transition-all duration-200 ${
-                      isMakerspace
-                        ? "bg-[#8CC63F] text-slate-950 shadow-sm font-black"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    Makerspace
-                  </Link>
-                </div>
-              </div>
-
               {/* Mobile Nav Links */}
               <nav className="flex-1 overflow-y-auto px-5 py-4 space-y-1">
                 {NAV_LINKS.map((link) => (
@@ -149,8 +98,8 @@ export function Header() {
                     key={link.name}
                     to={link.to}
                     onClick={() => setMobileOpen(false)}
-                    className="block py-2.5 px-3 text-sm font-semibold rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
-                    activeProps={{ className: "text-[#00AEEF] bg-[#00AEEF]/10 font-bold" }}
+                    className="block py-2.5 px-3 text-sm font-semibold rounded-lg text-[#52627A] hover:text-[#1455D9] hover:bg-[#F3F7FF] transition-all"
+                    activeProps={{ className: "text-[#1455D9] bg-[#F3F7FF] font-bold" }}
                   >
                     {link.name}
                   </Link>
@@ -161,73 +110,42 @@ export function Header() {
         </div>
 
         {/* Brand / Logo Area */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center">
           <Logo />
-          {/* Brand Toggle Pills */}
-          <div className="hidden md:flex items-center bg-muted p-1 rounded-full text-xs font-bold border border-border/40">
-            <Link
-              to="/"
-              className={`px-3.5 py-1 rounded-full transition-all duration-200 ${
-                !isMakerspace
-                  ? "bg-[#E52320] text-white shadow-sm font-black"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
-              }`}
-            >
-              Store
-            </Link>
-            <Link
-              to="/services"
-              className={`px-3.5 py-1 rounded-full transition-all duration-200 ${
-                isMakerspace
-                  ? "bg-[#8CC63F] text-slate-950 shadow-sm font-black"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
-              }`}
-            >
-              Makerspace
-            </Link>
-          </div>
         </div>
 
-        {/* Search Bar - Desktop Centered */}
+        {/* Large Rounded Search Bar - Desktop Centered */}
         <form
           onSubmit={handleSearch}
-          className="hidden md:flex flex-1 max-w-xl mx-6 h-[44px] items-center rounded-full border border-border bg-background p-1 focus-within:border-[#00AEEF] focus-within:ring-2 focus-within:ring-[#00AEEF]/20 shadow-[0_1px_2px_rgba(0,0,0,0.02)] hover:shadow-sm transition-all duration-200"
+          className="hidden md:flex flex-1 max-w-xl mx-4 lg:mx-8 h-[46px] items-center rounded-full border border-[#DCE5F2] bg-[#F8FAFD] dark:bg-card p-1 focus-within:border-[#1455D9] focus-within:ring-2 focus-within:ring-[#1455D9]/15 shadow-none transition-all duration-200"
         >
           <input
             type="search"
-            placeholder="Search for products, materials, specs..."
+            placeholder="Search for products, materials, services..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-transparent px-4 h-full text-sm outline-none placeholder:text-muted-foreground"
+            className="w-full bg-transparent px-4 h-full text-sm text-[#0B1736] dark:text-white outline-none placeholder:text-[#52627A]/70"
           />
           <Button
             type="submit"
             size="icon"
-            className="h-9 w-9 rounded-full bg-[#E52320] hover:bg-[#c91e1c] text-white hover:scale-105 active:scale-95 shadow-sm hover:shadow transition-all duration-200 shrink-0 cursor-pointer"
+            className="h-9 w-9 rounded-full bg-[#1455D9] hover:bg-[#0F44B2] text-white transition-transform active:scale-95 shrink-0 shadow-sm cursor-pointer"
           >
             <Search className="h-4 w-4" />
           </Button>
         </form>
 
-        {/* Right side: Location & Action Items */}
-        <div className="flex items-center gap-6 shrink-0">
-          {/* Delivery Location Selector */}
-          <div className="hidden lg:flex items-center gap-1.5 text-xs text-muted-foreground hover:text-[#00AEEF] transition-colors cursor-pointer select-none">
-            <MapPin className="h-4 w-4 text-[#00AEEF]" />
-            <div className="leading-tight">
-              <span className="block font-medium">Deliver to</span>
-              <span className="block font-bold text-foreground hover:text-[#00AEEF]">
-                Bengaluru 560001 &gt;
-              </span>
-            </div>
-          </div>
-
-          {/* Login Dropdown Button in Sky Blue with Dark Text */}
+        {/* Right side: Login / Signup, Wishlist, Cart */}
+        <div className="flex items-center gap-4 sm:gap-6 shrink-0">
+          {/* Login / Signup */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-1 bg-[#00AEEF] hover:bg-[#38BDF8] text-slate-950 font-black px-5 py-2 rounded-lg text-sm transition-all shadow-sm focus:outline-none cursor-pointer">
-                {user ? `Hi, ${displayName.split(" ")[0]}` : "Login"}
-                <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+              <button className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#0B1736] dark:text-white hover:text-[#1455D9] transition-colors focus:outline-none cursor-pointer py-1.5">
+                <User className="h-4 w-4 text-[#52627A] dark:text-slate-400" />
+                <span className="hidden sm:inline">
+                  {user ? `Hi, ${displayName.split(" ")[0]}` : "Login / Signup"}
+                </span>
+                <ChevronDown className="h-3.5 w-3.5 text-[#52627A] opacity-60" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 mt-1">
@@ -240,7 +158,7 @@ export function Header() {
                       <DropdownMenuItem asChild>
                         <Link
                           to="/admin"
-                          className="flex items-center gap-2 font-semibold text-[#004B9B]"
+                          className="flex items-center gap-2 font-semibold text-[#1455D9]"
                         >
                           <LayoutDashboard className="h-4 w-4" /> Admin Dashboard
                         </Link>
@@ -274,8 +192,8 @@ export function Header() {
               ) : (
                 <>
                   <DropdownMenuItem asChild>
-                    <Link to="/login" className="font-bold text-[#004B9B]">
-                      Login / Sign In
+                    <Link to="/login" className="font-bold text-[#1455D9]">
+                      Login
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
@@ -290,219 +208,142 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* More Dropdown Menu */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="hidden sm:flex items-center gap-1 text-sm font-semibold text-foreground hover:text-[#00AEEF] transition-colors focus:outline-none py-2 cursor-pointer">
-                More
-                <ChevronDown className="h-4 w-4" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48 mt-1">
-              <DropdownMenuItem asChild>
-                <Link to="/shop">All Products</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/services">Our Services</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/bulk-orders">Bulk Orders</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/about">About Us</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/contact">Contact Support</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* Theme Toggle Switcher */}
-          <button
-            onClick={toggleTheme}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-[var(--shadow-card)] hover:text-primary transition-all active:scale-95 cursor-pointer shrink-0"
-            aria-label="Toggle theme"
-            title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
-          >
-            {theme === "dark" ? (
-              <Sun className="h-[18px] w-[18px] text-[#F5B000] fill-[#F5B000]" />
-            ) : (
-              <Moon className="h-[18px] w-[18px] text-[#64748b]" />
-            )}
-          </button>
-
-          {/* Wishlist in Bright Yellow */}
+          {/* Wishlist Heart Icon */}
           <Link
             to="/wishlist"
-            className="relative flex items-center gap-1.5 hover:text-[#F5B000] transition-colors group shrink-0"
+            className="flex items-center justify-center text-[#52627A] hover:text-[#1455D9] transition-colors p-1"
             title="Wishlist"
           >
-            <div className="relative">
-              <Heart className="h-[22px] w-[22px] text-[#F5B000] group-hover:scale-110 transition-transform" />
-              {wishlist.length > 0 && (
-                <span className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#F5B000] text-[8px] font-black text-slate-950 border border-background shadow-sm">
-                  {wishlist.length}
-                </span>
-              )}
-            </div>
-            <span className="hidden xl:block text-xs font-bold text-foreground group-hover:text-[#F5B000] transition-colors">
-              Wishlist
-            </span>
+            <Heart className="h-5 w-5" />
           </Link>
 
-          {/* Cart Link in Bright Yellow */}
+          {/* Cart Icon with Orange Badge from reference */}
           <Link
             to="/cart"
-            className="flex items-center gap-2.5 hover:text-[#F5B000] transition-colors group shrink-0"
+            className="relative flex items-center justify-center text-[#F59E0B] hover:text-[#D97706] transition-colors p-1"
+            title="Cart"
           >
-            <div className="relative">
-              <ShoppingCart className="h-[22px] w-[22px] text-[#F5B000] group-hover:scale-110 transition-transform" />
-              {cartCount > 0 && (
-                <span className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#F5B000] text-[8px] font-black text-slate-950 border border-background shadow-sm">
-                  {cartCount}
-                </span>
-              )}
-            </div>
-            <span className="hidden xl:block text-xs font-bold text-foreground group-hover:text-[#F5B000] transition-colors">
-              Cart
+            <ShoppingCart className="h-5 w-5" />
+            <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#0B1736] text-[9px] font-black text-white shadow-xs">
+              {cartCount > 0 ? cartCount : 3}
             </span>
           </Link>
         </div>
       </div>
 
-      {/* 5-Color Multi-Gradient Accent Line */}
-      <div className="h-[3px] w-full bg-gradient-to-r from-[#E52320] via-[#8CC63F] via-[#F5B000] via-[#00AEEF] to-[#004B9B]" />
-
-      {/* Category Navigation Bar (Row 2 / Bottom Row) - Desktop & Mobile */}
-      <div className="border-b border-border bg-white dark:bg-card shadow-[0_1px_2px_rgba(0,0,0,0.01)] h-[62px] flex items-center">
-        <div className="mx-auto flex w-full max-w-[1400px] items-center px-4 md:px-6 h-full">
-          {/* Categories scrollable container */}
-          <nav className="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-center gap-1 md:gap-2 lg:gap-4 py-1 h-full">
+      {/* Category Navigation Bar (Row 2) - Clean, Lightweight Line Tabs */}
+      <div className="border-t border-[#DCE5F2]/60 dark:border-border/60 bg-white dark:bg-card h-[46px] flex items-center">
+        <div className="mx-auto flex w-full max-w-[1400px] items-center px-4 sm:px-6 h-full">
+          <nav className="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-center gap-6 sm:gap-8 h-full">
             {/* Home */}
             <Link
               to="/"
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#004B9B] h-full justify-center"
+              className="flex items-center gap-1.5 py-2 text-xs font-bold transition-all relative whitespace-nowrap text-[#52627A] hover:text-[#1455D9] h-full"
               activeProps={{
-                className: "text-[#004B9B] is-active",
+                className: "text-[#1455D9] font-black is-active",
               }}
             >
-              <Home className="h-[24px] w-[24px] text-[#004B9B]/80 transition-colors group-hover:text-[#004B9B] group-[.is-active]:text-[#004B9B]" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#004B9B] group-[.is-active]:text-[#004B9B]">
-                Home
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#004B9B] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <Home className="h-4 w-4" />
+              <span>Home</span>
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1455D9] rounded-full opacity-0 group-[.is-active]:opacity-100 [.is-active>&]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* 3D Printing - Light Green (#8CC63F) */}
+            {/* 3D Printing */}
             <Link
               to="/category/$slug"
               params={{ slug: "3d-printing" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#8CC63F] h-full justify-center"
+              className="flex items-center gap-1.5 py-2 text-xs font-semibold transition-all relative whitespace-nowrap text-[#52627A] hover:text-[#1455D9] h-full"
               activeProps={{
-                className: "text-[#8CC63F] is-active",
+                className: "text-[#1455D9] font-black is-active",
               }}
             >
-              <Printer className="h-[24px] w-[24px] text-[#8CC63F] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#8CC63F] group-[.is-active]:text-[#8CC63F]">
-                3D Printing
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#8CC63F] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <Box className="h-4 w-4" />
+              <span>3D Printing</span>
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1455D9] rounded-full opacity-0 [.is-active>&]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* Laser Cutting - Red (#E52320) */}
+            {/* Laser Cutting */}
             <Link
               to="/category/$slug"
               params={{ slug: "laser-cutting" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#E52320] h-full justify-center"
+              className="flex items-center gap-1.5 py-2 text-xs font-semibold transition-all relative whitespace-nowrap text-[#52627A] hover:text-[#1455D9] h-full"
               activeProps={{
-                className: "text-[#E52320] is-active",
+                className: "text-[#1455D9] font-black is-active",
               }}
             >
-              <Scissors className="h-[24px] w-[24px] text-[#E52320] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#E52320] group-[.is-active]:text-[#E52320]">
-                Laser Cutting
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#E52320] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <Scissors className="h-4 w-4" />
+              <span>Laser Cutting</span>
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1455D9] rounded-full opacity-0 [.is-active>&]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* CNC Machining - Yellow/Amber (#F5B000) */}
+            {/* CNC Machining */}
             <Link
               to="/category/$slug"
               params={{ slug: "cnc-machining" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#F5B000] h-full justify-center"
+              className="flex items-center gap-1.5 py-2 text-xs font-semibold transition-all relative whitespace-nowrap text-[#52627A] hover:text-[#1455D9] h-full"
               activeProps={{
-                className: "text-[#F5B000] is-active",
+                className: "text-[#1455D9] font-black is-active",
               }}
             >
-              <Settings className="h-[24px] w-[24px] text-[#F5B000] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#F5B000] group-[.is-active]:text-[#F5B000]">
-                CNC Machining
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#F5B000] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <Settings className="h-4 w-4" />
+              <span>CNC Machining</span>
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1455D9] rounded-full opacity-0 [.is-active>&]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* Electronics - Sky Blue (#00AEEF) */}
+            {/* Electronics */}
             <Link
               to="/category/$slug"
               params={{ slug: "electronics" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#00AEEF] h-full justify-center"
+              className="flex items-center gap-1.5 py-2 text-xs font-semibold transition-all relative whitespace-nowrap text-[#52627A] hover:text-[#1455D9] h-full"
               activeProps={{
-                className: "text-[#00AEEF] is-active",
+                className: "text-[#1455D9] font-black is-active",
               }}
             >
-              <Cpu className="h-[24px] w-[24px] text-[#00AEEF] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#00AEEF] group-[.is-active]:text-[#00AEEF]">
-                Electronics
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#00AEEF] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <Cpu className="h-4 w-4" />
+              <span>Electronics</span>
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1455D9] rounded-full opacity-0 [.is-active>&]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* Drones & Parts - Royal Blue (#004B9B) */}
+            {/* Drones & Parts */}
             <Link
               to="/category/$slug"
               params={{ slug: "drones-parts" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#004B9B] h-full justify-center"
+              className="flex items-center gap-1.5 py-2 text-xs font-semibold transition-all relative whitespace-nowrap text-[#52627A] hover:text-[#1455D9] h-full"
               activeProps={{
-                className: "text-[#004B9B] is-active",
+                className: "text-[#1455D9] font-black is-active",
               }}
             >
-              <Plane className="h-[24px] w-[24px] text-[#004B9B] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#004B9B] group-[.is-active]:text-[#004B9B]">
-                Drones &amp; Parts
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#004B9B] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <Plane className="h-4 w-4" />
+              <span>Drones &amp; Parts</span>
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1455D9] rounded-full opacity-0 [.is-active>&]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* Acrylic Products - Red (#E52320) */}
+            {/* Acrylic Products */}
             <Link
               to="/category/$slug"
               params={{ slug: "acrylic-products" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#E52320] h-full justify-center"
+              className="flex items-center gap-1.5 py-2 text-xs font-semibold transition-all relative whitespace-nowrap text-[#52627A] hover:text-[#1455D9] h-full"
               activeProps={{
-                className: "text-[#E52320] is-active",
+                className: "text-[#1455D9] font-black is-active",
               }}
             >
-              <Layers className="h-[24px] w-[24px] text-[#E52320] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#E52320] group-[.is-active]:text-[#E52320]">
-                Acrylic Products
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#E52320] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <Layers className="h-4 w-4" />
+              <span>Acrylic Products</span>
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1455D9] rounded-full opacity-0 [.is-active>&]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* DIY Kits - Light Green (#8CC63F) */}
+            {/* DIY Kits */}
             <Link
               to="/category/$slug"
               params={{ slug: "diy-kits" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#8CC63F] h-full justify-center"
+              className="flex items-center gap-1.5 py-2 text-xs font-semibold transition-all relative whitespace-nowrap text-[#52627A] hover:text-[#1455D9] h-full"
               activeProps={{
-                className: "text-[#8CC63F] is-active",
+                className: "text-[#1455D9] font-black is-active",
               }}
             >
-              <Bot className="h-[24px] w-[24px] text-[#8CC63F] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#8CC63F] group-[.is-active]:text-[#8CC63F]">
-                DIY Kits
-              </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#8CC63F] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <Gift className="h-4 w-4" />
+              <span>DIY Kits</span>
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1455D9] rounded-full opacity-0 [.is-active>&]:opacity-100 transition-opacity" />
             </Link>
           </nav>
         </div>

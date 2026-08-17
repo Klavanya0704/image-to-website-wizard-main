@@ -3,16 +3,14 @@ import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-topbar text-topbar-foreground border-t border-topbar-foreground/10">
+    <footer className="bg-[#0B1736] text-white border-t border-[#1E325C]">
       {/* Main Footer Links */}
       <div className="mx-auto max-w-[1400px] grid gap-8 px-6 py-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {/* Col 1: Brand Info */}
         <div className="space-y-4">
-          <p className="text-lg font-black tracking-tight">
-            <span className="text-[#DC2626] font-extrabold mr-1">SASI</span> AICTE IDEA Lab
-          </p>
-          <p className="text-xs text-primary font-bold tracking-wider uppercase">
-            Where Ideas Become Reality
+          <p className="text-lg font-black tracking-tight text-white">ACTE IDEA LAB</p>
+          <p className="text-xs text-[#00AEEF] font-bold tracking-wider uppercase">
+            Innovate. Create. Inspire.
           </p>
           <p className="text-xs opacity-70 leading-relaxed max-w-xs">
             A state-of-the-art college innovation hub and fabrication marketplace supporting student

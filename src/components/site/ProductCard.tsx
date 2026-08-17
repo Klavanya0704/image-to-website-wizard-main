@@ -104,7 +104,7 @@ export function ProductCard({
         </div>
         <Button
           size="sm"
-          className="mt-2 w-full bg-[#004B9B] hover:bg-[#003d7d] hover:ring-2 hover:ring-[#00AEEF] text-white font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+          className="mt-2 w-full bg-[#1455D9] hover:bg-[#0F44B2] text-white font-bold transition-all shadow-xs active:scale-95 cursor-pointer rounded-xl"
           disabled={product.stock === 0}
           onClick={() => {
             addToCart({
@@ -114,10 +114,10 @@ export function ProductCard({
               imageKey: product.image_key,
               price: effectivePrice(product),
             });
-            navigate({ to: "/checkout" });
+            toast.success(`Added "${product.name}" to cart!`);
           }}
         >
-          <ShoppingCart className="mr-1.5 h-4 w-4" /> Buy Now
+          <ShoppingCart className="mr-1.5 h-4 w-4" /> Add to Cart
         </Button>
       </div>
     </article>

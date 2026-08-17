@@ -36,10 +36,30 @@ import { CadBlueprintView } from "@/components/site/CadBlueprintView";
 
 export const Route = createFileRoute("/product/$slug")({
   component: ProductDetail,
+  pendingComponent: () => (
+    <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-12">
+      <ProductGridSkeleton />
+    </div>
+  ),
+  errorComponent: () => (
+    <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-16 text-center space-y-4">
+      <h2 className="text-2xl font-black text-[#0B1736] dark:text-white">Product Not Found</h2>
+      <p className="text-sm text-[#52627A] dark:text-slate-400">
+        The requested product could not be loaded. Please browse our catalog.
+      </p>
+      <Link
+        to="/shop"
+        className="inline-flex items-center gap-2 rounded-xl bg-[#1455D9] px-6 py-3 text-sm font-bold text-white shadow-md hover:bg-[#0F44B2]"
+      >
+        Return to Store
+      </Link>
+    </div>
+  ),
 });
 
 function ProductDetail() {
-  const { slug } = Route.useParams();
+  const { slug: rawSlug } = Route.useParams();
+  const slug = decodeURIComponent(rawSlug || "").trim();
   const navigate = useNavigate();
   const { addToCart, toggleWishlist, isWishlisted } = useStore();
 

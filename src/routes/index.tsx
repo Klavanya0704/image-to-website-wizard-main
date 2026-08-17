@@ -698,98 +698,106 @@ function Index() {
 
           {/* Products Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
-            {referenceProducts.map((product) => (
-              <div
-                key={product.id}
-                onClick={(e) => {
-                  if ((e.target as HTMLElement).closest("button")) return;
-                  navigate({ to: "/product/$slug", params: { slug: product.slug } });
-                }}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#DCE5F2] dark:border-border bg-white dark:bg-card p-3 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(20,85,217,0.12)] cursor-pointer"
-              >
-                {/* Product Image Area with Badge */}
-                <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900/50 block">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  />
-
-                  {/* Hover "View Details" Overlay Badge */}
-                  <div className="absolute inset-0 bg-[#0B1736]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
-                    <span className="rounded-full bg-white/95 dark:bg-card/95 backdrop-blur-xs px-2.5 py-1 text-[10px] font-black text-[#1455D9] shadow-md uppercase tracking-wider transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      View Details
-                    </span>
-                  </div>
-
-                  {/* Status Badge */}
-                  <span
-                    className={`absolute left-2.5 top-2.5 rounded-full px-2 py-0.5 text-[9px] font-black tracking-wider uppercase shadow-xs ${product.badgeColor}`}
+            {referenceProducts.map((product) => {
+              const safeSlug = (
+                product.slug || product.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")
+              ).toLowerCase();
+              return (
+                <div
+                  key={product.id}
+                  className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#DCE5F2] dark:border-border bg-white dark:bg-card p-3 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(20,85,217,0.12)]"
+                >
+                  {/* Product Image Area with Badge */}
+                  <Link
+                    to="/product/$slug"
+                    params={{ slug: safeSlug }}
+                    className="relative aspect-square w-full overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900/50 block cursor-pointer"
                   >
-                    {product.badge}
-                  </span>
-                </div>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
 
-                {/* Meta details */}
-                <div className="flex flex-1 flex-col pt-3 justify-between space-y-2">
-                  <div className="space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#52627A] dark:text-slate-400 block">
-                      {product.category}
+                    {/* Hover "View Details" Overlay Badge */}
+                    <div className="absolute inset-0 bg-[#0B1736]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                      <span className="rounded-full bg-white/95 dark:bg-card/95 backdrop-blur-xs px-2.5 py-1 text-[10px] font-black text-[#1455D9] shadow-md uppercase tracking-wider transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                        View Details
+                      </span>
+                    </div>
+
+                    {/* Status Badge */}
+                    <span
+                      className={`absolute left-2.5 top-2.5 rounded-full px-2 py-0.5 text-[9px] font-black tracking-wider uppercase shadow-xs ${product.badgeColor}`}
+                    >
+                      {product.badge}
                     </span>
-                    <h3
-                      className="text-xs sm:text-sm font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-[1.35] min-h-[2.6rem] sm:min-h-[2.75rem] group-hover:text-[#1455D9] transition-colors flex items-start"
-                      title={product.name}
-                    >
-                      {product.name}
-                    </h3>
+                  </Link>
 
-                    {/* Rating with Orange Stars */}
-                    <div className="flex items-center gap-1 text-[11px] font-semibold text-[#52627A] dark:text-slate-400 pt-0.5">
-                      <div className="flex items-center text-[#F59E0B]">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star key={i} className="h-3 w-3 fill-current" />
-                        ))}
+                  {/* Meta details */}
+                  <div className="flex flex-1 flex-col pt-3 justify-between space-y-2">
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#52627A] dark:text-slate-400 block">
+                        {product.category}
+                      </span>
+                      <Link
+                        to="/product/$slug"
+                        params={{ slug: safeSlug }}
+                        className="text-xs sm:text-sm font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-[1.35] min-h-[2.6rem] sm:min-h-[2.75rem] group-hover:text-[#1455D9] transition-colors flex items-start"
+                        title={product.name}
+                      >
+                        {product.name}
+                      </Link>
+
+                      {/* Rating with Orange Stars */}
+                      <div className="flex items-center gap-1 text-[11px] font-semibold text-[#52627A] dark:text-slate-400 pt-0.5">
+                        <div className="flex items-center text-[#F59E0B]">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <Star key={i} className="h-3 w-3 fill-current" />
+                          ))}
+                        </div>
+                        <span className="ml-1 font-bold text-[#0B1736] dark:text-white">
+                          {product.rating}
+                        </span>
+                        <span>({product.reviews})</span>
                       </div>
-                      <span className="ml-1 font-bold text-[#0B1736] dark:text-white">
-                        {product.rating}
-                      </span>
-                      <span>({product.reviews})</span>
-                    </div>
-                  </div>
-
-                  {/* Price & Action Button Area */}
-                  <div className="pt-2 border-t border-[#DCE5F2]/40 dark:border-border/40 mt-auto">
-                    <div className="flex items-baseline gap-2 pb-2">
-                      <span className="text-base font-black text-[#0B1736] dark:text-white">
-                        {inr(product.price)}
-                      </span>
-                      <span className="text-xs text-[#52627A]/70 dark:text-slate-500 line-through">
-                        {inr(product.originalPrice)}
-                      </span>
                     </div>
 
-                    {/* Direct Buy Now Button */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToCart({
-                          productId: product.id,
-                          slug: product.slug,
-                          name: product.name,
-                          imageKey: product.imageKey,
-                          price: product.price,
-                        });
-                        navigate({ to: "/checkout" });
-                      }}
-                      className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] text-white py-2 text-xs font-bold shadow-xs transition-transform active:scale-95 cursor-pointer"
-                    >
-                      <Zap className="h-3.5 w-3.5 fill-white text-white" />
-                      <span>Buy Now</span>
-                    </button>
+                    {/* Price & Action Button Area */}
+                    <div className="pt-2 border-t border-[#DCE5F2]/40 dark:border-border/40 mt-auto">
+                      <div className="flex items-baseline gap-2 pb-2">
+                        <span className="text-base font-black text-[#0B1736] dark:text-white">
+                          {inr(product.price)}
+                        </span>
+                        <span className="text-xs text-[#52627A]/70 dark:text-slate-500 line-through">
+                          {inr(product.originalPrice)}
+                        </span>
+                      </div>
+
+                      {/* Direct Buy Now Button */}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          addToCart({
+                            productId: product.id,
+                            slug: safeSlug,
+                            name: product.name,
+                            imageKey: product.imageKey,
+                            price: product.price,
+                          });
+                          navigate({ to: "/checkout" });
+                        }}
+                        className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] text-white py-2 text-xs font-bold shadow-xs transition-transform active:scale-95 cursor-pointer"
+                      >
+                        <Zap className="h-3.5 w-3.5 fill-white text-white" />
+                        <span>Buy Now</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

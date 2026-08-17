@@ -343,112 +343,134 @@ export const productsQuery = queryOptions({
   staleTime: 60_000,
 });
 
+export function normalizeProductIdentifier(input: string | undefined | null): string {
+  if (!input) return "";
+  let decoded = "";
+  try {
+    decoded = decodeURIComponent(input);
+  } catch {
+    decoded = input;
+  }
+  return decoded
+    .toLowerCase()
+    .trim()
+    .replace(/[\s_]+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export function formatProductSlug(product: {
   slug?: string | null;
   name?: string | null;
   id?: string | null;
 }): string {
   if (product.slug && product.slug.trim().length > 0) {
-    return product.slug.trim().toLowerCase();
+    return normalizeProductIdentifier(product.slug);
   }
   if (product.name && product.name.trim().length > 0) {
-    return product.name
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
+    return normalizeProductIdentifier(product.name);
   }
-  return (product.id || "product").toLowerCase();
+  return normalizeProductIdentifier(product.id || "product");
+}
+
+export function getProductBySlug(rawSlugOrId: string | undefined | null): Product {
+  const normalized = normalizeProductIdentifier(rawSlugOrId);
+  const raw = (rawSlugOrId || "").trim().toLowerCase();
+
+  // 1. Direct match in DEFAULT_CATALOG_PRODUCTS by id, slug, or normalized name
+  const match = DEFAULT_CATALOG_PRODUCTS.find((p) => {
+    const pSlugNorm = normalizeProductIdentifier(p.slug);
+    const pIdNorm = normalizeProductIdentifier(p.id);
+    const pNameNorm = normalizeProductIdentifier(p.name);
+    return (
+      pSlugNorm === normalized ||
+      pIdNorm === normalized ||
+      pNameNorm === normalized ||
+      p.slug.toLowerCase() === raw ||
+      p.id.toLowerCase() === raw ||
+      p.name.toLowerCase() === raw
+    );
+  });
+  if (match) return match;
+
+  // 2. Substring or keyword match in DEFAULT_CATALOG_PRODUCTS
+  if (normalized.length > 0) {
+    const subMatch = DEFAULT_CATALOG_PRODUCTS.find((p) => {
+      const pSlugNorm = normalizeProductIdentifier(p.slug);
+      const pNameNorm = normalizeProductIdentifier(p.name);
+      return (
+        pSlugNorm.includes(normalized) ||
+        normalized.includes(pSlugNorm) ||
+        pNameNorm.includes(normalized) ||
+        normalized.includes(pNameNorm) ||
+        (p.image_key && normalized.includes(p.image_key))
+      );
+    });
+    if (subMatch) return subMatch;
+  }
+
+  // 3. Ultimate safe fallback: return first item in DEFAULT_CATALOG_PRODUCTS
+  const first = DEFAULT_CATALOG_PRODUCTS[0];
+  if (first) return first;
+
+  return {
+    id: "ref-1",
+    name: "3D Printed Geometric Vase",
+    slug: "geometric-spiral-vase",
+    category_slug: "3d-printing",
+    image_key: "vase",
+    price: 599,
+    discount_price: 499,
+    material: "PLA Pro Matte",
+    dimensions: "120 × 120 × 200 mm",
+    manufacturing_method: "FDM 3D Printing (0.16mm Layer Height)",
+    rating: 4.8,
+    review_count: 120,
+    bestseller: true,
+    stock: 45,
+    short_description: "Modern spiral lattice geometry 3D printed vase for desktop & home decor.",
+    description:
+      "Precision 3D printed geometric spiral vase with intricate lattice mesh geometry. Made from eco-friendly matte PLA with high tensile strength and a waterproof inner wall coating.",
+    specifications: {
+      "Print Tech": "FDM 3D Printing",
+      "Layer Height": "0.16mm Fine",
+      Infill: "20% Gyroid",
+      Weight: "180g",
+      "Water Resistance": "Coated Interior",
+    },
+    sku: "3DP-VASE-001",
+    subcategory: "Home & Decor",
+    active: true,
+    featured: true,
+    created_at: "2026-01-01T00:00:00Z",
+  };
 }
 
 export function productQuery(rawSlugOrId: string | undefined) {
-  const raw = rawSlugOrId || "";
-  let decoded = "";
-  try {
-    decoded = decodeURIComponent(raw).trim().toLowerCase();
-  } catch {
-    decoded = raw.trim().toLowerCase();
-  }
+  const normalized = normalizeProductIdentifier(rawSlugOrId);
+  const raw = (rawSlugOrId || "").trim();
 
   return queryOptions({
-    queryKey: ["product", decoded],
+    queryKey: ["product", normalized || "default"],
     queryFn: async (): Promise<Product> => {
       try {
-        const { data, error } = await supabase
-          .from("products")
-          .select("*")
-          .or(`slug.eq.${decoded},id.eq.${decoded},slug.eq.${raw},id.eq.${raw}`)
-          .maybeSingle();
-        if (data) return data;
+        if (normalized) {
+          const { data, error } = await supabase
+            .from("products")
+            .select("*")
+            .or(`slug.eq.${normalized},id.eq.${normalized},slug.eq.${raw},id.eq.${raw}`)
+            .maybeSingle();
+          if (data) return data;
+        }
       } catch {
         // Fallback to local default catalog
       }
 
-      // Check default catalog by slug, id, or normalized name
-      const found = DEFAULT_CATALOG_PRODUCTS.find(
-        (p) =>
-          p.slug.toLowerCase() === decoded ||
-          p.id.toLowerCase() === decoded ||
-          p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") === decoded ||
-          p.slug.toLowerCase() === raw.toLowerCase() ||
-          p.id.toLowerCase() === raw.toLowerCase(),
-      );
-      if (found) return found;
-
-      // Match by keyword in default products
-      const keywordMatch = DEFAULT_CATALOG_PRODUCTS.find(
-        (p) =>
-          (p.image_key && decoded.includes(p.image_key)) ||
-          p.name.toLowerCase().includes(decoded) ||
-          decoded.includes(p.slug),
-      );
-      if (keywordMatch) return keywordMatch;
-
-      // Graceful fallback generating fully hydrated Product object
-      const cleaned = decoded.replace(/-/g, " ") || "Engineering Innovation Gear";
-      return {
-        id: `prod-${decoded || "default"}`,
-        name: cleaned.replace(/\b\w/g, (c) => c.toUpperCase()),
-        slug: decoded || "innovation-product",
-        category_slug: decoded.includes("laser")
-          ? "laser-cutting"
-          : decoded.includes("cnc")
-            ? "cnc-machining"
-            : decoded.includes("acrylic")
-              ? "acrylic-products"
-              : "3d-printing",
-        image_key: decoded.includes("keychain")
-          ? "keychain"
-          : decoded.includes("lamp")
-            ? "lamp"
-            : decoded.includes("cnc")
-              ? "cnc"
-              : decoded.includes("stand")
-                ? "stand"
-                : "vase",
-        price: 999,
-        discount_price: 799,
-        material: "Lab Grade Engineering Material",
-        dimensions: "120 × 120 × 180 mm",
-        manufacturing_method: "Precision Fabrication (ISO 2768-m)",
-        rating: 4.8,
-        review_count: 42,
-        bestseller: false,
-        stock: 50,
-        short_description: "Custom engineered product from ACTE IDEA LAB.",
-        description: `Custom engineered ${cleaned} manufactured using precision lab equipment at ACTE IDEA LAB. Built with high mechanical strength and premium finish for makers and innovators.`,
-        specifications: {
-          Precision: "±0.05mm",
-          "Quality Grade": "Lab Certified",
-          Warranty: "1 Year Replacement",
-        },
-        sku: `ACTE-${(decoded || "PROD").toUpperCase().slice(0, 8)}`,
-        subcategory: "Custom Fabrication",
-        active: true,
-        featured: false,
-        created_at: new Date().toISOString(),
-      };
+      // Safe local catalog resolver with ultimate fallback
+      return getProductBySlug(rawSlugOrId);
     },
+    initialData: () => getProductBySlug(rawSlugOrId),
   });
 }
 

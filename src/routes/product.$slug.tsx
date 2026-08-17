@@ -27,7 +27,13 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-import { productQuery, productsQuery, reviewsQuery, Product } from "@/lib/catalog";
+import {
+  productQuery,
+  productsQuery,
+  reviewsQuery,
+  Product,
+  getProductBySlug,
+} from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 import { inr, effectivePrice, discountPercent } from "@/lib/format";
 import { productImage, productViewsFor, ProductViewAngle } from "@/lib/product-images";
@@ -59,11 +65,11 @@ export const Route = createFileRoute("/product/$slug")({
 
 function ProductDetail() {
   const { slug: rawSlug } = Route.useParams();
-  const slug = decodeURIComponent(rawSlug || "").trim();
   const navigate = useNavigate();
   const { addToCart, toggleWishlist, isWishlisted } = useStore();
 
-  const { data: product, isLoading } = useQuery(productQuery(slug));
+  const { data: rawProduct } = useQuery(productQuery(rawSlug));
+  const product: Product = rawProduct || getProductBySlug(rawSlug);
   const { data: allProducts = [] } = useQuery(productsQuery);
   const { data: reviews = [] } = useQuery(reviewsQuery(product?.id));
 
@@ -79,15 +85,7 @@ function ProductDetail() {
   useEffect(() => {
     setActiveImageIndex(0);
     setUploadedFile(null);
-  }, [slug]);
-
-  if (isLoading || !product) {
-    return (
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-12">
-        <ProductGridSkeleton />
-      </div>
-    );
-  }
+  }, [rawSlug]);
 
   const viewAngles = productViewsFor(product.image_key);
   const fallbackAngle: ProductViewAngle = {

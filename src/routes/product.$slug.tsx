@@ -11,6 +11,7 @@ import {
   Shield,
   RotateCcw,
   Tag,
+  ChevronLeft,
   ChevronRight,
   Upload,
   Layers,
@@ -128,6 +129,69 @@ function ProductDetail() {
     }
   };
 
+  // 3D Card Stack Auto-Play State
+  const [isAutoPlay, setIsAutoPlay] = useState<boolean>(true);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
+  // Auto-play timer every 4 seconds
+  useEffect(() => {
+    if (!isAutoPlay || isHovered) return;
+    const interval = setInterval(() => {
+      setActiveImageIndex((prev) => (prev + 1) % viewAngles.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isAutoPlay, isHovered, viewAngles.length]);
+
+  // Compute 3D Card Stack Position & Perspective Depth
+  const getCardTransform = (index: number) => {
+    const total = viewAngles.length;
+    const diff = (index - activeImageIndex + total) % total;
+
+    if (diff === 0) {
+      // Active Front Card
+      return {
+        zIndex: 30,
+        opacity: 1,
+        transform:
+          "translate3d(0, 0, 30px) scale(1) rotateY(var(--tilt-y, 0deg)) rotateX(var(--tilt-x, 0deg))",
+        boxShadow: "0 20px 40px -15px rgba(20, 85, 217, 0.22), 0 0 0 1px rgba(20, 85, 217, 0.15)",
+        cursor: "default",
+        pointerEvents: "auto" as const,
+      };
+    }
+    if (diff === 1 || (total === 2 && diff === 1)) {
+      // Right Stacked Card (Next)
+      return {
+        zIndex: 20,
+        opacity: 0.65,
+        transform: "translate3d(24%, 6px, -50px) scale(0.86) rotateY(-10deg) rotate(4deg)",
+        boxShadow: "0 10px 25px -10px rgba(0, 0, 0, 0.15)",
+        cursor: "pointer",
+        pointerEvents: "auto" as const,
+      };
+    }
+    if (diff === total - 1) {
+      // Left Stacked Card (Previous)
+      return {
+        zIndex: 20,
+        opacity: 0.65,
+        transform: "translate3d(-24%, 6px, -50px) scale(0.86) rotateY(10deg) rotate(-4deg)",
+        boxShadow: "0 10px 25px -10px rgba(0, 0, 0, 0.15)",
+        cursor: "pointer",
+        pointerEvents: "auto" as const,
+      };
+    }
+    // Deep Center Stack (Hidden Back)
+    return {
+      zIndex: 10,
+      opacity: 0,
+      transform: "translate3d(0, 10px, -100px) scale(0.75)",
+      boxShadow: "none",
+      cursor: "pointer",
+      pointerEvents: "none" as const,
+    };
+  };
+
   // Filter 4 related products from catalog
   const relatedProducts = allProducts.filter((p) => p.slug !== product.slug).slice(0, 4);
 
@@ -161,31 +225,39 @@ function ProductDetail() {
       {/* 2. Main Product Details Container (2 Columns) */}
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* ================= LEFT COLUMN: Item-Specific Multi-Angle Image Gallery (5 Cols) ================= */}
-          <div className="lg:col-span-5 flex flex-col gap-4 sticky top-24">
-            {/* Main Stage Image with Wishlist Button & Angle Badge */}
-            <div className="relative aspect-square w-full rounded-2xl sm:rounded-3xl border border-[#DCE5F2] dark:border-slate-800 bg-white dark:bg-card overflow-hidden p-6 sm:p-8 flex items-center justify-center group shadow-sm">
-              {/* Product Badges */}
-              <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#1455D9] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-sm">
+          {/* ================= LEFT COLUMN: 3D Animated Card Stack Gallery (5 Cols) ================= */}
+          <div className="lg:col-span-5 flex flex-col gap-5 sticky top-24">
+            {/* 3D Stack Stage Container */}
+            <div
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={(e) => {
+                setIsHovered(false);
+                e.currentTarget.style.setProperty("--tilt-x", "0deg");
+                e.currentTarget.style.setProperty("--tilt-y", "0deg");
+              }}
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                e.currentTarget.style.setProperty("--tilt-x", `${-y * 8}deg`);
+                e.currentTarget.style.setProperty("--tilt-y", `${x * 8}deg`);
+              }}
+              className="relative w-full aspect-square flex items-center justify-center [perspective:1200px] [transform-style:preserve-3d] select-none py-2"
+              style={{ "--tilt-x": "0deg", "--tilt-y": "0deg" } as React.CSSProperties}
+            >
+              {/* Product Badges (Top-Left of Deck) */}
+              <div className="absolute top-2 left-2 z-40 flex flex-col gap-1.5 pointer-events-none">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#1455D9] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-md">
                   <Sparkles className="h-3 w-3" /> ACTE LAB CERTIFIED
                 </span>
                 {product.bestseller && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#F5B000] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[#071B4D] shadow-sm">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[#F5B000] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[#071B4D] shadow-md">
                     BEST SELLER
                   </span>
                 )}
               </div>
 
-              {/* Active Angle Badge (Bottom-Right) */}
-              <div className="absolute bottom-4 right-4 z-10 rounded-lg bg-[#0B1736]/90 backdrop-blur-xs border border-white/15 px-3 py-1 text-[10px] font-bold text-white uppercase tracking-wider shadow-sm flex items-center gap-1.5 transition-all">
-                <Sliders className="h-3 w-3 text-[#00AEEF]" />
-                <span>
-                  {currentAngle.badgeTitle} &bull; {currentAngle.angle}
-                </span>
-              </div>
-
-              {/* Wishlist Button */}
+              {/* Wishlist Button (Top-Right of Deck) */}
               <button
                 type="button"
                 onClick={() => {
@@ -194,62 +266,120 @@ function ProductDetail() {
                     added ? "Added to wishlist!" : "Removed from wishlist",
                   );
                 }}
-                className={`absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-[#DCE5F2] dark:border-slate-700 bg-white dark:bg-slate-900 shadow-md hover:scale-110 active:scale-95 transition-all text-[#52627A] hover:text-[#1455D9] cursor-pointer ${
-                  wished ? "text-[#1455D9] border-[#1455D9] bg-blue-50/50" : ""
+                className={`absolute top-2 right-2 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-[#DCE5F2] dark:border-slate-700 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs shadow-md hover:scale-110 active:scale-95 transition-all text-[#52627A] hover:text-[#1455D9] cursor-pointer ${
+                  wished ? "text-[#1455D9] border-[#1455D9] bg-blue-50/80" : ""
                 }`}
                 aria-label="Wishlist"
               >
                 <Heart className={`h-5 w-5 ${wished ? "fill-[#1455D9] text-[#1455D9]" : ""}`} />
               </button>
 
-              {/* Technical CAD Overlay grid if CAD view is active */}
-              {currentAngle.viewType === "cad" && (
-                <div className="absolute inset-0 pointer-events-none opacity-30 bg-[linear-gradient(to_right,#00AEEF_1px,transparent_1px),linear-gradient(to_bottom,#00AEEF_1px,transparent_1px)] bg-[size:20px_20px] z-5" />
-              )}
+              {/* 3D Stack Cards */}
+              {viewAngles.map((view, idx) => {
+                const style = getCardTransform(idx);
+                const isActive = activeImageIndex === idx;
 
-              {/* High-Resolution Main Photo with View Angle Transform */}
-              <img
-                src={currentAngle.src}
-                alt={`${product.name} - ${currentAngle.label}`}
-                className={`h-full w-full object-contain transition-all duration-300 ease-in-out select-none ${
-                  currentAngle.stageStyle || ""
-                }`}
-              />
-            </div>
+                return (
+                  <div
+                    key={view.id}
+                    onClick={() => setActiveImageIndex(idx)}
+                    style={style}
+                    className="absolute inset-x-4 inset-y-2 sm:inset-x-6 sm:inset-y-3 rounded-2xl sm:rounded-3xl bg-white dark:bg-card border border-[#DCE5F2] dark:border-slate-800 p-6 sm:p-8 flex items-center justify-center overflow-hidden transition-all duration-450 ease-[cubic-bezier(0.34,1.56,0.64,1)] group"
+                  >
+                    {/* CAD Blueprint Grid Overlay if CAD active card */}
+                    {view.viewType === "cad" && isActive && (
+                      <div className="absolute inset-0 pointer-events-none opacity-30 bg-[linear-gradient(to_right,#00AEEF_1px,transparent_1px),linear-gradient(to_bottom,#00AEEF_1px,transparent_1px)] bg-[size:18px_18px] z-5" />
+                    )}
 
-            {/* Product-Specific Multi-Angle Thumbnail Row */}
-            <div className="grid grid-cols-4 gap-2.5 sm:gap-3">
-              {viewAngles.map((view, idx) => (
-                <button
-                  key={view.id}
-                  type="button"
-                  onClick={() => setActiveImageIndex(idx)}
-                  className={`relative flex flex-col items-center rounded-xl border-2 overflow-hidden bg-white dark:bg-card p-1.5 transition-all cursor-pointer group ${
-                    activeImageIndex === idx
-                      ? "border-[#1455D9] shadow-[0_0_12px_rgba(20,85,217,0.25)] scale-102 bg-blue-50/30"
-                      : "border-[#DCE5F2] dark:border-slate-800 opacity-80 hover:opacity-100 hover:border-slate-300"
-                  }`}
-                >
-                  <div className="aspect-square w-full overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1 flex items-center justify-center">
+                    {/* Image with specific perspective style */}
                     <img
                       src={view.src}
                       alt={`${product.name} - ${view.label}`}
-                      className={`h-full w-full object-contain transition-all duration-300 ease-in-out ${
-                        view.thumbStyle || ""
+                      className={`h-full w-full object-contain transition-all duration-300 select-none ${
+                        isActive ? view.stageStyle : view.thumbStyle
                       }`}
                     />
+
+                    {/* Active Floating Label inside Active Card */}
+                    {isActive && (
+                      <div className="absolute bottom-3 right-3 z-10 rounded-lg bg-[#0B1736]/90 backdrop-blur-xs border border-white/15 px-3 py-1 text-[10px] font-bold text-white uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                        <Sliders className="h-3 w-3 text-[#00AEEF]" />
+                        <span>
+                          {view.badgeTitle} &bull; {view.angle}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                  <span
-                    className={`mt-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-tight truncate w-full text-center ${
+                );
+              })}
+
+              {/* Navigation Arrows for 3D Stack */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImageIndex((prev) => (prev - 1 + viewAngles.length) % viewAngles.length);
+                }}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-40 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 dark:bg-card/90 border border-[#DCE5F2] dark:border-slate-700 text-[#0B1736] dark:text-white shadow-md hover:bg-white hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                aria-label="Previous view"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImageIndex((prev) => (prev + 1) % viewAngles.length);
+                }}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-40 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 dark:bg-card/90 border border-[#DCE5F2] dark:border-slate-700 text-[#0B1736] dark:text-white shadow-md hover:bg-white hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                aria-label="Next view"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Interactive Pagination Dots & Perspective Angle Tabs */}
+            <div className="flex flex-col items-center gap-3">
+              {/* Pagination Dots */}
+              <div className="flex items-center gap-2">
+                {viewAngles.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                       activeImageIndex === idx
-                        ? "text-[#1455D9]"
-                        : "text-[#52627A] dark:text-slate-400"
+                        ? "w-7 bg-[#1455D9]"
+                        : "w-2 bg-[#DCE5F2] dark:bg-slate-700 hover:bg-slate-400"
+                    }`}
+                    aria-label={`View angle ${idx + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* 4 Angle Selector Pills */}
+              <div className="grid grid-cols-4 gap-2 w-full">
+                {viewAngles.map((view, idx) => (
+                  <button
+                    key={view.id}
+                    type="button"
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`flex flex-col items-center justify-center rounded-xl p-2 text-center transition-all cursor-pointer border ${
+                      activeImageIndex === idx
+                        ? "border-[#1455D9] bg-blue-50/60 dark:bg-blue-950/40 text-[#1455D9] shadow-xs"
+                        : "border-[#DCE5F2] dark:border-slate-800 bg-white dark:bg-card text-[#52627A] dark:text-slate-400 hover:border-slate-300"
                     }`}
                   >
-                    {view.label}
-                  </span>
-                </button>
-              ))}
+                    <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-tight truncate w-full">
+                      {view.label}
+                    </span>
+                    <span className="text-[8px] sm:text-[9px] font-medium opacity-70 truncate w-full">
+                      {view.angle}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Quick Guarantees Strip */}

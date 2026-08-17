@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Heart, ShoppingCart, Eye } from "lucide-react";
+import { Heart, Zap, Eye } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -121,10 +121,10 @@ export function ProductCard({
           )}
         </div>
 
-        {/* Isolated Add to Cart Action Button */}
+        {/* Isolated Direct Buy Now Action Button */}
         <Button
           size="sm"
-          className="mt-2 w-full bg-[#1455D9] hover:bg-[#0F44B2] text-white font-bold transition-all shadow-xs active:scale-95 cursor-pointer rounded-xl"
+          className="mt-2 w-full bg-[#1455D9] hover:bg-[#0F44B2] text-white font-bold transition-all shadow-xs active:scale-95 cursor-pointer rounded-xl flex items-center justify-center gap-1.5"
           disabled={product.stock === 0}
           onClick={(e) => {
             e.stopPropagation();
@@ -135,10 +135,10 @@ export function ProductCard({
               imageKey: product.image_key,
               price: effectivePrice(product),
             });
-            toast.success(`Added "${product.name}" to cart!`);
+            navigate({ to: "/checkout" });
           }}
         >
-          <ShoppingCart className="mr-1.5 h-4 w-4" /> Add to Cart
+          <Zap className="h-4 w-4 fill-white text-white" /> Buy Now
         </Button>
       </div>
     </article>

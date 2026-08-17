@@ -15,6 +15,7 @@ import {
   Layers,
   Gift,
   Star,
+  Zap,
   ShoppingCart,
   GraduationCap,
   Sparkles,
@@ -767,7 +768,7 @@ function Index() {
                       </span>
                     </div>
 
-                    {/* Add to Cart Button */}
+                    {/* Direct Buy Now Button */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -778,12 +779,12 @@ function Index() {
                           imageKey: product.imageKey,
                           price: product.price,
                         });
-                        toast.success(`Added "${product.name}" to cart!`);
+                        navigate({ to: "/checkout" });
                       }}
                       className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] text-white py-2 text-xs font-bold shadow-xs transition-transform active:scale-95 cursor-pointer"
                     >
-                      <ShoppingCart className="h-3.5 w-3.5" />
-                      <span>Add to Cart</span>
+                      <Zap className="h-3.5 w-3.5 fill-white text-white" />
+                      <span>Buy Now</span>
                     </button>
                   </div>
                 </div>

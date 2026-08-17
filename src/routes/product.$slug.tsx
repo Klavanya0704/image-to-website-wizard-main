@@ -877,32 +877,28 @@ function ProductDetail() {
             {relatedProducts.map((p) => (
               <div
                 key={p.id}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#DCE5F2] dark:border-slate-800 bg-white dark:bg-card p-3.5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(20,85,217,0.08)]"
+                onClick={(e) => {
+                  if ((e.target as HTMLElement).closest("button")) return;
+                  navigate({ to: "/product/$slug", params: { slug: p.slug } });
+                }}
+                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#DCE5F2] dark:border-slate-800 bg-white dark:bg-card p-3.5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(20,85,217,0.12)] cursor-pointer"
               >
-                <Link
-                  to="/product/$slug"
-                  params={{ slug: p.slug }}
-                  className="relative aspect-square w-full overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900/50 block"
-                >
+                <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900/50 block">
                   <img
                     src={productImage(p.image_key)}
                     alt={p.name}
-                    className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                    className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
                   />
                   <span className="absolute left-2 top-2 rounded-full bg-[#1455D9] text-white px-2 py-0.5 text-[9px] font-black uppercase tracking-wider shadow-xs">
                     {p.category_slug.replace(/-/g, " ")}
                   </span>
-                </Link>
+                </div>
 
                 <div className="flex flex-1 flex-col pt-3 justify-between space-y-2">
                   <div className="space-y-1">
-                    <Link
-                      to="/product/$slug"
-                      params={{ slug: p.slug }}
-                      className="text-xs sm:text-sm font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-[1.35] min-h-[2.6rem] hover:text-[#1455D9] transition-colors"
-                    >
+                    <h3 className="text-xs sm:text-sm font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-[1.35] min-h-[2.6rem] group-hover:text-[#1455D9] transition-colors">
                       {p.name}
-                    </Link>
+                    </h3>
                     <div className="flex items-center gap-1 text-[11px] font-semibold text-[#52627A] dark:text-slate-400">
                       <Star className="h-3 w-3 fill-[#F59E0B] text-[#F59E0B]" />
                       <span className="font-bold text-[#0B1736] dark:text-white">{p.rating}</span>
@@ -922,7 +918,8 @@ function ProductDetail() {
                       )}
                     </div>
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         addToCart({
                           productId: p.id,
                           slug: p.slug,
@@ -930,12 +927,12 @@ function ProductDetail() {
                           imageKey: p.image_key,
                           price: effectivePrice(p),
                         });
-                        toast.success(`Added "${p.name}" to cart!`);
+                        navigate({ to: "/checkout" });
                       }}
                       className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] text-white py-2 text-xs font-bold shadow-xs transition-transform active:scale-95 cursor-pointer"
                     >
-                      <ShoppingCart className="h-3.5 w-3.5" />
-                      <span>Add to Cart</span>
+                      <Zap className="h-3.5 w-3.5 fill-white text-white" />
+                      <span>Buy Now</span>
                     </button>
                   </div>
                 </div>

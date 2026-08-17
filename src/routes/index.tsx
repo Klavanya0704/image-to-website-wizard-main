@@ -95,46 +95,49 @@ function Index() {
           style={{ background: "var(--gradient-hero)" }}
         >
           <div className="text-white">
-            <p className="text-sm font-semibold text-[#86EFAC] uppercase tracking-wider">
+            <p className="text-sm font-bold text-[#38BDF8] uppercase tracking-wider flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded bg-[#DC2626] text-white text-[11px] font-black">
+                SASI
+              </span>{" "}
               AICTE IDEA LAB STORE
             </p>
             <h1 className="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl leading-tight text-white">
-              Where Ideas <span className="text-white font-bold">Become</span> Reality
+              Where Ideas <span className="text-[#38BDF8] font-black">Become</span> Reality
             </h1>
-            <p className="mt-4 max-w-md text-sm md:text-base leading-relaxed opacity-85 text-emerald-50">
+            <p className="mt-4 max-w-md text-sm md:text-base leading-relaxed opacity-90 text-sky-50">
               High-quality 3D printed, laser cut, CNC machined products and electronics for
               innovators, makers, and creators.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 to="/shop"
-                className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-[#0A3728] transition-all hover:bg-white/95 hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-black text-[#0B5ED7] transition-all hover:bg-white/95 hover:-translate-y-0.5 shadow-lg cursor-pointer"
               >
                 Shop Catalog <ArrowRight className="h-4 w-4" />
               </Link>
               <a
                 href="#categories"
-                className="inline-flex items-center rounded-lg border-[1.5px] border-white px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/10 hover:-translate-y-0.5 cursor-pointer"
+                className="inline-flex items-center rounded-xl border-2 border-white/80 px-6 py-3.5 text-sm font-bold text-white transition-all hover:bg-white/10 hover:-translate-y-0.5 cursor-pointer"
               >
                 Explore Categories
               </a>
             </div>
             <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-xs opacity-90 text-white">
               <li className="flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-[#86EFAC]" /> Premium Quality
+                <ShieldCheck className="h-4 w-4 text-[#38BDF8]" /> Premium Quality
               </li>
               <li className="flex items-center gap-2">
-                <CreditCard className="h-4 w-4 text-[#86EFAC]" /> Secure Payments
+                <CreditCard className="h-4 w-4 text-[#38BDF8]" /> Secure Payments
               </li>
               <li className="flex items-center gap-2">
-                <Truck className="h-4 w-4 text-[#86EFAC]" /> Fast Delivery
+                <Truck className="h-4 w-4 text-[#38BDF8]" /> Fast Delivery
               </li>
             </ul>
           </div>
           <div className="flex flex-col gap-3">
             <img
               src={heroImg}
-              alt="AICTE IDEA Lab innovation workspace products"
+              alt="SASI AICTE IDEA Lab innovation workspace products"
               width={1200}
               height={800}
               className="h-[300px] md:h-[380px] w-full rounded-xl object-cover shadow-2xl"
@@ -142,7 +145,9 @@ function Index() {
             <div className="self-end bg-black/40 backdrop-blur-md border border-white/10 px-4.5 py-2.5 rounded-xl shadow-inner max-w-md select-none text-right">
               <p className="text-xs sm:text-sm font-medium tracking-wide text-[#F8FAFC] italic">
                 Innovate. Create. Inspire.{" "}
-                <span className="text-[#86EFAC] not-italic font-bold ml-1">— AICTE IDEA LAB</span>
+                <span className="text-[#38BDF8] not-italic font-bold ml-1">
+                  — SASI AICTE IDEA LAB
+                </span>
               </p>
             </div>
           </div>

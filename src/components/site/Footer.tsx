@@ -8,7 +8,9 @@ export function Footer() {
       <div className="mx-auto max-w-[1400px] grid gap-8 px-6 py-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {/* Col 1: Brand Info */}
         <div className="space-y-4">
-          <p className="text-lg font-extrabold tracking-tight">AICTE IDEA Lab</p>
+          <p className="text-lg font-black tracking-tight">
+            <span className="text-[#DC2626] font-extrabold mr-1">SASI</span> AICTE IDEA Lab
+          </p>
           <p className="text-xs text-primary font-bold tracking-wider uppercase">
             Where Ideas Become Reality
           </p>

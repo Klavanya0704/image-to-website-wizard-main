@@ -37,7 +37,7 @@ export function ProductCard({
           className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         {off > 0 && (
-          <span className="absolute left-3 top-3 rounded-full bg-primary px-2.5 py-1 text-[11px] font-bold text-primary-foreground">
+          <span className="absolute left-3 top-3 rounded-full bg-[#DC2626] px-2.5 py-1 text-[11px] font-black text-white shadow-sm tracking-wide">
             {off}% OFF
           </span>
         )}

@@ -30,6 +30,11 @@ import {
 import { toast } from "sonner";
 
 import heroShowcaseImg from "@/assets/hero-showcase.png";
+import vaseImg from "@/assets/p-vase.jpg";
+import keychainImg from "@/assets/p-keychain.jpg";
+import couplingImg from "@/assets/p-cnc.jpg";
+import lampImg from "@/assets/p-lamp.jpg";
+import standImg from "@/assets/p-stand.jpg";
 import { productsQuery } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 import { inr } from "@/lib/format";
@@ -115,7 +120,8 @@ const referenceProducts = [
     slug: "geometric-spiral-vase",
     category: "3D PRINTING",
     category_slug: "3d-printing",
-    image: "/products/prod-vase.jpg",
+    image: vaseImg,
+    imageKey: "vase",
     rating: 4.8,
     reviews: 120,
     price: 499,
@@ -129,7 +135,8 @@ const referenceProducts = [
     slug: "custom-engraved-wooden-keychain",
     category: "LASER CUTTING",
     category_slug: "laser-cutting",
-    image: "/products/prod-keychain.jpg",
+    image: keychainImg,
+    imageKey: "keychain",
     rating: 4.9,
     reviews: 95,
     price: 149,
@@ -143,7 +150,8 @@ const referenceProducts = [
     slug: "precision-aluminum-shaft-coupler",
     category: "CNC MACHINING",
     category_slug: "cnc-machining",
-    image: "/products/prod-coupling.jpg",
+    image: couplingImg,
+    imageKey: "cnc",
     rating: 4.7,
     reviews: 80,
     price: 1299,
@@ -157,7 +165,8 @@ const referenceProducts = [
     slug: "tree-of-life-wooden-led-lamp",
     category: "LASER CUTTING",
     category_slug: "laser-cutting",
-    image: "/products/prod-tree-lamp.jpg",
+    image: lampImg,
+    imageKey: "lamp",
     rating: 4.9,
     reviews: 60,
     price: 699,
@@ -171,7 +180,8 @@ const referenceProducts = [
     slug: "custom-acrylic-trophy-plaque",
     category: "ACRYLIC PRODUCTS",
     category_slug: "acrylic-products",
-    image: "/products/prod-stand.jpg",
+    image: standImg,
+    imageKey: "stand",
     rating: 4.8,
     reviews: 75,
     price: 1199,
@@ -185,7 +195,8 @@ const referenceProducts = [
     slug: "heavy-duty-l-bracket-cnc",
     category: "CNC MACHINING",
     category_slug: "cnc-machining",
-    image: "/products/prod-bracket.jpg",
+    image: couplingImg,
+    imageKey: "cnc",
     rating: 4.7,
     reviews: 110,
     price: 899,
@@ -711,58 +722,63 @@ function Index() {
                 </Link>
 
                 {/* Meta details */}
-                <div className="flex flex-1 flex-col pt-3 space-y-1.5">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#52627A] dark:text-slate-400">
-                    {product.category}
-                  </span>
-                  <Link
-                    to="/product/$slug"
-                    params={{ slug: product.slug }}
-                    className="text-xs sm:text-sm font-bold text-[#0B1736] dark:text-white line-clamp-1 hover:text-[#1455D9] transition-colors"
-                  >
-                    {product.name}
-                  </Link>
+                <div className="flex flex-1 flex-col pt-3 justify-between space-y-2">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#52627A] dark:text-slate-400 block">
+                      {product.category}
+                    </span>
+                    <Link
+                      to="/product/$slug"
+                      params={{ slug: product.slug }}
+                      className="text-xs sm:text-sm font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-[1.35] min-h-[2.6rem] sm:min-h-[2.75rem] hover:text-[#1455D9] transition-colors flex items-start"
+                      title={product.name}
+                    >
+                      {product.name}
+                    </Link>
 
-                  {/* Rating with Orange Stars */}
-                  <div className="flex items-center gap-1 text-[11px] font-semibold text-[#52627A] dark:text-slate-400">
-                    <div className="flex items-center text-[#F59E0B]">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Star key={i} className="h-3 w-3 fill-current" />
-                      ))}
+                    {/* Rating with Orange Stars */}
+                    <div className="flex items-center gap-1 text-[11px] font-semibold text-[#52627A] dark:text-slate-400 pt-0.5">
+                      <div className="flex items-center text-[#F59E0B]">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star key={i} className="h-3 w-3 fill-current" />
+                        ))}
+                      </div>
+                      <span className="ml-1 font-bold text-[#0B1736] dark:text-white">
+                        {product.rating}
+                      </span>
+                      <span>({product.reviews})</span>
                     </div>
-                    <span className="ml-1 font-bold text-[#0B1736] dark:text-white">
-                      {product.rating}
-                    </span>
-                    <span>({product.reviews})</span>
                   </div>
 
-                  {/* Price Row */}
-                  <div className="flex items-baseline gap-2 pt-1">
-                    <span className="text-base font-black text-[#0B1736] dark:text-white">
-                      {inr(product.price)}
-                    </span>
-                    <span className="text-xs text-[#52627A]/70 dark:text-slate-500 line-through">
-                      {inr(product.originalPrice)}
-                    </span>
-                  </div>
+                  {/* Price & Action Button Area */}
+                  <div className="pt-2 border-t border-[#DCE5F2]/40 dark:border-border/40 mt-auto">
+                    <div className="flex items-baseline gap-2 pb-2">
+                      <span className="text-base font-black text-[#0B1736] dark:text-white">
+                        {inr(product.price)}
+                      </span>
+                      <span className="text-xs text-[#52627A]/70 dark:text-slate-500 line-through">
+                        {inr(product.originalPrice)}
+                      </span>
+                    </div>
 
-                  {/* Add to Cart Button */}
-                  <button
-                    onClick={() => {
-                      addToCart({
-                        productId: product.id,
-                        slug: product.slug,
-                        name: product.name,
-                        imageKey: "vase",
-                        price: product.price,
-                      });
-                      toast.success(`Added "${product.name}" to cart!`);
-                    }}
-                    className="mt-2 w-full flex items-center justify-center gap-1.5 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] text-white py-2 text-xs font-bold shadow-xs transition-transform active:scale-95 cursor-pointer"
-                  >
-                    <ShoppingCart className="h-3.5 w-3.5" />
-                    <span>Add to Cart</span>
-                  </button>
+                    {/* Add to Cart Button */}
+                    <button
+                      onClick={() => {
+                        addToCart({
+                          productId: product.id,
+                          slug: product.slug,
+                          name: product.name,
+                          imageKey: product.imageKey,
+                          price: product.price,
+                        });
+                        toast.success(`Added "${product.name}" to cart!`);
+                      }}
+                      className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] text-white py-2 text-xs font-bold shadow-xs transition-transform active:scale-95 cursor-pointer"
+                    >
+                      <ShoppingCart className="h-3.5 w-3.5" />
+                      <span>Add to Cart</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

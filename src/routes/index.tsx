@@ -371,21 +371,68 @@ function Index() {
 
           {/* CENTER CONTENT: Main Offer, Flourish, Heading, Description & 3-Part Box */}
           <div className="flex-1 flex flex-col items-center justify-center text-center p-6 sm:p-7 lg:py-8 lg:px-10 z-10 space-y-3.5">
-            {/* Top Filigree Flourish & Small Label */}
-            <div className="flex flex-col items-center space-y-1.5">
-              <div className="flex items-center justify-center gap-2 text-[#D4AF37]">
-                <svg viewBox="0 0 100 16" fill="currentColor" className="h-3.5 w-24 text-[#D4AF37]">
-                  <path d="M0,8 C20,3 30,13 40,8 C45,5 47,8 50,4 C53,8 55,5 60,8 C70,13 80,3 100,8 C80,5 70,11 60,8 C55,11 53,8 50,12 C47,8 45,11 40,8 C30,11 20,5 0,8 Z" />
+            {/* Top Filigree Flourish & Sharp Vector Label */}
+            <div className="flex flex-col items-center select-none space-y-2">
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 text-[#D4AF37]">
+                {/* Left Ornamental Wing */}
+                <svg
+                  viewBox="0 0 120 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 sm:h-5 w-24 sm:w-32 text-[#D4AF37]"
+                >
+                  <path
+                    d="M120 12 C100 12, 85 4, 60 4 C40 4, 25 18, 5 18 C2 18, 0 16, 2 13 C4 10, 8 10, 10 12 C12 14, 8 16, 5 15"
+                    stroke="#D4AF37"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                  <path
+                    d="M120 12 C95 12, 80 20, 50 20 C25 20, 15 8, 20 4 C23 2, 28 4, 26 7 C24 10, 20 8, 21 6"
+                    stroke="#D4AF37"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                  <path d="M60 4 L62 9 L67 11 L62 13 L60 18 L58 13 L53 11 L58 9 Z" fill="#D4AF37" />
                 </svg>
-                <div className="flex h-5 w-5 items-center justify-center rounded-full border border-[#D4AF37] bg-black/40">
-                  <Star className="h-3 w-3 fill-[#D4AF37] text-[#D4AF37]" />
+
+                {/* Center Gold Circular Star Emblem */}
+                <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full border-[1.5px] border-[#D4AF37] bg-[#071B4D]/80 shadow-[0_0_12px_rgba(212,175,55,0.35)] shrink-0">
+                  <svg viewBox="0 0 24 24" fill="#D4AF37" className="h-4 w-4 sm:h-4.5 sm:w-4.5">
+                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+                  </svg>
                 </div>
-                <svg viewBox="0 0 100 16" fill="currentColor" className="h-3.5 w-24 text-[#D4AF37]">
-                  <path d="M0,8 C20,3 30,13 40,8 C45,5 47,8 50,4 C53,8 55,5 60,8 C70,13 80,3 100,8 C80,5 70,11 60,8 C55,11 53,8 50,12 C47,8 45,11 40,8 C30,11 20,5 0,8 Z" />
+
+                {/* Right Ornamental Wing (Mirrored) */}
+                <svg
+                  viewBox="0 0 120 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 sm:h-5 w-24 sm:w-32 text-[#D4AF37] scale-x-[-1]"
+                >
+                  <path
+                    d="M120 12 C100 12, 85 4, 60 4 C40 4, 25 18, 5 18 C2 18, 0 16, 2 13 C4 10, 8 10, 10 12 C12 14, 8 16, 5 15"
+                    stroke="#D4AF37"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                  <path
+                    d="M120 12 C95 12, 80 20, 50 20 C25 20, 15 8, 20 4 C23 2, 28 4, 26 7 C24 10, 20 8, 21 6"
+                    stroke="#D4AF37"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                  <path d="M60 4 L62 9 L67 11 L62 13 L60 18 L58 13 L53 11 L58 9 Z" fill="#D4AF37" />
                 </svg>
               </div>
-              <span className="text-[10px] sm:text-[11px] font-bold tracking-[3px] text-[#D4AF37] uppercase">
-                SPECIAL OFFER &bull; AICTE IDEA LAB
+
+              {/* Crisp Vector Text */}
+              <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] sm:tracking-[0.3em] text-[#D4AF37] uppercase">
+                SPECIAL OFFER &bull; ACTE IDEA LAB
               </span>
             </div>
 
@@ -461,7 +508,7 @@ function Index() {
             {/* Bottom ID Code */}
             <div className="pt-3 text-center">
               <span className="text-[9px] font-mono text-[#D4AF37] font-bold tracking-wider uppercase">
-                № 8629384 &bull; AICTE
+                ID 8629384 &bull; ACTE
               </span>
             </div>
           </div>

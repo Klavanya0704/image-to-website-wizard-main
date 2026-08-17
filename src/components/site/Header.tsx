@@ -191,7 +191,7 @@ export function Header() {
         {/* Search Bar - Desktop Centered */}
         <form
           onSubmit={handleSearch}
-          className="hidden md:flex flex-1 max-w-xl mx-6 h-[44px] items-center rounded-full border border-border bg-background p-1 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 shadow-[0_1px_2px_rgba(0,0,0,0.02)] hover:shadow-sm transition-all duration-200"
+          className="hidden md:flex flex-1 max-w-xl mx-6 h-[44px] items-center rounded-full border border-border bg-background p-1 focus-within:border-[#00AEEF] focus-within:ring-2 focus-within:ring-[#00AEEF]/20 shadow-[0_1px_2px_rgba(0,0,0,0.02)] hover:shadow-sm transition-all duration-200"
         >
           <input
             type="search"
@@ -203,7 +203,7 @@ export function Header() {
           <Button
             type="submit"
             size="icon"
-            className="h-9 w-9 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 active:scale-95 shadow-sm hover:shadow transition-all duration-200 shrink-0"
+            className="h-9 w-9 rounded-full bg-[#E52320] hover:bg-[#c91e1c] text-white hover:scale-105 active:scale-95 shadow-sm hover:shadow transition-all duration-200 shrink-0"
           >
             <Search className="h-4 w-4" />
           </Button>
@@ -213,7 +213,7 @@ export function Header() {
         <div className="flex items-center gap-6 shrink-0">
           {/* Delivery Location Selector */}
           <div className="hidden lg:flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors cursor-pointer select-none">
-            <MapPin className="h-4 w-4 text-primary" />
+            <MapPin className="h-4 w-4 text-[#00AEEF]" />
             <div className="leading-tight">
               <span className="block font-medium">Deliver to</span>
               <span className="block font-bold text-foreground hover:text-primary">
@@ -222,10 +222,10 @@ export function Header() {
             </div>
           </div>
 
-          {/* Login Dropdown Button */}
+          {/* Login Dropdown Button in Sky Blue */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-1 bg-primary text-primary-foreground px-5 py-2 rounded-lg font-bold text-sm hover:bg-primary/95 transition-all shadow-sm focus:outline-none">
+              <button className="flex items-center gap-1 bg-[#00AEEF] hover:bg-[#0098d3] text-white px-5 py-2 rounded-lg font-bold text-sm transition-all shadow-sm focus:outline-none cursor-pointer">
                 {user ? `Hi, ${displayName.split(" ")[0]}` : "Login"}
                 <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
               </button>
@@ -325,9 +325,9 @@ export function Header() {
             title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
             {theme === "dark" ? (
-              <Sun className="h-[18px] w-[18px] text-[#fbbf24] fill-[#fbbf24]" />
+              <Sun className="h-[18px] w-[18px] text-[#F5B000] fill-[#F5B000]" />
             ) : (
-              <Moon className="h-[18px] w-[18px] text-[#4a5d55]" />
+              <Moon className="h-[18px] w-[18px] text-[#64748b]" />
             )}
           </button>
 
@@ -338,9 +338,9 @@ export function Header() {
             title="Wishlist"
           >
             <div className="relative">
-              <Heart className="h-[22px] w-[22px] text-muted-foreground group-hover:text-primary transition-colors" />
+              <Heart className="h-[22px] w-[22px] text-muted-foreground group-hover:text-[#E52320] transition-colors" />
               {wishlist.length > 0 && (
-                <span className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[8px] font-bold text-primary-foreground border border-background">
+                <span className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#F5B000] text-[8px] font-black text-slate-950 border border-background shadow-sm">
                   {wishlist.length}
                 </span>
               )}
@@ -356,9 +356,9 @@ export function Header() {
             className="flex items-center gap-2.5 hover:text-primary transition-colors group shrink-0"
           >
             <div className="relative">
-              <ShoppingCart className="h-[22px] w-[22px] text-muted-foreground group-hover:text-primary transition-colors" />
+              <ShoppingCart className="h-[22px] w-[22px] text-muted-foreground group-hover:text-[#004B9B] transition-colors" />
               {cartCount > 0 && (
-                <span className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[8px] font-bold text-primary-foreground border border-background">
+                <span className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#F5B000] text-[8px] font-black text-slate-950 border border-background shadow-sm">
                   {cartCount}
                 </span>
               )}
@@ -370,136 +370,139 @@ export function Header() {
         </div>
       </div>
 
+      {/* 5-Color Multi-Gradient Accent Line */}
+      <div className="h-[3px] w-full bg-gradient-to-r from-[#E52320] via-[#8CC63F] via-[#F5B000] via-[#00AEEF] to-[#004B9B]" />
+
       {/* Category Navigation Bar (Row 2 / Bottom Row) - Desktop & Mobile */}
-      <div className="border-t border-b border-border bg-white dark:bg-card shadow-[0_1px_2px_rgba(0,0,0,0.01)] h-[62px] flex items-center">
+      <div className="border-b border-border bg-white dark:bg-card shadow-[0_1px_2px_rgba(0,0,0,0.01)] h-[62px] flex items-center">
         <div className="mx-auto flex w-full max-w-[1400px] items-center px-4 md:px-6 h-full">
           {/* Categories scrollable container */}
           <nav className="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-center gap-1 md:gap-2 lg:gap-4 py-1 h-full">
             {/* Home */}
             <Link
               to="/"
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
+              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#004B9B] h-full justify-center"
               activeProps={{
-                className: "text-primary is-active",
+                className: "text-[#004B9B] is-active",
               }}
             >
-              <Home className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
+              <Home className="h-[24px] w-[24px] text-[#004B9B]/80 transition-colors group-hover:text-[#004B9B] group-[.is-active]:text-[#004B9B]" />
+              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#004B9B] group-[.is-active]:text-[#004B9B]">
                 Home
               </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#004B9B] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* 3D Printing */}
+            {/* 3D Printing - Light Green (#8CC63F) */}
             <Link
               to="/category/$slug"
               params={{ slug: "3d-printing" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
+              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#8CC63F] h-full justify-center"
               activeProps={{
-                className: "text-primary is-active",
+                className: "text-[#8CC63F] is-active",
               }}
             >
-              <Printer className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
+              <Printer className="h-[24px] w-[24px] text-[#8CC63F] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
+              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#8CC63F] group-[.is-active]:text-[#8CC63F]">
                 3D Printing
               </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#8CC63F] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* Laser Cutting */}
+            {/* Laser Cutting - Red (#E52320) */}
             <Link
               to="/category/$slug"
               params={{ slug: "laser-cutting" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
+              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#E52320] h-full justify-center"
               activeProps={{
-                className: "text-primary is-active",
+                className: "text-[#E52320] is-active",
               }}
             >
-              <Scissors className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
+              <Scissors className="h-[24px] w-[24px] text-[#E52320] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
+              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#E52320] group-[.is-active]:text-[#E52320]">
                 Laser Cutting
               </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#E52320] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* CNC Machining */}
+            {/* CNC Machining - Yellow/Amber (#F5B000) */}
             <Link
               to="/category/$slug"
               params={{ slug: "cnc-machining" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
+              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#F5B000] h-full justify-center"
               activeProps={{
-                className: "text-primary is-active",
+                className: "text-[#F5B000] is-active",
               }}
             >
-              <Settings className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
+              <Settings className="h-[24px] w-[24px] text-[#F5B000] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
+              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#F5B000] group-[.is-active]:text-[#F5B000]">
                 CNC Machining
               </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#F5B000] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* Electronics */}
+            {/* Electronics - Sky Blue (#00AEEF) */}
             <Link
               to="/category/$slug"
               params={{ slug: "electronics" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
+              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#00AEEF] h-full justify-center"
               activeProps={{
-                className: "text-primary is-active",
+                className: "text-[#00AEEF] is-active",
               }}
             >
-              <Cpu className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
+              <Cpu className="h-[24px] w-[24px] text-[#00AEEF] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
+              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#00AEEF] group-[.is-active]:text-[#00AEEF]">
                 Electronics
               </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#00AEEF] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* Drones & Parts */}
+            {/* Drones & Parts - Royal Blue (#004B9B) */}
             <Link
               to="/category/$slug"
               params={{ slug: "drones-parts" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
+              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#004B9B] h-full justify-center"
               activeProps={{
-                className: "text-primary is-active",
+                className: "text-[#004B9B] is-active",
               }}
             >
-              <Plane className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
+              <Plane className="h-[24px] w-[24px] text-[#004B9B] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
+              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#004B9B] group-[.is-active]:text-[#004B9B]">
                 Drones &amp; Parts
               </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#004B9B] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* Acrylic Products */}
+            {/* Acrylic Products - Red (#E52320) */}
             <Link
               to="/category/$slug"
               params={{ slug: "acrylic-products" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
+              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#E52320] h-full justify-center"
               activeProps={{
-                className: "text-primary is-active",
+                className: "text-[#E52320] is-active",
               }}
             >
-              <Layers className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
+              <Layers className="h-[24px] w-[24px] text-[#E52320] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
+              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#E52320] group-[.is-active]:text-[#E52320]">
                 Acrylic Products
               </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#E52320] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
             </Link>
 
-            {/* DIY Kits */}
+            {/* DIY Kits - Light Green (#8CC63F) */}
             <Link
               to="/category/$slug"
               params={{ slug: "diy-kits" }}
-              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-primary h-full justify-center"
+              className="flex flex-col items-center gap-1 w-[100px] md:w-[120px] py-1 text-center cursor-pointer select-none group relative pb-2 pt-1 transition-all duration-200 text-foreground/80 hover:text-[#8CC63F] h-full justify-center"
               activeProps={{
-                className: "text-primary is-active",
+                className: "text-[#8CC63F] is-active",
               }}
             >
-              <Bot className="h-[25px] w-[25px] text-primary/75 transition-colors group-hover:text-primary group-[.is-active]:text-primary" />
-              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-primary group-[.is-active]:text-primary">
+              <Bot className="h-[24px] w-[24px] text-[#8CC63F] transition-colors group-hover:scale-110 group-[.is-active]:scale-110" />
+              <span className="text-[11px] md:text-xs font-semibold tracking-wide transition-colors whitespace-nowrap mt-0.5 group-hover:text-[#8CC63F] group-[.is-active]:text-[#8CC63F]">
                 DIY Kits
               </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] rounded-full bg-primary opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2.5px] rounded-full bg-[#8CC63F] opacity-0 group-[.is-active]:opacity-100 transition-opacity" />
             </Link>
           </nav>
         </div>

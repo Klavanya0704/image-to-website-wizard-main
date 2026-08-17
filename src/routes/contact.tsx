@@ -162,7 +162,7 @@ function Contact() {
                 <Button
                   type="submit"
                   disabled={isSending}
-                  className="w-full bg-primary hover:bg-primary/95 text-primary-foreground font-black text-xs sm:text-sm py-3.5 rounded-xl shadow-md transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 uppercase tracking-wider"
+                  className="w-full bg-[#E52320] hover:bg-[#c91e1c] text-white hover:ring-2 hover:ring-[#8CC63F] font-black text-xs sm:text-sm py-3.5 rounded-xl shadow-md transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 uppercase tracking-wider"
                 >
                   {isSending ? (
                     <span>Sending Inquiry...</span>

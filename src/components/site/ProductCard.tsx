@@ -104,7 +104,7 @@ export function ProductCard({
         </div>
         <Button
           size="sm"
-          className="mt-2 w-full"
+          className="mt-2 w-full bg-[#004B9B] hover:bg-[#003d7d] hover:ring-2 hover:ring-[#00AEEF] text-white font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
           disabled={product.stock === 0}
           onClick={() => {
             addToCart({

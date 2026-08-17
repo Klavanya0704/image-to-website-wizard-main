@@ -47,18 +47,55 @@ export const Route = createFileRoute("/")({
 });
 
 const categories = [
-  { name: "3D Printing", icon: Box, tint: "oklch(0.94 0.04 180)", slug: "3d-printing" },
-  { name: "Laser Cutting", icon: Scissors, tint: "oklch(0.94 0.04 40)", slug: "laser-cutting" },
-  { name: "CNC Machining", icon: Cpu, tint: "oklch(0.93 0.04 300)", slug: "cnc-machining" },
-  { name: "Electronics", icon: CircuitBoard, tint: "oklch(0.95 0.06 90)", slug: "electronics" },
-  { name: "Drones & Parts", icon: Plane, tint: "oklch(0.94 0.04 240)", slug: "drones-parts" },
+  {
+    name: "3D Printing",
+    icon: Box,
+    tint: "rgba(140, 198, 63, 0.18)",
+    color: "#8CC63F",
+    slug: "3d-printing",
+  },
+  {
+    name: "Laser Cutting",
+    icon: Scissors,
+    tint: "rgba(229, 35, 32, 0.18)",
+    color: "#E52320",
+    slug: "laser-cutting",
+  },
+  {
+    name: "CNC Machining",
+    icon: Cpu,
+    tint: "rgba(245, 176, 0, 0.18)",
+    color: "#F5B000",
+    slug: "cnc-machining",
+  },
+  {
+    name: "Electronics",
+    icon: CircuitBoard,
+    tint: "rgba(0, 174, 239, 0.18)",
+    color: "#00AEEF",
+    slug: "electronics",
+  },
+  {
+    name: "Drones & Parts",
+    icon: Plane,
+    tint: "rgba(0, 75, 155, 0.18)",
+    color: "#004B9B",
+    slug: "drones-parts",
+  },
   {
     name: "Acrylic Products",
     icon: Layers,
-    tint: "oklch(0.94 0.04 340)",
+    tint: "rgba(229, 35, 32, 0.18)",
+    color: "#E52320",
     slug: "acrylic-products",
   },
-  { name: "DIY Kits", icon: Bot, tint: "oklch(0.94 0.04 150)", slug: "diy-kits" },
+  {
+    name: "DIY Kits",
+    icon: Bot,
+    tint: "rgba(140, 198, 63, 0.18)",
+    color: "#8CC63F",
+    slug: "diy-kits",
+  },
 ];
 
 const perks = [
@@ -331,20 +368,23 @@ function Index() {
       {/* Categories */}
       <section id="categories" className="mx-auto max-w-[1400px] px-6 pt-8 scroll-mt-24">
         <div className="grid grid-cols-2 divide-y divide-x divide-border rounded-2xl border border-border bg-card py-4 shadow-[var(--shadow-card)] sm:grid-cols-4 lg:grid-cols-7 lg:divide-y-0">
-          {categories.map(({ name, icon: Icon, tint, slug }) => (
+          {categories.map(({ name, icon: Icon, tint, color, slug }) => (
             <Link
               key={name}
               to="/category/$slug"
               params={{ slug }}
-              className="group flex flex-col items-center gap-3 px-4 py-4 text-center transition-all hover:bg-muted/10"
+              className="group flex flex-col items-center gap-3 px-4 py-4 text-center transition-all hover:bg-muted/20"
             >
               <span
-                className="flex h-14 w-14 items-center justify-center rounded-2xl transition-transform group-hover:scale-110"
+                className="flex h-14 w-14 items-center justify-center rounded-2xl transition-transform group-hover:scale-110 shadow-sm border border-black/5"
                 style={{ backgroundColor: tint }}
               >
-                <Icon className="h-6 w-6 text-foreground/75" />
+                <Icon className="h-6 w-6" style={{ color }} />
               </span>
-              <span className="text-sm font-semibold group-hover:text-primary transition-colors">
+              <span
+                className="text-sm font-bold transition-colors"
+                style={{ "--hover-color": color } as React.CSSProperties}
+              >
                 {name}
               </span>
             </Link>

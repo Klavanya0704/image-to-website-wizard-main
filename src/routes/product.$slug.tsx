@@ -145,11 +145,11 @@ function ProductDetail() {
             </div>
 
             {/* Action Buttons below image */}
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
-                className="flex-1 flex items-center justify-center gap-2 h-13 rounded-xl bg-muted dark:bg-card border border-border text-foreground hover:bg-muted/80 dark:hover:bg-muted/10 font-bold transition-all disabled:opacity-50"
+                className="flex-1 flex items-center justify-center gap-2 h-13 rounded-xl bg-[#004B9B] hover:bg-[#003d7d] text-white hover:ring-2 hover:ring-[#00AEEF] font-black text-sm transition-all shadow-md active:scale-95 disabled:opacity-50 cursor-pointer"
               >
                 <ShoppingCart className="h-5 w-5" />
                 Add to Cart
@@ -157,7 +157,7 @@ function ProductDetail() {
               <button
                 onClick={handleBuyNow}
                 disabled={product.stock === 0}
-                className="flex-1 flex items-center justify-center gap-2 h-13 rounded-xl bg-primary text-primary-foreground hover:bg-primary/95 font-bold transition-all shadow-md hover:shadow disabled:opacity-50"
+                className="flex-1 flex items-center justify-center gap-2 h-13 rounded-xl bg-[#E52320] hover:bg-[#c91e1c] text-white hover:ring-2 hover:ring-[#8CC63F] font-black text-sm transition-all shadow-md active:scale-95 disabled:opacity-50 cursor-pointer"
               >
                 <Zap className="h-5 w-5 fill-current" />
                 Buy at {inr(finalPrice)}

@@ -31,9 +31,11 @@ export function productImage(key: string | null | undefined): string {
 export interface ProductViewAngle {
   id: string;
   label: string;
+  badgeTitle: string;
   angle: string;
   src: string;
-  styleClass?: string;
+  stageStyle: string;
+  thumbStyle: string;
   viewType: "front" | "isometric" | "closeup" | "cad";
 }
 
@@ -43,32 +45,41 @@ export function productViewsFor(key: string | null | undefined): ProductViewAngl
     {
       id: "view-front",
       label: "Front View",
-      angle: "0° Studio",
+      badgeTitle: "STUDIO FRONT VIEW",
+      angle: "0° Elevation",
       src: main,
+      stageStyle: "scale-100 rotate-0 brightness-100 contrast-100",
+      thumbStyle: "scale-100 rotate-0",
       viewType: "front",
     },
     {
       id: "view-iso",
-      label: "Isometric 3D",
-      angle: "45° Perspective",
+      label: "3D Isometric",
+      badgeTitle: "3D ISOMETRIC PROFILE",
+      angle: "45° Oblique Angle",
       src: main,
-      styleClass: "scale-105 rotate-1",
+      stageStyle: "scale-110 -rotate-3 scale-x-[-1] drop-shadow-md",
+      thumbStyle: "scale-110 -rotate-3 scale-x-[-1]",
       viewType: "isometric",
     },
     {
       id: "view-detail",
-      label: "Detail Close-Up",
-      angle: "Surface Finish",
+      label: "Macro Detail",
+      badgeTitle: "ZOOMED DETAIL VIEW",
+      angle: "Material Texture",
       src: main,
-      styleClass: "scale-135 object-center",
+      stageStyle: "scale-150 origin-center contrast-105 saturate-110",
+      thumbStyle: "scale-145 origin-center",
       viewType: "closeup",
     },
     {
       id: "view-cad",
       label: "Technical CAD",
-      angle: "Dimensions & Spec",
+      badgeTitle: "CAD BLUEPRINT & SPECS",
+      angle: "Dimension Tolerances",
       src: main,
-      styleClass: "contrast-115 brightness-95",
+      stageStyle: "hue-rotate-180 invert brightness-90 contrast-125 saturate-150",
+      thumbStyle: "hue-rotate-180 invert brightness-90 contrast-125 saturate-150",
       viewType: "cad",
     },
   ];

@@ -71,8 +71,11 @@ function ProductDetail() {
   const fallbackAngle: ProductViewAngle = {
     id: "view-front",
     label: "Front View",
-    angle: "0° Studio",
+    badgeTitle: "STUDIO FRONT VIEW",
+    angle: "0° Elevation",
     src: productImage(product.image_key),
+    stageStyle: "scale-100 rotate-0 brightness-100 contrast-100",
+    thumbStyle: "scale-100 rotate-0",
     viewType: "front",
   };
   const currentAngle: ProductViewAngle =
@@ -175,10 +178,10 @@ function ProductDetail() {
               </div>
 
               {/* Active Angle Badge (Bottom-Right) */}
-              <div className="absolute bottom-4 right-4 z-10 rounded-lg bg-[#0B1736]/80 backdrop-blur-xs border border-white/10 px-2.5 py-1 text-[10px] font-bold text-white uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+              <div className="absolute bottom-4 right-4 z-10 rounded-lg bg-[#0B1736]/90 backdrop-blur-xs border border-white/15 px-3 py-1 text-[10px] font-bold text-white uppercase tracking-wider shadow-sm flex items-center gap-1.5 transition-all">
                 <Sliders className="h-3 w-3 text-[#00AEEF]" />
                 <span>
-                  {currentAngle.label} &bull; {currentAngle.angle}
+                  {currentAngle.badgeTitle} &bull; {currentAngle.angle}
                 </span>
               </div>
 
@@ -201,15 +204,15 @@ function ProductDetail() {
 
               {/* Technical CAD Overlay grid if CAD view is active */}
               {currentAngle.viewType === "cad" && (
-                <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(to_right,#1455D9_1px,transparent_1px),linear-gradient(to_bottom,#1455D9_1px,transparent_1px)] bg-[size:16px_16px] z-5" />
+                <div className="absolute inset-0 pointer-events-none opacity-30 bg-[linear-gradient(to_right,#00AEEF_1px,transparent_1px),linear-gradient(to_bottom,#00AEEF_1px,transparent_1px)] bg-[size:20px_20px] z-5" />
               )}
 
               {/* High-Resolution Main Photo with View Angle Transform */}
               <img
                 src={currentAngle.src}
                 alt={`${product.name} - ${currentAngle.label}`}
-                className={`h-full w-full object-contain transition-all duration-500 group-hover:scale-105 select-none ${
-                  currentAngle.styleClass || ""
+                className={`h-full w-full object-contain transition-all duration-300 ease-in-out select-none ${
+                  currentAngle.stageStyle || ""
                 }`}
               />
             </div>
@@ -224,15 +227,15 @@ function ProductDetail() {
                   className={`relative flex flex-col items-center rounded-xl border-2 overflow-hidden bg-white dark:bg-card p-1.5 transition-all cursor-pointer group ${
                     activeImageIndex === idx
                       ? "border-[#1455D9] shadow-[0_0_12px_rgba(20,85,217,0.25)] scale-102 bg-blue-50/30"
-                      : "border-[#DCE5F2] dark:border-slate-800 opacity-75 hover:opacity-100 hover:border-slate-300"
+                      : "border-[#DCE5F2] dark:border-slate-800 opacity-80 hover:opacity-100 hover:border-slate-300"
                   }`}
                 >
                   <div className="aspect-square w-full overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1 flex items-center justify-center">
                     <img
                       src={view.src}
                       alt={`${product.name} - ${view.label}`}
-                      className={`h-full w-full object-contain transition-transform duration-300 ${
-                        view.styleClass || ""
+                      className={`h-full w-full object-contain transition-all duration-300 ease-in-out ${
+                        view.thumbStyle || ""
                       }`}
                     />
                   </div>

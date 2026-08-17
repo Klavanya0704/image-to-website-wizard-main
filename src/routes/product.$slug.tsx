@@ -29,7 +29,7 @@ import { toast } from "sonner";
 import { productQuery, productsQuery, reviewsQuery, Product } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 import { inr, effectivePrice, discountPercent } from "@/lib/format";
-import { productImage, galleryFor } from "@/lib/product-images";
+import { productImage, productViewsFor, ProductViewAngle } from "@/lib/product-images";
 import { ProductGridSkeleton } from "@/components/site/States";
 
 export const Route = createFileRoute("/product/$slug")({
@@ -67,8 +67,16 @@ function ProductDetail() {
     );
   }
 
-  const gallery = galleryFor(product.image_key);
-  const currentImage = gallery[activeImageIndex] || productImage(product.image_key);
+  const viewAngles = productViewsFor(product.image_key);
+  const fallbackAngle: ProductViewAngle = {
+    id: "view-front",
+    label: "Front View",
+    angle: "0° Studio",
+    src: productImage(product.image_key),
+    viewType: "front",
+  };
+  const currentAngle: ProductViewAngle =
+    viewAngles[activeImageIndex] || viewAngles[0] || fallbackAngle;
   const off = discountPercent(product);
   const wished = isWishlisted(product.id);
   const finalPrice = effectivePrice(product);
@@ -150,11 +158,11 @@ function ProductDetail() {
       {/* 2. Main Product Details Container (2 Columns) */}
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* ================= LEFT COLUMN: Image Gallery (5 Cols) ================= */}
+          {/* ================= LEFT COLUMN: Item-Specific Multi-Angle Image Gallery (5 Cols) ================= */}
           <div className="lg:col-span-5 flex flex-col gap-4 sticky top-24">
-            {/* Main Stage Image with Wishlist Button & Student Discount Overlay */}
+            {/* Main Stage Image with Wishlist Button & Angle Badge */}
             <div className="relative aspect-square w-full rounded-2xl sm:rounded-3xl border border-[#DCE5F2] dark:border-slate-800 bg-white dark:bg-card overflow-hidden p-6 sm:p-8 flex items-center justify-center group shadow-sm">
-              {/* Product Badge */}
+              {/* Product Badges */}
               <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
                 <span className="inline-flex items-center gap-1 rounded-full bg-[#1455D9] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-sm">
                   <Sparkles className="h-3 w-3" /> ACTE LAB CERTIFIED
@@ -164,6 +172,14 @@ function ProductDetail() {
                     BEST SELLER
                   </span>
                 )}
+              </div>
+
+              {/* Active Angle Badge (Bottom-Right) */}
+              <div className="absolute bottom-4 right-4 z-10 rounded-lg bg-[#0B1736]/80 backdrop-blur-xs border border-white/10 px-2.5 py-1 text-[10px] font-bold text-white uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                <Sliders className="h-3 w-3 text-[#00AEEF]" />
+                <span>
+                  {currentAngle.label} &bull; {currentAngle.angle}
+                </span>
               </div>
 
               {/* Wishlist Button */}
@@ -183,31 +199,52 @@ function ProductDetail() {
                 <Heart className={`h-5 w-5 ${wished ? "fill-[#1455D9] text-[#1455D9]" : ""}`} />
               </button>
 
-              {/* High-Resolution Main Photo */}
+              {/* Technical CAD Overlay grid if CAD view is active */}
+              {currentAngle.viewType === "cad" && (
+                <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(to_right,#1455D9_1px,transparent_1px),linear-gradient(to_bottom,#1455D9_1px,transparent_1px)] bg-[size:16px_16px] z-5" />
+              )}
+
+              {/* High-Resolution Main Photo with View Angle Transform */}
               <img
-                src={currentImage}
-                alt={product.name}
-                className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105 select-none"
+                src={currentAngle.src}
+                alt={`${product.name} - ${currentAngle.label}`}
+                className={`h-full w-full object-contain transition-all duration-500 group-hover:scale-105 select-none ${
+                  currentAngle.styleClass || ""
+                }`}
               />
             </div>
 
-            {/* Thumbnail Carousel Row */}
-            <div className="grid grid-cols-4 gap-3">
-              {gallery.map((thumb, idx) => (
+            {/* Product-Specific Multi-Angle Thumbnail Row */}
+            <div className="grid grid-cols-4 gap-2.5 sm:gap-3">
+              {viewAngles.map((view, idx) => (
                 <button
-                  key={idx}
+                  key={view.id}
+                  type="button"
                   onClick={() => setActiveImageIndex(idx)}
-                  className={`relative aspect-square rounded-xl border-2 overflow-hidden bg-white dark:bg-card p-1.5 transition-all cursor-pointer ${
+                  className={`relative flex flex-col items-center rounded-xl border-2 overflow-hidden bg-white dark:bg-card p-1.5 transition-all cursor-pointer group ${
                     activeImageIndex === idx
-                      ? "border-[#1455D9] shadow-[0_0_12px_rgba(20,85,217,0.25)] scale-102"
-                      : "border-[#DCE5F2] dark:border-slate-800 opacity-70 hover:opacity-100"
+                      ? "border-[#1455D9] shadow-[0_0_12px_rgba(20,85,217,0.25)] scale-102 bg-blue-50/30"
+                      : "border-[#DCE5F2] dark:border-slate-800 opacity-75 hover:opacity-100 hover:border-slate-300"
                   }`}
                 >
-                  <img
-                    src={thumb}
-                    alt={`${product.name} view ${idx + 1}`}
-                    className="h-full w-full object-contain"
-                  />
+                  <div className="aspect-square w-full overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1 flex items-center justify-center">
+                    <img
+                      src={view.src}
+                      alt={`${product.name} - ${view.label}`}
+                      className={`h-full w-full object-contain transition-transform duration-300 ${
+                        view.styleClass || ""
+                      }`}
+                    />
+                  </div>
+                  <span
+                    className={`mt-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-tight truncate w-full text-center ${
+                      activeImageIndex === idx
+                        ? "text-[#1455D9]"
+                        : "text-[#52627A] dark:text-slate-400"
+                    }`}
+                  >
+                    {view.label}
+                  </span>
                 </button>
               ))}
             </div>

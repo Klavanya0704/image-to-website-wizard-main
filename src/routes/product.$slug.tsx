@@ -32,6 +32,7 @@ import { useStore } from "@/lib/store";
 import { inr, effectivePrice, discountPercent } from "@/lib/format";
 import { productImage, productViewsFor, ProductViewAngle } from "@/lib/product-images";
 import { ProductGridSkeleton } from "@/components/site/States";
+import { CadBlueprintView } from "@/components/site/CadBlueprintView";
 
 export const Route = createFileRoute("/product/$slug")({
   component: ProductDetail,
@@ -284,30 +285,36 @@ function ProductDetail() {
                     key={view.id}
                     onClick={() => setActiveImageIndex(idx)}
                     style={style}
-                    className="absolute inset-x-3 inset-y-2 sm:inset-x-4 sm:inset-y-3 rounded-xl sm:rounded-2xl bg-white dark:bg-card border border-[#DCE5F2] dark:border-slate-800 p-4 sm:p-6 flex items-center justify-center overflow-hidden transition-all duration-450 ease-[cubic-bezier(0.34,1.56,0.64,1)] group"
+                    className={`absolute inset-x-3 inset-y-2 sm:inset-x-4 sm:inset-y-3 rounded-xl sm:rounded-2xl border border-[#DCE5F2] dark:border-slate-800 flex items-center justify-center overflow-hidden transition-all duration-450 ease-[cubic-bezier(0.34,1.56,0.64,1)] group ${
+                      view.viewType === "cad"
+                        ? "bg-[#07132B] p-0"
+                        : "bg-white dark:bg-card p-4 sm:p-6"
+                    }`}
                   >
-                    {/* CAD Blueprint Grid Overlay if CAD active card */}
-                    {view.viewType === "cad" && isActive && (
-                      <div className="absolute inset-0 pointer-events-none opacity-30 bg-[linear-gradient(to_right,#00AEEF_1px,transparent_1px),linear-gradient(to_bottom,#00AEEF_1px,transparent_1px)] bg-[size:16px_16px] z-5" />
-                    )}
+                    {/* Render Real Vector CAD Blueprint Component or Photo Asset */}
+                    {view.viewType === "cad" ? (
+                      <CadBlueprintView product={product} />
+                    ) : (
+                      <>
+                        {/* Image with specific perspective style */}
+                        <img
+                          src={view.src}
+                          alt={`${product.name} - ${view.label}`}
+                          className={`h-full max-h-[300px] sm:max-h-[340px] w-auto object-contain transition-all duration-300 select-none ${
+                            isActive ? view.stageStyle : view.thumbStyle
+                          }`}
+                        />
 
-                    {/* Image with specific perspective style */}
-                    <img
-                      src={view.src}
-                      alt={`${product.name} - ${view.label}`}
-                      className={`h-full max-h-[300px] sm:max-h-[340px] w-auto object-contain transition-all duration-300 select-none ${
-                        isActive ? view.stageStyle : view.thumbStyle
-                      }`}
-                    />
-
-                    {/* Active Floating Label inside Active Card */}
-                    {isActive && (
-                      <div className="absolute bottom-2.5 right-2.5 z-10 rounded-lg bg-[#0B1736]/90 backdrop-blur-xs border border-white/15 px-2.5 py-0.5 text-[9px] sm:text-[10px] font-bold text-white uppercase tracking-wider shadow-sm flex items-center gap-1.5">
-                        <Sliders className="h-3 w-3 text-[#00AEEF]" />
-                        <span>
-                          {view.badgeTitle} &bull; {view.angle}
-                        </span>
-                      </div>
+                        {/* Active Floating Label inside Active Card */}
+                        {isActive && (
+                          <div className="absolute bottom-2.5 right-2.5 z-10 rounded-lg bg-[#0B1736]/90 backdrop-blur-xs border border-white/15 px-2.5 py-0.5 text-[9px] sm:text-[10px] font-bold text-white uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                            <Sliders className="h-3 w-3 text-[#00AEEF]" />
+                            <span>
+                              {view.badgeTitle} &bull; {view.angle}
+                            </span>
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                 );

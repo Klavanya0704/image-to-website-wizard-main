@@ -78,8 +78,8 @@ export function productViewsFor(key: string | null | undefined): ProductViewAngl
       badgeTitle: "CAD BLUEPRINT & SPECS",
       angle: "Dimension Tolerances",
       src: main,
-      stageStyle: "hue-rotate-180 invert brightness-90 contrast-125 saturate-150",
-      thumbStyle: "hue-rotate-180 invert brightness-90 contrast-125 saturate-150",
+      stageStyle: "",
+      thumbStyle: "brightness-95 contrast-110",
       viewType: "cad",
     },
   ];

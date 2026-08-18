@@ -19,6 +19,12 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import {
+  StationVisual3DPrinting,
+  StationVisualLaserCutting,
+  StationVisualCNC,
+  StationVisualPCB,
+} from "@/components/site/StationVisuals";
 
 export const Route = createFileRoute("/makerspace")({
   head: () => ({
@@ -42,10 +48,11 @@ const LAB_STATIONS = [
       "Industrial FDM & SLA high-resolution polymer printing. Choose from PLA, ABS, PETG, TPU, or engineering resin for functional prototypes and enclosures.",
     turnaround: "24-48 Hours",
     icon: Printer,
+    visual: StationVisual3DPrinting,
     formats: ".STL, .OBJ, .3MF, .STEP",
     precision: "±0.05mm",
     color: "from-blue-500/10 to-indigo-500/10 border-blue-200 dark:border-blue-900/50",
-    badgeColor: "bg-blue-600 text-white",
+    badgeColor: "bg-[#1455D9] text-white",
   },
   {
     id: "laser-cutting",
@@ -54,6 +61,7 @@ const LAB_STATIONS = [
       "High-precision laser cutting and vector engraving for acrylic, birch plywood, MDF, fabric, and leather. Mirror finish edges with high repeatability.",
     turnaround: "Same Day / 24 Hours",
     icon: Scissors,
+    visual: StationVisualLaserCutting,
     formats: ".DXF, .SVG, .AI, .PDF",
     precision: "±0.1mm",
     color: "from-rose-500/10 to-orange-500/10 border-rose-200 dark:border-rose-900/50",
@@ -66,6 +74,7 @@ const LAB_STATIONS = [
       "High-torque CNC routing and precision milling for soft metals (6061-T6 Aluminum, Brass), Delrin plastics, and structural composites.",
     turnaround: "2-4 Business Days",
     icon: Settings,
+    visual: StationVisualCNC,
     formats: ".STEP, .IGES, .DXF",
     precision: "±0.02mm",
     color: "from-amber-500/10 to-yellow-500/10 border-amber-200 dark:border-amber-900/50",
@@ -78,6 +87,7 @@ const LAB_STATIONS = [
       "Rapid single and double-sided printed circuit board milling, surface-mount soldering stations, and full firmware testing bench.",
     turnaround: "48-72 Hours",
     icon: Cpu,
+    visual: StationVisualPCB,
     formats: ".GERBER, .ZIP, .BRD",
     precision: "6mil Trace/Space",
     color: "from-emerald-500/10 to-teal-500/10 border-emerald-200 dark:border-emerald-900/50",
@@ -193,35 +203,41 @@ function MakerspacePage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {LAB_STATIONS.map((st) => {
-            const Icon = st.icon;
             const isSelected = selectedStation === st.id;
+            const VisualComponent = st.visual;
+
             return (
               <div
                 key={st.id}
                 onClick={() => setSelectedStation(st.id)}
-                className={`group relative flex flex-col justify-between rounded-2xl border bg-white dark:bg-card p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl cursor-pointer ${
+                className={`group relative flex flex-col justify-between rounded-2xl border bg-white dark:bg-card p-5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl cursor-pointer ${
                   isSelected
                     ? "border-[#1455D9] ring-4 ring-[#1455D9]/20 shadow-md"
                     : "border-[#DCE5F2] dark:border-slate-800"
                 }`}
               >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#EBF2FE] dark:bg-blue-950/60 text-[#1455D9]">
-                      <Icon className="h-6 w-6" />
+                <div className="space-y-3">
+                  {/* Dynamic SVG Visual Header */}
+                  <div className="relative h-32 sm:h-36 w-full rounded-xl overflow-hidden bg-gradient-to-b from-slate-100/90 via-slate-50/60 to-transparent dark:from-slate-800/50 dark:via-slate-900/30 dark:to-transparent border border-slate-200/50 dark:border-slate-800/50 p-2 flex items-center justify-center">
+                    <div className="w-full h-full transform group-hover:scale-105 transition-transform duration-500 ease-out">
+                      <VisualComponent />
                     </div>
-                    <span
-                      className={`rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider ${st.badgeColor}`}
-                    >
-                      {st.turnaround}
-                    </span>
+
+                    {/* Turnaround Badge */}
+                    <div className="absolute top-2.5 right-2.5 z-10">
+                      <span
+                        className={`rounded-full px-2.5 py-0.5 text-[9px] sm:text-[10px] font-black uppercase tracking-wider shadow-xs ${st.badgeColor}`}
+                      >
+                        {st.turnaround}
+                      </span>
+                    </div>
                   </div>
 
                   <div>
                     <h3 className="text-base font-black text-[#0B1736] dark:text-white group-hover:text-[#1455D9] transition-colors">
                       {st.title}
                     </h3>
-                    <p className="text-xs text-[#52627A] dark:text-slate-400 mt-2 leading-relaxed">
+                    <p className="text-xs text-[#52627A] dark:text-slate-400 mt-1.5 leading-relaxed line-clamp-3">
                       {st.description}
                     </p>
                   </div>

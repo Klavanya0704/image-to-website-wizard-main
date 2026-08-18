@@ -36,15 +36,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-// Row 2 Category Navigation configuration: Compact horizontal [icon] Label system
+// Row 2 Category Navigation Configuration: Clean [icon] Label pairs on a single horizontal line
 const CATEGORIES = [
   {
     id: "home",
     name: "Home",
     to: "/",
     icon: Home,
-    iconColor: "text-[#1455D9]",
-    bgTint: "bg-blue-50 dark:bg-blue-950/40 text-[#1455D9]",
   },
   {
     id: "3d-printing",
@@ -52,8 +50,6 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "3d-printing" },
     icon: Box,
-    iconColor: "text-cyan-600 dark:text-cyan-400",
-    bgTint: "bg-cyan-50 dark:bg-cyan-950/40 text-cyan-600 dark:text-cyan-400",
   },
   {
     id: "laser-cutting",
@@ -61,8 +57,6 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "laser-cutting" },
     icon: Scissors,
-    iconColor: "text-rose-500 dark:text-rose-400",
-    bgTint: "bg-rose-50 dark:bg-rose-950/40 text-rose-500 dark:text-rose-400",
   },
   {
     id: "cnc-machining",
@@ -70,8 +64,6 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "cnc-machining" },
     icon: Settings,
-    iconColor: "text-sky-600 dark:text-sky-400",
-    bgTint: "bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400",
   },
   {
     id: "electronics",
@@ -79,8 +71,6 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "electronics" },
     icon: Cpu,
-    iconColor: "text-emerald-600 dark:text-emerald-400",
-    bgTint: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400",
   },
   {
     id: "drones-parts",
@@ -88,8 +78,6 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "drones-parts" },
     icon: Plane,
-    iconColor: "text-purple-600 dark:text-purple-400",
-    bgTint: "bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400",
   },
   {
     id: "acrylic-products",
@@ -97,8 +85,6 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "acrylic-products" },
     icon: Layers,
-    iconColor: "text-indigo-600 dark:text-indigo-400",
-    bgTint: "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400",
   },
   {
     id: "diy-kits",
@@ -106,8 +92,6 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "diy-kits" },
     icon: Gift,
-    iconColor: "text-amber-600 dark:text-amber-400",
-    bgTint: "bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400",
   },
 ];
 
@@ -152,7 +136,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 w-full bg-white dark:bg-card border-b border-[#DCE5F2]/90 dark:border-border shadow-xs">
       {/* =========================================================================
-          ROW 1 — MAIN HEADER (Clean, Lightweight 72px Bar)
+          ROW 1 — MAIN HEADER (72px Bar: Logo, Toggle, Search, Account, Cart)
          ========================================================================= */}
       <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 h-[72px]">
         {/* Mobile Hamburger Drawer */}
@@ -371,11 +355,11 @@ export function Header() {
       </div>
 
       {/* =========================================================================
-          ROW 2 — COMPACT CATEGORY NAVIGATION (Horizontal [Icon] Label system)
+          ROW 2 — CLEAN HORIZONTAL CATEGORY NAVIGATION (54px: [icon] Category Name)
          ========================================================================= */}
-      <div className="border-t border-[#E2E8F0] dark:border-border/80 bg-white dark:bg-card h-[52px] flex items-center">
+      <div className="border-t border-[#E2E8F0] dark:border-border/80 bg-white dark:bg-card h-[54px] flex items-center">
         <div className="mx-auto flex w-full max-w-[1400px] items-center px-4 sm:px-6 h-full">
-          <nav className="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-center gap-1 sm:gap-2 lg:gap-3 h-full">
+          <nav className="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-center gap-4 sm:gap-6 lg:gap-8 xl:gap-10 h-full">
             {CATEGORIES.map((cat) => {
               const IconComp = cat.icon;
               const isCatActive =
@@ -388,29 +372,25 @@ export function Header() {
                   key={cat.id}
                   to={cat.to as any}
                   params={cat.params as any}
-                  className={`group relative flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer shrink-0 ${
+                  className={`group relative flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-sm transition-all duration-200 cursor-pointer shrink-0 whitespace-nowrap ${
                     isCatActive
-                      ? "bg-blue-50/90 dark:bg-blue-950/40 text-[#1455D9] dark:text-blue-400 font-bold"
-                      : "text-[#52627A] dark:text-slate-300 hover:text-[#1455D9] hover:bg-[#F3F7FF] dark:hover:bg-slate-800/60"
+                      ? "text-[#1455D9] font-bold"
+                      : "text-[#263653] dark:text-slate-200 font-semibold hover:text-[#1455D9] hover:bg-[#F4F8FF] dark:hover:bg-slate-800/60"
                   }`}
                 >
-                  {/* Compact Line Icon Badge with Subtle Accent Background */}
-                  <div
-                    className={`h-6 w-6 sm:h-7 sm:w-7 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover:scale-110 ${
-                      isCatActive
-                        ? "bg-[#1455D9]/15 text-[#1455D9]"
-                        : `${cat.bgTint} ${cat.iconColor}`
+                  {/* Clean, Small Line Icon (18-20px) directly beside text without any circle wrapper */}
+                  <IconComp
+                    className={`h-[18px] w-[18px] transition-colors shrink-0 ${
+                      isCatActive ? "text-[#1455D9]" : "text-[#52627A] group-hover:text-[#1455D9]"
                     }`}
-                  >
-                    <IconComp className="h-3.5 w-3.5 sm:h-4 sm:w-4 stroke-[2.2]" />
-                  </div>
+                  />
 
-                  {/* Category Name Label */}
-                  <span className="whitespace-nowrap">{cat.name}</span>
+                  {/* Category Name (14-15px) */}
+                  <span className="leading-none">{cat.name}</span>
 
-                  {/* Clean Blue Underline Indicator for Active State */}
+                  {/* Clean 3px Blue Underline Indicator directly under active item */}
                   {isCatActive && (
-                    <span className="absolute -bottom-[8px] left-3 right-3 h-[2.5px] bg-[#1455D9] rounded-full shadow-xs" />
+                    <span className="absolute -bottom-[9px] left-1 right-1 h-[3px] bg-[#1455D9] rounded-full shadow-2xs" />
                   )}
                 </Link>
               );

@@ -48,10 +48,11 @@ const LAB_STATIONS = [
       "Industrial FDM & SLA high-resolution polymer printing. Choose from PLA, ABS, PETG, TPU, or engineering resin for functional prototypes and enclosures.",
     turnaround: "24-48 Hours",
     icon: Printer,
-    visual: StationVisual3DPrinting,
+    image: "/images/stations/3d-printing.jpg",
+    fallbackImage:
+      "https://images.unsplash.com/photo-1631556097152-c39479bbf9f3?auto=format&fit=crop&w=800&q=80",
     formats: ".STL, .OBJ, .3MF, .STEP",
     precision: "±0.05mm",
-    color: "from-blue-500/10 to-indigo-500/10 border-blue-200 dark:border-blue-900/50",
     badgeColor: "bg-[#1455D9] text-white",
   },
   {
@@ -61,10 +62,11 @@ const LAB_STATIONS = [
       "High-precision laser cutting and vector engraving for acrylic, birch plywood, MDF, fabric, and leather. Mirror finish edges with high repeatability.",
     turnaround: "Same Day / 24 Hours",
     icon: Scissors,
-    visual: StationVisualLaserCutting,
+    image: "/images/stations/laser-cutting.jpg",
+    fallbackImage:
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
     formats: ".DXF, .SVG, .AI, .PDF",
     precision: "±0.1mm",
-    color: "from-rose-500/10 to-orange-500/10 border-rose-200 dark:border-rose-900/50",
     badgeColor: "bg-rose-600 text-white",
   },
   {
@@ -74,10 +76,11 @@ const LAB_STATIONS = [
       "High-torque CNC routing and precision milling for soft metals (6061-T6 Aluminum, Brass), Delrin plastics, and structural composites.",
     turnaround: "2-4 Business Days",
     icon: Settings,
-    visual: StationVisualCNC,
+    image: "/images/stations/cnc-machining.jpg",
+    fallbackImage:
+      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
     formats: ".STEP, .IGES, .DXF",
     precision: "±0.02mm",
-    color: "from-amber-500/10 to-yellow-500/10 border-amber-200 dark:border-amber-900/50",
     badgeColor: "bg-amber-600 text-white",
   },
   {
@@ -87,10 +90,11 @@ const LAB_STATIONS = [
       "Rapid single and double-sided printed circuit board milling, surface-mount soldering stations, and full firmware testing bench.",
     turnaround: "48-72 Hours",
     icon: Cpu,
-    visual: StationVisualPCB,
+    image: "/images/stations/pcb-prototype.jpg",
+    fallbackImage:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
     formats: ".GERBER, .ZIP, .BRD",
     precision: "6mil Trace/Space",
-    color: "from-emerald-500/10 to-teal-500/10 border-emerald-200 dark:border-emerald-900/50",
     badgeColor: "bg-emerald-600 text-white",
   },
 ];
@@ -204,70 +208,90 @@ function MakerspacePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {LAB_STATIONS.map((st) => {
             const isSelected = selectedStation === st.id;
-            const VisualComponent = st.visual;
+            const Icon = st.icon;
 
             return (
               <div
                 key={st.id}
                 onClick={() => setSelectedStation(st.id)}
-                className={`group relative flex flex-col justify-between rounded-2xl border bg-white dark:bg-card p-5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl cursor-pointer ${
+                className={`group relative flex flex-col justify-between rounded-2xl border bg-white dark:bg-card overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer ${
                   isSelected
-                    ? "border-[#1455D9] ring-4 ring-[#1455D9]/20 shadow-md"
+                    ? "border-[#1455D9] ring-4 ring-[#1455D9]/25 shadow-lg"
                     : "border-[#DCE5F2] dark:border-slate-800"
                 }`}
               >
-                <div className="space-y-3">
-                  {/* Dynamic SVG Visual Header */}
-                  <div className="relative h-32 sm:h-36 w-full rounded-xl overflow-hidden bg-gradient-to-b from-slate-100/90 via-slate-50/60 to-transparent dark:from-slate-800/50 dark:via-slate-900/30 dark:to-transparent border border-slate-200/50 dark:border-slate-800/50 p-2 flex items-center justify-center">
-                    <div className="w-full h-full transform group-hover:scale-105 transition-transform duration-500 ease-out">
-                      <VisualComponent />
-                    </div>
+                {/* 1. Full-Width Aspect-Ratio Realistic Photo Header */}
+                <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
+                  <img
+                    src={st.image}
+                    alt={st.title}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = st.fallbackImage;
+                    }}
+                    className="h-full w-full object-cover object-center group-hover:scale-108 transition-transform duration-700 ease-out"
+                    loading="lazy"
+                  />
 
-                    {/* Turnaround Badge */}
-                    <div className="absolute top-2.5 right-2.5 z-10">
-                      <span
-                        className={`rounded-full px-2.5 py-0.5 text-[9px] sm:text-[10px] font-black uppercase tracking-wider shadow-xs ${st.badgeColor}`}
-                      >
-                        {st.turnaround}
-                      </span>
-                    </div>
-                  </div>
+                  {/* Gradient Shadow Overlay for Smooth Text Transition */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1736]/90 via-[#0B1736]/20 to-transparent" />
 
-                  <div>
-                    <h3 className="text-base font-black text-[#0B1736] dark:text-white group-hover:text-[#1455D9] transition-colors">
-                      {st.title}
-                    </h3>
-                    <p className="text-xs text-[#52627A] dark:text-slate-400 mt-1.5 leading-relaxed line-clamp-3">
-                      {st.description}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-[#DCE5F2]/60 dark:border-slate-800/60 space-y-2">
-                  <div className="flex items-center justify-between text-[11px] font-semibold text-[#52627A] dark:text-slate-400">
-                    <span>Precision:</span>
-                    <span className="font-bold text-[#0B1736] dark:text-white">{st.precision}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-[11px] font-semibold text-[#52627A] dark:text-slate-400">
-                    <span>Formats:</span>
-                    <span className="font-bold text-[#1455D9] truncate max-w-[140px]">
-                      {st.formats}
+                  {/* Turnaround Badge */}
+                  <div className="absolute top-3 right-3 z-10">
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-[9px] sm:text-[10px] font-black uppercase tracking-wider shadow-md ${st.badgeColor}`}
+                    >
+                      {st.turnaround}
                     </span>
                   </div>
 
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleSelectStation(st.id);
-                    }}
-                    className={`w-full mt-3 flex items-center justify-center gap-1.5 rounded-xl py-2 text-xs font-bold transition-all ${
-                      isSelected
-                        ? "bg-[#1455D9] text-white"
-                        : "bg-slate-100 dark:bg-slate-800 text-[#0B1736] dark:text-white hover:bg-[#1455D9] hover:text-white"
-                    }`}
-                  >
-                    <span>{isSelected ? "Station Selected ✓" : "Request Fabrication"}</span>
-                  </button>
+                  {/* Station Icon Pill on Top-Left */}
+                  <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-bold text-[#0B1736] dark:text-white shadow-sm">
+                    <Icon className="h-3.5 w-3.5 text-[#1455D9]" />
+                    <span className="truncate max-w-[120px]">{st.title.split("&")[0]}</span>
+                  </div>
+
+                  {/* Floating Title on bottom edge of image */}
+                  <div className="absolute bottom-3 left-4 right-4 z-10">
+                    <h3 className="text-base font-black text-white leading-tight drop-shadow-sm group-hover:text-[#00E5FF] transition-colors">
+                      {st.title}
+                    </h3>
+                  </div>
+                </div>
+
+                {/* 2. Card Body Content */}
+                <div className="p-5 flex flex-col justify-between flex-1 space-y-4">
+                  <p className="text-xs text-[#52627A] dark:text-slate-400 leading-relaxed line-clamp-3">
+                    {st.description}
+                  </p>
+
+                  <div className="pt-3 border-t border-[#DCE5F2]/70 dark:border-slate-800/70 space-y-2">
+                    <div className="flex items-center justify-between text-[11px] font-semibold text-[#52627A] dark:text-slate-400">
+                      <span>Precision:</span>
+                      <span className="font-bold text-[#0B1736] dark:text-white">
+                        {st.precision}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] font-semibold text-[#52627A] dark:text-slate-400">
+                      <span>Formats:</span>
+                      <span className="font-bold text-[#1455D9] truncate max-w-[140px]">
+                        {st.formats}
+                      </span>
+                    </div>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSelectStation(st.id);
+                      }}
+                      className={`w-full mt-3 flex items-center justify-center gap-1.5 rounded-xl py-2 text-xs font-bold transition-all ${
+                        isSelected
+                          ? "bg-[#1455D9] text-white shadow-xs"
+                          : "bg-slate-100 dark:bg-slate-800 text-[#0B1736] dark:text-white hover:bg-[#1455D9] hover:text-white"
+                      }`}
+                    >
+                      <span>{isSelected ? "Station Selected ✓" : "Request Fabrication"}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             );

@@ -325,12 +325,104 @@
   animation: shimmerSweep 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
+@keyframes nozzleSweep {
+  0%,
+  100% {
+    left: 22%;
+    top: 38%;
+  }
+  50% {
+    left: 72%;
+    top: 42%;
+  }
+}
+
+.animate-nozzle-sweep {
+  animation: nozzleSweep 3.5s ease-in-out infinite;
+}
+
+@keyframes printRayPulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scaleX(0.9);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scaleX(1.15);
+  }
+}
+
+.animate-print-ray {
+  animation: printRayPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes laserOrbit {
+  0% {
+    left: 48%;
+    top: 50%;
+  }
+  25% {
+    left: 64%;
+    top: 62%;
+  }
+  50% {
+    left: 52%;
+    top: 74%;
+  }
+  75% {
+    left: 36%;
+    top: 64%;
+  }
+  100% {
+    left: 48%;
+    top: 50%;
+  }
+}
+
+.animate-laser-orbit {
+  animation: laserOrbit 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes spindleSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spindle-fast {
+  animation: spindleSpin 0.25s linear infinite;
+}
+
+@keyframes pcbTracePulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    filter: drop-shadow(0 0 2px #00e5ff);
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px #00e5ff);
+  }
+}
+
+.animate-pcb-pulse {
+  animation: pcbTracePulse 1.8s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-hero-float,
   .animate-hero-float-reverse,
   .animate-hero-product,
   .animate-hero-glow,
-  .animate-hero-particle {
+  .animate-hero-particle,
+  .animate-nozzle-sweep,
+  .animate-laser-orbit,
+  .animate-spindle-fast,
+  .animate-pcb-pulse {
     animation: none !important;
     transform: none !important;
   }

@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useRef } from "react";
+import { motion } from "framer-motion";
 import {
   Printer,
   Scissors,
@@ -19,12 +20,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import {
-  StationVisual3DPrinting,
-  StationVisualLaserCutting,
-  StationVisualCNC,
-  StationVisualPCB,
-} from "@/components/site/StationVisuals";
 
 export const Route = createFileRoute("/makerspace")({
   head: () => ({
@@ -190,7 +185,7 @@ function MakerspacePage() {
         </div>
       </section>
 
-      {/* 2. Lab Stations Grid */}
+      {/* 2. Lab Stations Grid with Staggered Framer Motion Entry */}
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6 space-y-6">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-bold uppercase tracking-wider text-[#1455D9]">
@@ -206,13 +201,21 @@ function MakerspacePage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {LAB_STATIONS.map((st) => {
+          {LAB_STATIONS.map((st, idx) => {
             const isSelected = selectedStation === st.id;
             const Icon = st.icon;
 
             return (
-              <div
+              <motion.div
                 key={st.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: idx * 0.1,
+                  type: "spring",
+                  stiffness: 220,
+                  damping: 20,
+                }}
                 onClick={() => setSelectedStation(st.id)}
                 className={`group relative flex flex-col justify-between rounded-2xl border bg-white dark:bg-card overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-2.5 hover:shadow-2xl cursor-pointer ${
                   isSelected
@@ -220,7 +223,7 @@ function MakerspacePage() {
                     : "border-[#DCE5F2] dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-800"
                 }`}
               >
-                {/* 1. Full-Width Aspect-Ratio Realistic Photo Header with Dynamic Shimmer Sweep */}
+                {/* 1. Full-Width Aspect-Ratio Realistic Photo Header with Dynamic Shimmer Sweep & Live Working Simulation Overlays */}
                 <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
                   <img
                     src={st.image}
@@ -234,6 +237,60 @@ function MakerspacePage() {
 
                   {/* Diagonal Shimmer Light Sweep on Hover */}
                   <div className="pointer-events-none absolute inset-0 -translate-x-full group-hover:animate-shimmer-sweep bg-gradient-to-r from-transparent via-white/30 to-transparent z-15" />
+
+                  {/* ACTIVE WORKING OVERLAY 1: 3D Printing Nozzle Extrusion & Slicing Scan Line */}
+                  {st.id === "3d-printing" && (
+                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
+                      {/* Moving Extrusion Toolhead Pin */}
+                      <div className="absolute -translate-x-1/2 -translate-y-1/2 animate-nozzle-sweep flex flex-col items-center">
+                        <div className="h-3.5 w-3.5 rounded-full bg-[#00E5FF] shadow-[0_0_14px_#00E5FF] ring-2 ring-white" />
+                        <div className="h-4 w-0.5 bg-gradient-to-b from-[#00E5FF] to-transparent animate-pulse" />
+                      </div>
+                      {/* Glowing Extruded Layer Line */}
+                      <div className="absolute left-[20%] top-[40%] right-[20%] h-[2px] bg-gradient-to-r from-[#00E5FF]/20 via-[#00E5FF] to-[#00E5FF]/20 shadow-[0_0_12px_#00E5FF] animate-print-ray" />
+                    </div>
+                  )}
+
+                  {/* ACTIVE WORKING OVERLAY 2: CO2 Laser Focal Spot & Spark Discharge */}
+                  {st.id === "laser-cutting" && (
+                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
+                      {/* Tracing Laser Focal Spot */}
+                      <div className="absolute -translate-x-1/2 -translate-y-1/2 animate-laser-orbit flex items-center justify-center">
+                        <div className="absolute h-8 w-8 rounded-full bg-red-500/25 animate-ping" />
+                        <div className="h-3 w-3 rounded-full bg-[#FF0033] shadow-[0_0_16px_#FF0000] ring-2 ring-white" />
+                        {/* Spark Particles */}
+                        <span className="absolute -top-2 -right-2 h-1.5 w-1.5 rounded-full bg-amber-300 animate-ping [animation-duration:0.6s]" />
+                        <span className="absolute -bottom-1 -left-2 h-1 w-1 rounded-full bg-orange-400 animate-ping [animation-duration:0.8s]" />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ACTIVE WORKING OVERLAY 3: High-Speed CNC Spindle Rotation & Metal Sparks */}
+                  {st.id === "cnc-machining" && (
+                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
+                      <div className="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                        {/* Fast Rotational Velocity Disc */}
+                        <div className="h-10 w-10 rounded-full border border-dashed border-[#00E5FF] animate-spindle-fast opacity-75 shadow-[0_0_12px_rgba(0,229,255,0.4)]" />
+                        <div className="absolute h-3 w-3 rounded-full bg-amber-400 shadow-[0_0_10px_#F59E0B]" />
+                        {/* Flying Metallic Sparks */}
+                        <span className="absolute -top-3 right-4 h-1.5 w-1.5 rounded-full bg-amber-200 animate-ping [animation-duration:0.4s]" />
+                        <span className="absolute -bottom-2 -left-3 h-1 w-1 rounded-full bg-white animate-ping [animation-duration:0.5s]" />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ACTIVE WORKING OVERLAY 4: PCB Trace Pulses & Blinking Microchip LED */}
+                  {st.id === "pcb-prototype" && (
+                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
+                      {/* Pulsing Cyan Circuit Wave Lines */}
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_50%,rgba(0,229,255,0.25)_0%,transparent_65%)] animate-pcb-pulse" />
+                      {/* Blinking Green IC Status LED */}
+                      <div className="absolute left-[62%] top-[48%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                        <span className="animate-ping absolute inline-flex h-3.5 w-3.5 rounded-full bg-[#10B981] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981] shadow-[0_0_8px_#10B981]"></span>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Gradient Shadow Overlay for Smooth Text Transition */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0B1736]/90 via-[#0B1736]/25 to-transparent z-10" />
@@ -297,7 +354,7 @@ function MakerspacePage() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

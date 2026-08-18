@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Active3DPrinterAnimation } from "@/components/site/Active3DPrinterAnimation";
 
 export const Route = createFileRoute("/makerspace")({
   head: () => ({
@@ -223,30 +224,22 @@ function MakerspacePage() {
                     : "border-[#DCE5F2] dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-800"
                 }`}
               >
-                {/* 1. Dedicated Full-Width Image Header (h-48 w-full object-cover rounded-t-xl) */}
+                {/* 1. Dedicated Full-Width Image / Simulation Header (h-48 w-full object-cover rounded-t-xl) */}
                 <div className="relative h-48 w-full overflow-hidden rounded-t-xl group bg-slate-950">
-                  <img
-                    src={st.image}
-                    alt={st.title}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = st.fallbackImage;
-                    }}
-                    className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                    loading="lazy"
-                  />
-
-                  {/* ACTIVE FABRICATION MOTION OVERLAY 1: 3D Printing Scanner Line & Nozzle Crosshair */}
-                  {st.id === "3d-printing" && (
-                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      {/* Horizontal Animated Scanner Line over Blue Vase */}
-                      <div className="absolute left-0 right-0 h-[2.5px] bg-cyan-400/80 shadow-[0_0_12px_#00AEEF] animate-vertical-scan">
-                        <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                          <div className="h-4 w-4 rounded-full border-2 border-cyan-300 ring-2 ring-cyan-400/40 flex items-center justify-center animate-pulse">
-                            <div className="h-1.5 w-1.5 bg-white rounded-full shadow-[0_0_6px_#FFFFFF]" />
-                          </div>
-                        </div>
-                      </div>
+                  {st.id === "3d-printing" ? (
+                    <div className="h-full w-full group-hover:scale-105 transition-transform duration-500 ease-out">
+                      <Active3DPrinterAnimation />
                     </div>
+                  ) : (
+                    <img
+                      src={st.image}
+                      alt={st.title}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = st.fallbackImage;
+                      }}
+                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      loading="lazy"
+                    />
                   )}
 
                   {/* ACTIVE FABRICATION MOTION OVERLAY 2: Pulsing Red Target Laser Focal Point on Mandala */}

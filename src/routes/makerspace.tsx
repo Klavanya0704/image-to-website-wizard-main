@@ -43,9 +43,9 @@ const LAB_STATIONS = [
       "Industrial FDM & SLA high-resolution polymer printing. Choose from PLA, ABS, PETG, TPU, or engineering resin for functional prototypes and enclosures.",
     turnaround: "24-48 Hours",
     icon: Printer,
-    image: "/images/stations/makerspace-stations-collage.jpg",
+    image:
+      "https://images.unsplash.com/photo-1631556097152-c39479bbf9f3?auto=format&fit=crop&w=800&q=80",
     fallbackImage: "/images/stations/3d-printing.jpg",
-    objectPosition: "top left",
     formats: ".STL, .OBJ, .3MF, .STEP",
     precision: "±0.05mm",
     badgeColor: "bg-[#1455D9] text-white",
@@ -57,9 +57,9 @@ const LAB_STATIONS = [
       "High-precision laser cutting and vector engraving for acrylic, birch plywood, MDF, fabric, and leather. Mirror finish edges with high repeatability.",
     turnaround: "Same Day / 24 Hours",
     icon: Scissors,
-    image: "/images/stations/makerspace-stations-collage.jpg",
+    image:
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
     fallbackImage: "/images/stations/laser-cutting.jpg",
-    objectPosition: "top right",
     formats: ".DXF, .SVG, .AI, .PDF",
     precision: "±0.1mm",
     badgeColor: "bg-rose-600 text-white",
@@ -71,9 +71,9 @@ const LAB_STATIONS = [
       "High-torque CNC routing and precision milling for soft metals (6061-T6 Aluminum, Brass), Delrin plastics, and structural composites.",
     turnaround: "2-4 Business Days",
     icon: Settings,
-    image: "/images/stations/makerspace-stations-collage.jpg",
+    image:
+      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
     fallbackImage: "/images/stations/cnc-machining.jpg",
-    objectPosition: "bottom left",
     formats: ".STEP, .IGES, .DXF",
     precision: "±0.02mm",
     badgeColor: "bg-amber-600 text-white",
@@ -85,9 +85,9 @@ const LAB_STATIONS = [
       "Rapid single and double-sided printed circuit board milling, surface-mount soldering stations, and full firmware testing bench.",
     turnaround: "48-72 Hours",
     icon: Cpu,
-    image: "/images/stations/makerspace-stations-collage.jpg",
+    image:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
     fallbackImage: "/images/stations/pcb-prototype.jpg",
-    objectPosition: "bottom right",
     formats: ".GERBER, .ZIP, .BRD",
     precision: "6mil Trace/Space",
     badgeColor: "bg-emerald-600 text-white",
@@ -223,7 +223,7 @@ function MakerspacePage() {
                     : "border-[#DCE5F2] dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-800"
                 }`}
               >
-                {/* 1. 4-Panel Collage Source with CSS Object-Positioning & Active Fabrication Motion Overlays */}
+                {/* 1. Dedicated Full-Width Image Header (h-48 w-full object-cover rounded-t-xl) */}
                 <div className="relative h-48 w-full overflow-hidden rounded-t-xl group bg-slate-950">
                   <img
                     src={st.image}
@@ -231,8 +231,7 @@ function MakerspacePage() {
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = st.fallbackImage;
                     }}
-                    style={{ objectPosition: st.objectPosition }}
-                    className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     loading="lazy"
                   />
 
@@ -254,7 +253,7 @@ function MakerspacePage() {
                   {st.id === "laser-cutting" && (
                     <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
                       {/* Pulsing Red Laser Focal Point at Mandala Center */}
-                      <div className="absolute left-[72%] top-[32%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                      <div className="absolute left-[54%] top-[58%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
                         <div className="absolute h-8 w-8 rounded-full bg-red-500/35 animate-ping" />
                         <div className="h-3.5 w-3.5 rounded-full bg-[#FF0033] shadow-[0_0_15px_#FF0000] ring-2 ring-white" />
                         {/* Radiant Spark Particles */}
@@ -267,7 +266,7 @@ function MakerspacePage() {
                   {/* ACTIVE FABRICATION MOTION OVERLAY 3: Dynamic Orange Floating Spark Particles around CNC Cutter */}
                   {st.id === "cnc-machining" && (
                     <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      <div className="absolute left-[27%] top-[74%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                      <div className="absolute left-[50%] top-[52%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
                         <div className="h-10 w-10 rounded-full border border-dashed border-[#00E5FF] animate-spindle-fast opacity-75 shadow-[0_0_12px_rgba(0,229,255,0.4)]" />
                         <div className="absolute h-3 w-3 rounded-full bg-amber-400 shadow-[0_0_12px_#F59E0B]" />
                         {/* Flying Orange Spark Particles */}
@@ -282,9 +281,9 @@ function MakerspacePage() {
                   {st.id === "pcb-prototype" && (
                     <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
                       {/* Cyan Circuit Trace Wave Glow */}
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(0,229,255,0.3)_0%,transparent_65%)] animate-pcb-pulse" />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_55%_50%,rgba(0,229,255,0.3)_0%,transparent_65%)] animate-pcb-pulse" />
                       {/* Blinking Emerald Microchip Status LED */}
-                      <div className="absolute left-[75%] top-[72%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                      <div className="absolute left-[58%] top-[48%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
                         <span className="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-[#10B981] opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981] shadow-[0_0_10px_#10B981]"></span>
                       </div>
@@ -294,8 +293,8 @@ function MakerspacePage() {
                   {/* Diagonal Shimmer Light Sweep on Hover */}
                   <div className="pointer-events-none absolute inset-0 -translate-x-full group-hover:animate-shimmer-sweep bg-gradient-to-r from-transparent via-white/20 to-transparent z-15" />
 
-                  {/* Gradient Shadow Overlay for Smooth Visual Depth */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1736]/90 via-[#0B1736]/25 to-transparent z-10" />
+                  {/* Subtle Bottom Gradient Overlay for Smooth Visual Integration */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent z-10" />
 
                   {/* Pulsing Turnaround Duration Badge */}
                   <div className="absolute top-3 right-3 z-20">

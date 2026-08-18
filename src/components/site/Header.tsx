@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-// Row 2 Category Navigation configuration with dedicated line icons and subtle color accents
+// Row 2 Category Navigation configuration: Compact horizontal [icon] Label system
 const CATEGORIES = [
   {
     id: "home",
@@ -44,8 +44,7 @@ const CATEGORIES = [
     to: "/",
     icon: Home,
     iconColor: "text-[#1455D9]",
-    bgColor: "bg-blue-50/80 border-blue-200/80 group-hover:bg-blue-100/80",
-    activeBg: "bg-blue-100 border-blue-400 text-[#1455D9] ring-2 ring-blue-500/20",
+    bgTint: "bg-blue-50 dark:bg-blue-950/40 text-[#1455D9]",
   },
   {
     id: "3d-printing",
@@ -53,9 +52,8 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "3d-printing" },
     icon: Box,
-    iconColor: "text-cyan-600",
-    bgColor: "bg-cyan-50/80 border-cyan-200/80 group-hover:bg-cyan-100/80",
-    activeBg: "bg-cyan-100 border-cyan-400 text-cyan-700 ring-2 ring-cyan-500/20",
+    iconColor: "text-cyan-600 dark:text-cyan-400",
+    bgTint: "bg-cyan-50 dark:bg-cyan-950/40 text-cyan-600 dark:text-cyan-400",
   },
   {
     id: "laser-cutting",
@@ -63,9 +61,8 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "laser-cutting" },
     icon: Scissors,
-    iconColor: "text-rose-500",
-    bgColor: "bg-rose-50/80 border-rose-200/80 group-hover:bg-rose-100/80",
-    activeBg: "bg-rose-100 border-rose-400 text-rose-600 ring-2 ring-rose-500/20",
+    iconColor: "text-rose-500 dark:text-rose-400",
+    bgTint: "bg-rose-50 dark:bg-rose-950/40 text-rose-500 dark:text-rose-400",
   },
   {
     id: "cnc-machining",
@@ -73,9 +70,8 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "cnc-machining" },
     icon: Settings,
-    iconColor: "text-blue-600",
-    bgColor: "bg-sky-50/80 border-sky-200/80 group-hover:bg-sky-100/80",
-    activeBg: "bg-sky-100 border-sky-400 text-blue-700 ring-2 ring-blue-500/20",
+    iconColor: "text-sky-600 dark:text-sky-400",
+    bgTint: "bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400",
   },
   {
     id: "electronics",
@@ -83,9 +79,8 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "electronics" },
     icon: Cpu,
-    iconColor: "text-emerald-600",
-    bgColor: "bg-emerald-50/80 border-emerald-200/80 group-hover:bg-emerald-100/80",
-    activeBg: "bg-emerald-100 border-emerald-400 text-emerald-700 ring-2 ring-emerald-500/20",
+    iconColor: "text-emerald-600 dark:text-emerald-400",
+    bgTint: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400",
   },
   {
     id: "drones-parts",
@@ -93,9 +88,8 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "drones-parts" },
     icon: Plane,
-    iconColor: "text-purple-600",
-    bgColor: "bg-purple-50/80 border-purple-200/80 group-hover:bg-purple-100/80",
-    activeBg: "bg-purple-100 border-purple-400 text-purple-700 ring-2 ring-purple-500/20",
+    iconColor: "text-purple-600 dark:text-purple-400",
+    bgTint: "bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400",
   },
   {
     id: "acrylic-products",
@@ -103,9 +97,8 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "acrylic-products" },
     icon: Layers,
-    iconColor: "text-blue-600",
-    bgColor: "bg-indigo-50/80 border-indigo-200/80 group-hover:bg-indigo-100/80",
-    activeBg: "bg-indigo-100 border-indigo-400 text-indigo-700 ring-2 ring-indigo-500/20",
+    iconColor: "text-indigo-600 dark:text-indigo-400",
+    bgTint: "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400",
   },
   {
     id: "diy-kits",
@@ -113,9 +106,8 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "diy-kits" },
     icon: Gift,
-    iconColor: "text-amber-600",
-    bgColor: "bg-amber-50/80 border-amber-200/80 group-hover:bg-amber-100/80",
-    activeBg: "bg-amber-100 border-amber-400 text-amber-700 ring-2 ring-amber-500/20",
+    iconColor: "text-amber-600 dark:text-amber-400",
+    bgTint: "bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400",
   },
 ];
 
@@ -137,7 +129,7 @@ const MOBILE_NAV_LINKS = [
 ];
 
 export function Header() {
-  const { cartCount, wishlist } = useStore();
+  const { cartCount } = useStore();
   const { user, isAdmin, displayName, signOut } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -379,11 +371,11 @@ export function Header() {
       </div>
 
       {/* =========================================================================
-          ROW 2 — CATEGORY NAVIGATION (Compact 68px Bar with Circular Line Icons)
+          ROW 2 — COMPACT CATEGORY NAVIGATION (Horizontal [Icon] Label system)
          ========================================================================= */}
-      <div className="border-t border-[#E2E8F0]/80 dark:border-border/80 bg-[#FAFCFF] dark:bg-card/50 h-[68px] flex items-center">
+      <div className="border-t border-[#E2E8F0] dark:border-border/80 bg-white dark:bg-card h-[52px] flex items-center">
         <div className="mx-auto flex w-full max-w-[1400px] items-center px-4 sm:px-6 h-full">
-          <nav className="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-center gap-4 sm:gap-6 lg:gap-8 h-full py-1">
+          <nav className="flex-1 overflow-x-auto no-scrollbar flex items-center justify-start md:justify-center gap-1 sm:gap-2 lg:gap-3 h-full">
             {CATEGORIES.map((cat) => {
               const IconComp = cat.icon;
               const isCatActive =
@@ -396,36 +388,30 @@ export function Header() {
                   key={cat.id}
                   to={cat.to as any}
                   params={cat.params as any}
-                  className={`group relative flex flex-col items-center justify-center h-full px-2 py-1 text-center transition-all cursor-pointer shrink-0 ${
-                    isCatActive ? "is-active" : ""
+                  className={`group relative flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer shrink-0 ${
+                    isCatActive
+                      ? "bg-blue-50/90 dark:bg-blue-950/40 text-[#1455D9] dark:text-blue-400 font-bold"
+                      : "text-[#52627A] dark:text-slate-300 hover:text-[#1455D9] hover:bg-[#F3F7FF] dark:hover:bg-slate-800/60"
                   }`}
                 >
-                  {/* Circular Line Icon Container with Subtle Accent Background */}
+                  {/* Compact Line Icon Badge with Subtle Accent Background */}
                   <div
-                    className={`h-7 w-7 sm:h-8 sm:w-8 rounded-full border flex items-center justify-center transition-all duration-200 ${
-                      isCatActive ? cat.activeBg : `${cat.bgColor} ${cat.iconColor}`
+                    className={`h-6 w-6 sm:h-7 sm:w-7 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover:scale-110 ${
+                      isCatActive
+                        ? "bg-[#1455D9]/15 text-[#1455D9]"
+                        : `${cat.bgTint} ${cat.iconColor}`
                     }`}
                   >
-                    <IconComp className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:scale-110" />
+                    <IconComp className="h-3.5 w-3.5 sm:h-4 sm:w-4 stroke-[2.2]" />
                   </div>
 
-                  {/* Category Label */}
-                  <span
-                    className={`mt-1 text-[11px] sm:text-xs font-semibold whitespace-nowrap transition-colors ${
-                      isCatActive
-                        ? "text-[#1455D9] font-bold"
-                        : "text-[#52627A] dark:text-slate-400 group-hover:text-[#1455D9]"
-                    }`}
-                  >
-                    {cat.name}
-                  </span>
+                  {/* Category Name Label */}
+                  <span className="whitespace-nowrap">{cat.name}</span>
 
-                  {/* Thin Blue Underline Active Indicator */}
-                  <span
-                    className={`absolute bottom-0 left-1 right-1 h-[2px] bg-[#1455D9] rounded-full transition-opacity duration-200 ${
-                      isCatActive ? "opacity-100" : "opacity-0 group-hover:opacity-40"
-                    }`}
-                  />
+                  {/* Clean Blue Underline Indicator for Active State */}
+                  {isCatActive && (
+                    <span className="absolute -bottom-[8px] left-3 right-3 h-[2.5px] bg-[#1455D9] rounded-full shadow-xs" />
+                  )}
                 </Link>
               );
             })}

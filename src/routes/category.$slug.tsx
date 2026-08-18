@@ -63,6 +63,12 @@ const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
       "Explore racing quadcopter frames, high-thrust brushless motors, and flight accessories.",
     icon: Plane,
   },
+  "drones-and-parts": {
+    name: "Drones & Parts",
+    description:
+      "Explore racing quadcopter frames, high-thrust brushless motors, and flight accessories.",
+    icon: Plane,
+  },
   "acrylic-products": {
     name: "Acrylic Products",
     description:
@@ -78,29 +84,36 @@ const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
 
 function normalizeSlug(s: string | undefined | null): string {
   if (!s) return "";
-  return s.toLowerCase().trim().replace(/_/g, "-");
+  const cleaned = s.toLowerCase().trim().replace(/_/g, "-");
+  if (cleaned === "drones-and-parts" || cleaned === "drones-parts" || cleaned === "drones") {
+    return "drones-parts";
+  }
+  return cleaned;
 }
 
 function CategoryDetail() {
   const { slug } = Route.useParams();
-  const normalizedCategorySlug = normalizeSlug(slug);
+  const currentCategorySlug = normalizeSlug(slug);
 
   // Load products query
   const { data: allProducts = [], isLoading, error, refetch } = useQuery(productsQuery);
 
-  const category = CATEGORY_DETAILS[normalizedCategorySlug] || {
-    name: normalizedCategorySlug
-      .split("-")
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(" "),
-    description: "Explore our collection of innovative products and fabrication designs.",
-    icon: Box,
-  };
+  const category = CATEGORY_DETAILS[slug] ||
+    CATEGORY_DETAILS[currentCategorySlug] || {
+      name: currentCategorySlug
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" "),
+      description: "Explore our collection of innovative products and fabrication designs.",
+      icon: Box,
+    };
 
-  // Strictly filter products belonging ONLY to this category slug
-  const categoryProducts = allProducts.filter((p) => {
-    const pSlug = normalizeSlug(p.category_slug);
-    return pSlug === normalizedCategorySlug;
+  // 1. Strict Category Filtering Constraint:
+  // Dynamically filter products based on the active route slug.
+  // ONLY products tagged specifically under currentCategorySlug will be included.
+  const categoryProducts = allProducts.filter((product) => {
+    const pSlug = normalizeSlug(product.categorySlug || product.category_slug);
+    return pSlug === currentCategorySlug;
   });
 
   // States for filter conditions
@@ -154,18 +167,19 @@ function CategoryDetail() {
     );
   }
 
-  // Filtered products list matching Category + Search + Price + Rating + Stock
-  const filteredProducts = categoryProducts.filter((p) => {
-    // Search query within category
+  // 2. Sidebar Search & Price Filter Synchronization:
+  // Apply search input, price slider, and availability filters *after* filtering by the active category
+  const filteredProducts = categoryProducts.filter((product) => {
+    // Search query within active category
     if (searchTerm.trim()) {
       const q = searchTerm.trim().toLowerCase();
       const matchText = [
-        p.name,
-        p.subcategory,
-        p.short_description,
-        p.description,
-        p.material,
-        p.sku,
+        product.name,
+        product.subcategory,
+        product.short_description,
+        product.description,
+        product.material,
+        product.sku,
       ]
         .join(" ")
         .toLowerCase();
@@ -175,17 +189,17 @@ function CategoryDetail() {
     }
 
     // Availability Filter
-    if (selectedAvailability === "in-stock" && p.stock === 0) {
+    if (selectedAvailability === "in-stock" && product.stock === 0) {
       return false;
     }
 
     // Rating Filter
-    if (p.rating < minRating) {
+    if (product.rating < minRating) {
       return false;
     }
 
-    // Price Filter
-    const price = p.discount_price ?? p.price;
+    // Price Range Filter
+    const price = product.discount_price ?? product.price;
     if (price > maxPrice) {
       return false;
     }
@@ -302,7 +316,7 @@ function CategoryDetail() {
                     {searchTerm && (
                       <button
                         onClick={() => setSearchTerm("")}
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
                       >
                         <X className="h-3 w-3" />
                       </button>
@@ -415,12 +429,12 @@ function CategoryDetail() {
                 </div>
               </div>
 
-              {/* Product grid */}
+              {/* Product grid or Empty state */}
               {sortedProducts.length === 0 ? (
                 <div className="py-16 text-center border border-dashed border-border rounded-2xl bg-muted/10">
                   <Box className="mx-auto h-10 w-10 text-muted-foreground opacity-60 mb-3" />
                   <h3 className="text-sm font-bold text-foreground">
-                    No {category.name} products match your filters
+                    No products found in this category matching your filters.
                   </h3>
                   <p className="text-xs text-muted-foreground mt-1 max-w-xs mx-auto">
                     Try loosening your search term, price range, or rating constraint.
@@ -452,7 +466,7 @@ function CategoryDetail() {
                 </h3>
                 <button
                   onClick={() => setMobileFiltersOpen(false)}
-                  className="p-1 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                  className="p-1 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -475,7 +489,7 @@ function CategoryDetail() {
                   {searchTerm && (
                     <button
                       onClick={() => setSearchTerm("")}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
                     >
                       <X className="h-3 w-3" />
                     </button>
@@ -532,7 +546,7 @@ function CategoryDetail() {
                 <select
                   value={minRating}
                   onChange={(e) => setMinRating(Number(e.target.value))}
-                  className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs font-semibold focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs font-semibold focus:border-primary focus:outline-none cursor-pointer"
                 >
                   <option value="0">All Ratings</option>
                   <option value="4">4★ &amp; Above</option>
@@ -545,7 +559,7 @@ function CategoryDetail() {
             <div className="pt-6 border-t border-border flex gap-3">
               <Button
                 variant="outline"
-                className="flex-1 font-semibold text-xs py-2.5"
+                className="flex-1 font-semibold text-xs py-2.5 cursor-pointer"
                 onClick={() => {
                   handleResetFilters();
                   setMobileFiltersOpen(false);
@@ -555,7 +569,7 @@ function CategoryDetail() {
               </Button>
               <Button
                 onClick={() => setMobileFiltersOpen(false)}
-                className="flex-1 bg-primary hover:bg-primary/95 text-primary-foreground font-bold text-xs py-2.5"
+                className="flex-1 bg-primary hover:bg-primary/95 text-primary-foreground font-bold text-xs py-2.5 cursor-pointer"
               >
                 Apply
               </Button>

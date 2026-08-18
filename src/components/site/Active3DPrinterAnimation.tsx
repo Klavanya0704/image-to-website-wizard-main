@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from "react";
 
 /**
- * Active 3D Printer Animation (HTML5 Canvas + Vector Graphics)
- * Simulates an active FDM 3D printer building a blue geometric vase layer-by-layer
- * with a moving printhead, molten extrusion bead, blue LED chassis lighting, and smooth looping.
+ * Premium Realistic 3D Printer Animation (HTML5 Canvas 60fps)
+ * Features a bright cinematic workshop environment, brushed aluminum frame,
+ * heated glass bed with realistic reflections, and an attractive electric orange & cyan
+ * geometric vase built progressively layer-by-layer with molten extrusion and specular highlights.
  */
 export function Active3DPrinterAnimation({ className = "" }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -16,10 +17,10 @@ export function Active3DPrinterAnimation({ className = "" }: { className?: strin
 
     let animationFrameId: number;
     let startTime: number | null = null;
-    const LOOP_DURATION = 5000; // 5.0 seconds per print cycle
-    const TOTAL_LAYERS = 26;
+    const LOOP_DURATION = 5000; // 5.0s smooth loop
+    const TOTAL_LAYERS = 28;
 
-    // Fixed internal resolution for sharp rendering
+    // High resolution canvas for crisp retina rendering
     const W = 480;
     const H = 280;
     canvas.width = W;
@@ -30,14 +31,11 @@ export function Active3DPrinterAnimation({ className = "" }: { className?: strin
       const elapsed = (now - startTime) % LOOP_DURATION;
       const progress = elapsed / LOOP_DURATION; // 0.0 to 1.0
 
-      // Calculate current layer being printed (0 to TOTAL_LAYERS)
-      // First 85% of time: printing layers 1 to TOTAL_LAYERS
-      // Last 15% of time: showcase completed object before smooth cycle reset
       let currentLayer = 0;
       let isCompletedShowcase = false;
 
-      if (progress < 0.85) {
-        currentLayer = Math.min(TOTAL_LAYERS, Math.floor((progress / 0.85) * TOTAL_LAYERS) + 1);
+      if (progress < 0.84) {
+        currentLayer = Math.min(TOTAL_LAYERS, Math.floor((progress / 0.84) * TOTAL_LAYERS) + 1);
       } else {
         currentLayer = TOTAL_LAYERS;
         isCompletedShowcase = true;
@@ -45,307 +43,327 @@ export function Active3DPrinterAnimation({ className = "" }: { className?: strin
 
       ctx.clearRect(0, 0, W, H);
 
-      // 1. Dark Futuristic Background & Radial Ambience
-      const bgGrad = ctx.createRadialGradient(W / 2, H * 0.45, 20, W / 2, H / 2, W * 0.7);
-      bgGrad.addColorStop(0, "#081329");
-      bgGrad.addColorStop(0.6, "#040915");
-      bgGrad.addColorStop(1, "#02040A");
+      // 1. Bright Modern Workshop Background with Soft Cinematic Lighting
+      const bgGrad = ctx.createRadialGradient(W / 2, H * 0.4, 30, W / 2, H / 2, W * 0.7);
+      bgGrad.addColorStop(0, "#1E293B"); // Slate-800 soft studio glow
+      bgGrad.addColorStop(0.5, "#0F172A"); // Slate-900
+      bgGrad.addColorStop(1, "#090D16"); // Deep frame border
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, W, H);
 
-      // Background Digital Tech Grid Dots
-      ctx.fillStyle = "rgba(0, 229, 255, 0.08)";
-      for (let x = 30; x < W; x += 24) {
-        for (let y = 20; y < H - 50; y += 24) {
+      // Soft Workshop Ambient Backlight Bokeh
+      const bokehGrad = ctx.createRadialGradient(W * 0.75, H * 0.3, 10, W * 0.75, H * 0.3, 90);
+      bokehGrad.addColorStop(0, "rgba(0, 229, 255, 0.22)");
+      bokehGrad.addColorStop(1, "rgba(0, 229, 255, 0)");
+      ctx.fillStyle = bokehGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      const bokehGrad2 = ctx.createRadialGradient(W * 0.25, H * 0.35, 10, W * 0.25, H * 0.35, 80);
+      bokehGrad2.addColorStop(0, "rgba(59, 130, 246, 0.2)");
+      bokehGrad2.addColorStop(1, "rgba(59, 130, 246, 0)");
+      ctx.fillStyle = bokehGrad2;
+      ctx.fillRect(0, 0, W, H);
+
+      // 2. Brushed Aluminum 3D Printer Chassis Frame
+      // Left & Right Aluminum Extrusions with Beveled Lighting
+      const drawPillar = (x: number) => {
+        const pillarGrad = ctx.createLinearGradient(x, 0, x + 22, 0);
+        pillarGrad.addColorStop(0, "#334155");
+        pillarGrad.addColorStop(0.3, "#64748B");
+        pillarGrad.addColorStop(0.6, "#94A3B8"); // Specular reflection
+        pillarGrad.addColorStop(0.85, "#475569");
+        pillarGrad.addColorStop(1, "#1E293B");
+        ctx.fillStyle = pillarGrad;
+        ctx.fillRect(x, 15, 22, H - 30);
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, 15, 22, H - 30);
+
+        // Vertical Blue LED Chamber Lightbar
+        ctx.save();
+        ctx.shadowColor = "#00E5FF";
+        ctx.shadowBlur = 12;
+        ctx.fillStyle = "#00E5FF";
+        ctx.fillRect(x === 38 ? x + 16 : x + 3, 30, 3, H - 65);
+        ctx.restore();
+      };
+
+      drawPillar(38); // Left Pillar
+      drawPillar(W - 60); // Right Pillar
+
+      // Top Crossbar Extrusion
+      const topBarGrad = ctx.createLinearGradient(0, 15, 0, 32);
+      topBarGrad.addColorStop(0, "#64748B");
+      topBarGrad.addColorStop(0.5, "#94A3B8");
+      topBarGrad.addColorStop(1, "#334155");
+      ctx.fillStyle = topBarGrad;
+      ctx.fillRect(38, 15, W - 76, 17);
+      ctx.strokeRect(38, 15, W - 76, 17);
+
+      // Dual Polished Steel Z-Lead Screws (Threaded Rods)
+      const drawLeadScrew = (x: number) => {
+        ctx.fillStyle = "#CBD5E1";
+        ctx.fillRect(x, 32, 4, H - 65);
+        ctx.strokeStyle = "rgba(0,0,0,0.3)";
+        ctx.lineWidth = 0.5;
+        for (let y = 35; y < H - 35; y += 4) {
           ctx.beginPath();
-          ctx.arc(x, y, 1, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + 4, y + 1.5);
+          ctx.stroke();
         }
-      }
+      };
+      drawLeadScrew(66);
+      drawLeadScrew(W - 70);
 
-      // 2. 3D Printer Chassis Frame
-      // Outer Frame Pillars
-      ctx.fillStyle = "#0F172A";
-      ctx.strokeStyle = "#1E293B";
-      ctx.lineWidth = 1.5;
+      // 3. Heated Glass Bed with High-Gloss Reflection & Blueprint Grid
+      const bedY = H - 56;
+      const bedLeft = 65;
+      const bedRight = W - 65;
+      const bedFrontY = H - 30;
 
-      // Left & Right Aluminum Extrusions
-      ctx.fillRect(40, 18, 20, H - 36);
-      ctx.strokeRect(40, 18, 20, H - 36);
-      ctx.fillRect(W - 60, 18, 20, H - 36);
-      ctx.strokeRect(W - 60, 18, 20, H - 36);
-
-      // Top Crossbar
-      ctx.fillRect(40, 18, W - 80, 16);
-      ctx.strokeRect(40, 18, W - 80, 16);
-
-      // Blue LED Lightbars along the vertical frame pillars
-      const ledGlow = ctx.createLinearGradient(0, 25, 0, H - 30);
-      ledGlow.addColorStop(0, "#00E5FF");
-      ledGlow.addColorStop(0.5, "#1455D9");
-      ledGlow.addColorStop(1, "#00E5FF");
-
-      ctx.fillStyle = ledGlow;
-      ctx.shadowColor = "#00E5FF";
-      ctx.shadowBlur = 10;
-      ctx.fillRect(56, 36, 2.5, H - 72);
-      ctx.fillRect(W - 58, 36, 2.5, H - 72);
-      ctx.shadowBlur = 0; // reset
-
-      // 3. Heated Glass Print Bed (Isometric Perspective)
-      const bedY = H - 58;
-      const bedLeft = 70;
-      const bedRight = W - 70;
-      const bedFrontY = H - 32;
-
-      // Bed Thickness / Side Plate
-      ctx.fillStyle = "#0A0F1D";
+      // Aluminum Bed Sub-Plate (Thickness)
+      ctx.fillStyle = "#1E293B";
       ctx.beginPath();
       ctx.moveTo(bedLeft, bedY);
       ctx.lineTo(bedRight, bedY);
-      ctx.lineTo(bedRight - 25, bedFrontY + 6);
-      ctx.lineTo(bedLeft + 25, bedFrontY + 6);
+      ctx.lineTo(bedRight - 22, bedFrontY + 8);
+      ctx.lineTo(bedLeft + 22, bedFrontY + 8);
       ctx.closePath();
       ctx.fill();
-      ctx.strokeStyle = "#1E293B";
+      ctx.strokeStyle = "#475569";
       ctx.stroke();
 
-      // Top Glass Bed Surface
+      // Top Mirror Glass Plate
       const glassGrad = ctx.createLinearGradient(0, bedY, 0, bedFrontY);
-      glassGrad.addColorStop(0, "#0B1528");
-      glassGrad.addColorStop(0.5, "#0E1E38");
-      glassGrad.addColorStop(1, "#060B14");
+      glassGrad.addColorStop(0, "#0F172A");
+      glassGrad.addColorStop(0.4, "#1E3A8A"); // Blue reflection
+      glassGrad.addColorStop(0.8, "#172554");
+      glassGrad.addColorStop(1, "#0A0F1D");
       ctx.fillStyle = glassGrad;
       ctx.beginPath();
       ctx.moveTo(bedLeft, bedY);
       ctx.lineTo(bedRight, bedY);
-      ctx.lineTo(bedRight - 25, bedFrontY);
-      ctx.lineTo(bedLeft + 25, bedFrontY);
+      ctx.lineTo(bedRight - 22, bedFrontY);
+      ctx.lineTo(bedLeft + 22, bedFrontY);
       ctx.closePath();
       ctx.fill();
       ctx.strokeStyle = "#00E5FF";
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 1.2;
       ctx.stroke();
 
-      // Grid Lines on Glass Bed
-      ctx.strokeStyle = "rgba(0, 229, 255, 0.22)";
+      // Cyan Coordinate Grid Lines on Glass Bed
+      ctx.strokeStyle = "rgba(0, 229, 255, 0.35)";
       ctx.lineWidth = 0.8;
-      for (let i = 1; i <= 4; i++) {
-        const gy = bedY + (bedFrontY - bedY) * (i / 5);
-        const inset = 25 * (i / 5);
+      for (let i = 1; i <= 5; i++) {
+        const gy = bedY + (bedFrontY - bedY) * (i / 6);
+        const inset = 22 * (i / 6);
         ctx.beginPath();
         ctx.moveTo(bedLeft + inset, gy);
         ctx.lineTo(bedRight - inset, gy);
         ctx.stroke();
       }
 
-      // 4. Layer-by-Layer Geometric Spiral Vase Object
+      // 4. Vibrant Layer-by-Layer 3D Printed Object (Dual-Tone Orange & Cyan Vase)
       const centerX = W / 2;
       const baseCenterY = bedY + 8;
-      const layerHeight = 4.2;
+      const layerHeight = 4.0;
 
-      // Draw Glass Mirror Reflection underneath the bed
+      // Under-Glass Mirror Reflection
       ctx.save();
-      ctx.globalAlpha = 0.25;
-      ctx.filter = "blur(2px)";
+      ctx.globalAlpha = 0.35;
+      ctx.filter = "blur(3px)";
       for (let l = 0; l < currentLayer; l++) {
         const lNorm = l / TOTAL_LAYERS;
-        const radius = (14 + Math.sin(lNorm * Math.PI * 0.95) * 18 - lNorm * 6) * 1.1;
-        const ry = 3.2;
-        const yRefl = baseCenterY + l * (layerHeight * 0.5);
+        const radius = 15 + Math.sin(lNorm * Math.PI * 0.95) * 22 - lNorm * 7;
+        const ry = 3.5;
+        const yRefl = baseCenterY + l * (layerHeight * 0.55);
 
-        ctx.fillStyle = "#0284C7";
+        ctx.fillStyle = l % 2 === 0 ? "#FF6B00" : "#00D2FF";
         ctx.beginPath();
-        ctx.ellipse(centerX, yRefl, radius, ry, 0, 0, Math.PI * 2);
+        ctx.ellipse(centerX, yRefl, radius * 1.1, ry, 0, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.restore();
 
-      // Draw Object Layers from Base to Current Layer
+      // Draw Volumetric Layers with 3D Specular Shading
       let topLayerY = baseCenterY;
-      let topLayerRadius = 14;
+      let topLayerRadius = 15;
 
       for (let l = 0; l < currentLayer; l++) {
         const lNorm = l / TOTAL_LAYERS;
-        // Vase profile: narrow base, wide middle, tapered elegant top rim
-        const radius = 14 + Math.sin(lNorm * Math.PI * 0.95) * 20 - lNorm * 6;
-        const ry = 4.0;
+        // Attractive sculpted geometric vase profile
+        const radius = 15 + Math.sin(lNorm * Math.PI * 0.95) * 23 - lNorm * 7;
+        const ry = 4.2;
         const layerY = baseCenterY - l * layerHeight;
 
         topLayerY = layerY;
         topLayerRadius = radius;
 
-        // Layer Sliced Contour Ring
         ctx.save();
+        // Dynamic dual-tone gradient transition from electric orange base to radiant cyan top
         const layerGrad = ctx.createLinearGradient(
           centerX - radius,
           layerY,
           centerX + radius,
           layerY,
         );
-        layerGrad.addColorStop(0, "#0284C7");
-        layerGrad.addColorStop(0.3, "#38BDF8");
-        layerGrad.addColorStop(0.5, "#E0F2FE");
-        layerGrad.addColorStop(0.7, "#38BDF8");
-        layerGrad.addColorStop(1, "#0369A1");
 
-        ctx.fillStyle = layerGrad;
-        ctx.strokeStyle =
-          l === currentLayer - 1 && !isCompletedShowcase ? "#00E5FF" : "rgba(224, 242, 254, 0.4)";
-        ctx.lineWidth = 0.8;
-
-        if (l === currentLayer - 1 && !isCompletedShowcase) {
-          ctx.shadowColor = "#00E5FF";
-          ctx.shadowBlur = 8;
+        if (lNorm < 0.5) {
+          // Vibrant Warm Layer (Orange / Amber / Gold)
+          layerGrad.addColorStop(0, "#C2410C");
+          layerGrad.addColorStop(0.3, "#EA580C");
+          layerGrad.addColorStop(0.5, "#FDBA74"); // Specular highlight
+          layerGrad.addColorStop(0.75, "#F97316");
+          layerGrad.addColorStop(1, "#9A3412");
+        } else {
+          // Radiant High-Tech Cool Layer (Cyan / Sky Blue / Electric Blue)
+          layerGrad.addColorStop(0, "#0369A1");
+          layerGrad.addColorStop(0.3, "#0284C7");
+          layerGrad.addColorStop(0.5, "#E0F2FE"); // Specular highlight
+          layerGrad.addColorStop(0.75, "#38BDF8");
+          layerGrad.addColorStop(1, "#075985");
         }
 
+        ctx.fillStyle = layerGrad;
         ctx.beginPath();
         ctx.ellipse(centerX, layerY, radius, ry, 0, 0, Math.PI * 2);
         ctx.fill();
+
+        // Edge Contour Ring
+        ctx.strokeStyle =
+          l === currentLayer - 1 && !isCompletedShowcase ? "#FFFFFF" : "rgba(255, 255, 255, 0.4)";
+        ctx.lineWidth = l === currentLayer - 1 ? 1.4 : 0.6;
         ctx.stroke();
+
+        // Active Glowing Top Layer Bead
+        if (l === currentLayer - 1 && !isCompletedShowcase) {
+          ctx.shadowColor = "#00E5FF";
+          ctx.shadowBlur = 10;
+          ctx.strokeStyle = "#00E5FF";
+          ctx.stroke();
+        }
         ctx.restore();
 
-        // Faceted Vase Spiral Ridge Accents (Low-poly geometric structure)
-        const ridges = 8;
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
-        ctx.lineWidth = 0.6;
+        // Geometric Facet Ridges (Sculpted Spiral Look)
+        const ridges = 10;
         for (let r = 0; r < ridges; r++) {
-          const angle = (r / ridges) * Math.PI * 2 + l * 0.15;
+          const angle = (r / ridges) * Math.PI * 2 + l * 0.18;
           const rx = centerX + Math.cos(angle) * radius;
           const ryPos = layerY + Math.sin(angle) * ry;
+
+          ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
           ctx.beginPath();
-          ctx.arc(rx, ryPos, 0.8, 0, Math.PI * 2);
-          ctx.fillStyle = "#E0F2FE";
+          ctx.arc(rx, ryPos, 0.9, 0, Math.PI * 2);
           ctx.fill();
         }
       }
 
       // 5. Active Extrusion Printhead & X/Z Gantry Movement
-      // The printhead sweeps around the current top layer in X
-      const sweepFrequency = 14;
-      const nozzleOffsetAngle = now * 0.006 * sweepFrequency;
+      const sweepFrequency = 12;
+      const nozzleOffsetAngle = now * 0.005 * sweepFrequency;
       const nozzleTargetX = isCompletedShowcase
         ? centerX
-        : centerX + Math.cos(nozzleOffsetAngle) * (topLayerRadius * 0.85);
+        : centerX + Math.cos(nozzleOffsetAngle) * (topLayerRadius * 0.88);
 
-      const nozzleTargetY = isCompletedShowcase ? topLayerY - 24 : topLayerY - 6;
+      const nozzleTargetY = isCompletedShowcase ? topLayerY - 26 : topLayerY - 5;
 
-      // Horizontal Gantry Crossrail (moves in Z with layer height)
-      const gantryY = nozzleTargetY - 34;
-      ctx.fillStyle = "#1E293B";
-      ctx.fillRect(60, gantryY, W - 120, 6);
-      ctx.strokeStyle = "#475569";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(60, gantryY, W - 120, 6);
+      // Horizontal Gantry Crossrail (Moves along Z with layer height)
+      const gantryY = nozzleTargetY - 36;
+      const railGrad = ctx.createLinearGradient(0, gantryY, 0, gantryY + 8);
+      railGrad.addColorStop(0, "#475569");
+      railGrad.addColorStop(0.5, "#94A3B8");
+      railGrad.addColorStop(1, "#1E293B");
+      ctx.fillStyle = railGrad;
+      ctx.fillRect(55, gantryY, W - 110, 8);
+      ctx.strokeRect(55, gantryY, W - 110, 8);
 
-      // Chrome Linear Smooth Rods
-      ctx.fillStyle = "#94A3B8";
-      ctx.fillRect(60, gantryY - 4, W - 120, 2);
-      ctx.fillRect(60, gantryY + 8, W - 120, 2);
+      // Chrome Dual Linear Rails
+      ctx.fillStyle = "#E2E8F0";
+      ctx.fillRect(55, gantryY - 4, W - 110, 2);
+      ctx.fillRect(55, gantryY + 10, W - 110, 2);
 
-      // Printhead Carriage Assembly (Moves along X)
-      const headW = 38;
-      const headH = 34;
+      // Direct-Drive Extruder Printhead Assembly
+      const headW = 42;
+      const headH = 36;
       const headX = nozzleTargetX - headW / 2;
-      const headY = gantryY - 8;
+      const headY = gantryY - 10;
 
-      // Carriage Body
-      const carriageGrad = ctx.createLinearGradient(headX, headY, headX + headW, headY);
-      carriageGrad.addColorStop(0, "#0F172A");
-      carriageGrad.addColorStop(0.4, "#334155");
-      carriageGrad.addColorStop(0.7, "#64748B");
-      carriageGrad.addColorStop(1, "#0F172A");
-      ctx.fillStyle = carriageGrad;
-      ctx.strokeStyle = "#94A3B8";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.roundRect(headX, headY, headW, headH, 4);
-      ctx.fill();
-      ctx.stroke();
-
-      // Extruder Cooling Fan Grill
-      ctx.fillStyle = "#0F172A";
-      ctx.beginPath();
-      ctx.arc(headX + headW / 2, headY + 14, 8, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = "#38BDF8";
-      ctx.lineWidth = 1;
-      ctx.stroke();
-
-      // Spinning Fan Blades Indicator
-      ctx.save();
-      ctx.translate(headX + headW / 2, headY + 14);
-      ctx.rotate(now * 0.02);
+      // Carbon-Fiber Printhead Body
+      const headGrad = ctx.createLinearGradient(headX, headY, headX + headW, headY + headH);
+      headGrad.addColorStop(0, "#0F172A");
+      headGrad.addColorStop(0.3, "#334155");
+      headGrad.addColorStop(0.7, "#475569");
+      headGrad.addColorStop(1, "#0F172A");
+      ctx.fillStyle = headGrad;
       ctx.strokeStyle = "#00E5FF";
       ctx.lineWidth = 1.2;
-      for (let f = 0; f < 3; f++) {
-        ctx.rotate((Math.PI * 2) / 3);
+      ctx.beginPath();
+      ctx.roundRect(headX, headY, headW, headH, 5);
+      ctx.fill();
+      ctx.stroke();
+
+      // Spinning High-Speed Cooling Fan
+      ctx.fillStyle = "#0A0F1D";
+      ctx.beginPath();
+      ctx.arc(headX + headW / 2, headY + 16, 9, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#38BDF8";
+      ctx.stroke();
+
+      ctx.save();
+      ctx.translate(headX + headW / 2, headY + 16);
+      ctx.rotate(now * 0.025);
+      ctx.strokeStyle = "#00E5FF";
+      ctx.lineWidth = 1.4;
+      for (let f = 0; f < 4; f++) {
+        ctx.rotate((Math.PI * 2) / 4);
         ctx.beginPath();
         ctx.moveTo(0, 0);
-        ctx.lineTo(0, 6);
+        ctx.lineTo(0, 7);
         ctx.stroke();
       }
       ctx.restore();
 
-      // Brass Extrusion Nozzle Tip
+      // Precision Brass Extruder Nozzle
       const nozzleTipX = nozzleTargetX;
       const nozzleTipY = nozzleTargetY;
 
-      ctx.fillStyle = "#F59E0B";
-      ctx.strokeStyle = "#D97706";
-      ctx.lineWidth = 0.8;
+      const brassGrad = ctx.createLinearGradient(nozzleTipX - 5, 0, nozzleTipX + 5, 0);
+      brassGrad.addColorStop(0, "#B45309");
+      brassGrad.addColorStop(0.5, "#FBBF24");
+      brassGrad.addColorStop(1, "#D97706");
+      ctx.fillStyle = brassGrad;
       ctx.beginPath();
-      ctx.moveTo(nozzleTipX - 4, headY + headH);
-      ctx.lineTo(nozzleTipX + 4, headY + headH);
-      ctx.lineTo(nozzleTipX + 1.5, nozzleTipY);
-      ctx.lineTo(nozzleTipX - 1.5, nozzleTipY);
+      ctx.moveTo(nozzleTipX - 5, headY + headH);
+      ctx.lineTo(nozzleTipX + 5, headY + headH);
+      ctx.lineTo(nozzleTipX + 1.8, nozzleTipY);
+      ctx.lineTo(nozzleTipX - 1.8, nozzleTipY);
       ctx.closePath();
       ctx.fill();
-      ctx.stroke();
 
-      // 6. Active Molten PLA Extrusion Glowing Bead & Spark Ray
+      // 6. Glowing Molten Filament Extrusion Bead & Contact Plasma
       if (!isCompletedShowcase) {
         ctx.save();
         ctx.shadowColor = "#00E5FF";
-        ctx.shadowBlur = 12;
+        ctx.shadowBlur = 14;
 
         // Molten Bead
         ctx.fillStyle = "#FFFFFF";
         ctx.beginPath();
-        ctx.arc(nozzleTipX, nozzleTipY + 1, 2.2, 0, Math.PI * 2);
+        ctx.arc(nozzleTipX, nozzleTipY + 1, 2.4, 0, Math.PI * 2);
         ctx.fill();
 
-        // Extrusion Ray onto top layer
+        // Glowing Extrusion Stream
         ctx.strokeStyle = "#00E5FF";
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2.2;
         ctx.beginPath();
         ctx.moveTo(nozzleTipX, nozzleTipY);
         ctx.lineTo(nozzleTipX, topLayerY);
         ctx.stroke();
 
-        // Micro Layer Heat Particles
-        ctx.fillStyle = "#E0F2FE";
-        const p1X = nozzleTipX + Math.sin(now * 0.02) * 4;
-        const p1Y = topLayerY - 2;
-        ctx.beginPath();
-        ctx.arc(p1X, p1Y, 1.2, 0, Math.PI * 2);
-        ctx.fill();
-
         ctx.restore();
       }
-
-      // 7. Subtle Active HUD Telemetry Overlay (Top Right & Bottom Left)
-      ctx.fillStyle = "rgba(0, 229, 255, 0.75)";
-      ctx.font = "bold 9px monospace";
-      ctx.textAlign = "left";
-      ctx.fillText(
-        `Z-AXIS: ${(currentLayer * 0.12).toFixed(2)}mm (${currentLayer}/${TOTAL_LAYERS})`,
-        50,
-        H - 14,
-      );
-
-      ctx.textAlign = "right";
-      ctx.fillText("NOZZLE: 215°C | BED: 60°C", W - 50, H - 14);
 
       animationFrameId = requestAnimationFrame(render);
     };
@@ -358,7 +376,7 @@ export function Active3DPrinterAnimation({ className = "" }: { className?: strin
   }, []);
 
   return (
-    <div className={`relative w-full h-full bg-[#02040A] overflow-hidden select-none ${className}`}>
+    <div className={`relative w-full h-full bg-[#090D16] overflow-hidden select-none ${className}`}>
       <canvas
         ref={canvasRef}
         className="w-full h-full object-cover block"

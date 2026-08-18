@@ -38,13 +38,13 @@ export const Route = createFileRoute("/makerspace")({
 const LAB_STATIONS = [
   {
     id: "3d-printing",
+    category: "3D Printing",
     title: "3D Printing & Additive Station",
     description:
       "Industrial FDM & SLA high-resolution polymer printing. Choose from PLA, ABS, PETG, TPU, or engineering resin for functional prototypes and enclosures.",
     turnaround: "24-48 Hours",
     icon: Printer,
-    image:
-      "https://images.unsplash.com/photo-1631556097152-c39479bbf9f3?auto=format&fit=crop&w=800&q=80",
+    image: "/images/makerspace/3d-printing.png",
     fallbackImage: "/images/stations/3d-printing.jpg",
     formats: ".STL, .OBJ, .3MF, .STEP",
     precision: "±0.05mm",
@@ -52,13 +52,13 @@ const LAB_STATIONS = [
   },
   {
     id: "laser-cutting",
+    category: "CO2 Laser Cutting",
     title: "CO2 Laser Cutting & Engraving",
     description:
       "High-precision laser cutting and vector engraving for acrylic, birch plywood, MDF, fabric, and leather. Mirror finish edges with high repeatability.",
     turnaround: "Same Day / 24 Hours",
     icon: Scissors,
-    image:
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+    image: "/images/makerspace/laser-cutting.png",
     fallbackImage: "/images/stations/laser-cutting.jpg",
     formats: ".DXF, .SVG, .AI, .PDF",
     precision: "±0.1mm",
@@ -66,13 +66,13 @@ const LAB_STATIONS = [
   },
   {
     id: "cnc-machining",
+    category: "4-Axis CNC Milling",
     title: "4-Axis CNC Milling & Machining",
     description:
       "High-torque CNC routing and precision milling for soft metals (6061-T6 Aluminum, Brass), Delrin plastics, and structural composites.",
     turnaround: "2-4 Business Days",
     icon: Settings,
-    image:
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
+    image: "/images/makerspace/cnc-machining.png",
     fallbackImage: "/images/stations/cnc-machining.jpg",
     formats: ".STEP, .IGES, .DXF",
     precision: "±0.02mm",
@@ -80,13 +80,13 @@ const LAB_STATIONS = [
   },
   {
     id: "pcb-prototype",
+    category: "PCB Prototyping",
     title: "PCB Prototyping & IoT Station",
     description:
       "Rapid single and double-sided printed circuit board milling, surface-mount soldering stations, and full firmware testing bench.",
     turnaround: "48-72 Hours",
     icon: Cpu,
-    image:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+    image: "/images/makerspace/pcb-prototyping.png",
     fallbackImage: "/images/stations/pcb-prototype.jpg",
     formats: ".GERBER, .ZIP, .BRD",
     precision: "6mil Trace/Space",
@@ -306,10 +306,10 @@ function MakerspacePage() {
                     </span>
                   </div>
 
-                  {/* Station Icon Pill on Top-Left */}
+                  {/* Category Badge Pill on Top-Left */}
                   <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 rounded-full bg-slate-900/90 border border-slate-700/60 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-bold text-white shadow-sm">
                     <Icon className="h-3.5 w-3.5 text-[#00E5FF]" />
-                    <span className="truncate max-w-[120px]">{st.title.split("&")[0]}</span>
+                    <span>{st.category}</span>
                   </div>
 
                   {/* Floating Title on bottom edge of image */}

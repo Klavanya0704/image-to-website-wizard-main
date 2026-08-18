@@ -1,19 +1,7 @@
-import vase from "@/assets/p-vase.jpg";
-import lamp from "@/assets/p-lamp.jpg";
-import keychain from "@/assets/p-keychain.jpg";
-import cnc from "@/assets/p-cnc.jpg";
-import esp32 from "@/assets/p-esp32.jpg";
-import drone from "@/assets/p-drone.jpg";
-import organizer from "@/assets/p-organizer.jpg";
-import stand from "@/assets/p-stand.jpg";
-import board from "@/assets/p-board.jpg";
-import kit from "@/assets/p-kit.jpg";
-import acrylic from "@/assets/p-acrylic.jpg";
-
 export function productImage(keyOrSlug?: string | null, productName?: string | null): string {
   const q = `${keyOrSlug || ""} ${productName || ""}`.toLowerCase().trim();
 
-  // 1. 3D Printing Products (Realistic E-Commerce Product Photography)
+  // 1. 3D Printing Products (Ultra High-Res 1024x1024 Studio Photography)
   if (q.includes("hex") && (q.includes("planter") || q.includes("pot"))) {
     return "/products/hex-planter.jpg";
   }
@@ -48,131 +36,93 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
     return "/products/3d-vase.jpg";
   }
 
-  // 2. CNC Machining Products
+  // 2. Laser Cutting Products (1024x1024 to 1200x1200 High-Res Photography)
+  if (q.includes("sign") || q.includes("illuminated") || q.includes("led")) {
+    return "/products/acrylic-sign.jpg";
+  }
+  if (q.includes("mandala") || q.includes("coaster")) {
+    return "/products/mandala-coasters.jpg";
+  }
+  if (q.includes("keychain") || q.includes("key ring")) {
+    return "/products/wood-keychain.jpg";
+  }
+  if (q.includes("mdf") || q.includes("structural architectural") || q.includes("puzzle")) {
+    return "/products/mdf-kit.jpg";
+  }
+
+  // 3. CNC Machining Products (1200x1200 Precision Metal Photography)
   if (q.includes("bushing") || q.includes("brass") || q.includes("flanged")) {
-    return "/products/cnc-bushings.svg";
+    return "/products/cnc-bushings.jpg";
   }
   if (
     q.includes("bracket") ||
     q.includes("mounting bracket") ||
     q.includes("l-bracket") ||
-    q.includes("mounting plate") ||
-    q.includes("prototype block")
+    q.includes("mounting plate")
   ) {
-    return "/products/prod-bracket.jpg";
-  }
-  if (q.includes("coupling") || q.includes("coupler") || q.includes("shaft") || q.includes("gearbox")) {
-    return "/products/prod-coupling.jpg";
-  }
-
-  // 3. Laser Cutting Products
-  if (q.includes("keychain") || q.includes("key ring")) {
-    return "/products/prod-keychain.jpg";
-  }
-  if (q.includes("mandala") || q.includes("coaster") || q.includes("wooden mandala")) {
-    return "/products/prod-tree-lamp.jpg";
-  }
-  if (q.includes("tree of life") || q.includes("lamp") || q.includes("illuminated") || q.includes("led sign")) {
-    return "/products/prod-tree-lamp.jpg";
-  }
-  if (q.includes("mdf") || q.includes("structural architectural") || q.includes("photo frame")) {
-    return "/products/prod-keychain.jpg";
-  }
-
-  // 4. Electronics Products
-  if (q.includes("esp32") || q.includes("microcontroller") || q.includes("development board")) {
-    return "/products/esp32-board.svg";
-  }
-  if (q.includes("sensor") || q.includes("module kit") || q.includes("iot sensor")) {
-    return "/products/sensor-kit.svg";
+    return "/products/cnc-bracket.jpg";
   }
   if (
-    q.includes("pcb") ||
-    q.includes("fr4") ||
-    q.includes("perfboard") ||
-    q.includes("soldering practice") ||
-    q.includes("display electronics")
+    q.includes("coupling") ||
+    q.includes("coupler") ||
+    q.includes("shaft") ||
+    q.includes("gearbox") ||
+    q.includes("mechanical")
   ) {
-    return "/products/prototype-pcb.svg";
+    return "/products/cnc-coupling.jpg";
   }
 
-  // 5. Drones & Parts Products
+  // 4. Electronics Products (1200x1200 High-Res Hardware Photography)
+  if (q.includes("esp32") || q.includes("microcontroller") || q.includes("iot board")) {
+    return "/products/esp32-board.jpg";
+  }
+  if (q.includes("sensor") || q.includes("module kit") || q.includes("iot sensor")) {
+    return "/products/sensor-kit.jpg";
+  }
+  if (q.includes("pcb") || q.includes("fr4") || q.includes("perfboard") || q.includes("prototype board")) {
+    return "/products/prototype-pcb.jpg";
+  }
+
+  // 5. Drones & Parts Products (1200x1200 High-Res Carbon & Motor Photography)
   if (
     q.includes("frame") ||
     q.includes("carbon fiber") ||
     q.includes("fpv") ||
     q.includes("wheelbase") ||
-    q.includes("landing gear")
+    q.includes("quadcopter")
   ) {
-    return "/products/drone-frame.svg";
+    return "/products/drone-frame.jpg";
   }
   if (q.includes("motor") || q.includes("brushless") || q.includes("2207") || q.includes("thrust")) {
-    return "/products/drone-motor.svg";
+    return "/products/drone-motor.jpg";
   }
-  if (q.includes("propeller") || q.includes("props") || q.includes("tri-blade") || q.includes("1045")) {
-    return "/products/drone-propellers.svg";
-  }
-
-  // 6. Acrylic Products
-  if (
-    q.includes("display box") ||
-    q.includes("dust-proof") ||
-    q.includes("vitrine") ||
-    q.includes("showcase") ||
-    q.includes("transparent display")
-  ) {
-    return "/products/prod-stand.jpg";
-  }
-  if (
-    q.includes("trophy") ||
-    q.includes("award") ||
-    q.includes("plaque") ||
-    q.includes("college logo") ||
-    q.includes("name plate") ||
-    q.includes("desk sign")
-  ) {
-    return "/products/prod-stand.jpg";
-  }
-  if (q.includes("shield") || q.includes("protective") || q.includes("barrier")) {
-    return "/products/prod-stand.jpg";
+  if (q.includes("propeller") || q.includes("props") || q.includes("tri-blade") || q.includes("blade")) {
+    return "/products/drone-propellers.jpg";
   }
 
-  // 7. DIY Kits
-  if (
-    q.includes("robot") ||
-    q.includes("autonomous") ||
-    q.includes("line follower") ||
-    q.includes("stem starter")
-  ) {
-    return "/products/robotics-kit.svg";
+  // 6. Acrylic Products (1200x1200 High-Clarity Studio Photography)
+  if (q.includes("display box") || q.includes("dust-proof") || q.includes("vitrine") || q.includes("showcase")) {
+    return "/products/acrylic-box.jpg";
+  }
+  if (q.includes("trophy") || q.includes("award") || q.includes("plaque") || q.includes("college")) {
+    return "/products/acrylic-trophy.jpg";
+  }
+  if (q.includes("shield") || q.includes("protective") || q.includes("barrier") || q.includes("acrylic")) {
+    return "/products/acrylic-shield.jpg";
+  }
+
+  // 7. DIY Kits (1200x1200 STEM Starter & Assembly Kit Photography)
+  if (q.includes("robot") || q.includes("autonomous") || q.includes("stem starter") || q.includes("chassis")) {
+    return "/products/robotics-kit.jpg";
+  }
+  if (q.includes("soldering") || q.includes("training kit") || q.includes("electronics kit")) {
+    return "/products/soldering-kit.jpg";
   }
   if (q.includes("speaker") || q.includes("bluetooth speaker") || q.includes("audio")) {
-    return "/products/prod-tree-lamp.jpg";
-  }
-  if (
-    q.includes("soldering") ||
-    q.includes("learning kit") ||
-    q.includes("smart home") ||
-    q.includes("kit")
-  ) {
-    return "/products/robotics-kit.svg";
+    return "/products/bluetooth-speaker-kit.jpg";
   }
 
-  // Fallback map
-  const fallbackMap: Record<string, string> = {
-    vase,
-    lamp,
-    keychain,
-    cnc,
-    esp32,
-    drone,
-    organizer,
-    stand,
-    board,
-    kit,
-    acrylic,
-  };
-  return (keyOrSlug && fallbackMap[keyOrSlug]) || "/products/3d-vase.jpg";
+  return "/products/3d-vase.jpg";
 }
 
 export interface ProductViewAngle {

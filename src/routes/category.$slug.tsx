@@ -14,6 +14,7 @@ import {
   SlidersHorizontal,
   X,
   RotateCcw,
+  Search,
 } from "lucide-react";
 
 import { productsQuery } from "@/lib/catalog";
@@ -35,54 +36,60 @@ interface CategoryMeta {
 const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
   "3d-printing": {
     name: "3D Printing",
-    description:
-      "Functional prototypes, creative models and custom 3D printed products for innovators and makers.",
+    description: "Explore our 3D printed products, functional prototypes, and maker designs.",
     icon: Printer,
   },
   "laser-cutting": {
     name: "Laser Cutting",
     description:
-      "Precision-cut acrylic, wood and other materials for projects, prototypes and creative designs.",
+      "Explore laser-cut and precision engraving products, keychains, and ambient lamps.",
     icon: Scissors,
   },
   "cnc-machining": {
     name: "CNC Machining",
     description:
-      "Precision-machined components and parts for engineering, prototyping and fabrication.",
+      "Explore precision CNC machined aluminum couplings, brackets, and structural parts.",
     icon: Settings,
   },
   electronics: {
     name: "Electronics",
     description:
-      "Development boards, sensors, modules and electronic components for innovative projects.",
+      "Explore microcontroller development boards, sensors, and IoT prototyping hardware.",
     icon: Cpu,
   },
   "drones-parts": {
     name: "Drones & Parts",
     description:
-      "Drones, accessories and components for aerial technology, robotics and student projects.",
+      "Explore racing quadcopter frames, high-thrust brushless motors, and flight accessories.",
     icon: Plane,
   },
   "acrylic-products": {
     name: "Acrylic Products",
-    description: "Precision-cut acrylic products, panels, displays and customized designs.",
+    description:
+      "Explore precision-cut acrylic trophies, custom logo plaques, and desktop accessories.",
     icon: Layers,
   },
   "diy-kits": {
     name: "DIY Kits",
-    description: "Hands-on maker kits designed for learning, experimentation and innovation.",
+    description: "Explore hands-on student STEM maker kits, speaker build sets, and robotics kits.",
     icon: Bot,
   },
 };
 
+function normalizeSlug(s: string | undefined | null): string {
+  if (!s) return "";
+  return s.toLowerCase().trim().replace(/_/g, "-");
+}
+
 function CategoryDetail() {
   const { slug } = Route.useParams();
+  const normalizedCategorySlug = normalizeSlug(slug);
 
   // Load products query
   const { data: allProducts = [], isLoading, error, refetch } = useQuery(productsQuery);
 
-  const category = CATEGORY_DETAILS[slug] || {
-    name: slug
+  const category = CATEGORY_DETAILS[normalizedCategorySlug] || {
+    name: normalizedCategorySlug
       .split("-")
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(" "),
@@ -90,12 +97,14 @@ function CategoryDetail() {
     icon: Box,
   };
 
-  // Local products for this category slug
-  const categoryProducts = allProducts.filter(
-    (p) => p.category_slug?.toLowerCase() === slug.toLowerCase(),
-  );
+  // Strictly filter products belonging ONLY to this category slug
+  const categoryProducts = allProducts.filter((p) => {
+    const pSlug = normalizeSlug(p.category_slug);
+    return pSlug === normalizedCategorySlug;
+  });
 
   // States for filter conditions
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedAvailability, setSelectedAvailability] = useState<string>("all");
   const [minRating, setMinRating] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(10000);
@@ -107,7 +116,7 @@ function CategoryDetail() {
       ? Math.max(...categoryProducts.map((p) => p.discount_price ?? p.price))
       : 10000;
 
-  // Dynamically configure price filter limits based on data loaded
+  // Reset filter inputs and update price slider when slug changes
   useEffect(() => {
     if (categoryProducts.length > 0) {
       const prices = categoryProducts.map((p) => p.discount_price ?? p.price);
@@ -116,7 +125,7 @@ function CategoryDetail() {
     } else {
       setMaxPrice(10000);
     }
-    // Reset inputs when slug changes
+    setSearchTerm("");
     setSelectedAvailability("all");
     setMinRating(0);
     setSortBy("featured");
@@ -145,21 +154,42 @@ function CategoryDetail() {
     );
   }
 
-  // Filtered products list
+  // Filtered products list matching Category + Search + Price + Rating + Stock
   const filteredProducts = categoryProducts.filter((p) => {
+    // Search query within category
+    if (searchTerm.trim()) {
+      const q = searchTerm.trim().toLowerCase();
+      const matchText = [
+        p.name,
+        p.subcategory,
+        p.short_description,
+        p.description,
+        p.material,
+        p.sku,
+      ]
+        .join(" ")
+        .toLowerCase();
+      if (!matchText.includes(q)) {
+        return false;
+      }
+    }
+
     // Availability Filter
     if (selectedAvailability === "in-stock" && p.stock === 0) {
       return false;
     }
+
     // Rating Filter
     if (p.rating < minRating) {
       return false;
     }
+
     // Price Filter
     const price = p.discount_price ?? p.price;
     if (price > maxPrice) {
       return false;
     }
+
     return true;
   });
 
@@ -189,6 +219,7 @@ function CategoryDetail() {
   });
 
   const handleResetFilters = () => {
+    setSearchTerm("");
     setSelectedAvailability("all");
     setMinRating(0);
     setMaxPrice(maxPriceLimit);
@@ -206,9 +237,16 @@ function CategoryDetail() {
           <div className="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
           <div className="relative flex flex-col md:flex-row md:items-center gap-6 z-10">
             <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white text-primary shadow-[var(--shadow-card)]">
-              <category.icon className="h-8 w-8" />
+              <category.icon className="h-8 w-8 text-blue-600" />
             </div>
             <div>
+              <div className="flex items-center gap-2 text-xs font-semibold text-blue-200 mb-1">
+                <Link to="/" className="hover:underline">
+                  Home
+                </Link>
+                <ChevronRight className="h-3 w-3" />
+                <span className="text-white">{category.name}</span>
+              </div>
               <h1 className="text-3xl font-extrabold tracking-tight text-white md:text-4xl">
                 {category.name}
               </h1>
@@ -224,8 +262,8 @@ function CategoryDetail() {
       <section className="mx-auto max-w-[1400px] px-6 mt-10">
         {categoryProducts.length === 0 ? (
           <EmptyState
-            title="No products available yet"
-            description="New products are being added soon. Stay tuned for exciting innovations!"
+            title={`No ${category.name} products available yet`}
+            description="New products for this category are being fabricated and added soon. Stay tuned!"
             actionLabel="Browse All Products"
             actionTo="/shop"
             icon={<Box className="h-12 w-12" />}
@@ -241,10 +279,35 @@ function CategoryDetail() {
                   </h3>
                   <button
                     onClick={handleResetFilters}
-                    className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground hover:text-primary transition-colors"
+                    className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                   >
                     <RotateCcw className="h-3 w-3" /> Reset
                   </button>
+                </div>
+
+                {/* In-Category Search Box */}
+                <div className="space-y-2">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">
+                    Search in {category.name}
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder={`e.g. ${categoryProducts[0]?.name.split(" ")[0] || "product"}...`}
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 pl-8 text-xs font-semibold focus:border-primary focus:outline-none"
+                    />
+                    <Search className="h-3.5 w-3.5 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" />
+                    {searchTerm && (
+                      <button
+                        onClick={() => setSearchTerm("")}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Price range */}
@@ -258,7 +321,7 @@ function CategoryDetail() {
                     max={maxPriceLimit}
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(Number(e.target.value))}
-                    className="w-full accent-[#0a3728] dark:accent-[#10b981] bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg appearance-none h-2 cursor-pointer"
+                    className="w-full accent-[#1455D9] bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg appearance-none h-2 cursor-pointer"
                   />
                   <div className="flex justify-between text-[10px] text-muted-foreground font-semibold">
                     <span>{inr(0)}</span>
@@ -298,7 +361,7 @@ function CategoryDetail() {
                   <select
                     value={minRating}
                     onChange={(e) => setMinRating(Number(e.target.value))}
-                    className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs font-semibold focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs font-semibold focus:border-primary focus:outline-none cursor-pointer"
                   >
                     <option value="0">All Ratings</option>
                     <option value="4">4★ &amp; Above</option>
@@ -315,19 +378,20 @@ function CategoryDetail() {
               <div className="flex items-center justify-between gap-4 pb-4 mb-6 border-b border-border">
                 <div className="flex flex-col">
                   <h2 className="text-lg font-bold tracking-tight text-foreground">
-                    {category.name} Products
+                    {category.name} Catalog
                   </h2>
                   <span className="text-xs text-muted-foreground font-semibold mt-0.5">
                     {sortedProducts.length === 1
                       ? "1 product found"
                       : `${sortedProducts.length} products found`}
+                    {searchTerm && ` for "${searchTerm}"`}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setMobileFiltersOpen(true)}
-                    className="flex lg:hidden items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-xs font-bold hover:bg-muted transition-colors"
+                    className="flex lg:hidden items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-xs font-bold hover:bg-muted transition-colors cursor-pointer"
                   >
                     <SlidersHorizontal className="h-3.5 w-3.5" /> Filters
                   </button>
@@ -356,10 +420,10 @@ function CategoryDetail() {
                 <div className="py-16 text-center border border-dashed border-border rounded-2xl bg-muted/10">
                   <Box className="mx-auto h-10 w-10 text-muted-foreground opacity-60 mb-3" />
                   <h3 className="text-sm font-bold text-foreground">
-                    No products match your filters
+                    No {category.name} products match your filters
                   </h3>
                   <p className="text-xs text-muted-foreground mt-1 max-w-xs mx-auto">
-                    Try loosening your price, availability or rating constraints to explore options.
+                    Try loosening your search term, price range, or rating constraint.
                   </p>
                   <Button variant="outline" size="sm" className="mt-4" onClick={handleResetFilters}>
                     Clear All Filters
@@ -394,6 +458,31 @@ function CategoryDetail() {
                 </button>
               </div>
 
+              {/* In-Category Search Box (Mobile) */}
+              <div className="space-y-2">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">
+                  Search in {category.name}
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder={`e.g. search...`}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full rounded-lg border border-border bg-background px-3 py-2 pl-8 text-xs font-semibold focus:border-primary focus:outline-none"
+                  />
+                  <Search className="h-3.5 w-3.5 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm("")}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
               {/* Price range */}
               <div className="space-y-2">
                 <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">
@@ -405,7 +494,7 @@ function CategoryDetail() {
                   max={maxPriceLimit}
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
-                  className="w-full accent-[#0a3728] dark:accent-[#10b981] bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg appearance-none h-2 cursor-pointer"
+                  className="w-full accent-[#1455D9] bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg appearance-none h-2 cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-muted-foreground font-semibold">
                   <span>{inr(0)}</span>

@@ -84,7 +84,11 @@ const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
 
 function normalizeSlug(s: string | undefined | null): string {
   if (!s) return "";
-  const cleaned = s.toLowerCase().trim().replace(/_/g, "-");
+  const cleaned = s
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
   if (cleaned === "drones-and-parts" || cleaned === "drones-parts" || cleaned === "drones") {
     return "drones-parts";
   }
@@ -92,28 +96,28 @@ function normalizeSlug(s: string | undefined | null): string {
 }
 
 function CategoryDetail() {
-  const { slug } = Route.useParams();
-  const currentCategorySlug = normalizeSlug(slug);
+  const params = Route.useParams() as Record<string, string | undefined>;
+
+  // Parse current URL slug (e.g. "3d-printing")
+  const currentCategory = normalizeSlug(params["category"] || params["slug"] || "3d-printing");
 
   // Load products query
   const { data: allProducts = [], isLoading, error, refetch } = useQuery(productsQuery);
 
-  const category = CATEGORY_DETAILS[slug] ||
-    CATEGORY_DETAILS[currentCategorySlug] || {
-      name: currentCategorySlug
-        .split("-")
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" "),
-      description: "Explore our collection of innovative products and fabrication designs.",
-      icon: Box,
-    };
+  const category = CATEGORY_DETAILS[currentCategory] || {
+    name: currentCategory
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" "),
+    description: "Explore our collection of innovative products and fabrication designs.",
+    icon: Box,
+  };
 
-  // 1. Strict Category Filtering Constraint:
-  // Dynamically filter products based on the active route slug.
-  // ONLY products tagged specifically under currentCategorySlug will be included.
-  const categoryProducts = allProducts.filter((product) => {
-    const pSlug = normalizeSlug(product.categorySlug || product.category_slug);
-    return pSlug === currentCategorySlug;
+  // Exact match filter (Case-insensitive & slug normalized)
+  const categoryProducts = allProducts.filter((item) => {
+    const rawCategory = item.categorySlug || item.category_slug || item.category || "";
+    const itemCategorySlug = normalizeSlug(rawCategory);
+    return itemCategorySlug === currentCategory;
   });
 
   // States for filter conditions
@@ -129,7 +133,7 @@ function CategoryDetail() {
       ? Math.max(...categoryProducts.map((p) => p.discount_price ?? p.price))
       : 10000;
 
-  // Reset filter inputs and update price slider when slug changes
+  // Reset filter inputs and update price slider when category changes
   useEffect(() => {
     if (categoryProducts.length > 0) {
       const prices = categoryProducts.map((p) => p.discount_price ?? p.price);
@@ -143,7 +147,7 @@ function CategoryDetail() {
     setMinRating(0);
     setSortBy("featured");
     setMobileFiltersOpen(false);
-  }, [slug, allProducts.length]);
+  }, [currentCategory, allProducts.length]);
 
   if (isLoading) {
     return (

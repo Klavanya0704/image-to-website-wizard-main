@@ -4,6 +4,7 @@ import type { Tables } from "@/integrations/supabase/types";
 
 export type Product = Tables<"products"> & {
   categorySlug?: string;
+  category?: string;
 };
 export type Category = Tables<"categories">;
 export type Review = Tables<"reviews">;
@@ -24,12 +25,13 @@ export const categoriesQuery = queryOptions({
 
 export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   // ==========================================
-  // 1. 3D PRINTING PRODUCTS (categorySlug: "3d-printing")
+  // 1. 3D PRINTING PRODUCTS (category: "3D Printing" / "3d-printing")
   // ==========================================
   {
     id: "3dp-1",
     name: "3D Printed Geometric Vase",
     slug: "geometric-spiral-vase",
+    category: "3D Printing",
     category_slug: "3d-printing",
     categorySlug: "3d-printing",
     image_key: "vase",
@@ -62,6 +64,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "3dp-2",
     name: "Universal Foldable Phone Stand",
     slug: "universal-foldable-phone-stand-3d",
+    category: "3D Printing",
     category_slug: "3d-printing",
     categorySlug: "3d-printing",
     image_key: "stand",
@@ -92,6 +95,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "3dp-3",
     name: "SLA Resin High-Detail Miniature",
     slug: "sla-resin-high-detail-miniature",
+    category: "3D Printing",
     category_slug: "3d-printing",
     categorySlug: "3d-printing",
     image_key: "vase",
@@ -122,6 +126,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "3dp-4",
     name: "TPU Flexible Drone & Electronics Enclosure",
     slug: "tpu-flexible-drone-enclosure",
+    category: "3D Printing",
     category_slug: "3d-printing",
     categorySlug: "3d-printing",
     image_key: "drone",
@@ -151,12 +156,13 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
 
   // ==========================================
-  // 2. LASER CUTTING PRODUCTS (categorySlug: "laser-cutting")
+  // 2. LASER CUTTING PRODUCTS (category: "Laser Cutting" / "laser-cutting")
   // ==========================================
   {
     id: "lc-1",
     name: "Custom LED Illuminated Acrylic Sign",
     slug: "custom-acrylic-led-illuminated-sign",
+    category: "Laser Cutting",
     category_slug: "laser-cutting",
     categorySlug: "laser-cutting",
     image_key: "lamp",
@@ -188,6 +194,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "lc-2",
     name: "Geometric Mandala Wooden Coasters (4-Pack)",
     slug: "mandala-laser-cut-wooden-coasters",
+    category: "Laser Cutting",
     category_slug: "laser-cutting",
     categorySlug: "laser-cutting",
     image_key: "keychain",
@@ -219,6 +226,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "lc-3",
     name: "Custom Laser-Engraved Wooden Keychain",
     slug: "custom-engraved-wooden-keychain",
+    category: "Laser Cutting",
     category_slug: "laser-cutting",
     categorySlug: "laser-cutting",
     image_key: "keychain",
@@ -251,6 +259,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "lc-4",
     name: "Laser-Cut MDF Structural Architectural Kit",
     slug: "mdf-structural-architectural-puzzle-kit",
+    category: "Laser Cutting",
     category_slug: "laser-cutting",
     categorySlug: "laser-cutting",
     image_key: "keychain",
@@ -280,12 +289,13 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
 
   // ==========================================
-  // 3. CNC MACHINING PRODUCTS (categorySlug: "cnc-machining")
+  // 3. CNC MACHINING PRODUCTS (category: "CNC Machining" / "cnc-machining")
   // ==========================================
   {
     id: "cnc-1",
     name: "Mechanical Gearbox Coupling",
     slug: "precision-aluminum-shaft-coupler",
+    category: "CNC Machining",
     category_slug: "cnc-machining",
     categorySlug: "cnc-machining",
     image_key: "cnc",
@@ -318,6 +328,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "cnc-2",
     name: "Heavy-Duty CNC Aluminum Mounting Bracket",
     slug: "heavy-duty-l-bracket-cnc",
+    category: "CNC Machining",
     category_slug: "cnc-machining",
     categorySlug: "cnc-machining",
     image_key: "cnc",
@@ -349,6 +360,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "cnc-3",
     name: "Precision CNC Machined Flanged Brass Bushings (4-Pack)",
     slug: "cnc-machined-flanged-brass-bushings",
+    category: "CNC Machining",
     category_slug: "cnc-machining",
     categorySlug: "cnc-machining",
     image_key: "cnc",
@@ -378,12 +390,13 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
 
   // ==========================================
-  // 4. ELECTRONICS PRODUCTS (categorySlug: "electronics")
+  // 4. ELECTRONICS PRODUCTS (category: "Electronics" / "electronics")
   // ==========================================
   {
     id: "elec-1",
     name: "ESP32 Dual-Core IoT Microcontroller Board",
     slug: "esp32-iot-maker-board",
+    category: "Electronics",
     category_slug: "electronics",
     categorySlug: "electronics",
     image_key: "esp32",
@@ -415,6 +428,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "elec-2",
     name: "37-in-1 Complete IoT Sensor Module Kit",
     slug: "37-in-1-iot-sensor-module-kit",
+    category: "Electronics",
     category_slug: "electronics",
     categorySlug: "electronics",
     image_key: "esp32",
@@ -446,6 +460,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "elec-3",
     name: "Double-Sided FR4 Prototype PCB Boards (10-Pack)",
     slug: "fr4-double-sided-prototype-pcb-10pack",
+    category: "Electronics",
     category_slug: "electronics",
     categorySlug: "electronics",
     image_key: "esp32",
@@ -475,12 +490,13 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
 
   // ==========================================
-  // 5. DRONES & PARTS (categorySlug: "drones-parts")
+  // 5. DRONES & PARTS (category: "Drones & Parts" / "drones-parts")
   // ==========================================
   {
     id: "drn-1",
     name: "5-inch FPV Racing Drone 3K Carbon Fiber Frame",
     slug: "fpv-drone-carbon-fiber-frame",
+    category: "Drones & Parts",
     category_slug: "drones-parts",
     categorySlug: "drones-parts",
     image_key: "drone",
@@ -512,6 +528,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "drn-2",
     name: "2207 2450KV High-Thrust Brushless Drone Motors (4-Pack)",
     slug: "brushless-drone-motor-2207-2450kv",
+    category: "Drones & Parts",
     category_slug: "drones-parts",
     categorySlug: "drones-parts",
     image_key: "drone",
@@ -543,6 +560,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "drn-3",
     name: "5-inch Tri-Blade Propellers (4 Pairs)",
     slug: "5-inch-tri-blade-fpv-propellers",
+    category: "Drones & Parts",
     category_slug: "drones-parts",
     categorySlug: "drones-parts",
     image_key: "drone",
@@ -571,12 +589,13 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
 
   // ==========================================
-  // 6. ACRYLIC PRODUCTS (categorySlug: "acrylic-products")
+  // 6. ACRYLIC PRODUCTS (category: "Acrylic Products" / "acrylic-products")
   // ==========================================
   {
     id: "acr-1",
     name: "Clear Cast Acrylic Dust-Proof Display Box",
     slug: "clear-cast-acrylic-display-box",
+    category: "Acrylic Products",
     category_slug: "acrylic-products",
     categorySlug: "acrylic-products",
     image_key: "stand",
@@ -608,6 +627,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "acr-2",
     name: "Custom Engraved College Acrylic Award Trophy Stand",
     slug: "custom-acrylic-trophy-plaque",
+    category: "Acrylic Products",
     category_slug: "acrylic-products",
     categorySlug: "acrylic-products",
     image_key: "stand",
@@ -639,6 +659,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "acr-3",
     name: "High-Clarity Transparent Protective Acrylic Shield",
     slug: "transparent-protective-acrylic-shield",
+    category: "Acrylic Products",
     category_slug: "acrylic-products",
     categorySlug: "acrylic-products",
     image_key: "stand",
@@ -668,12 +689,13 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
 
   // ==========================================
-  // 7. DIY KITS (categorySlug: "diy-kits")
+  // 7. DIY KITS (category: "DIY Kits" / "diy-kits")
   // ==========================================
   {
     id: "kit-1",
     name: "All-in-One Autonomous Robotics STEM Starter Kit",
     slug: "starter-maker-diy-electronics-kit",
+    category: "DIY Kits",
     category_slug: "diy-kits",
     categorySlug: "diy-kits",
     image_key: "kit",
@@ -705,6 +727,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "kit-2",
     name: "DIY Soldering Practice & Electronics Training Kit",
     slug: "diy-soldering-practice-electronics-kit",
+    category: "DIY Kits",
     category_slug: "diy-kits",
     categorySlug: "diy-kits",
     image_key: "kit",
@@ -736,6 +759,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     id: "kit-3",
     name: "DIY Portable Bluetooth Stereo Speaker Build Kit",
     slug: "diy-bluetooth-speaker-assembly-kit",
+    category: "DIY Kits",
     category_slug: "diy-kits",
     categorySlug: "diy-kits",
     image_key: "kit",
@@ -913,7 +937,18 @@ export function searchProducts(products: Product[], term: string): Product[] {
   const q = term.trim().toLowerCase();
   if (!q) return [];
   return products.filter((p) =>
-    [p.name, p.category_slug, p.subcategory, p.short_description, p.description, p.sku, p.material]
+    [
+      p.name,
+      p.category,
+      p.category_slug,
+      p.categorySlug,
+      p.subcategory,
+      p.short_description,
+      p.description,
+      p.sku,
+      p.material,
+    ]
+      .filter(Boolean)
       .join(" ")
       .toLowerCase()
       .includes(q),

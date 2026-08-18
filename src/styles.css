@@ -312,6 +312,19 @@
   animation: thumbnailGlow 2.5s ease-in-out infinite;
 }
 
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-120%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(220%) skewX(-15deg);
+  }
+}
+
+.animate-shimmer-sweep {
+  animation: shimmerSweep 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-hero-float,
   .animate-hero-float-reverse,

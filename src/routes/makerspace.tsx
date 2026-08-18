@@ -214,13 +214,13 @@ function MakerspacePage() {
               <div
                 key={st.id}
                 onClick={() => setSelectedStation(st.id)}
-                className={`group relative flex flex-col justify-between rounded-2xl border bg-white dark:bg-card overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer ${
+                className={`group relative flex flex-col justify-between rounded-2xl border bg-white dark:bg-card overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-2.5 hover:shadow-2xl cursor-pointer ${
                   isSelected
-                    ? "border-[#1455D9] ring-4 ring-[#1455D9]/25 shadow-lg"
-                    : "border-[#DCE5F2] dark:border-slate-800"
+                    ? "border-[#1455D9] ring-4 ring-[#1455D9] scale-[1.02] shadow-2xl shadow-blue-500/20 z-10"
+                    : "border-[#DCE5F2] dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-800"
                 }`}
               >
-                {/* 1. Full-Width Aspect-Ratio Realistic Photo Header */}
+                {/* 1. Full-Width Aspect-Ratio Realistic Photo Header with Dynamic Shimmer Sweep */}
                 <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
                   <img
                     src={st.image}
@@ -228,31 +228,35 @@ function MakerspacePage() {
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = st.fallbackImage;
                     }}
-                    className="h-full w-full object-cover object-center group-hover:scale-108 transition-transform duration-700 ease-out"
+                    className="h-full w-full object-cover object-center group-hover:scale-110 transition-transform duration-700 ease-out"
                     loading="lazy"
                   />
 
-                  {/* Gradient Shadow Overlay for Smooth Text Transition */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1736]/90 via-[#0B1736]/20 to-transparent" />
+                  {/* Diagonal Shimmer Light Sweep on Hover */}
+                  <div className="pointer-events-none absolute inset-0 -translate-x-full group-hover:animate-shimmer-sweep bg-gradient-to-r from-transparent via-white/30 to-transparent z-15" />
 
-                  {/* Turnaround Badge */}
-                  <div className="absolute top-3 right-3 z-10">
+                  {/* Gradient Shadow Overlay for Smooth Text Transition */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1736]/90 via-[#0B1736]/25 to-transparent z-10" />
+
+                  {/* Pulsing Turnaround Duration Badge */}
+                  <div className="absolute top-3 right-3 z-20">
                     <span
-                      className={`rounded-full px-2.5 py-0.5 text-[9px] sm:text-[10px] font-black uppercase tracking-wider shadow-md ${st.badgeColor}`}
+                      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[9px] sm:text-[10px] font-black uppercase tracking-wider shadow-md animate-pulse ${st.badgeColor}`}
                     >
+                      <Clock className="h-3 w-3" />
                       {st.turnaround}
                     </span>
                   </div>
 
                   {/* Station Icon Pill on Top-Left */}
-                  <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-bold text-[#0B1736] dark:text-white shadow-sm">
+                  <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-bold text-[#0B1736] dark:text-white shadow-sm">
                     <Icon className="h-3.5 w-3.5 text-[#1455D9]" />
                     <span className="truncate max-w-[120px]">{st.title.split("&")[0]}</span>
                   </div>
 
                   {/* Floating Title on bottom edge of image */}
-                  <div className="absolute bottom-3 left-4 right-4 z-10">
-                    <h3 className="text-base font-black text-white leading-tight drop-shadow-sm group-hover:text-[#00E5FF] transition-colors">
+                  <div className="absolute bottom-3 left-4 right-4 z-20">
+                    <h3 className="text-base font-black text-white leading-tight drop-shadow-md group-hover:text-[#00E5FF] transition-colors">
                       {st.title}
                     </h3>
                   </div>
@@ -283,9 +287,9 @@ function MakerspacePage() {
                         e.stopPropagation();
                         handleSelectStation(st.id);
                       }}
-                      className={`w-full mt-3 flex items-center justify-center gap-1.5 rounded-xl py-2 text-xs font-bold transition-all ${
+                      className={`w-full mt-3 flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-bold transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-xs ${
                         isSelected
-                          ? "bg-[#1455D9] text-white shadow-xs"
+                          ? "bg-[#1455D9] text-white shadow-md ring-2 ring-[#1455D9]/30"
                           : "bg-slate-100 dark:bg-slate-800 text-[#0B1736] dark:text-white hover:bg-[#1455D9] hover:text-white"
                       }`}
                     >

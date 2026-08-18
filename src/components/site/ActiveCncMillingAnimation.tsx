@@ -2,9 +2,11 @@ import React, { useEffect, useRef } from "react";
 
 /**
  * Premium Realistic 4-Axis CNC Milling Animation (HTML5 Canvas 60fps)
- * Features an industrial 4-axis CNC spindle, carbide end-mill cutter carving into a 6061-T6
- * aerospace aluminum billet, with high-pressure coolant jets, flying metallic swarf chips,
- * and radiant friction sparks in a smooth 5.0-second seamless loop.
+ * Visibly transforms a raw rectangular aluminum block into a precision-machined aerospace bracket:
+ * Phase 1: Step Milling outer mounting flanges
+ * Phase 2: Deep pocketing center cavity
+ * Phase 3: Drilling 4 counterbored mounting holes
+ * Phase 4: Retract & showcase the finished machined component
  */
 export function ActiveCncMillingAnimation({ className = "" }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -17,28 +19,29 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
 
     let animationFrameId: number;
     let startTime: number | null = null;
-    const LOOP_DURATION = 5000; // 5.0s seamless loop
+    const LOOP_DURATION = 5400; // 5.4s seamless loop
 
     const W = 480;
     const H = 280;
     canvas.width = W;
     canvas.height = H;
 
-    // CNC Pocket Milling Toolpath Coords (Spiral facing / contouring pass)
-    const PATH_POINTS = 220;
-    const pathCoords: { x: number; y: number }[] = [];
-    const centerX = W / 2 + 10;
-    const centerY = H / 2 + 18;
+    // Part center & dimensions
+    const partCenterX = W / 2;
+    const partCenterY = H / 2 + 16;
+    const stockW = 200;
+    const stockH = 74;
+    const stockLeft = partCenterX - stockW / 2;
+    const stockTop = partCenterY - stockH / 2;
 
-    for (let i = 0; i <= PATH_POINTS; i++) {
-      const t = (i / PATH_POINTS) * Math.PI * 6; // 3 complete spiral passes
-      const r = 10 + (i / PATH_POINTS) * 58;
-      const x = centerX + r * Math.cos(t) * 1.15;
-      const y = centerY + r * Math.sin(t) * 0.65; // Isometric perspective
-      pathCoords.push({ x, y });
-    }
+    // Counterbored hole coordinates on the bracket
+    const holePositions = [
+      { x: stockLeft + 24, y: stockTop + 20 },
+      { x: stockLeft + stockW - 24, y: stockTop + 20 },
+      { x: stockLeft + 24, y: stockTop + stockH - 20 },
+      { x: stockLeft + stockW - 24, y: stockTop + stockH - 20 },
+    ];
 
-    // Metal chips / Swarf particle system
     interface Chip {
       x: number;
       y: number;
@@ -53,7 +56,6 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
     }
     const chips: Chip[] = [];
 
-    // Coolant spray droplets system
     interface CoolantDrop {
       x: number;
       y: number;
@@ -69,144 +71,250 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
       const elapsed = (now - startTime) % LOOP_DURATION;
       const progress = elapsed / LOOP_DURATION; // 0.0 to 1.0
 
-      let currentPathIndex = 0;
-      let isCompletedShowcase = false;
-
-      if (progress < 0.85) {
-        currentPathIndex = Math.floor((progress / 0.85) * PATH_POINTS);
-      } else {
-        currentPathIndex = PATH_POINTS;
-        isCompletedShowcase = true;
-      }
+      // Machining Phases:
+      // 0.00 - 0.28: Phase 1 -> Step Milling left & right shoulders
+      // 0.28 - 0.58: Phase 2 -> Pocket Milling center cavity
+      // 0.58 - 0.82: Phase 3 -> Drilling & counterboring 4 corner bolt holes
+      // 0.82 - 1.00: Phase 4 -> Spindle retracts, showcase finished component
+      const p1 = Math.min(1, Math.max(0, (progress - 0.0) / 0.28));
+      const p2 = Math.min(1, Math.max(0, (progress - 0.28) / 0.3));
+      const p3 = Math.min(1, Math.max(0, (progress - 0.58) / 0.24));
+      const isShowcase = progress >= 0.82;
 
       ctx.clearRect(0, 0, W, H);
 
-      // 1. Dark Industrial CNC Machine Enclosure
-      const bgGrad = ctx.createRadialGradient(W / 2, H * 0.45, 30, W / 2, H / 2, W * 0.75);
-      bgGrad.addColorStop(0, "#1E293B"); // Slate-800 ambient chamber
+      // 1. Dark Heavy Machine Enclosure & Precision T-Slot Table
+      const bgGrad = ctx.createRadialGradient(W / 2, H * 0.4, 20, W / 2, H / 2, W * 0.75);
+      bgGrad.addColorStop(0, "#1E293B"); // Slate-800 soft lighting
       bgGrad.addColorStop(0.5, "#0F172A"); // Slate-900
-      bgGrad.addColorStop(1, "#070B14");
+      bgGrad.addColorStop(1, "#070A12");
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, W, H);
 
-      // T-Slot Heavy Cast Iron Bed Table
-      const tableY = H - 65;
+      // Cast Iron Machine Base
+      const tableY = H - 55;
       const tableGrad = ctx.createLinearGradient(0, tableY, 0, H);
       tableGrad.addColorStop(0, "#334155");
-      tableGrad.addColorStop(0.3, "#1E293B");
+      tableGrad.addColorStop(0.4, "#1E293B");
       tableGrad.addColorStop(1, "#0F172A");
       ctx.fillStyle = tableGrad;
-      ctx.fillRect(20, tableY, W - 40, 60);
-      ctx.strokeStyle = "#64748B";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(20, tableY, W - 40, 60);
-
-      // T-Slot Grooves
-      ctx.fillStyle = "#0A0F1D";
-      for (let tx = 45; tx < W - 40; tx += 48) {
-        ctx.fillRect(tx, tableY + 6, 8, 48);
-        ctx.strokeStyle = "rgba(148, 163, 184, 0.3)";
-        ctx.strokeRect(tx, tableY + 6, 8, 48);
-      }
-
-      // 2. Precision Vise & 6061-T6 Aluminum Billet Workpiece
-      const blockLeft = 60;
-      const blockTop = H / 2 - 36;
-      const blockW = W - 120;
-      const blockH = 88;
-
-      // Heavy Precision Tooling Vise Clamps (Left & Right)
-      ctx.fillStyle = "#1E293B";
-      ctx.fillRect(blockLeft - 18, blockTop + 10, 18, blockH - 10);
-      ctx.fillRect(blockLeft + blockW, blockTop + 10, 18, blockH - 10);
+      ctx.fillRect(20, tableY, W - 40, 50);
       ctx.strokeStyle = "#475569";
-      ctx.strokeRect(blockLeft - 18, blockTop + 10, 18, blockH - 10);
-      ctx.strokeRect(blockLeft + blockW, blockTop + 10, 18, blockH - 10);
+      ctx.lineWidth = 1;
+      ctx.strokeRect(20, tableY, W - 40, 50);
 
-      // Aluminum Billet 3D Volume (Isometric Face)
-      // Front Face
-      const aluFrontGrad = ctx.createLinearGradient(
+      // Precision Machine Fixture Vises (Holding the stock securely)
+      const viseW = 22;
+      const viseH = 68;
+      ctx.fillStyle = "#1E293B";
+      ctx.fillRect(stockLeft - viseW - 2, stockTop + 4, viseW, viseH);
+      ctx.fillRect(stockLeft + stockW + 2, stockTop + 4, viseW, viseH);
+      ctx.strokeStyle = "#00E5FF";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(stockLeft - viseW - 2, stockTop + 4, viseW, viseH);
+      ctx.strokeRect(stockLeft + stockW + 2, stockTop + 4, viseW, viseH);
+
+      // 2. Workpiece: Transformation from Raw Aluminum Block -> Finished Bracket
+      // Draw Base Raw Aluminum Block (Isometric Perspective)
+      const isometOffsetX = 18;
+      const isometOffsetY = 14;
+
+      // Workpiece Front Wall (Thickness)
+      const frontWallGrad = ctx.createLinearGradient(
         0,
-        blockTop + blockH * 0.45,
+        stockTop + stockH,
         0,
-        blockTop + blockH,
+        stockTop + stockH + 18,
       );
-      aluFrontGrad.addColorStop(0, "#94A3B8");
-      aluFrontGrad.addColorStop(0.5, "#64748B");
-      aluFrontGrad.addColorStop(1, "#334155");
-      ctx.fillStyle = aluFrontGrad;
-      ctx.fillRect(blockLeft, blockTop + blockH * 0.45, blockW, blockH * 0.55);
-      ctx.strokeStyle = "#CBD5E1";
-      ctx.strokeRect(blockLeft, blockTop + blockH * 0.45, blockW, blockH * 0.55);
+      frontWallGrad.addColorStop(0, "#64748B");
+      frontWallGrad.addColorStop(0.5, "#475569");
+      frontWallGrad.addColorStop(1, "#1E293B");
+      ctx.fillStyle = frontWallGrad;
+      ctx.fillRect(stockLeft, stockTop + stockH, stockW, 18);
+      ctx.strokeStyle = "#94A3B8";
+      ctx.strokeRect(stockLeft, stockTop + stockH, stockW, 18);
 
-      // Top Machining Surface
+      // Workpiece Top Main Body
       const aluTopGrad = ctx.createLinearGradient(
-        blockLeft,
-        blockTop,
-        blockLeft + blockW,
-        blockTop + blockH * 0.45,
+        stockLeft,
+        stockTop,
+        stockLeft + stockW,
+        stockTop + stockH,
       );
-      aluTopGrad.addColorStop(0, "#E2E8F0");
-      aluTopGrad.addColorStop(0.3, "#F8FAFC"); // High-specular brushed metallic reflection
+      aluTopGrad.addColorStop(0, "#CBD5E1");
+      aluTopGrad.addColorStop(0.35, "#F1F5F9"); // Specular brushed metal highlight
       aluTopGrad.addColorStop(0.7, "#CBD5E1");
       aluTopGrad.addColorStop(1, "#94A3B8");
       ctx.fillStyle = aluTopGrad;
-      ctx.beginPath();
-      ctx.moveTo(blockLeft + 20, blockTop);
-      ctx.lineTo(blockLeft + blockW - 20, blockTop);
-      ctx.lineTo(blockLeft + blockW, blockTop + blockH * 0.45);
-      ctx.lineTo(blockLeft, blockTop + blockH * 0.45);
-      ctx.closePath();
-      ctx.fill();
-      ctx.strokeStyle = "#FFFFFF";
-      ctx.lineWidth = 1;
-      ctx.stroke();
+      ctx.fillRect(stockLeft, stockTop, stockW, stockH);
+      ctx.strokeStyle = "#E2E8F0";
+      ctx.lineWidth = 1.2;
+      ctx.strokeRect(stockLeft, stockTop, stockW, stockH);
 
-      // 3. Progressively Milled Pocket / Scalloped Toolpaths
-      if (currentPathIndex > 1) {
-        // Deep Carved Pocket Cavity
-        ctx.save();
-        ctx.fillStyle = "#334155";
-        ctx.beginPath();
-        for (let i = 0; i <= currentPathIndex; i++) {
-          const pt = pathCoords[i];
-          if (pt) {
-            ctx.arc(pt.x, pt.y, 14, 0, Math.PI * 2);
-          }
+      // --- STAGE 1 MACHINED FEATURES: Stepped Flange Shoulders (Left & Right) ---
+      if (p1 > 0) {
+        const stepCutDepth = 12 * p1;
+        const stepWidth = 36 * p1;
+
+        // Left Step Shoulder (Milled Down)
+        ctx.fillStyle = "#94A3B8";
+        ctx.fillRect(stockLeft, stockTop, stepWidth, stockH);
+        // Step Floor Texture (Machined Swirls)
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+        ctx.lineWidth = 0.8;
+        for (let y = stockTop + 6; y < stockTop + stockH; y += 8) {
+          ctx.beginPath();
+          ctx.moveTo(stockLeft, y);
+          ctx.lineTo(stockLeft + stepWidth, y);
+          ctx.stroke();
         }
+        // Step Inner Drop Edge
+        ctx.fillStyle = "#475569";
+        ctx.fillRect(stockLeft + stepWidth - 2, stockTop, 2, stockH);
+
+        // Right Step Shoulder (Milled Down)
+        ctx.fillStyle = "#94A3B8";
+        ctx.fillRect(stockLeft + stockW - stepWidth, stockTop, stepWidth, stockH);
+        for (let y = stockTop + 6; y < stockTop + stockH; y += 8) {
+          ctx.beginPath();
+          ctx.moveTo(stockLeft + stockW - stepWidth, y);
+          ctx.lineTo(stockLeft + stockW, y);
+          ctx.stroke();
+        }
+        // Right Step Inner Drop Edge
+        ctx.fillStyle = "#475569";
+        ctx.fillRect(stockLeft + stockW - stepWidth, stockTop, 2, stockH);
+      }
+
+      // --- STAGE 2 MACHINED FEATURES: Deep Center Pocket Cavity ---
+      if (p2 > 0) {
+        const pocketMarginX = 46;
+        const pocketMarginY = 14;
+        const maxPocketW = stockW - pocketMarginX * 2;
+        const maxPocketH = stockH - pocketMarginY * 2;
+        const currentPocketW = maxPocketW * p2;
+        const currentPocketH = maxPocketH * p2;
+        const pLeft = partCenterX - currentPocketW / 2;
+        const pTop = partCenterY - currentPocketH / 2;
+
+        // Deep Shadow Pocket Cavity
+        ctx.fillStyle = "#1E293B";
+        ctx.beginPath();
+        ctx.roundRect(pLeft, pTop, currentPocketW, currentPocketH, 6);
         ctx.fill();
 
-        // Freshly Machined Mirror Surface with Spiral Flute Grooves
-        ctx.fillStyle = "#E2E8F0";
-        for (let i = 0; i <= currentPathIndex; i += 3) {
-          const pt = pathCoords[i];
-          if (pt) {
+        // Machined Mirror Pocket Floor with Toolpath Scallop Circles
+        const pocketFloorGrad = ctx.createLinearGradient(
+          pLeft,
+          pTop,
+          pLeft + currentPocketW,
+          pTop + currentPocketH,
+        );
+        pocketFloorGrad.addColorStop(0, "#64748B");
+        pocketFloorGrad.addColorStop(0.5, "#CBD5E1"); // Shiny mirror pass
+        pocketFloorGrad.addColorStop(1, "#475569");
+        ctx.fillStyle = pocketFloorGrad;
+        ctx.beginPath();
+        ctx.roundRect(pLeft + 3, pTop + 3, currentPocketW - 6, currentPocketH - 6, 4);
+        ctx.fill();
+
+        // Circular Toolpath Rings on Pocket Floor
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.45)";
+        ctx.lineWidth = 0.8;
+        for (let r = 8; r < currentPocketW / 2 - 4; r += 7) {
+          ctx.beginPath();
+          ctx.ellipse(partCenterX, partCenterY, r, r * 0.48, 0, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        // Inner Chamfer Highlight
+        ctx.strokeStyle = "#00E5FF";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(pLeft, pTop, currentPocketW, currentPocketH, 6);
+        ctx.stroke();
+      }
+
+      // --- STAGE 3 MACHINED FEATURES: 4 Precision Counterbored Bolt Holes ---
+      if (p3 > 0) {
+        const drilledCount = Math.floor(p3 * 4) + 1;
+
+        for (let i = 0; i < 4; i++) {
+          const hole = holePositions[i];
+          if (!hole) continue;
+
+          if (i < drilledCount) {
+            // Counterbore Outer Recess (Larger Diameter)
+            ctx.fillStyle = "#475569";
             ctx.beginPath();
-            ctx.ellipse(pt.x, pt.y, 12, 7, 0, 0, Math.PI * 2);
+            ctx.arc(hole.x, hole.y, 8, 0, Math.PI * 2);
             ctx.fill();
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+            ctx.strokeStyle = "#FFFFFF";
             ctx.lineWidth = 0.8;
+            ctx.stroke();
+
+            // Inner Drilled Through-Hole (Dark Deep Bore)
+            ctx.fillStyle = "#090D16";
+            ctx.beginPath();
+            ctx.arc(hole.x, hole.y, 4.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = "#00E5FF";
+            ctx.lineWidth = 0.6;
             ctx.stroke();
           }
         }
-        ctx.restore();
       }
 
-      // 4. Moving Spindle Toolhead & High-Speed Rotating End-Mill
-      const currentPoint = isCompletedShowcase
-        ? { x: centerX, y: centerY }
-        : pathCoords[currentPathIndex] || { x: centerX, y: centerY };
+      // 3. Dynamic Moving CNC Spindle & End-Mill Cutter
+      let targetToolX = partCenterX;
+      let targetToolY = partCenterY;
+      let isCutting = false;
 
-      const toolX = currentPoint.x;
-      const toolTipY = isCompletedShowcase ? currentPoint.y - 18 : currentPoint.y;
+      if (progress < 0.28) {
+        // Phase 1: Milling Shoulders
+        isCutting = true;
+        const sideT = (progress / 0.28) * Math.PI * 4;
+        if (progress < 0.14) {
+          // Left Shoulder Milling
+          targetToolX = stockLeft + 16 + Math.cos(sideT) * 12;
+          targetToolY = stockTop + stockH * (progress / 0.14);
+        } else {
+          // Right Shoulder Milling
+          targetToolX = stockLeft + stockW - 16 + Math.cos(sideT) * 12;
+          targetToolY = stockTop + stockH * ((progress - 0.14) / 0.14);
+        }
+      } else if (progress < 0.58) {
+        // Phase 2: Pocketing Center
+        isCutting = true;
+        const pocketT = ((progress - 0.28) / 0.3) * Math.PI * 6;
+        const radiusX = 38 * ((progress - 0.28) / 0.3);
+        const radiusY = 18 * ((progress - 0.28) / 0.3);
+        targetToolX = partCenterX + Math.cos(pocketT) * radiusX;
+        targetToolY = partCenterY + Math.sin(pocketT) * radiusY;
+      } else if (progress < 0.82) {
+        // Phase 3: Drilling Holes
+        isCutting = true;
+        const holeIdx = Math.min(3, Math.floor(((progress - 0.58) / 0.24) * 4));
+        const activeHole = holePositions[holeIdx] || { x: partCenterX, y: partCenterY };
+        targetToolX = activeHole.x;
+        targetToolY = activeHole.y;
+      } else {
+        // Phase 4: Showcase (Retracted)
+        isCutting = false;
+        targetToolX = partCenterX;
+        targetToolY = stockTop - 18;
+      }
+
+      const toolTipY = isShowcase ? stockTop - 22 : targetToolY;
+      const toolX = targetToolX;
 
       // Heavy CNC Gantry Bridge & Spindle Housing
-      const spindleW = 64;
-      const spindleH = 55;
+      const spindleW = 60;
+      const spindleH = 50;
       const spindleX = toolX - spindleW / 2;
-      const spindleY = toolTipY - 80;
+      const spindleY = toolTipY - 78;
 
-      // Spindle Cast Iron Body
+      // Cast-Iron Spindle Housing
       const spGrad = ctx.createLinearGradient(
         spindleX,
         spindleY,
@@ -214,20 +322,20 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
         spindleY + spindleH,
       );
       spGrad.addColorStop(0, "#0F172A");
-      spGrad.addColorStop(0.3, "#334155");
-      spGrad.addColorStop(0.6, "#64748B"); // Metallic highlight
+      spGrad.addColorStop(0.35, "#334155");
+      spGrad.addColorStop(0.65, "#64748B");
       spGrad.addColorStop(1, "#1E293B");
       ctx.fillStyle = spGrad;
       ctx.strokeStyle = "#00E5FF";
       ctx.lineWidth = 1.2;
       ctx.beginPath();
-      ctx.roundRect(spindleX, spindleY, spindleW, spindleH, 6);
+      ctx.roundRect(spindleX, spindleY, spindleW, spindleH, 5);
       ctx.fill();
       ctx.stroke();
 
-      // Precision BT40 Toolholder (Taper & Collet Nut)
-      const holderW = 34;
-      const holderH = 22;
+      // Precision BT40 Toolholder
+      const holderW = 32;
+      const holderH = 20;
       const holderX = toolX - holderW / 2;
       const holderY = spindleY + spindleH;
 
@@ -251,17 +359,16 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
       ctx.fill();
       ctx.stroke();
 
-      // ER32 Collet Nut
+      // Collet Nut
       ctx.fillStyle = "#0F172A";
-      ctx.fillRect(toolX - 10, holderY + holderH, 20, 6);
+      ctx.fillRect(toolX - 9, holderY + holderH, 18, 5);
 
-      // Solid Carbide 4-Flute End-Mill Cutter (Spinning at 18,000 RPM)
-      const cutterH = toolTipY - (holderY + holderH + 6);
-      const cutterW = 8;
+      // Solid Carbide 4-Flute End-Mill Cutter (18,000 RPM high-speed rotation)
+      const cutterH = toolTipY - (holderY + holderH + 5);
+      const cutterW = 7;
       const cutterX = toolX - cutterW / 2;
-      const cutterY = holderY + holderH + 6;
+      const cutterY = holderY + holderH + 5;
 
-      // Cutter Shank
       const cutterGrad = ctx.createLinearGradient(
         cutterX,
         cutterY,
@@ -269,56 +376,61 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
         cutterY + cutterH,
       );
       cutterGrad.addColorStop(0, "#94A3B8");
-      cutterGrad.addColorStop(0.5, "#F1F5F9"); // Specular blade shine
+      cutterGrad.addColorStop(0.5, "#FFFFFF"); // Specular blade shine
       cutterGrad.addColorStop(1, "#475569");
       ctx.fillStyle = cutterGrad;
       ctx.fillRect(cutterX, cutterY, cutterW, cutterH);
 
-      // High-Speed Rotating Spiral Flutes (Dynamic spinning motion blur)
-      ctx.strokeStyle = "rgba(15, 23, 42, 0.7)";
+      // Spinning Spiral Flutes Motion Blur
+      ctx.strokeStyle = "rgba(15, 23, 42, 0.75)";
       ctx.lineWidth = 1.4;
-      const flutePhase = (now * 0.04) % 8;
-      for (let fy = cutterY + flutePhase; fy < cutterY + cutterH; fy += 7) {
+      const flutePhase = (now * 0.045) % 8;
+      for (let fy = cutterY + flutePhase; fy < cutterY + cutterH; fy += 6) {
         ctx.beginPath();
         ctx.moveTo(cutterX, fy);
         ctx.lineTo(cutterX + cutterW, fy - 3);
         ctx.stroke();
       }
 
-      // 5. Dual High-Pressure Coolant Jets & Fluid Streams
-      // Left Coolant Nozzle
-      const nozLeftX = spindleX - 4;
-      const nozLeftY = spindleY + 28;
-      ctx.strokeStyle = "#38BDF8";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(nozLeftX, nozLeftY);
-      ctx.bezierCurveTo(nozLeftX - 10, nozLeftY + 25, toolX - 20, toolTipY - 15, toolX, toolTipY);
-      ctx.stroke();
+      // 4. Coolant Jets, Flying Swarf Chips & Sparks
+      if (isCutting) {
+        // Dual Coolant Streams
+        const nozLeftX = spindleX - 4;
+        const nozLeftY = spindleY + 24;
+        ctx.strokeStyle = "#00E5FF";
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(nozLeftX, nozLeftY);
+        ctx.bezierCurveTo(nozLeftX - 10, nozLeftY + 22, toolX - 18, toolTipY - 12, toolX, toolTipY);
+        ctx.stroke();
 
-      // Right Coolant Nozzle
-      const nozRightX = spindleX + spindleW + 4;
-      const nozRightY = spindleY + 28;
-      ctx.beginPath();
-      ctx.moveTo(nozRightX, nozRightY);
-      ctx.bezierCurveTo(nozRightX + 10, nozRightY + 25, toolX + 20, toolTipY - 15, toolX, toolTipY);
-      ctx.stroke();
+        const nozRightX = spindleX + spindleW + 4;
+        const nozRightY = spindleY + 24;
+        ctx.beginPath();
+        ctx.moveTo(nozRightX, nozRightY);
+        ctx.bezierCurveTo(
+          nozRightX + 10,
+          nozRightY + 22,
+          toolX + 18,
+          toolTipY - 12,
+          toolX,
+          toolTipY,
+        );
+        ctx.stroke();
 
-      // Active Coolant Spray Mist & Splash
-      if (!isCompletedShowcase) {
-        // Spawn Coolant Droplets
+        // Spawn Coolant Splash Droplets
         for (let c = 0; c < 3; c++) {
           coolantDrops.push({
             x: toolX + (Math.random() - 0.5) * 8,
             y: toolTipY + (Math.random() - 0.5) * 4,
-            vx: (Math.random() - 0.5) * 5,
-            vy: -Math.random() * 3 - 1,
-            alpha: 0.6,
-            size: 2 + Math.random() * 2.5,
+            vx: (Math.random() - 0.5) * 6,
+            vy: -Math.random() * 3.5 - 1,
+            alpha: 0.65,
+            size: 1.8 + Math.random() * 2.2,
           });
         }
 
-        // Spawn Metal Swarf Chips & Sparks
+        // Spawn Aluminum Swarf Chips & Sparks
         for (let s = 0; s < 3; s++) {
           chips.push({
             x: toolX,
@@ -326,15 +438,15 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
             vx: (Math.random() - 0.5) * 7,
             vy: -Math.random() * 5 - 1.5,
             rotation: Math.random() * Math.PI * 2,
-            vRot: (Math.random() - 0.5) * 0.4,
+            vRot: (Math.random() - 0.5) * 0.45,
             life: 0,
-            maxLife: 15 + Math.random() * 15,
+            maxLife: 14 + Math.random() * 14,
             size: 1.5 + Math.random() * 2,
-            isSpark: Math.random() > 0.45,
+            isSpark: Math.random() > 0.4,
           });
         }
 
-        // Active Friction Cutting Glow
+        // Contact Cutting Point Radiant Highlight
         ctx.save();
         ctx.shadowColor = "#F59E0B";
         ctx.shadowBlur = 14;
@@ -345,13 +457,13 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
         ctx.restore();
       }
 
-      // 6. Draw Coolant Spray Droplets
+      // 5. Draw Coolant Spray Droplets
       for (let i = coolantDrops.length - 1; i >= 0; i--) {
         const cd = coolantDrops[i];
         if (!cd) continue;
         cd.x += cd.vx;
         cd.y += cd.vy;
-        cd.vy += 0.2; // gravity
+        cd.vy += 0.2;
         cd.alpha -= 0.025;
 
         if (cd.alpha <= 0) {
@@ -365,13 +477,13 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
         ctx.fill();
       }
 
-      // 7. Draw Aluminum Swarf Chips & Radiant Sparks
+      // 6. Draw Aluminum Chips & Sparks
       for (let i = chips.length - 1; i >= 0; i--) {
         const cp = chips[i];
         if (!cp) continue;
         cp.x += cp.vx;
         cp.y += cp.vy;
-        cp.vy += 0.35; // gravity
+        cp.vy += 0.35;
         cp.rotation += cp.vRot;
         cp.life++;
 
@@ -386,7 +498,6 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
         ctx.rotate(cp.rotation);
 
         if (cp.isSpark) {
-          // Radiant orange friction spark
           ctx.fillStyle = "#F59E0B";
           ctx.shadowColor = "#F97316";
           ctx.shadowBlur = 8;
@@ -395,7 +506,6 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
           ctx.arc(0, 0, cp.size, 0, Math.PI * 2);
           ctx.fill();
         } else {
-          // Curled silver aluminum chip
           ctx.fillStyle = "#E2E8F0";
           ctx.strokeStyle = "#64748B";
           ctx.lineWidth = 0.5;
@@ -420,7 +530,7 @@ export function ActiveCncMillingAnimation({ className = "" }: { className?: stri
   }, []);
 
   return (
-    <div className={`relative w-full h-full bg-[#070B14] overflow-hidden select-none ${className}`}>
+    <div className={`relative w-full h-full bg-[#070A12] overflow-hidden select-none ${className}`}>
       <canvas
         ref={canvasRef}
         className="w-full h-full object-cover block"

@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Active3DPrinterAnimation } from "@/components/site/Active3DPrinterAnimation";
 import { ActiveLaserCutterAnimation } from "@/components/site/ActiveLaserCutterAnimation";
 import { ActiveCncMillingAnimation } from "@/components/site/ActiveCncMillingAnimation";
+import { ActivePcbCurrentAnimation } from "@/components/site/ActivePcbCurrentAnimation";
 
 export const Route = createFileRoute("/makerspace")({
   head: () => ({
@@ -241,27 +242,8 @@ function MakerspacePage() {
                       <ActiveCncMillingAnimation />
                     </div>
                   ) : (
-                    <img
-                      src={st.image}
-                      alt={st.title}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = st.fallbackImage;
-                      }}
-                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                      loading="lazy"
-                    />
-                  )}
-
-                  {/* ACTIVE FABRICATION MOTION OVERLAY 4: Glowing Cyan Traces & Processor IC Aura */}
-                  {st.id === "pcb-prototype" && (
-                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      {/* Cyan Circuit Trace Wave Glow */}
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_55%_50%,rgba(0,229,255,0.3)_0%,transparent_65%)] animate-pcb-pulse" />
-                      {/* Blinking Emerald Microchip Status LED */}
-                      <div className="absolute left-[58%] top-[48%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                        <span className="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-[#10B981] opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981] shadow-[0_0_10px_#10B981]"></span>
-                      </div>
+                    <div className="h-full w-full group-hover:scale-105 transition-transform duration-500 ease-out">
+                      <ActivePcbCurrentAnimation />
                     </div>
                   )}
 

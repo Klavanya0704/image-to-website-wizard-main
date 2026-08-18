@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Active3DPrinterAnimation } from "@/components/site/Active3DPrinterAnimation";
 import { ActiveLaserCutterAnimation } from "@/components/site/ActiveLaserCutterAnimation";
+import { ActiveCncMillingAnimation } from "@/components/site/ActiveCncMillingAnimation";
 
 export const Route = createFileRoute("/makerspace")({
   head: () => ({
@@ -235,6 +236,10 @@ function MakerspacePage() {
                     <div className="h-full w-full group-hover:scale-105 transition-transform duration-500 ease-out">
                       <ActiveLaserCutterAnimation />
                     </div>
+                  ) : st.id === "cnc-machining" ? (
+                    <div className="h-full w-full group-hover:scale-105 transition-transform duration-500 ease-out">
+                      <ActiveCncMillingAnimation />
+                    </div>
                   ) : (
                     <img
                       src={st.image}
@@ -245,20 +250,6 @@ function MakerspacePage() {
                       className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                       loading="lazy"
                     />
-                  )}
-
-                  {/* ACTIVE FABRICATION MOTION OVERLAY 3: Dynamic Orange Floating Spark Particles around CNC Cutter */}
-                  {st.id === "cnc-machining" && (
-                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      <div className="absolute left-[50%] top-[52%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                        <div className="h-10 w-10 rounded-full border border-dashed border-[#00E5FF] animate-spindle-fast opacity-75 shadow-[0_0_12px_rgba(0,229,255,0.4)]" />
-                        <div className="absolute h-3 w-3 rounded-full bg-amber-400 shadow-[0_0_12px_#F59E0B]" />
-                        {/* Flying Orange Spark Particles */}
-                        <span className="absolute -top-3 right-4 h-1.5 w-1.5 rounded-full bg-amber-300 animate-ping [animation-duration:0.6s]" />
-                        <span className="absolute -bottom-3 -left-3 h-1.5 w-1.5 rounded-full bg-orange-400 animate-ping [animation-duration:0.8s]" />
-                        <span className="absolute -top-2 -left-4 h-1 w-1 rounded-full bg-yellow-200 animate-ping [animation-duration:0.5s]" />
-                      </div>
-                    </div>
                   )}
 
                   {/* ACTIVE FABRICATION MOTION OVERLAY 4: Glowing Cyan Traces & Processor IC Aura */}

@@ -20,6 +20,12 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import {
+  Station3DPrintingSimulation,
+  StationLaserCuttingSimulation,
+  StationCNCMillingSimulation,
+  StationPCBSimulation,
+} from "@/components/site/StationVisuals";
 
 export const Route = createFileRoute("/makerspace")({
   head: () => ({
@@ -43,9 +49,7 @@ const LAB_STATIONS = [
       "Industrial FDM & SLA high-resolution polymer printing. Choose from PLA, ABS, PETG, TPU, or engineering resin for functional prototypes and enclosures.",
     turnaround: "24-48 Hours",
     icon: Printer,
-    image: "/images/stations/3d-printing.jpg",
-    fallbackImage:
-      "https://images.unsplash.com/photo-1631556097152-c39479bbf9f3?auto=format&fit=crop&w=800&q=80",
+    simulation: Station3DPrintingSimulation,
     formats: ".STL, .OBJ, .3MF, .STEP",
     precision: "±0.05mm",
     badgeColor: "bg-[#1455D9] text-white",
@@ -57,9 +61,7 @@ const LAB_STATIONS = [
       "High-precision laser cutting and vector engraving for acrylic, birch plywood, MDF, fabric, and leather. Mirror finish edges with high repeatability.",
     turnaround: "Same Day / 24 Hours",
     icon: Scissors,
-    image: "/images/stations/laser-cutting.jpg",
-    fallbackImage:
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+    simulation: StationLaserCuttingSimulation,
     formats: ".DXF, .SVG, .AI, .PDF",
     precision: "±0.1mm",
     badgeColor: "bg-rose-600 text-white",
@@ -71,9 +73,7 @@ const LAB_STATIONS = [
       "High-torque CNC routing and precision milling for soft metals (6061-T6 Aluminum, Brass), Delrin plastics, and structural composites.",
     turnaround: "2-4 Business Days",
     icon: Settings,
-    image: "/images/stations/cnc-machining.jpg",
-    fallbackImage:
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
+    simulation: StationCNCMillingSimulation,
     formats: ".STEP, .IGES, .DXF",
     precision: "±0.02mm",
     badgeColor: "bg-amber-600 text-white",
@@ -85,9 +85,7 @@ const LAB_STATIONS = [
       "Rapid single and double-sided printed circuit board milling, surface-mount soldering stations, and full firmware testing bench.",
     turnaround: "48-72 Hours",
     icon: Cpu,
-    image: "/images/stations/pcb-prototype.jpg",
-    fallbackImage:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+    simulation: StationPCBSimulation,
     formats: ".GERBER, .ZIP, .BRD",
     precision: "6mil Trace/Space",
     badgeColor: "bg-emerald-600 text-white",
@@ -204,6 +202,7 @@ function MakerspacePage() {
           {LAB_STATIONS.map((st, idx) => {
             const isSelected = selectedStation === st.id;
             const Icon = st.icon;
+            const SimulationComponent = st.simulation;
 
             return (
               <motion.div
@@ -223,77 +222,15 @@ function MakerspacePage() {
                     : "border-[#DCE5F2] dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-800"
                 }`}
               >
-                {/* 1. Full-Width Aspect-Ratio Realistic Photo Header with Dynamic Shimmer Sweep & Live Working Simulation Overlays */}
-                <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
-                  <img
-                    src={st.image}
-                    alt={st.title}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = st.fallbackImage;
-                    }}
-                    className="h-full w-full object-cover object-center group-hover:scale-110 transition-transform duration-700 ease-out"
-                    loading="lazy"
-                  />
+                {/* 1. 3D Canvas / Animated Vector Simulation Header */}
+                <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-950 rounded-t-2xl">
+                  {/* Real 3D CAD Slicer Vector Simulation Component */}
+                  <div className="w-full h-full transform group-hover:scale-105 transition-transform duration-700 ease-out">
+                    <SimulationComponent />
+                  </div>
 
                   {/* Diagonal Shimmer Light Sweep on Hover */}
-                  <div className="pointer-events-none absolute inset-0 -translate-x-full group-hover:animate-shimmer-sweep bg-gradient-to-r from-transparent via-white/30 to-transparent z-15" />
-
-                  {/* ACTIVE WORKING OVERLAY 1: 3D Printing Nozzle Extrusion & Slicing Scan Line */}
-                  {st.id === "3d-printing" && (
-                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      {/* Moving Extrusion Toolhead Pin */}
-                      <div className="absolute -translate-x-1/2 -translate-y-1/2 animate-nozzle-sweep flex flex-col items-center">
-                        <div className="h-3.5 w-3.5 rounded-full bg-[#00E5FF] shadow-[0_0_14px_#00E5FF] ring-2 ring-white" />
-                        <div className="h-4 w-0.5 bg-gradient-to-b from-[#00E5FF] to-transparent animate-pulse" />
-                      </div>
-                      {/* Glowing Extruded Layer Line */}
-                      <div className="absolute left-[20%] top-[40%] right-[20%] h-[2px] bg-gradient-to-r from-[#00E5FF]/20 via-[#00E5FF] to-[#00E5FF]/20 shadow-[0_0_12px_#00E5FF] animate-print-ray" />
-                    </div>
-                  )}
-
-                  {/* ACTIVE WORKING OVERLAY 2: CO2 Laser Focal Spot & Spark Discharge */}
-                  {st.id === "laser-cutting" && (
-                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      {/* Tracing Laser Focal Spot */}
-                      <div className="absolute -translate-x-1/2 -translate-y-1/2 animate-laser-orbit flex items-center justify-center">
-                        <div className="absolute h-8 w-8 rounded-full bg-red-500/25 animate-ping" />
-                        <div className="h-3 w-3 rounded-full bg-[#FF0033] shadow-[0_0_16px_#FF0000] ring-2 ring-white" />
-                        {/* Spark Particles */}
-                        <span className="absolute -top-2 -right-2 h-1.5 w-1.5 rounded-full bg-amber-300 animate-ping [animation-duration:0.6s]" />
-                        <span className="absolute -bottom-1 -left-2 h-1 w-1 rounded-full bg-orange-400 animate-ping [animation-duration:0.8s]" />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* ACTIVE WORKING OVERLAY 3: High-Speed CNC Spindle Rotation & Metal Sparks */}
-                  {st.id === "cnc-machining" && (
-                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      <div className="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                        {/* Fast Rotational Velocity Disc */}
-                        <div className="h-10 w-10 rounded-full border border-dashed border-[#00E5FF] animate-spindle-fast opacity-75 shadow-[0_0_12px_rgba(0,229,255,0.4)]" />
-                        <div className="absolute h-3 w-3 rounded-full bg-amber-400 shadow-[0_0_10px_#F59E0B]" />
-                        {/* Flying Metallic Sparks */}
-                        <span className="absolute -top-3 right-4 h-1.5 w-1.5 rounded-full bg-amber-200 animate-ping [animation-duration:0.4s]" />
-                        <span className="absolute -bottom-2 -left-3 h-1 w-1 rounded-full bg-white animate-ping [animation-duration:0.5s]" />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* ACTIVE WORKING OVERLAY 4: PCB Trace Pulses & Blinking Microchip LED */}
-                  {st.id === "pcb-prototype" && (
-                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      {/* Pulsing Cyan Circuit Wave Lines */}
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_50%,rgba(0,229,255,0.25)_0%,transparent_65%)] animate-pcb-pulse" />
-                      {/* Blinking Green IC Status LED */}
-                      <div className="absolute left-[62%] top-[48%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                        <span className="animate-ping absolute inline-flex h-3.5 w-3.5 rounded-full bg-[#10B981] opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981] shadow-[0_0_8px_#10B981]"></span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Gradient Shadow Overlay for Smooth Text Transition */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1736]/90 via-[#0B1736]/25 to-transparent z-10" />
+                  <div className="pointer-events-none absolute inset-0 -translate-x-full group-hover:animate-shimmer-sweep bg-gradient-to-r from-transparent via-white/20 to-transparent z-15" />
 
                   {/* Pulsing Turnaround Duration Badge */}
                   <div className="absolute top-3 right-3 z-20">
@@ -306,24 +243,22 @@ function MakerspacePage() {
                   </div>
 
                   {/* Station Icon Pill on Top-Left */}
-                  <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-bold text-[#0B1736] dark:text-white shadow-sm">
-                    <Icon className="h-3.5 w-3.5 text-[#1455D9]" />
+                  <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 rounded-full bg-slate-900/90 border border-slate-700/60 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                    <Icon className="h-3.5 w-3.5 text-[#00E5FF]" />
                     <span className="truncate max-w-[120px]">{st.title.split("&")[0]}</span>
-                  </div>
-
-                  {/* Floating Title on bottom edge of image */}
-                  <div className="absolute bottom-3 left-4 right-4 z-20">
-                    <h3 className="text-base font-black text-white leading-tight drop-shadow-md group-hover:text-[#00E5FF] transition-colors">
-                      {st.title}
-                    </h3>
                   </div>
                 </div>
 
                 {/* 2. Card Body Content */}
                 <div className="p-5 flex flex-col justify-between flex-1 space-y-4">
-                  <p className="text-xs text-[#52627A] dark:text-slate-400 leading-relaxed line-clamp-3">
-                    {st.description}
-                  </p>
+                  <div>
+                    <h3 className="text-base font-black text-[#0B1736] dark:text-white group-hover:text-[#1455D9] transition-colors">
+                      {st.title}
+                    </h3>
+                    <p className="text-xs text-[#52627A] dark:text-slate-400 mt-1.5 leading-relaxed line-clamp-3">
+                      {st.description}
+                    </p>
+                  </div>
 
                   <div className="pt-3 border-t border-[#DCE5F2]/70 dark:border-slate-800/70 space-y-2">
                     <div className="flex items-center justify-between text-[11px] font-semibold text-[#52627A] dark:text-slate-400">

@@ -19,6 +19,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as MakerspaceRouteImport } from './routes/makerspace'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as ServicesRouteImport } from './routes/services'
@@ -91,6 +92,11 @@ const FaqRoute = FaqRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MakerspaceRoute = MakerspaceRouteImport.update({
+  id: '/makerspace',
+  path: '/makerspace',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
@@ -220,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
+  '/makerspace': typeof MakerspaceRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/services': typeof ServicesRoute
@@ -253,6 +260,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
+  '/makerspace': typeof MakerspaceRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/services': typeof ServicesRoute
@@ -289,6 +297,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
+  '/makerspace': typeof MakerspaceRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/services': typeof ServicesRoute
@@ -326,6 +335,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faq'
     | '/login'
+    | '/makerspace'
     | '/privacy-policy'
     | '/refund-policy'
     | '/services'
@@ -359,6 +369,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faq'
     | '/login'
+    | '/makerspace'
     | '/privacy-policy'
     | '/refund-policy'
     | '/services'
@@ -394,6 +405,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faq'
     | '/login'
+    | '/makerspace'
     | '/privacy-policy'
     | '/refund-policy'
     | '/services'
@@ -430,6 +442,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   LoginRoute: typeof LoginRoute
+  MakerspaceRoute: typeof MakerspaceRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
   ServicesRoute: typeof ServicesRoute
@@ -513,6 +526,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/makerspace': {
+      id: '/makerspace'
+      path: '/makerspace'
+      fullPath: '/makerspace'
+      preLoaderRoute: typeof MakerspaceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy-policy': {
@@ -731,6 +751,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   LoginRoute: LoginRoute,
+  MakerspaceRoute: MakerspaceRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RefundPolicyRoute: RefundPolicyRoute,
   ServicesRoute: ServicesRoute,

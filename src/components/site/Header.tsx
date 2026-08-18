@@ -19,6 +19,8 @@ import {
   Gift,
   Home,
   Box,
+  Store,
+  Sparkles,
 } from "lucide-react";
 
 import { useStore } from "@/lib/store";
@@ -37,7 +39,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const NAV_LINKS = [
   { name: "Home", to: "/" },
-  { name: "Shop", to: "/shop" },
+  { name: "Store", to: "/shop" },
+  { name: "Makerspace", to: "/makerspace" },
   { name: "3D Printing", to: "/category/3d-printing" },
   { name: "Laser Cutting", to: "/category/laser-cutting" },
   { name: "CNC Machining", to: "/category/cnc-machining" },
@@ -58,6 +61,10 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isMakerspaceActive = pathname.startsWith("/makerspace") || pathname.startsWith("/services");
+  const isStoreActive = !isMakerspaceActive;
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
@@ -71,7 +78,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 w-full bg-white dark:bg-card border-b border-[#DCE5F2]/80 dark:border-border/80">
       {/* Top Header Bar */}
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 sm:gap-6 px-4 sm:px-6 h-[72px]">
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 h-[72px]">
         {/* Mobile Hamburger */}
         <div className="flex items-center gap-2 md:hidden">
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -89,6 +96,35 @@ export function Header() {
                     <X className="h-5 w-5" />
                   </Button>
                 </SheetTrigger>
+              </div>
+
+              {/* Mobile Section Switcher */}
+              <div className="p-3 border-b border-border bg-[#F8FAFD] dark:bg-slate-900/40 flex items-center gap-2">
+                <Link
+                  to="/"
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex-1 flex items-center justify-center gap-1.5 rounded-full py-2 text-xs font-bold transition-all ${
+                    isStoreActive
+                      ? "bg-[#1455D9] text-white shadow-xs"
+                      : "bg-white dark:bg-card border border-border text-[#52627A]"
+                  }`}
+                >
+                  <Store className="h-3.5 w-3.5" />
+                  <span>Store</span>
+                </Link>
+
+                <Link
+                  to="/makerspace"
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex-1 flex items-center justify-center gap-1.5 rounded-full py-2 text-xs font-bold transition-all ${
+                    isMakerspaceActive
+                      ? "bg-[#1455D9] text-white shadow-xs"
+                      : "bg-white dark:bg-card border border-border text-[#52627A]"
+                  }`}
+                >
+                  <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+                  <span>Makerspace</span>
+                </Link>
               </div>
 
               {/* Mobile Nav Links */}
@@ -109,15 +145,42 @@ export function Header() {
           </Sheet>
         </div>
 
-        {/* Brand / Logo Area */}
-        <div className="flex items-center">
+        {/* Brand / Logo Area + Top Section Switcher Pills */}
+        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
           <Logo />
+
+          {/* Section Switcher Toggle Pills (Store vs Makerspace) */}
+          <div className="hidden md:flex items-center rounded-full bg-[#F1F5F9] dark:bg-slate-800/80 p-1 border border-[#E2E8F0] dark:border-slate-700/60 shadow-xs">
+            <Link
+              to="/"
+              className={`flex items-center gap-1.5 rounded-full px-3.5 sm:px-4 py-1.5 text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                isStoreActive
+                  ? "bg-[#1455D9] text-white shadow-xs"
+                  : "text-[#52627A] dark:text-slate-300 hover:text-[#0B1736] dark:hover:text-white"
+              }`}
+            >
+              <Store className="h-3.5 w-3.5" />
+              <span>Store</span>
+            </Link>
+
+            <Link
+              to="/makerspace"
+              className={`flex items-center gap-1.5 rounded-full px-3.5 sm:px-4 py-1.5 text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                isMakerspaceActive
+                  ? "bg-[#1455D9] text-white shadow-xs"
+                  : "text-[#52627A] dark:text-slate-300 hover:text-[#0B1736] dark:hover:text-white"
+              }`}
+            >
+              <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+              <span>Makerspace</span>
+            </Link>
+          </div>
         </div>
 
         {/* Large Rounded Search Bar - Desktop Centered */}
         <form
           onSubmit={handleSearch}
-          className="hidden md:flex flex-1 max-w-xl mx-4 lg:mx-8 h-[46px] items-center rounded-full border border-[#DCE5F2] bg-[#F8FAFD] dark:bg-card p-1 focus-within:border-[#1455D9] focus-within:ring-2 focus-within:ring-[#1455D9]/15 shadow-none transition-all duration-200"
+          className="hidden md:flex flex-1 max-w-lg lg:max-w-xl mx-2 lg:mx-6 h-[46px] items-center rounded-full border border-[#DCE5F2] bg-[#F8FAFD] dark:bg-card p-1 focus-within:border-[#1455D9] focus-within:ring-2 focus-within:ring-[#1455D9]/15 shadow-none transition-all duration-200"
         >
           <input
             type="search"

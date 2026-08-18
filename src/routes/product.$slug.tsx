@@ -87,13 +87,13 @@ function ProductDetail() {
     setUploadedFile(null);
   }, [rawSlug]);
 
-  const viewAngles = productViewsFor(product.image_key);
+  const viewAngles = productViewsFor(product.image_key || product.slug, product.name);
   const fallbackAngle: ProductViewAngle = {
     id: "view-front",
     label: "Front View",
     badgeTitle: "STUDIO FRONT VIEW",
     angle: "0° Elevation",
-    src: productImage(product.image_key),
+    src: productImage(product.image_key || product.slug, product.name),
     stageStyle: "scale-100 rotate-0 brightness-100 contrast-100",
     thumbStyle: "scale-100 rotate-0",
     viewType: "front",

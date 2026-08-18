@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+    <defs>
+      <linearGradient id="bgPlant" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#1E293B"/>
+        <stop offset="100%" stop-color="#020617"/>
+      </linearGradient>
+      <linearGradient id="succulent" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#4ADE80"/>
+        <stop offset="60%" stop-color="#16A34A"/>
+        <stop offset="100%" stop-color="#14532D"/>
+      </linearGradient>
+      <linearGradient id="mattePot" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#334155"/>
+        <stop offset="50%" stop-color="#1E293B"/>
+        <stop offset="100%" stop-color="#0F172A"/>
+      </linearGradient>
+    </defs>
+    <rect width="600" height="600" fill="url(#bgPlant)"/>
+    <circle cx="300" cy="300" r="230" fill="#22C55E" fill-opacity="0.1"/>
+    <ellipse cx="300" cy="500" rx="160" ry="24" fill="#000" fill-opacity="0.6"/>
+
+    <!-- Succulent Plant Growing from Planter -->
+    <g transform="translate(300, 220)">
+      <!-- Succulent fleshy leaves radiating out -->
+      <path d="M0 0 C -40 -60, -80 -40, -90 0 C -60 20, -30 20, 0 0 Z" fill="url(#succulent)" stroke="#86EFAC" stroke-width="1.5"/>
+      <path d="M0 0 C 40 -60, 80 -40, 90 0 C 60 20, 30 20, 0 0 Z" fill="url(#succulent)" stroke="#86EFAC" stroke-width="1.5"/>
+      <path d="M0 0 C -20 -90, 20 -90, 0 -110 C -20 -80, -10 -40, 0 0 Z" fill="url(#succulent)" stroke="#86EFAC" stroke-width="1.5"/>
+      <path d="M0 0 C -60 -40, -40 -80, -30 -90 C -10 -60, -10 -20, 0 0 Z" fill="url(#succulent)" stroke="#86EFAC" stroke-width="1.5"/>
+      <path d="M0 0 C 60 -40, 40 -80, 30 -90 C 10 -60, 10 -20, 0 0 Z" fill="url(#succulent)" stroke="#86EFAC" stroke-width="1.5"/>
+      <!-- Inner Rosette Center -->
+      <circle cx="0" cy="-10" r="14" fill="#86EFAC" stroke="#16A34A"/>
+    </g>
+
+    <!-- 3D Printed Geometric Hex Planter Pot -->
+    <g transform="translate(170, 220)">
+      <!-- Hex Rim -->
+      <polygon points="60,20 200,20 250,70 200,120 60,120 10,70" fill="#0F172A" stroke="#64748B" stroke-width="2"/>
+      <polygon points="65,25 195,25 240,70 195,115 65,115 20,70" fill="#451A03" stroke="#78350F" stroke-width="2"/>
+      <!-- Hex Faceted Body Panels -->
+      <polygon points="10,70 60,120 70,250 20,200" fill="#1E293B" stroke="#475569" stroke-width="1.5"/>
+      <polygon points="60,120 200,120 190,250 70,250" fill="url(#mattePot)" stroke="#64748B" stroke-width="1.5"/>
+      <polygon points="200,120 250,70 240,200 190,250" fill="#0F172A" stroke="#475569" stroke-width="1.5"/>
+      <!-- Hex Pattern Emboss Lines on Pot -->
+      <path d="M90 140 L110 130 L130 140 L130 160 L110 170 L90 160 Z" fill="none" stroke="#38BDF8" stroke-width="2" opacity="0.8"/>
+      <path d="M140 140 L160 130 L180 140 L180 160 L160 170 L140 160 Z" fill="none" stroke="#38BDF8" stroke-width="2" opacity="0.8"/>
+      <path d="M115 175 L135 165 L155 175 L155 195 L135 205 L115 195 Z" fill="none" stroke="#38BDF8" stroke-width="2" opacity="0.8"/>
+    </g>
+    <rect x="30" y="30" rx="8" width="160" height="26" fill="#16A34A" fill-opacity="0.2" stroke="#4ADE80" stroke-width="1"/>
+    <text x="110" y="47" fill="#4ADE80" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1">ECO HEX PLANTER</text>
+  </svg>

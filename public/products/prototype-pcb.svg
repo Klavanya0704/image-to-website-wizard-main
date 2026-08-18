@@ -1,0 +1,269 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+    <defs>
+      <linearGradient id="bgPcb" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#064E3B"/>
+        <stop offset="100%" stop-color="#020617"/>
+      </linearGradient>
+    </defs>
+    <rect width="600" height="600" fill="url(#bgPcb)"/>
+    <circle cx="300" cy="300" r="230" fill="#10B981" fill-opacity="0.12"/>
+    <ellipse cx="300" cy="510" rx="180" ry="24" fill="#000" fill-opacity="0.6"/>
+
+    <!-- Double-Sided FR4 Prototype PCB Perfboards Pack -->
+    <g transform="translate(150, 120)">
+      <!-- Bottom Layer Board (Shadow offset) -->
+      <rect x="25" y="25" width="280" height="240" rx="10" fill="#022C22" stroke="#047857" stroke-width="2"/>
+      <!-- Top Prominent Perfboard -->
+      <rect x="0" y="0" width="280" height="240" rx="10" fill="#064E3B" stroke="#34D399" stroke-width="2"/>
+      <!-- Gold Plated Through-Hole 2.54mm Grid Array -->
+      
+            <circle cx="25" cy="25" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="25" cy="25" r="2" fill="#022C22"/>
+          
+            <circle cx="50" cy="25" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="50" cy="25" r="2" fill="#022C22"/>
+          
+            <circle cx="75" cy="25" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="75" cy="25" r="2" fill="#022C22"/>
+          
+            <circle cx="100" cy="25" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="100" cy="25" r="2" fill="#022C22"/>
+          
+            <circle cx="125" cy="25" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="125" cy="25" r="2" fill="#022C22"/>
+          
+            <circle cx="150" cy="25" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="150" cy="25" r="2" fill="#022C22"/>
+          
+            <circle cx="175" cy="25" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="175" cy="25" r="2" fill="#022C22"/>
+          
+            <circle cx="200" cy="25" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="200" cy="25" r="2" fill="#022C22"/>
+          
+            <circle cx="225" cy="25" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="225" cy="25" r="2" fill="#022C22"/>
+          
+            <circle cx="250" cy="25" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="250" cy="25" r="2" fill="#022C22"/>
+          
+            <circle cx="25" cy="50" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="25" cy="50" r="2" fill="#022C22"/>
+          
+            <circle cx="50" cy="50" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="50" cy="50" r="2" fill="#022C22"/>
+          
+            <circle cx="75" cy="50" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="75" cy="50" r="2" fill="#022C22"/>
+          
+            <circle cx="100" cy="50" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="100" cy="50" r="2" fill="#022C22"/>
+          
+            <circle cx="125" cy="50" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="125" cy="50" r="2" fill="#022C22"/>
+          
+            <circle cx="150" cy="50" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="150" cy="50" r="2" fill="#022C22"/>
+          
+            <circle cx="175" cy="50" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="175" cy="50" r="2" fill="#022C22"/>
+          
+            <circle cx="200" cy="50" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="200" cy="50" r="2" fill="#022C22"/>
+          
+            <circle cx="225" cy="50" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="225" cy="50" r="2" fill="#022C22"/>
+          
+            <circle cx="250" cy="50" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="250" cy="50" r="2" fill="#022C22"/>
+          
+            <circle cx="25" cy="75" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="25" cy="75" r="2" fill="#022C22"/>
+          
+            <circle cx="50" cy="75" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="50" cy="75" r="2" fill="#022C22"/>
+          
+            <circle cx="75" cy="75" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="75" cy="75" r="2" fill="#022C22"/>
+          
+            <circle cx="100" cy="75" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="100" cy="75" r="2" fill="#022C22"/>
+          
+            <circle cx="125" cy="75" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="125" cy="75" r="2" fill="#022C22"/>
+          
+            <circle cx="150" cy="75" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="150" cy="75" r="2" fill="#022C22"/>
+          
+            <circle cx="175" cy="75" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="175" cy="75" r="2" fill="#022C22"/>
+          
+            <circle cx="200" cy="75" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="200" cy="75" r="2" fill="#022C22"/>
+          
+            <circle cx="225" cy="75" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="225" cy="75" r="2" fill="#022C22"/>
+          
+            <circle cx="250" cy="75" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="250" cy="75" r="2" fill="#022C22"/>
+          
+            <circle cx="25" cy="100" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="25" cy="100" r="2" fill="#022C22"/>
+          
+            <circle cx="50" cy="100" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="50" cy="100" r="2" fill="#022C22"/>
+          
+            <circle cx="75" cy="100" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="75" cy="100" r="2" fill="#022C22"/>
+          
+            <circle cx="100" cy="100" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="100" cy="100" r="2" fill="#022C22"/>
+          
+            <circle cx="125" cy="100" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="125" cy="100" r="2" fill="#022C22"/>
+          
+            <circle cx="150" cy="100" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="150" cy="100" r="2" fill="#022C22"/>
+          
+            <circle cx="175" cy="100" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="175" cy="100" r="2" fill="#022C22"/>
+          
+            <circle cx="200" cy="100" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="200" cy="100" r="2" fill="#022C22"/>
+          
+            <circle cx="225" cy="100" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="225" cy="100" r="2" fill="#022C22"/>
+          
+            <circle cx="250" cy="100" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="250" cy="100" r="2" fill="#022C22"/>
+          
+            <circle cx="25" cy="125" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="25" cy="125" r="2" fill="#022C22"/>
+          
+            <circle cx="50" cy="125" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="50" cy="125" r="2" fill="#022C22"/>
+          
+            <circle cx="75" cy="125" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="75" cy="125" r="2" fill="#022C22"/>
+          
+            <circle cx="100" cy="125" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="100" cy="125" r="2" fill="#022C22"/>
+          
+            <circle cx="125" cy="125" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="125" cy="125" r="2" fill="#022C22"/>
+          
+            <circle cx="150" cy="125" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="150" cy="125" r="2" fill="#022C22"/>
+          
+            <circle cx="175" cy="125" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="175" cy="125" r="2" fill="#022C22"/>
+          
+            <circle cx="200" cy="125" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="200" cy="125" r="2" fill="#022C22"/>
+          
+            <circle cx="225" cy="125" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="225" cy="125" r="2" fill="#022C22"/>
+          
+            <circle cx="250" cy="125" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="250" cy="125" r="2" fill="#022C22"/>
+          
+            <circle cx="25" cy="150" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="25" cy="150" r="2" fill="#022C22"/>
+          
+            <circle cx="50" cy="150" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="50" cy="150" r="2" fill="#022C22"/>
+          
+            <circle cx="75" cy="150" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="75" cy="150" r="2" fill="#022C22"/>
+          
+            <circle cx="100" cy="150" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="100" cy="150" r="2" fill="#022C22"/>
+          
+            <circle cx="125" cy="150" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="125" cy="150" r="2" fill="#022C22"/>
+          
+            <circle cx="150" cy="150" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="150" cy="150" r="2" fill="#022C22"/>
+          
+            <circle cx="175" cy="150" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="175" cy="150" r="2" fill="#022C22"/>
+          
+            <circle cx="200" cy="150" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="200" cy="150" r="2" fill="#022C22"/>
+          
+            <circle cx="225" cy="150" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="225" cy="150" r="2" fill="#022C22"/>
+          
+            <circle cx="250" cy="150" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="250" cy="150" r="2" fill="#022C22"/>
+          
+            <circle cx="25" cy="175" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="25" cy="175" r="2" fill="#022C22"/>
+          
+            <circle cx="50" cy="175" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="50" cy="175" r="2" fill="#022C22"/>
+          
+            <circle cx="75" cy="175" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="75" cy="175" r="2" fill="#022C22"/>
+          
+            <circle cx="100" cy="175" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="100" cy="175" r="2" fill="#022C22"/>
+          
+            <circle cx="125" cy="175" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="125" cy="175" r="2" fill="#022C22"/>
+          
+            <circle cx="150" cy="175" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="150" cy="175" r="2" fill="#022C22"/>
+          
+            <circle cx="175" cy="175" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="175" cy="175" r="2" fill="#022C22"/>
+          
+            <circle cx="200" cy="175" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="200" cy="175" r="2" fill="#022C22"/>
+          
+            <circle cx="225" cy="175" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="225" cy="175" r="2" fill="#022C22"/>
+          
+            <circle cx="250" cy="175" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="250" cy="175" r="2" fill="#022C22"/>
+          
+            <circle cx="25" cy="200" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="25" cy="200" r="2" fill="#022C22"/>
+          
+            <circle cx="50" cy="200" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="50" cy="200" r="2" fill="#022C22"/>
+          
+            <circle cx="75" cy="200" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="75" cy="200" r="2" fill="#022C22"/>
+          
+            <circle cx="100" cy="200" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="100" cy="200" r="2" fill="#022C22"/>
+          
+            <circle cx="125" cy="200" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="125" cy="200" r="2" fill="#022C22"/>
+          
+            <circle cx="150" cy="200" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="150" cy="200" r="2" fill="#022C22"/>
+          
+            <circle cx="175" cy="200" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="175" cy="200" r="2" fill="#022C22"/>
+          
+            <circle cx="200" cy="200" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="200" cy="200" r="2" fill="#022C22"/>
+          
+            <circle cx="225" cy="200" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="225" cy="200" r="2" fill="#022C22"/>
+          
+            <circle cx="250" cy="200" r="6" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+            <circle cx="250" cy="200" r="2" fill="#022C22"/>
+          
+      <!-- Silkscreen labels & Corner Mounting Holes -->
+      <circle cx="15" cy="15" r="5" fill="#E2E8F0"/>
+      <circle cx="265" cy="15" r="5" fill="#E2E8F0"/>
+      <circle cx="15" cy="225" r="5" fill="#E2E8F0"/>
+      <circle cx="265" cy="225" r="5" fill="#E2E8F0"/>
+      <text x="140" y="232" fill="#A7F3D0" font-family="monospace" font-size="10" font-weight="700" text-anchor="middle" letter-spacing="2">FR4 DOUBLE-SIDED PTH</text>
+    </g>
+    <rect x="30" y="30" rx="8" width="160" height="26" fill="#047857" fill-opacity="0.2" stroke="#34D399" stroke-width="1"/>
+    <text x="110" y="47" fill="#34D399" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1">10-PACK FR4 PERFBOARD</text>
+  </svg>

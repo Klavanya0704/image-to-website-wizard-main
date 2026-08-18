@@ -32,7 +32,7 @@ export function ProductCard({
         className="relative block aspect-square w-full overflow-hidden bg-surface cursor-pointer"
       >
         <img
-          src={productImage(product?.image_key)}
+          src={productImage(product?.image_key || product?.slug, product?.name)}
           alt={product?.name || "Product"}
           loading="lazy"
           width={600}

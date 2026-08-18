@@ -43,9 +43,9 @@ const LAB_STATIONS = [
       "Industrial FDM & SLA high-resolution polymer printing. Choose from PLA, ABS, PETG, TPU, or engineering resin for functional prototypes and enclosures.",
     turnaround: "24-48 Hours",
     icon: Printer,
-    image:
-      "https://images.unsplash.com/photo-1631556097152-c39479bbf9f3?auto=format&fit=crop&w=800&q=80",
+    image: "/images/stations/makerspace-stations-collage.jpg",
     fallbackImage: "/images/stations/3d-printing.jpg",
+    objectPosition: "top left",
     formats: ".STL, .OBJ, .3MF, .STEP",
     precision: "±0.05mm",
     badgeColor: "bg-[#1455D9] text-white",
@@ -57,9 +57,9 @@ const LAB_STATIONS = [
       "High-precision laser cutting and vector engraving for acrylic, birch plywood, MDF, fabric, and leather. Mirror finish edges with high repeatability.",
     turnaround: "Same Day / 24 Hours",
     icon: Scissors,
-    image:
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+    image: "/images/stations/makerspace-stations-collage.jpg",
     fallbackImage: "/images/stations/laser-cutting.jpg",
+    objectPosition: "top right",
     formats: ".DXF, .SVG, .AI, .PDF",
     precision: "±0.1mm",
     badgeColor: "bg-rose-600 text-white",
@@ -71,9 +71,9 @@ const LAB_STATIONS = [
       "High-torque CNC routing and precision milling for soft metals (6061-T6 Aluminum, Brass), Delrin plastics, and structural composites.",
     turnaround: "2-4 Business Days",
     icon: Settings,
-    image:
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
+    image: "/images/stations/makerspace-stations-collage.jpg",
     fallbackImage: "/images/stations/cnc-machining.jpg",
+    objectPosition: "bottom left",
     formats: ".STEP, .IGES, .DXF",
     precision: "±0.02mm",
     badgeColor: "bg-amber-600 text-white",
@@ -85,9 +85,9 @@ const LAB_STATIONS = [
       "Rapid single and double-sided printed circuit board milling, surface-mount soldering stations, and full firmware testing bench.",
     turnaround: "48-72 Hours",
     icon: Cpu,
-    image:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+    image: "/images/stations/makerspace-stations-collage.jpg",
     fallbackImage: "/images/stations/pcb-prototype.jpg",
+    objectPosition: "bottom right",
     formats: ".GERBER, .ZIP, .BRD",
     precision: "6mil Trace/Space",
     badgeColor: "bg-emerald-600 text-white",
@@ -223,26 +223,26 @@ function MakerspacePage() {
                     : "border-[#DCE5F2] dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-800"
                 }`}
               >
-                {/* 1. High-Resolution Photo Header with Dynamic Working Animation Overlays */}
-                <div className="relative h-48 w-full overflow-hidden bg-slate-950 rounded-t-2xl">
+                {/* 1. 4-Panel Collage Source with CSS Object-Positioning & Active Fabrication Motion Overlays */}
+                <div className="relative h-48 w-full overflow-hidden rounded-t-xl group bg-slate-950">
                   <img
                     src={st.image}
                     alt={st.title}
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = st.fallbackImage;
                     }}
-                    className="h-full w-full object-cover object-center group-hover:scale-108 transition-transform duration-700 ease-out"
+                    style={{ objectPosition: st.objectPosition }}
+                    className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
 
-                  {/* ACTIVE FABRICATION MOTION OVERLAY 1: 3D Printing Vertical Slicing Scan Line & Crosshair */}
+                  {/* ACTIVE FABRICATION MOTION OVERLAY 1: 3D Printing Scanner Line & Nozzle Crosshair */}
                   {st.id === "3d-printing" && (
                     <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      {/* Vertical Moving Cyan Scan Line with Laser Glow */}
-                      <div className="absolute left-0 right-0 h-[2.5px] bg-gradient-to-r from-transparent via-[#00E5FF] to-transparent shadow-[0_0_14px_#00AEEF] animate-vertical-scan">
-                        {/* Printhead Crosshair Target */}
+                      {/* Horizontal Animated Scanner Line over Blue Vase */}
+                      <div className="absolute left-0 right-0 h-[2.5px] bg-cyan-400/80 shadow-[0_0_12px_#00AEEF] animate-vertical-scan">
                         <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                          <div className="h-5 w-5 rounded-full border-2 border-[#00E5FF] ring-2 ring-[#00E5FF]/40 flex items-center justify-center animate-pulse">
+                          <div className="h-4 w-4 rounded-full border-2 border-cyan-300 ring-2 ring-cyan-400/40 flex items-center justify-center animate-pulse">
                             <div className="h-1.5 w-1.5 bg-white rounded-full shadow-[0_0_6px_#FFFFFF]" />
                           </div>
                         </div>
@@ -250,45 +250,43 @@ function MakerspacePage() {
                     </div>
                   )}
 
-                  {/* ACTIVE FABRICATION MOTION OVERLAY 2: Laser Cutting Focal Point & Radiating Sparks */}
+                  {/* ACTIVE FABRICATION MOTION OVERLAY 2: Pulsing Red Target Laser Focal Point on Mandala */}
                   {st.id === "laser-cutting" && (
                     <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      {/* Laser Contact Target on Wood Sheet */}
-                      <div className="absolute left-[54%] top-[58%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                        <div className="absolute h-8 w-8 rounded-full bg-red-500/30 animate-ping" />
-                        <div className="h-3.5 w-3.5 rounded-full bg-[#FF0033] shadow-[0_0_18px_#FF0000] ring-2 ring-white" />
-                        {/* Flying Particle Sparks */}
+                      {/* Pulsing Red Laser Focal Point at Mandala Center */}
+                      <div className="absolute left-[72%] top-[32%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                        <div className="absolute h-8 w-8 rounded-full bg-red-500/35 animate-ping" />
+                        <div className="h-3.5 w-3.5 rounded-full bg-[#FF0033] shadow-[0_0_15px_#FF0000] ring-2 ring-white" />
+                        {/* Radiant Spark Particles */}
                         <span className="absolute -top-3 -right-3 h-1.5 w-1.5 rounded-full bg-amber-300 animate-ping [animation-duration:0.5s]" />
                         <span className="absolute -bottom-2 -left-3 h-1.5 w-1.5 rounded-full bg-orange-400 animate-ping [animation-duration:0.7s]" />
-                        <span className="absolute top-2 -right-4 h-1 w-1 rounded-full bg-yellow-200 animate-ping [animation-duration:0.4s]" />
                       </div>
                     </div>
                   )}
 
-                  {/* ACTIVE FABRICATION MOTION OVERLAY 3: CNC Milling Rotational Toolhead & Metallic Chips */}
+                  {/* ACTIVE FABRICATION MOTION OVERLAY 3: Dynamic Orange Floating Spark Particles around CNC Cutter */}
                   {st.id === "cnc-machining" && (
                     <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      <div className="absolute left-[50%] top-[52%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                        {/* High-Speed Spindle Rotation Ring */}
-                        <div className="h-12 w-12 rounded-full border border-dashed border-[#00E5FF] animate-spindle-fast opacity-80 shadow-[0_0_14px_rgba(0,229,255,0.4)]" />
-                        <div className="absolute h-3.5 w-3.5 rounded-full bg-amber-400 shadow-[0_0_12px_#F59E0B]" />
-                        {/* Flying Metallic Sparks */}
-                        <span className="absolute -top-4 right-4 h-1.5 w-1.5 rounded-full bg-amber-200 animate-ping [animation-duration:0.4s]" />
-                        <span className="absolute -bottom-3 -left-4 h-1.5 w-1.5 rounded-full bg-white animate-ping [animation-duration:0.5s]" />
-                        <span className="absolute -top-2 -left-3 h-1 w-1 rounded-full bg-amber-300 animate-ping [animation-duration:0.6s]" />
+                      <div className="absolute left-[27%] top-[74%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                        <div className="h-10 w-10 rounded-full border border-dashed border-[#00E5FF] animate-spindle-fast opacity-75 shadow-[0_0_12px_rgba(0,229,255,0.4)]" />
+                        <div className="absolute h-3 w-3 rounded-full bg-amber-400 shadow-[0_0_12px_#F59E0B]" />
+                        {/* Flying Orange Spark Particles */}
+                        <span className="absolute -top-3 right-4 h-1.5 w-1.5 rounded-full bg-amber-300 animate-ping [animation-duration:0.6s]" />
+                        <span className="absolute -bottom-3 -left-3 h-1.5 w-1.5 rounded-full bg-orange-400 animate-ping [animation-duration:0.8s]" />
+                        <span className="absolute -top-2 -left-4 h-1 w-1 rounded-full bg-yellow-200 animate-ping [animation-duration:0.5s]" />
                       </div>
                     </div>
                   )}
 
-                  {/* ACTIVE FABRICATION MOTION OVERLAY 4: PCB Circuit Current Pulses & Status LED */}
+                  {/* ACTIVE FABRICATION MOTION OVERLAY 4: Glowing Cyan Traces & Processor IC Aura */}
                   {st.id === "pcb-prototype" && (
                     <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
                       {/* Cyan Circuit Trace Wave Glow */}
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_55%_50%,rgba(0,229,255,0.3)_0%,transparent_65%)] animate-pcb-pulse" />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(0,229,255,0.3)_0%,transparent_65%)] animate-pcb-pulse" />
                       {/* Blinking Emerald Microchip Status LED */}
-                      <div className="absolute left-[58%] top-[48%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                      <div className="absolute left-[75%] top-[72%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
                         <span className="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-[#10B981] opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10B981] shadow-[0_0_10px_#10B981]"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981] shadow-[0_0_10px_#10B981]"></span>
                       </div>
                     </div>
                   )}

@@ -284,6 +284,34 @@
   animation: heroGlowPulse 8s ease-in-out infinite;
 }
 
+@keyframes badgeFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3.5px);
+  }
+}
+
+.animate-badge-float {
+  animation: badgeFloat 3s ease-in-out infinite;
+}
+
+@keyframes thumbnailGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 12px rgba(20, 85, 217, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(20, 85, 217, 0.65);
+  }
+}
+
+.animate-thumbnail-glow {
+  animation: thumbnailGlow 2.5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-hero-float,
   .animate-hero-float-reverse,

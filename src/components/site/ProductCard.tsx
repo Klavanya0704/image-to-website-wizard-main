@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Star, Zap } from "lucide-react";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { productImage } from "@/lib/product-images";
@@ -9,7 +8,12 @@ import { formatProductSlug } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 import type { Product } from "@/lib/catalog";
 
-export function ProductCard({ product }: { product: Product; onQuickView?: (p: Product) => void }) {
+export function ProductCard({
+  product,
+}: {
+  product: Product;
+  onQuickView?: (p: Product) => void;
+}) {
   const navigate = useNavigate();
   const { addToCart } = useStore();
   const off = discountPercent(product);
@@ -30,12 +34,12 @@ export function ProductCard({ product }: { product: Product; onQuickView?: (p: P
   };
 
   return (
-    <article className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-card p-3.5 shadow-2xs hover:shadow-md transition-all duration-300">
+    <article className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#E2E8F0] dark:border-slate-800 bg-white dark:bg-card p-3.5 shadow-2xs hover:shadow-md transition-all duration-300">
       {/* Clickable Image Stage with Discount Badge */}
       <Link
         to="/product/$slug"
         params={{ slug: safeSlug }}
-        className="relative block aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900 cursor-pointer"
+        className="relative block h-[195px] w-full overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900 cursor-pointer"
       >
         <img
           src={productImage(product?.image_key || product?.slug, product?.name)}
@@ -46,7 +50,7 @@ export function ProductCard({ product }: { product: Product; onQuickView?: (p: P
 
         {/* Compact Royal Blue Discount Badge */}
         {off > 0 && (
-          <span className="absolute left-2.5 top-2.5 rounded-full bg-[#1455D9] px-2.5 py-0.5 text-[10px] font-black tracking-wider uppercase text-white shadow-2xs">
+          <span className="absolute left-2.5 top-2.5 rounded-full bg-[#1455D9] px-2.5 py-0.5 text-[11px] font-black tracking-wider uppercase text-white shadow-2xs">
             {off}% OFF
           </span>
         )}
@@ -56,7 +60,7 @@ export function ProductCard({ product }: { product: Product; onQuickView?: (p: P
       <div className="flex flex-1 flex-col pt-3 justify-between">
         <div>
           {/* Small Category Label */}
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-1">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-1">
             {product.category || "3D PRINTING"}
           </span>
 
@@ -64,7 +68,7 @@ export function ProductCard({ product }: { product: Product; onQuickView?: (p: P
           <Link
             to="/product/$slug"
             params={{ slug: safeSlug }}
-            className="text-[14px] font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-snug min-h-[38px] group-hover:text-[#1455D9] transition-colors flex items-start"
+            className="text-[15px] font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-snug min-h-[42px] group-hover:text-[#1455D9] transition-colors flex items-start"
             title={product.name}
           >
             {product.name}
@@ -105,7 +109,7 @@ export function ProductCard({ product }: { product: Product; onQuickView?: (p: P
         {/* ⚡ Buy Now Full-Width Pill Button */}
         <Button
           onClick={handleBuyNow}
-          className="mt-3 w-full rounded-full bg-[#1455D9] hover:bg-[#0F44B2] text-white font-bold text-xs py-2 shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-[0.98]"
+          className="mt-3 w-full rounded-full bg-[#1455D9] hover:bg-[#0F44B2] text-white font-bold text-xs py-2.5 shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-[0.98]"
         >
           <Zap className="h-3.5 w-3.5 fill-current" /> Buy Now
         </Button>

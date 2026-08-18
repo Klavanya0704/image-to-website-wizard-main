@@ -13,12 +13,12 @@ import acrylic from "@/assets/p-acrylic.jpg";
 export function productImage(keyOrSlug?: string | null, productName?: string | null): string {
   const q = `${keyOrSlug || ""} ${productName || ""}`.toLowerCase().trim();
 
-  // 1. 3D Printing Products
+  // 1. 3D Printing Products (Realistic E-Commerce Product Photography)
   if (q.includes("hex") && (q.includes("planter") || q.includes("pot"))) {
-    return "/products/hex-planter.svg";
+    return "/products/hex-planter.jpg";
   }
   if (q.includes("cable") && (q.includes("clip") || q.includes("management"))) {
-    return "/products/cable-clips.svg";
+    return "/products/cable-clips.jpg";
   }
   if (
     q.includes("desk organizer") ||
@@ -26,7 +26,7 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
     q.includes("caddy") ||
     q.includes("organizer")
   ) {
-    return "/products/desk-organizer.svg";
+    return "/products/desk-organizer.jpg";
   }
   if (
     q.includes("phone stand") ||
@@ -34,7 +34,7 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
     q.includes("adjustable phone") ||
     (q.includes("stand") && !q.includes("trophy") && !q.includes("display"))
   ) {
-    return "/products/phone-stand.svg";
+    return "/products/phone-stand.jpg";
   }
   if (
     q.includes("architectural") ||
@@ -42,10 +42,10 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
     q.includes("resin") ||
     q.includes("sla")
   ) {
-    return "/products/architectural-model.svg";
+    return "/products/architectural-model.jpg";
   }
   if (q.includes("vase") || q.includes("geometric-spiral") || q.includes("lattice")) {
-    return "/products/3d-vase.svg";
+    return "/products/3d-vase.jpg";
   }
 
   // 2. CNC Machining Products
@@ -59,34 +59,24 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
     q.includes("mounting plate") ||
     q.includes("prototype block")
   ) {
-    return "/products/cnc-bracket.svg";
+    return "/products/prod-bracket.jpg";
   }
-  if (
-    q.includes("coupling") ||
-    q.includes("coupler") ||
-    q.includes("shaft") ||
-    q.includes("gearbox")
-  ) {
-    return "/products/cnc-coupling.svg";
+  if (q.includes("coupling") || q.includes("coupler") || q.includes("shaft") || q.includes("gearbox")) {
+    return "/products/prod-coupling.jpg";
   }
 
   // 3. Laser Cutting Products
   if (q.includes("keychain") || q.includes("key ring")) {
-    return keychain;
+    return "/products/prod-keychain.jpg";
   }
   if (q.includes("mandala") || q.includes("coaster") || q.includes("wooden mandala")) {
-    return lamp;
+    return "/products/prod-tree-lamp.jpg";
   }
-  if (
-    q.includes("tree of life") ||
-    q.includes("lamp") ||
-    q.includes("illuminated") ||
-    q.includes("led sign")
-  ) {
-    return lamp;
+  if (q.includes("tree of life") || q.includes("lamp") || q.includes("illuminated") || q.includes("led sign")) {
+    return "/products/prod-tree-lamp.jpg";
   }
   if (q.includes("mdf") || q.includes("structural architectural") || q.includes("photo frame")) {
-    return keychain;
+    return "/products/prod-keychain.jpg";
   }
 
   // 4. Electronics Products
@@ -116,20 +106,10 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
   ) {
     return "/products/drone-frame.svg";
   }
-  if (
-    q.includes("motor") ||
-    q.includes("brushless") ||
-    q.includes("2207") ||
-    q.includes("thrust")
-  ) {
+  if (q.includes("motor") || q.includes("brushless") || q.includes("2207") || q.includes("thrust")) {
     return "/products/drone-motor.svg";
   }
-  if (
-    q.includes("propeller") ||
-    q.includes("props") ||
-    q.includes("tri-blade") ||
-    q.includes("1045")
-  ) {
+  if (q.includes("propeller") || q.includes("props") || q.includes("tri-blade") || q.includes("1045")) {
     return "/products/drone-propellers.svg";
   }
 
@@ -141,7 +121,7 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
     q.includes("showcase") ||
     q.includes("transparent display")
   ) {
-    return "/products/acrylic-box.svg";
+    return "/products/prod-stand.jpg";
   }
   if (
     q.includes("trophy") ||
@@ -151,10 +131,10 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
     q.includes("name plate") ||
     q.includes("desk sign")
   ) {
-    return stand;
+    return "/products/prod-stand.jpg";
   }
   if (q.includes("shield") || q.includes("protective") || q.includes("barrier")) {
-    return acrylic;
+    return "/products/prod-stand.jpg";
   }
 
   // 7. DIY Kits
@@ -167,7 +147,7 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
     return "/products/robotics-kit.svg";
   }
   if (q.includes("speaker") || q.includes("bluetooth speaker") || q.includes("audio")) {
-    return kit;
+    return "/products/prod-tree-lamp.jpg";
   }
   if (
     q.includes("soldering") ||
@@ -192,7 +172,7 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
     kit,
     acrylic,
   };
-  return (keyOrSlug && fallbackMap[keyOrSlug]) || "/products/3d-vase.svg";
+  return (keyOrSlug && fallbackMap[keyOrSlug]) || "/products/3d-vase.jpg";
 }
 
 export interface ProductViewAngle {

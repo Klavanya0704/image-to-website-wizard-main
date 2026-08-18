@@ -16,7 +16,7 @@ import {
   Search,
 } from "lucide-react";
 
-import { productsQuery } from "@/lib/catalog";
+import { productsQuery, normalizeCategorySlug } from "@/lib/catalog";
 import { ProductCard } from "@/components/site/ProductCard";
 import { ProductGridSkeleton, EmptyState, ErrorState } from "@/components/site/States";
 import { inr } from "@/lib/format";
@@ -62,12 +62,6 @@ const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
       "Explore carbon fiber FPV racing frames, high-thrust brushless motors, and tri-blade propellers.",
     icon: Plane,
   },
-  "drones-and-parts": {
-    name: "Drones & Parts",
-    description:
-      "Explore carbon fiber FPV racing frames, high-thrust brushless motors, and tri-blade propellers.",
-    icon: Plane,
-  },
   "acrylic-products": {
     name: "Acrylic Products",
     description:
@@ -82,24 +76,11 @@ const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
   },
 };
 
-function normalizeSlug(s: string | undefined | null): string {
-  if (!s) return "";
-  const cleaned = s
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  if (cleaned === "drones-and-parts" || cleaned === "drones-parts" || cleaned === "drones") {
-    return "drones-parts";
-  }
-  return cleaned;
-}
-
 function CategoryDetail() {
   const params = Route.useParams() as Record<string, string | undefined>;
 
   // Parse current URL slug (e.g. "3d-printing")
-  const currentCategory = normalizeSlug(params["category"] || params["slug"] || "3d-printing");
+  const currentCategory = normalizeCategorySlug(params["category"] || params["slug"] || "3d-printing");
 
   // Load products query
   const { data: allProducts = [], isLoading, error, refetch } = useQuery(productsQuery);
@@ -113,11 +94,9 @@ function CategoryDetail() {
     icon: Box,
   };
 
-  // Exact match filter (Case-insensitive & slug normalized)
+  // Exact match filter (STRICT: Case-insensitive & normalized categorySlug equality)
   const categoryProducts = allProducts.filter((item) => {
-    const rawCategory = item.categorySlug || item.category_slug || item.category || "";
-    const itemCategorySlug = normalizeSlug(rawCategory);
-    return itemCategorySlug === currentCategory;
+    return normalizeCategorySlug(item.categorySlug) === normalizeCategorySlug(currentCategory);
   });
 
   // States for filter conditions
@@ -167,74 +146,66 @@ function CategoryDetail() {
     return (
       <div className="min-h-screen bg-[#F8FAFC] dark:bg-background">
         <div className="mx-auto max-w-[1440px] px-6 sm:px-8 py-12">
-          <ErrorState message="Could not load category products." onRetry={() => refetch()} />
+          <ErrorState
+            title="Failed to load category products"
+            description="There was an error loading the product catalog. Please try again."
+            retry={refetch}
+          />
         </div>
       </div>
     );
   }
 
-  // Sidebar Search & Price Filter Synchronization
+  // Filter products by user inputs
   const filteredProducts = categoryProducts.filter((product) => {
-    // Search query within active category
+    // 1. Search keyword
     if (searchTerm.trim()) {
-      const q = searchTerm.trim().toLowerCase();
-      const matchText = [
-        product.name,
-        product.subcategory,
-        product.short_description,
-        product.description,
-        product.material,
-        product.sku,
-      ]
-        .join(" ")
-        .toLowerCase();
-      if (!matchText.includes(q)) {
-        return false;
-      }
+      const term = searchTerm.toLowerCase();
+      const matchName = product.name.toLowerCase().includes(term);
+      const matchDesc = product.description?.toLowerCase().includes(term) || false;
+      const matchSub = product.subcategory?.toLowerCase().includes(term) || false;
+      if (!matchName && !matchDesc && !matchSub) return false;
     }
 
-    // Availability Filter
-    if (selectedAvailability === "in-stock" && product.stock === 0) {
+    // 2. Availability
+    if (selectedAvailability === "in-stock" && (product.stock ?? 0) <= 0) {
       return false;
     }
 
-    // Rating Filter
-    if (product.rating < minRating) {
+    // 3. Rating
+    if (minRating > 0 && (product.rating ?? 0) < minRating) {
       return false;
     }
 
-    // Price Range Filter
-    const price = product.discount_price ?? product.price;
-    if (price > maxPrice) {
+    // 4. Price
+    const effectivePrice = product.discount_price ?? product.price;
+    if (effectivePrice > maxPrice) {
       return false;
     }
 
     return true;
   });
 
-  // Sorted products list
+  // Sort products
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     const priceA = a.discount_price ?? a.price;
     const priceB = b.discount_price ?? b.price;
 
-    if (sortBy === "price-asc") {
-      return priceA - priceB;
+    switch (sortBy) {
+      case "price-asc":
+        return priceA - priceB;
+      case "price-desc":
+        return priceB - priceA;
+      case "rating-desc":
+        return (b.rating ?? 0) - (a.rating ?? 0);
+      case "newest":
+        return new Date(b.created_at || "").getTime() - new Date(a.created_at || "").getTime();
+      case "featured":
+      default:
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        return (b.rating ?? 0) - (a.rating ?? 0);
     }
-    if (sortBy === "price-desc") {
-      return priceB - priceA;
-    }
-    if (sortBy === "rating") {
-      return b.rating - a.rating;
-    }
-    if (sortBy === "newest") {
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-    }
-    // Default fallback is "featured"
-    if (a.featured && !b.featured) return -1;
-    if (!a.featured && b.featured) return 1;
-    if (a.bestseller && !b.bestseller) return -1;
-    if (!a.bestseller && b.bestseller) return 1;
-    return 0;
   });
 
   const handleResetFilters = () => {
@@ -246,132 +217,181 @@ function CategoryDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-background pb-20">
-      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8 pt-8">
-        {/* 1. Category Title + Description + Sort Dropdown (Single Horizontal Row) */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-background pb-16">
+      {/* Category Navigation Bar */}
+      <div className="bg-white dark:bg-card border-b border-slate-200 dark:border-slate-800 sticky top-16 z-30 shadow-2xs">
+        <div className="mx-auto max-w-[1440px] px-6 sm:px-8">
+          <div className="flex items-center gap-2 overflow-x-auto py-2.5 scrollbar-none">
+            {[
+              { slug: "3d-printing", name: "3D Printing" },
+              { slug: "laser-cutting", name: "Laser Cutting" },
+              { slug: "cnc-machining", name: "CNC Machining" },
+              { slug: "electronics", name: "Electronics" },
+              { slug: "drones-parts", name: "Drones & Parts" },
+              { slug: "acrylic-products", name: "Acrylic Products" },
+              { slug: "diy-kits", name: "DIY Kits" },
+            ].map((cat) => {
+              const isActive = currentCategory === cat.slug;
+              return (
+                <Link
+                  key={cat.slug}
+                  to="/category/$slug"
+                  params={{ slug: cat.slug }}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+                    isActive
+                      ? "bg-[#1455D9] text-white shadow-xs font-bold"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800"
+                  }`}
+                >
+                  {cat.name}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-[1440px] px-6 sm:px-8 pt-8 pb-4">
+        {/* Category Header: Title + Description + Sort Bar */}
+        <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-[#0B1736] dark:text-white">
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0B1736] dark:text-white">
               {category.name}
             </h1>
-            <p className="text-sm text-[#52627A] dark:text-slate-400 mt-1 font-medium">
+            <p className="mt-1 text-sm text-[#52627A] dark:text-slate-400">
               {category.description}
             </p>
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
-            <span className="text-xs font-semibold text-[#52627A] dark:text-slate-400">
-              Sort by:
+          <div className="flex items-center gap-3 self-start md:self-auto">
+            <span className="text-xs font-bold text-[#52627A] dark:text-slate-400 whitespace-nowrap">
+              {categoryProducts.length} Products
             </span>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              aria-label="Sort products by"
-              className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-card px-3.5 py-2 text-xs font-semibold text-[#0B1736] dark:text-white focus:border-[#1455D9] focus:outline-none cursor-pointer shadow-2xs"
-            >
-              <option value="featured">Featured</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="rating">Rating</option>
-              <option value="newest">Newest</option>
-            </select>
+            <div className="flex items-center gap-2">
+              <label htmlFor="sort-select" className="text-xs text-slate-500 font-medium">
+                Sort:
+              </label>
+              <select
+                id="sort-select"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-card px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#1455D9] focus:outline-none cursor-pointer shadow-2xs"
+              >
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating-desc">Highest Rated</option>
+                <option value="newest">Newest</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        {/* 2. Main 2-Column Content Layout */}
+        {/* Category Page Main Layout: Left Sidebar + Right Grid */}
         {categoryProducts.length === 0 ? (
-          <EmptyState
-            title={`No ${category.name} products available yet`}
-            description="New products for this category are being fabricated and added soon. Stay tuned!"
-            actionLabel="Browse All Products"
-            actionTo="/shop"
-            icon={<Box className="h-12 w-12" />}
-          />
+          <div className="py-20 text-center border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-card">
+            <Box className="mx-auto h-12 w-12 text-slate-400 opacity-60 mb-4" />
+            <h3 className="text-base font-bold text-[#0B1736] dark:text-white">
+              No products found in this category.
+            </h3>
+            <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+              We currently don't have any products listed in this fabrication category. Check back soon!
+            </p>
+            <Link to="/shop" className="inline-block mt-4">
+              <Button className="bg-[#1455D9] hover:bg-[#0F44B2] text-white text-xs font-bold px-4 py-2">
+                Browse All Products
+              </Button>
+            </Link>
+          </div>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-6 items-start">
-            {/* Desktop Filter Sidebar (~280px wide) */}
-            <aside className="hidden lg:block w-[280px] shrink-0">
-              <div className="sticky top-28 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-card p-5 shadow-2xs space-y-5">
-                {/* Search In Category */}
-                <div className="space-y-2">
-                  <label className="text-[11px] font-black uppercase tracking-wider text-slate-800 dark:text-slate-200 block">
-                    SEARCH IN {category.name}
+          <div className="flex flex-col lg:flex-row gap-8 items-start">
+            {/* Left Filter Sidebar (280px Desktop) */}
+            <aside className="hidden lg:block w-[280px] shrink-0 sticky top-32 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-card p-5 shadow-xs">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-5">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#0B1736] dark:text-white flex items-center gap-1.5">
+                  <SlidersHorizontal className="h-3.5 w-3.5 text-[#1455D9]" /> Filters
+                </span>
+                <button
+                  onClick={handleResetFilters}
+                  className="text-[11px] font-bold text-[#1455D9] hover:underline cursor-pointer"
+                >
+                  Reset All
+                </button>
+              </div>
+
+              <div className="space-y-5">
+                {/* Search */}
+                <div>
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#52627A] dark:text-slate-400 block mb-2">
+                    Search in {category.name}
                   </label>
                   <div className="relative">
+                    <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-slate-400" />
                     <input
                       type="text"
-                      placeholder="Search products..."
+                      placeholder="Search title, spec..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 px-3 py-2 pl-8 pr-8 text-xs font-medium focus:border-[#1455D9] focus:bg-white focus:outline-none"
+                      className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-card pl-8 pr-3 py-2 text-xs font-medium text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:border-[#1455D9] focus:outline-none"
                     />
-                    <Search className="h-3.5 w-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
-                    {searchTerm && (
-                      <button
-                        onClick={() => setSearchTerm("")}
-                        aria-label="Clear search input"
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
-                      >
-                        <X className="h-3.5 w-3.5" />
-                      </button>
-                    )}
                   </div>
                 </div>
 
                 <div className="border-b border-slate-100 dark:border-slate-800" />
 
                 {/* Price Range Slider */}
-                <div className="space-y-2">
-                  <label className="text-[11px] font-black uppercase tracking-wider text-slate-800 dark:text-slate-200 block">
-                    MAX PRICE: {inr(maxPrice)}
-                  </label>
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-[11px] font-bold uppercase tracking-wider text-[#52627A] dark:text-slate-400">
+                      Max Price
+                    </label>
+                    <span className="text-xs font-bold text-[#1455D9]">
+                      {inr(maxPrice)}
+                    </span>
+                  </div>
                   <input
                     type="range"
-                    min="0"
-                    max={maxPriceLimit}
+                    min="100"
+                    max={maxPriceLimit > 100 ? maxPriceLimit : 2499}
+                    step="50"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(Number(e.target.value))}
-                    aria-label="Filter by maximum price"
-                    className="w-full accent-[#1455D9] bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg appearance-none h-1.5 cursor-pointer"
+                    className="w-full accent-[#1455D9] cursor-pointer"
                   />
-                  <div className="flex justify-between text-[11px] text-slate-500 font-semibold">
-                    <span>{inr(0)}</span>
-                    <span>{inr(maxPriceLimit)}</span>
+                  <div className="flex justify-between text-[10px] font-medium text-slate-400 mt-1">
+                    <span>{inr(100)}</span>
+                    <span>{inr(maxPriceLimit > 100 ? maxPriceLimit : 2499)}</span>
                   </div>
                 </div>
 
                 <div className="border-b border-slate-100 dark:border-slate-800" />
 
                 {/* Availability */}
-                <div className="space-y-2">
-                  <label className="text-[11px] font-black uppercase tracking-wider text-slate-800 dark:text-slate-200 block">
-                    AVAILABILITY
+                <div>
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#52627A] dark:text-slate-400 block mb-2.5">
+                    Availability
                   </label>
-                  <div className="flex items-center gap-2.5">
+                  <label className="flex items-center gap-2.5 cursor-pointer">
                     <input
                       type="checkbox"
-                      id="in-stock-only-desktop"
                       checked={selectedAvailability === "in-stock"}
                       onChange={(e) =>
                         setSelectedAvailability(e.target.checked ? "in-stock" : "all")
                       }
-                      className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 accent-[#1455D9] cursor-pointer"
+                      className="h-4 w-4 rounded border-slate-300 text-[#1455D9] focus:ring-[#1455D9] accent-[#1455D9]"
                     />
-                    <label
-                      htmlFor="in-stock-only-desktop"
-                      className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer select-none"
-                    >
+                    <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 select-none">
                       In Stock Only
-                    </label>
-                  </div>
+                    </span>
+                  </label>
                 </div>
 
                 <div className="border-b border-slate-100 dark:border-slate-800" />
 
-                {/* Minimum Rating */}
-                <div className="space-y-2">
-                  <label className="text-[11px] font-black uppercase tracking-wider text-slate-800 dark:text-slate-200 block">
-                    MINIMUM RATING
+                {/* Rating Filter */}
+                <div>
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#52627A] dark:text-slate-400 block mb-2">
+                    Minimum Rating
                   </label>
                   <select
                     value={minRating}
@@ -449,48 +469,27 @@ function CategoryDetail() {
                 </h3>
                 <button
                   onClick={() => setMobileFiltersOpen(false)}
-                  aria-label="Close mobile filters"
-                  className="p-1 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
 
-              {/* In-Category Search Box (Mobile) */}
+              {/* Price slider */}
               <div className="space-y-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">
-                  Search in {category.name}
-                </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-3 py-2 pl-8 text-xs font-semibold focus:border-primary focus:outline-none"
-                  />
-                  <Search className="h-3.5 w-3.5 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <div className="flex justify-between text-xs font-semibold">
+                  <span className="text-muted-foreground">Max Price:</span>
+                  <span className="font-bold text-[#1455D9]">{inr(maxPrice)}</span>
                 </div>
-              </div>
-
-              {/* Price range */}
-              <div className="space-y-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">
-                  Max Price: {inr(maxPrice)}
-                </label>
                 <input
                   type="range"
-                  min="0"
-                  max={maxPriceLimit}
+                  min="100"
+                  max={maxPriceLimit > 100 ? maxPriceLimit : 2499}
+                  step="50"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
-                  aria-label="Filter by maximum price (mobile)"
-                  className="w-full accent-[#1455D9] bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg appearance-none h-1.5 cursor-pointer"
+                  className="w-full accent-[#1455D9]"
                 />
-                <div className="flex justify-between text-[10px] text-muted-foreground font-semibold">
-                  <span>{inr(0)}</span>
-                  <span>{inr(maxPriceLimit)}</span>
-                </div>
               </div>
 
               {/* Availability */}

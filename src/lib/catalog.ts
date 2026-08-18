@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 
 export type Product = Tables<"products"> & {
-  categorySlug?: string;
+  categorySlug: string;
   category?: string;
 };
 export type Category = Tables<"categories">;
@@ -12,6 +12,121 @@ export type Order = Tables<"orders">;
 export type OrderItem = Tables<"order_items">;
 export type Address = Tables<"addresses">;
 export type Enquiry = Tables<"enquiries">;
+
+export function normalizeCategorySlug(s: string | undefined | null): string {
+  if (!s) return "";
+  const cleaned = s
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  if (cleaned === "3d-printing" || cleaned === "3d-print" || cleaned === "3dprinting") {
+    return "3d-printing";
+  }
+  if (cleaned === "laser-cutting" || cleaned === "laser-cut" || cleaned === "lasercutting") {
+    return "laser-cutting";
+  }
+  if (cleaned === "cnc-machining" || cleaned === "cnc" || cleaned === "cncmachining") {
+    return "cnc-machining";
+  }
+  if (cleaned === "electronics" || cleaned === "electronic") {
+    return "electronics";
+  }
+  if (
+    cleaned === "drones-parts" ||
+    cleaned === "drones-and-parts" ||
+    cleaned === "drones" ||
+    cleaned === "drone-parts"
+  ) {
+    return "drones-parts";
+  }
+  if (cleaned === "acrylic-products" || cleaned === "acrylic" || cleaned === "acrylics") {
+    return "acrylic-products";
+  }
+  if (cleaned === "diy-kits" || cleaned === "diy" || cleaned === "kits") {
+    return "diy-kits";
+  }
+
+  return cleaned;
+}
+
+export const EXACT_PRODUCT_CATEGORY_MAP: Record<string, string> = {
+  // 1. 3D Printing
+  "3d-printed-geometric-vase": "3d-printing",
+  "geometric-spiral-vase": "3d-printing",
+  "mini-desk-organizer": "3d-printing",
+  "adjustable-phone-stand": "3d-printing",
+  "universal-foldable-phone-stand-3d": "3d-printing",
+  "cable-management-clip-set": "3d-printing",
+  "resin-architectural-model": "3d-printing",
+  "planter-pot-hex": "3d-printing",
+
+  // 2. Laser Cutting
+  "custom-name-keychain": "laser-cutting",
+  "custom-engraved-wooden-keychain": "laser-cutting",
+  "tree-of-life-lamp": "laser-cutting",
+  "tree-of-life-led-lamp": "laser-cutting",
+  "laser-cut-desk-organizer": "laser-cutting",
+  "college-logo-board": "laser-cutting",
+  "wooden-wall-art-mandala": "laser-cutting",
+  "mandala-laser-cut-wooden-coasters": "laser-cutting",
+  "laser-engraved-photo-frame": "laser-cutting",
+  "custom-acrylic-led-illuminated-sign": "laser-cutting",
+  "mdf-structural-architectural-puzzle-kit": "laser-cutting",
+
+  // 3. CNC Machining
+  "mechanical-prototype-model": "cnc-machining",
+  "precision-aluminum-shaft-coupler": "cnc-machining",
+  "cnc-aluminium-bracket": "cnc-machining",
+  "heavy-duty-l-bracket-cnc": "cnc-machining",
+  "precision-mounting-plate": "cnc-machining",
+  "custom-cnc-component": "cnc-machining",
+  "aluminium-prototype-block": "cnc-machining",
+  "cnc-machined-flanged-brass-bushings": "cnc-machining",
+
+  // 4. Electronics
+  "esp32-development-board": "electronics",
+  "esp32-iot-maker-board": "electronics",
+  "arduino-sensor-kit": "electronics",
+  "37-in-1-iot-sensor-module-kit": "electronics",
+  "iot-starter-kit": "electronics",
+  "led-electronics-kit": "electronics",
+  "soldering-practice-board": "electronics",
+  "fr4-double-sided-prototype-pcb-10pack": "electronics",
+  "mini-robotics-kit": "electronics",
+
+  // 5. Drones & Parts
+  "drone-frame-kit": "drones-parts",
+  "fpv-drone-carbon-fiber-frame": "drones-parts",
+  "brushless-motor-mount": "drones-parts",
+  "brushless-drone-motor-2207-2450kv": "drones-parts",
+  "propeller-set-1045": "drones-parts",
+  "5-inch-tri-blade-fpv-propellers": "drones-parts",
+  "drone-landing-gear": "drones-parts",
+  "fpv-prototype-frame": "drones-parts",
+
+  // 6. Acrylic Products
+  "acrylic-name-plate": "acrylic-products",
+  "acrylic-keychain": "acrylic-products",
+  "acrylic-desk-sign": "acrylic-products",
+  "transparent-display-stand": "acrylic-products",
+  "college-logo-acrylic-board": "acrylic-products",
+  "clear-cast-acrylic-display-box": "acrylic-products",
+  "custom-acrylic-trophy-plaque": "acrylic-products",
+  "transparent-protective-acrylic-shield": "acrylic-products",
+
+  // 7. DIY Kits
+  "smart-home-diy-kit": "diy-kits",
+  "mini-robot-kit": "diy-kits",
+  "electronics-learning-kit": "diy-kits",
+  "arduino-project-kit": "diy-kits",
+  "drone-building-diy-kit": "diy-kits",
+  "starter-maker-diy-electronics-kit": "diy-kits",
+  "diy-soldering-practice-electronics-kit": "diy-kits",
+  "diy-bluetooth-speaker-assembly-kit": "diy-kits",
+};
 
 export const categoriesQuery = queryOptions({
   queryKey: ["categories"],
@@ -25,7 +140,7 @@ export const categoriesQuery = queryOptions({
 
 export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   // ==========================================
-  // 1. 3D PRINTING PRODUCTS (category: "3D Printing" / "3d-printing")
+  // 1. 3D PRINTING PRODUCTS
   // ==========================================
   {
     id: "3dp-1",
@@ -161,24 +276,24 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category_slug: "3d-printing",
     categorySlug: "3d-printing",
     image_key: "vase",
-    price: 959,
-    discount_price: 799,
-    material: "8K Tough Photopolymer UV Resin",
-    dimensions: "90 × 90 × 160 mm",
-    manufacturing_method: "SLA / MSLA 3D Printing (0.025mm Layers)",
+    price: 1299,
+    discount_price: 999,
+    material: "High-Detail Tough Photopolymer Resin",
+    dimensions: "160 × 110 × 95 mm",
+    manufacturing_method: "8K Monochrome LCD Stereolithography (SLA)",
     rating: 4.9,
-    review_count: 8,
+    review_count: 19,
     bestseller: false,
-    stock: 20,
-    short_description: "Ultra-high resolution 8K SLA resin printed architectural high-rise model.",
+    stock: 15,
+    short_description: "Museum-grade 8K resin printed miniature architectural study model.",
     description:
-      "Detailed architectural scale model with crisp cantilever balconies, lattice facade, and post-cured matte surface finish.",
+      "Ultra-high precision architectural scale model featuring sharp window mullions, textured masonry, and micro-colonnades cured with industrial UV post-processing.",
     specifications: {
-      Resolution: "8K UV LCD (28.5µm XY)",
-      "Layer Thickness": "25 Microns",
-      Curing: "405nm UV Chamber Baked",
+      Resolution: "8K (22 micron XY)",
+      "Layer Thickness": "0.05mm Ultra-Fine",
+      Finish: "Matte Gray Primer Pre-Applied",
     },
-    sku: "3DP-MIN-005",
+    sku: "3DP-ARC-005",
     subcategory: "Architectural Models",
     active: true,
     featured: false,
@@ -192,33 +307,32 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category_slug: "3d-printing",
     categorySlug: "3d-printing",
     image_key: "vase",
-    price: 409,
-    discount_price: 349,
-    material: "Eco Recycled Matte Black PLA",
-    dimensions: "110 × 110 × 95 mm",
-    manufacturing_method: "0.2mm Precision FDM with Drainage Grid",
-    rating: 4.8,
+    price: 499,
+    discount_price: 399,
+    material: "Eco Recycled Matte PLA",
+    dimensions: "110 × 110 × 100 mm",
+    manufacturing_method: "FDM 3D Printing (0.2mm Speed)",
+    rating: 4.7,
     review_count: 22,
     bestseller: false,
     stock: 40,
-    short_description:
-      "Geometric hexagonal pattern indoor succulent planter with built-in drainage.",
+    short_description: "Geometric hexagonal self-draining planter for succulents and indoor flora.",
     description:
-      "Modern hexagonal faceted planter pot designed for desk succulents and air plants. Features an internal water reservoir and subtle drainage tray.",
+      "Modern minimalist hexagonal desktop planter featuring an elevated internal drainage reservoir and detachable drip saucer.",
     specifications: {
-      Pattern: "Hexagonal Faceted Honeycomb",
-      Drainage: "Integrated Removable Base Drip Tray",
-      Finish: "Matte Texture",
+      Drainage: "Integrated 4-Hole Reservoir",
+      Saucer: "Magnetic Quick-Snap Base",
+      Weight: "135g",
     },
     sku: "3DP-PLT-006",
-    subcategory: "Planters",
+    subcategory: "Planters & Pots",
     active: true,
     featured: false,
     created_at: "2026-01-06T00:00:00Z",
   },
 
   // ==========================================
-  // 2. LASER CUTTING PRODUCTS (category: "Laser Cutting" / "laser-cutting")
+  // 2. LASER CUTTING PRODUCTS
   // ==========================================
   {
     id: "lc-1",
@@ -228,23 +342,22 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category_slug: "laser-cutting",
     categorySlug: "laser-cutting",
     image_key: "lamp",
-    price: 1599,
-    discount_price: 1299,
-    material: "Optical Cast Acrylic & Solid Walnut Base",
-    dimensions: "200 × 160 × 50 mm",
-    manufacturing_method: "CO2 Laser Vector Cut & Surface Etch",
+    price: 1499,
+    discount_price: 1199,
+    material: "Optical Grade Cast Acrylic & Solid Beech Wood Base",
+    dimensions: "180 × 150 × 40 mm",
+    manufacturing_method: "CO2 Laser Engraving & CNC Turned Wood",
     rating: 4.9,
-    review_count: 78,
+    review_count: 52,
     bestseller: true,
-    stock: 30,
-    short_description:
-      "Personalized glowing laser-etched edge-lit acrylic desk nameplate or logo sign.",
+    stock: 25,
+    short_description: "Custom engraved edge-lit warm white LED acrylic desk plaque.",
     description:
-      "Custom laser-etched acrylic panel illuminated by warm white edge-emitting LEDs set in a solid wooden base. Connects via standard USB.",
+      "High clarity 5mm cast acrylic engraved with your personalized design or logo. Rests in a premium beech wood stand equipped with warm ambient LED illumination and USB power switch.",
     specifications: {
-      "Panel Thickness": "5mm Optical Cast Acrylic",
-      Lighting: "Warm White 3000K LED Strip",
-      Power: "5V USB (1.5m Cable with Switch)",
+      "Acrylic Thickness": "5.0mm Clear Cast",
+      Power: "5V USB with In-Line Switch",
+      Lighting: "Warm White (3000K) High-CRI LED",
     },
     sku: "LC-SGN-001",
     subcategory: "Acrylic Signs",
@@ -259,24 +372,23 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category: "Laser Cutting",
     category_slug: "laser-cutting",
     categorySlug: "laser-cutting",
-    image_key: "keychain",
-    price: 499,
-    discount_price: 399,
-    material: "Eco-Friendly Walnut Plywood & Cork Base",
-    dimensions: "95 × 95 × 4 mm (Each)",
-    manufacturing_method: "High-Precision Vector Laser Cutting",
+    image_key: "lamp",
+    price: 599,
+    discount_price: 449,
+    material: "Selected Birch Wood (4mm) & Cork Base",
+    dimensions: "100 × 100 × 4 mm (Each)",
+    manufacturing_method: "Precision CO2 Laser Cutting",
     rating: 4.8,
-    review_count: 42,
-    bestseller: false,
+    review_count: 36,
+    bestseller: true,
     stock: 50,
-    short_description:
-      "Set of 4 intricate laser-carved walnut wooden drink coasters with cork backing.",
+    short_description: "Set of 4 laser cut intricate wooden mandala drink coasters.",
     description:
-      "Set of 4 botanical and geometric mandala coasters laser engraved into dark walnut with waterproof polyurethane seal.",
+      "Set of 4 distinct mandala patterns cut with sub-millimeter beam kerf precision. Sanded silky smooth and treated with water-resistant beeswax.",
     specifications: {
-      Quantity: "4 Coasters + Wooden Holder",
-      Thickness: "4mm Walnut + 1mm Cork",
-      Finish: "Heat Resistant Clear Seal",
+      Pack: "4 Unique Mandala Designs",
+      Backing: "Non-Scratch Natural Cork Base",
+      Coating: "Food-Safe Water Repellent Finish",
     },
     sku: "LC-CST-002",
     subcategory: "Wooden Coasters",
@@ -294,22 +406,20 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     image_key: "keychain",
     price: 199,
     discount_price: 149,
-    material: "Natural Birch Wood & Stainless Steel Ring",
-    dimensions: "50 × 25 × 4 mm",
-    manufacturing_method: "CO2 Laser Cutting & Deep Vector Engraving",
+    material: "Natural Hardwood Walnut & Stainless Steel Keyring",
+    dimensions: "65 × 30 × 5 mm",
+    manufacturing_method: "Vector Laser Engraving",
     rating: 4.9,
-    review_count: 95,
-    bestseller: true,
-    stock: 120,
-    short_description:
-      "Personalized laser-engraved birch wooden keychain with polished steel keyring.",
+    review_count: 84,
+    bestseller: false,
+    stock: 150,
+    short_description: "Custom name or monogram engraved walnut wood keychain.",
     description:
-      "Custom engraved wooden keychain crafted using high-precision CO2 laser engraving. Personalized with your custom college name, lab ID, or student initials with clear protective varnish.",
+      "Personalized rectangular solid walnut keychain with laser etched name or graphics. Polished edges with heavy-duty split steel keyring.",
     specifications: {
-      "Laser Type": "100W CO2 Laser",
-      "Engrave Depth": "0.8mm",
-      "Ring Material": "Grade 304 Stainless Steel",
-      Coating: "Natural Beeswax Finish",
+      Material: "Solid Walnut Hardwood",
+      Ring: "30mm Flat Stainless Steel Ring",
+      Customization: "Front & Back Vector Engraving",
     },
     sku: "LC-KEY-003",
     subcategory: "Custom Keychains",
@@ -324,34 +434,33 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category: "Laser Cutting",
     category_slug: "laser-cutting",
     categorySlug: "laser-cutting",
-    image_key: "keychain",
-    price: 799,
-    discount_price: 599,
-    material: "3mm High-Density Engineered MDF",
-    dimensions: "250 × 180 × 120 mm (Assembled)",
-    manufacturing_method: "Precision Laser Micro-Kerf Cutting",
-    rating: 4.8,
-    review_count: 36,
+    image_key: "organizer",
+    price: 899,
+    discount_price: 699,
+    material: "Eco High-Density MDF (3mm)",
+    dimensions: "280 × 190 × 140 mm (Assembled)",
+    manufacturing_method: "Laser Nesting & Micro-Tab Cutting",
+    rating: 4.7,
+    review_count: 29,
     bestseller: false,
-    stock: 40,
-    short_description:
-      "Snap-fit laser cut 3D architectural bridge and truss structural analysis model.",
+    stock: 30,
+    short_description: "Snap-fit laser-cut structural bridge & truss assembly kit.",
     description:
-      "Snap-together interlocking wooden architectural bridge structural truss model kit designed for civil engineering and STEM mechanics education.",
+      "Detailed architectural scale puzzle kit containing 62 interlocking precision MDF components for structural engineering studies.",
     specifications: {
-      "Piece Count": "48 Laser-Cut Interlocking Parts",
-      Assembly: "No Glue Required (Friction Fit)",
-      Material: "Eco 3mm MDF Sheet",
+      Pieces: "62 Snap-fit Interlocking Parts",
+      Glue: "No Glue Required (Friction Fit)",
+      Difficulty: "Intermediate (45 mins build)",
     },
     sku: "LC-MDF-004",
-    subcategory: "MDF Structural Kits",
+    subcategory: "Architectural Kits",
     active: true,
     featured: false,
     created_at: "2026-01-04T00:00:00Z",
   },
 
   // ==========================================
-  // 3. CNC MACHINING PRODUCTS (category: "CNC Machining" / "cnc-machining")
+  // 3. CNC MACHINING PRODUCTS
   // ==========================================
   {
     id: "cnc-1",
@@ -361,27 +470,26 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category_slug: "cnc-machining",
     categorySlug: "cnc-machining",
     image_key: "cnc",
-    price: 1599,
-    discount_price: 1299,
-    material: "6061-T6 Aircraft Grade Aluminum",
+    price: 499,
+    discount_price: 399,
+    material: "Aircraft Grade 6061-T6 Aluminum",
     dimensions: "25mm Outer Dia × 30mm Length (5mm to 8mm Bore)",
-    manufacturing_method: "4-Axis CNC Milling & Turning",
-    rating: 4.7,
-    review_count: 80,
-    bestseller: false,
-    stock: 30,
-    short_description: "High-precision CNC machined flexible aluminum shaft coupling for robotics.",
+    manufacturing_method: "4-Axis CNC Turning & Wire EDM Slitting",
+    rating: 4.9,
+    review_count: 42,
+    bestseller: true,
+    stock: 75,
+    short_description: "Zero-backlash spiral beam flexible shaft coupler for 3D printers and CNCs.",
     description:
-      "High-precision CNC machined flexible aluminum shaft coupling for NEMA 17 stepper motors, 3D printers, CNC routers, and robotics drivetrains. Zero backlash with spiral cut flexure.",
+      "Milled from billet 6061-T6 aluminum with curved spiral flexure slits to compensate for angular and radial motor shaft misalignments.",
     specifications: {
-      "Bore Diameters": "5mm to 8mm",
-      "Outer Diameter": "25mm",
-      "Max RPM": "10,000 RPM",
-      "Torque Rating": "2.5 N·m",
-      Hardware: "M3 Set Screws (Included)",
+      Bore: "5mm to 8mm Dual Clamp",
+      "Max RPM": "8000 RPM",
+      Torque: "1.8 N·m Rated",
+      Fasteners: "M3 High-Tensile Set Screws Included",
     },
     sku: "CNC-CPL-001",
-    subcategory: "Mechanical Gearbox Parts",
+    subcategory: "Couplings",
     active: true,
     featured: true,
     created_at: "2026-01-01T00:00:00Z",
@@ -394,28 +502,27 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category_slug: "cnc-machining",
     categorySlug: "cnc-machining",
     image_key: "cnc",
-    price: 1199,
-    discount_price: 899,
-    material: "Anodized 6061-T6 Aluminum",
-    dimensions: "75 × 75 × 40 mm",
-    manufacturing_method: "CNC High-Speed Milling & Chamfering",
-    rating: 4.7,
-    review_count: 110,
+    price: 799,
+    discount_price: 599,
+    material: "6061-T6 Billet Aluminum (Bead-Blasted Anodized)",
+    dimensions: "80 × 80 × 12 mm",
+    manufacturing_method: "3-Axis CNC High-Speed Milling",
+    rating: 4.8,
+    review_count: 31,
     bestseller: false,
-    stock: 50,
-    short_description: "Heavy-duty 90-degree CNC aluminum corner bracket.",
+    stock: 40,
+    short_description: "Heavy-duty anodized 90-degree corner gusset bracket for 2020/3030 extrusions.",
     description:
-      "Heavy-duty CNC milled structural L-bracket engineered for 2020/4040 aluminum extrusion frames, CNC routers, and heavy payload robotics. Includes precision M5 counterbores.",
+      "Precision milled 90° corner gusset bracket engineered for extreme rigidity in robotics gantries and machine frames. Chamfered edges with matte black anodized surface.",
     specifications: {
-      "Extrusion Profile": "2020 / 4040 T-Slot",
-      "Hole Pattern": "4 x M5 Countersunk",
-      Thickness: "6mm Reinforced",
-      "Surface Finish": "Bead Blasted & Anodized",
+      Thickness: "12mm Solid Milled Wall",
+      Holes: "4 × M5 Counterbored Mounting Slots",
+      Finish: "Mil-Spec Type II Anodized",
     },
     sku: "CNC-BRK-002",
-    subcategory: "Aluminum Mounting Brackets",
+    subcategory: "Mounting Brackets",
     active: true,
-    featured: true,
+    featured: false,
     created_at: "2026-01-02T00:00:00Z",
   },
   {
@@ -426,33 +533,32 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category_slug: "cnc-machining",
     categorySlug: "cnc-machining",
     image_key: "cnc",
-    price: 699,
-    discount_price: 499,
-    material: "High-Grade Bearing Brass (CuZn39Pb3)",
+    price: 399,
+    discount_price: 299,
+    material: "High-Lead Bearing Brass (C36000)",
     dimensions: "8mm ID × 12mm OD × 15mm Length (16mm Flange)",
-    manufacturing_method: "Precision CNC Lathe Turning & Polishing",
+    manufacturing_method: "CNC Swiss Lathe Precision Turning (±0.005mm)",
     rating: 4.9,
-    review_count: 46,
+    review_count: 27,
     bestseller: false,
-    stock: 70,
-    short_description: "Pack of 4 ultra-smooth low-friction CNC turned flanged sleeve bearings.",
+    stock: 100,
+    short_description: "Self-lubricating precision turned brass sleeve bearings for rotating shafts.",
     description:
-      "Self-lubricating precision machined flanged brass bushings engineered for linear rod motion, 3D printer Z-axis rods, and robotics pivot linkages.",
+      "Swiss-machined flanged brass bushings engineered for smooth rotary and linear motion with minimal friction in custom mechanics and robot linkages.",
     specifications: {
-      "Internal Diameter": "8.00mm (+0.01 / -0.00mm)",
-      "Outer Diameter": "12.00mm",
-      Flange: "16mm OD × 2mm Thick",
-      Package: "4 Bushings per Set",
+      Tolerance: "ISO H7 (+0.015/-0 mm)",
+      Quantity: "4 Flanged Bushings",
+      Lubrication: "Graphite Impregnated Bearing Surface",
     },
     sku: "CNC-BSH-003",
-    subcategory: "Brass Bushings",
+    subcategory: "Bushings & Bearings",
     active: true,
     featured: false,
     created_at: "2026-01-03T00:00:00Z",
   },
 
   // ==========================================
-  // 4. ELECTRONICS PRODUCTS (category: "Electronics" / "electronics")
+  // 4. ELECTRONICS PRODUCTS
   // ==========================================
   {
     id: "elec-1",
@@ -464,24 +570,25 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     image_key: "esp32",
     price: 799,
     discount_price: 599,
-    material: "FR4 2-Layer Immersion Gold PCB",
-    dimensions: "65 × 45 × 12 mm",
-    manufacturing_method: "SMT Pick & Place Assembly",
+    material: "Lead-Free FR4 PCB & Gold Immersion (ENIG)",
+    dimensions: "52 × 28 × 12 mm",
+    manufacturing_method: "High-Precision Automated SMT Assembly",
     rating: 4.9,
-    review_count: 140,
+    review_count: 95,
     bestseller: true,
     stock: 80,
-    short_description: "ESP32 dual-core Wi-Fi & Bluetooth IoT development board.",
+    short_description:
+      "ESP32 Wi-Fi + Bluetooth 4.2 LE dual-core development board with Type-C connector.",
     description:
-      "Feature-rich ESP32 development board tailored for student lab projects, smart automation, robotics control, and IoT prototyping with USB-C flashing.",
+      "High performance 240MHz dual-core Xtensa LX6 microcontroller with integrated 2.4 GHz Wi-Fi, Bluetooth BLE, 4MB Flash memory, and USB-C CP2102 programming chip.",
     specifications: {
-      Microcontroller: "ESP32-WROOM-32D Dual Core 240MHz",
-      Connectivity: "Wi-Fi 802.11 b/g/n + BLE 4.2",
-      Port: "USB Type-C with CP2102",
-      GPIOs: "32 Breakout Pins",
+      CPU: "Dual-Core 32-bit Xtensa @ 240MHz",
+      Connectivity: "Wi-Fi 802.11 b/g/n + BT 4.2 BLE",
+      Interface: "USB-C with Native Serial & Auto-Reset",
+      GPIOs: "36 Breakout Header Pins",
     },
     sku: "ELEC-ESP-001",
-    subcategory: "Microcontroller Boards",
+    subcategory: "Microcontrollers",
     active: true,
     featured: true,
     created_at: "2026-01-01T00:00:00Z",
@@ -496,7 +603,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     image_key: "esp32",
     price: 1899,
     discount_price: 1499,
-    material: "FR4 Surface Mount Sensor Modules",
+    material: "FR4 PCB Modules & Components",
     dimensions: "220 × 160 × 45 mm (Storage Box)",
     manufacturing_method: "High-Volume Automated SMT",
     rating: 4.9,
@@ -552,7 +659,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
 
   // ==========================================
-  // 5. DRONES & PARTS (category: "Drones & Parts" / "drones-parts")
+  // 5. DRONES & PARTS
   // ==========================================
   {
     id: "drn-1",
@@ -598,22 +705,22 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     discount_price: 3199,
     material: "Titanium Shaft & Curved N52SH Neodymium Magnets",
     dimensions: "27.5mm Dia × 32.7mm Height (Each)",
-    manufacturing_method: "CNC Precision Rotor Balancing",
+    manufacturing_method: "CNC Turned Bell with Japanese NSK Bearings",
     rating: 4.9,
     review_count: 38,
-    bestseller: false,
-    stock: 25,
-    short_description: "Set of 4 high-thrust 2207 brushless motors for 4S-6S FPV racing drones.",
+    bestseller: true,
+    stock: 18,
+    short_description: "Set of 4 high-thrust 2207 2450KV 4S/6S brushless motors for FPV drones.",
     description:
-      "High efficiency 2450KV brushless quadcopter motors with heat-resistant copper windings and Japanese NSK ball bearings. Includes 2 CW and 2 CCW motor lock nuts.",
+      "Engineered for lightning throttle response and up to 1.8kg thrust per motor. High temperature 220°C copper windings and titanium alloy shaft.",
     specifications: {
-      Stator: "2207 Size",
       KV: "2450 RPM/V",
-      "Max Thrust": "1.65 kg per motor",
-      "Battery Support": "4S – 6S LiPo",
+      Voltage: "4S - 6S LiPo",
+      Stator: "2207 Silicon Steel Laminations",
+      Quantity: "Set of 4 Motors",
     },
     sku: "DRN-MTR-002",
-    subcategory: "Brushless Motors",
+    subcategory: "Drone Motors",
     active: true,
     featured: false,
     created_at: "2026-01-02T00:00:00Z",
@@ -627,21 +734,21 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     categorySlug: "drones-parts",
     image_key: "drone",
     price: 499,
-    discount_price: 349,
-    material: "Polycarbonate High Durability",
-    dimensions: "5.1 × 4.6 × 3 Blades (5mm Shaft)",
-    manufacturing_method: "Precision Injection Molding",
+    discount_price: 399,
+    material: "Ultra-Durable Polycarbonate (PC)",
+    dimensions: "5.1 inch Diameter × 4.3 inch Pitch",
+    manufacturing_method: "High-Precision Injection Molding",
     rating: 4.8,
-    review_count: 52,
-    bestseller: true,
-    stock: 150,
-    short_description: "Set of 8 polycarbonate 5-inch 3-blade FPV drone propellers (4 CW + 4 CCW).",
+    review_count: 53,
+    bestseller: false,
+    stock: 85,
+    short_description: "Pack of 8 (4 CW + 4 CCW) durable 5-inch tri-blade FPV propellers.",
     description:
-      "Durable crash-resistant polycarbonate propellers optimized for fast cornering bite, smooth throttle response, and quiet flight sound.",
+      "Aerodynamic airfoil design providing optimal grip in turns and high top-end speed with minimal propeller wash vibrations.",
     specifications: {
-      Quantity: "8 Propellers (4CW, 4CCW)",
-      Pitch: "4.6 Inch",
-      Weight: "4.2g per Propeller",
+      Size: "5143 Tri-Blade",
+      Quantity: "4 Pairs (4 Clockwise + 4 Counter-Clockwise)",
+      Mount: "5mm POPO & Center Hole",
     },
     sku: "DRN-PRP-003",
     subcategory: "Propellers",
@@ -651,7 +758,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
 
   // ==========================================
-  // 6. ACRYLIC PRODUCTS (category: "Acrylic Products" / "acrylic-products")
+  // 6. ACRYLIC PRODUCTS
   // ==========================================
   {
     id: "acr-1",
@@ -663,26 +770,25 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     image_key: "stand",
     price: 1299,
     discount_price: 999,
-    material: "Optical Cast Acrylic (3mm)",
-    dimensions: "250 × 200 × 150 mm",
-    manufacturing_method: "Laser Cutting & Acrylic Solvent Welding",
+    material: "3mm High-Transparency Cast Acrylic",
+    dimensions: "200 × 200 × 250 mm",
+    manufacturing_method: "Laser Cutting & Solvent Weld Fabrication",
     rating: 4.8,
-    review_count: 34,
+    review_count: 29,
     bestseller: false,
-    stock: 35,
-    short_description:
-      "Crystal clear seamless acrylic showcase box for robotics models and collectibles.",
+    stock: 25,
+    short_description: "Showcase display box with black gloss base for models & collectibles.",
     description:
-      "Museum-grade UV-filtering transparent acrylic display case with a black gloss base. Keeps trophies, electronic projects, and scale models dust-free.",
+      "Museum clarity 93% light transmission acrylic showcase. Features seamlessly solvent-welded 90° joints and a heavy black acrylic base.",
     specifications: {
-      Thickness: "3mm UV-Resistant Acrylic",
-      Base: "5mm High-Gloss Black Acrylic",
-      Joints: "Crystal Clear Chemically Welded",
+      Clarity: "93% Optical Light Transmission",
+      Base: "5mm Gloss Black Acrylic",
+      Assembly: "Pre-Assembled Sealed Dust Cover",
     },
     sku: "ACR-BOX-001",
-    subcategory: "Acrylic Display Boxes",
+    subcategory: "Display Cases",
     active: true,
-    featured: false,
+    featured: true,
     created_at: "2026-01-01T00:00:00Z",
   },
   {
@@ -695,26 +801,25 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     image_key: "stand",
     price: 1499,
     discount_price: 1199,
-    material: "Optical Cast Acrylic & Solid Hardwood Base",
-    dimensions: "180 × 140 × 6 mm",
-    manufacturing_method: "Laser Cutting & UV Back-Print / Engraving",
-    rating: 4.8,
-    review_count: 75,
+    material: "10mm Heavyweight Cast Acrylic & Beveled Edges",
+    dimensions: "180 × 120 × 40 mm",
+    manufacturing_method: "Diamond Polishing & Reverse Laser Engraving",
+    rating: 4.9,
+    review_count: 41,
     bestseller: true,
-    stock: 40,
-    short_description: "Custom engraved college emblem and department logo trophy stand.",
+    stock: 30,
+    short_description: "Custom award trophy with laser-etched university/college crest.",
     description:
-      "Custom engraved college emblem and department logo trophy stand with crystal-clear laser cut acrylic on a natural wooden display stand. Perfect for hackathon awards and event recognition.",
+      "Prestigious 10mm thick crystal-clear acrylic award featuring diamond-polished beveled facets and precision reverse engraved typography.",
     specifications: {
-      "Acrylic Thickness": "6mm Cast Grade A",
-      "Base Material": "Teak Wood",
-      Engraving: "Sub-surface Laser Etch",
-      Packaging: "Gift Box Included",
+      Thickness: "10.0mm Monumental Acrylic",
+      Edges: "Diamond Buffed Optical Polish",
+      Base: "Solid Weighted Clear Acrylic Stand",
     },
     sku: "ACR-TRP-002",
-    subcategory: "Custom Stands",
+    subcategory: "Awards & Trophies",
     active: true,
-    featured: true,
+    featured: false,
     created_at: "2026-01-02T00:00:00Z",
   },
   {
@@ -726,32 +831,31 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     categorySlug: "acrylic-products",
     image_key: "stand",
     price: 899,
-    discount_price: 649,
-    material: "Heavy-Duty Impact-Modified Acrylic (4mm)",
-    dimensions: "400 × 300 × 4 mm",
-    manufacturing_method: "CNC Routing & Flame-Polished Edge Chamfer",
-    rating: 4.9,
-    review_count: 28,
+    discount_price: 699,
+    material: "4mm High-Impact Acrylic with Dual Stabilizer Feet",
+    dimensions: "450 × 300 × 150 mm",
+    manufacturing_method: "CNC Routed with Flame Polished Edges",
+    rating: 4.7,
+    review_count: 18,
     bestseller: false,
-    stock: 30,
-    short_description:
-      "Laser & CNC safety protective viewing window shield for makerspace workstations.",
+    stock: 40,
+    short_description: "Desktop sneeze guard & machine safety barrier with pass-through slot.",
     description:
-      "Durable optical safety acrylic barrier screen designed for benchtop laser engraving machines, soldering fume stations, and lathe machine guards.",
+      "Free-standing transparent protective barrier designed for laboratory desks, reception counters, or soldering workbenches. Includes interlocking acrylic stabilizer feet.",
     specifications: {
-      Thickness: "4mm High-Impact Acrylic",
-      Transparency: "92% Visible Light Transmission",
-      Mounting: "4 x Corner Grommet Holes",
+      Dimensions: "450mm Wide × 300mm Tall",
+      Thickness: "4mm Impact-Resistant Sheet",
+      Mount: "Slot-in Stabilizer Feet (No screws needed)",
     },
     sku: "ACR-SHD-003",
-    subcategory: "Transparent Shields",
+    subcategory: "Protective Barriers",
     active: true,
     featured: false,
     created_at: "2026-01-03T00:00:00Z",
   },
 
   // ==========================================
-  // 7. DIY KITS (category: "DIY Kits" / "diy-kits")
+  // 7. DIY KITS
   // ==========================================
   {
     id: "kit-1",
@@ -763,24 +867,24 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     image_key: "kit",
     price: 2499,
     discount_price: 1899,
-    material: "Acrylic Chassis, TT Motors, Wheels, Sensors & Controller",
-    dimensions: "220 × 160 × 70 mm",
-    manufacturing_method: "Curated STEM Kit Assembly",
+    material: "Laser-Cut Acrylic Chassis, TT Motors, Arduino Core",
+    dimensions: "200 × 150 × 80 mm (Assembled Robot)",
+    manufacturing_method: "Kitted Electro-Mechanical STEM Package",
     rating: 4.9,
-    review_count: 88,
+    review_count: 78,
     bestseller: true,
-    stock: 60,
+    stock: 25,
     short_description:
-      "Complete line-following and obstacle-avoidance 2WD robot chassis assembly kit.",
+      "2WD obstacle-avoiding & line-tracking autonomous robot car kit for students.",
     description:
-      "Hands-on robotics kit containing dual TT gear motors, motor driver shield, ultrasonic sonar sensor, infrared tracking sensors, and code library.",
+      "Complete educational starter kit containing micro-geared motors, ultrasonic sensor, IR tracking modules, motor driver board, and pre-programmed Arduino-compatible brain with guided coding lessons.",
     specifications: {
-      Sensors: "Ultrasonic, Line Follower IR Modules",
-      Motors: "2 × 3V–6V TT Gearbox Motors",
-      Guide: "Full Circuit Diagram & Arduino Code Manual",
+      Chassis: "Laser-Cut Dual-Layer Transparent Chassis",
+      Sensors: "Ultrasonic HC-SR04 + 2x IR Line Sensors",
+      Battery: "Rechargeable 18650 Battery Holder & Charger Included",
     },
     sku: "KIT-ROB-001",
-    subcategory: "Robotics Starter Kits",
+    subcategory: "Robotics Kits",
     active: true,
     featured: true,
     created_at: "2026-01-01T00:00:00Z",
@@ -792,27 +896,27 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category: "DIY Kits",
     category_slug: "diy-kits",
     categorySlug: "diy-kits",
-    image_key: "kit",
-    price: 499,
-    discount_price: 349,
-    material: "FR4 PCB with 60+ SMD & Through-Hole Components",
-    dimensions: "100 × 80 × 1.6 mm",
-    manufacturing_method: "Educational Kit Packaging",
+    image_key: "board",
+    price: 599,
+    discount_price: 449,
+    material: "High-Grade Double Sided PCB & 120 Discrete Components",
+    dimensions: "120 × 90 mm PCB",
+    manufacturing_method: "Component Assembly & Electronics Training",
     rating: 4.8,
-    review_count: 74,
+    review_count: 51,
     bestseller: false,
-    stock: 100,
+    stock: 60,
     short_description:
-      "Learn-to-solder practice board with rotating LED chasing circuit and buzzer.",
+      "Comprehensive SMD & through-hole soldering learning kit with LED flashing circuit.",
     description:
-      "Step-by-step soldering tutorial kit featuring 0805, 0603 SMD components, transistors, capacitors, and NE555 timer IC to build an animated flashing LED wheel.",
+      "Perfect hands-on learning board for students and hobbyists to master through-hole soldering and 0805 SMD component placement. Produces a rotating LED chase effect when assembled correctly.",
     specifications: {
-      "Component Count": "65 Electronic Parts",
-      Difficulty: "Beginner to Intermediate",
-      Power: "5V USB or 9V Battery Snap",
+      Components: "120+ Resistors, Capacitors, Transistors, LEDs & ICs",
+      Power: "5V USB or 9V Battery Terminal",
+      Skill: "Beginner to Intermediate Training",
     },
     sku: "KIT-SLD-002",
-    subcategory: "Soldering Practice Kits",
+    subcategory: "Soldering Kits",
     active: true,
     featured: false,
     created_at: "2026-01-02T00:00:00Z",
@@ -853,86 +957,84 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
 ];
 
 export function sanitizeProduct(p: Product): Product {
-  const nameLower = (p.name || "").toLowerCase();
-  let correctSlug =
-    p.category_slug || (p as any).categorySlug || (p as any).category || "3d-printing";
+  const slug = (p.slug || "").toLowerCase().trim();
+  const name = (p.name || "").toLowerCase().trim();
 
-  if (
-    nameLower.includes("gearbox") ||
-    nameLower.includes("coupling") ||
-    nameLower.includes("flanged brass") ||
-    nameLower.includes("machined") ||
-    nameLower.includes("mounting plate") ||
-    nameLower.includes("prototype block") ||
-    nameLower.includes("cnc")
-  ) {
-    correctSlug = "cnc-machining";
-  } else if (
-    nameLower.includes("drone") ||
-    nameLower.includes("propeller") ||
-    nameLower.includes("brushless") ||
-    nameLower.includes("fpv") ||
-    nameLower.includes("quadcopter") ||
-    nameLower.includes("landing gear")
-  ) {
-    correctSlug = "drones-parts";
-  } else if (
-    nameLower.includes("acrylic") ||
-    nameLower.includes("display box") ||
-    nameLower.includes("transparent") ||
-    nameLower.includes("shield") ||
-    nameLower.includes("desk sign") ||
-    nameLower.includes("name plate") ||
-    nameLower.includes("trophy")
-  ) {
-    correctSlug = "acrylic-products";
-  } else if (
-    nameLower.includes("mandala") ||
-    nameLower.includes("lamp") ||
-    nameLower.includes("tree of life") ||
-    nameLower.includes("laser") ||
-    nameLower.includes("engraved") ||
-    (nameLower.includes("keychain") && !nameLower.includes("acrylic"))
-  ) {
-    correctSlug = "laser-cutting";
-  } else if (
-    nameLower.includes("esp32") ||
-    nameLower.includes("arduino") ||
-    nameLower.includes("sensor kit") ||
-    nameLower.includes("sensor module") ||
-    nameLower.includes("oled") ||
-    nameLower.includes("pcb") ||
-    nameLower.includes("microcontroller") ||
-    nameLower.includes("soldering practice")
-  ) {
-    correctSlug = "electronics";
-  } else if (
-    nameLower.includes("diy") ||
-    nameLower.includes("starter kit") ||
-    nameLower.includes("learning kit") ||
-    nameLower.includes("robot kit") ||
-    nameLower.includes("robotics") ||
-    nameLower.includes("speaker build")
-  ) {
-    correctSlug = "diy-kits";
-  } else if (
-    nameLower.includes("vase") ||
-    nameLower.includes("phone stand") ||
-    nameLower.includes("mini desk organizer") ||
-    nameLower.includes("cable management") ||
-    nameLower.includes("resin") ||
-    nameLower.includes("tpu") ||
-    nameLower.includes("filament") ||
-    nameLower.includes("3d")
-  ) {
-    correctSlug = "3d-printing";
+  // 1. Direct match by exact slug
+  let canonicalSlug = EXACT_PRODUCT_CATEGORY_MAP[slug];
+
+  // 2. Direct match by exact name keywords if slug is unmapped
+  if (!canonicalSlug) {
+    if (
+      name.includes("mandala") ||
+      name.includes("lamp") ||
+      name.includes("tree of life") ||
+      name.includes("laser") ||
+      name.includes("engraved") ||
+      (name.includes("keychain") && !name.includes("acrylic")) ||
+      name.includes("mdf")
+    ) {
+      canonicalSlug = "laser-cutting";
+    } else if (
+      name.includes("gearbox") ||
+      name.includes("coupling") ||
+      name.includes("flanged brass") ||
+      name.includes("machined") ||
+      name.includes("mounting plate") ||
+      name.includes("prototype block") ||
+      name.includes("cnc") ||
+      name.includes("bushing")
+    ) {
+      canonicalSlug = "cnc-machining";
+    } else if (
+      name.includes("drone") ||
+      name.includes("propeller") ||
+      name.includes("brushless") ||
+      name.includes("fpv") ||
+      name.includes("quadcopter") ||
+      name.includes("landing gear")
+    ) {
+      canonicalSlug = "drones-parts";
+    } else if (
+      name.includes("acrylic") ||
+      name.includes("display box") ||
+      name.includes("transparent") ||
+      name.includes("shield") ||
+      name.includes("desk sign") ||
+      name.includes("name plate") ||
+      name.includes("trophy")
+    ) {
+      canonicalSlug = "acrylic-products";
+    } else if (
+      name.includes("diy") ||
+      name.includes("starter kit") ||
+      name.includes("learning kit") ||
+      name.includes("robot kit") ||
+      name.includes("robotics") ||
+      name.includes("speaker build")
+    ) {
+      canonicalSlug = "diy-kits";
+    } else if (
+      name.includes("esp32") ||
+      name.includes("arduino") ||
+      name.includes("sensor kit") ||
+      name.includes("sensor module") ||
+      name.includes("oled") ||
+      name.includes("pcb") ||
+      name.includes("microcontroller") ||
+      name.includes("soldering practice")
+    ) {
+      canonicalSlug = "electronics";
+    } else {
+      canonicalSlug = normalizeCategorySlug(p.category_slug || (p as any).categorySlug || "3d-printing");
+    }
   }
 
   return {
     ...p,
-    category_slug: correctSlug,
-    categorySlug: correctSlug,
-    category: p.category || correctSlug,
+    categorySlug: canonicalSlug,
+    category_slug: canonicalSlug,
+    category: p.category || canonicalSlug,
   };
 }
 
@@ -990,7 +1092,6 @@ export function getProductBySlug(rawSlugOrId: string | undefined | null): Produc
   const normalized = normalizeProductIdentifier(rawSlugOrId);
   const raw = (rawSlugOrId || "").trim().toLowerCase();
 
-  // 1. Direct match in DEFAULT_CATALOG_PRODUCTS by id, slug, or normalized name
   const match = DEFAULT_CATALOG_PRODUCTS.find((p) => {
     const pSlugNorm = normalizeProductIdentifier(p.slug);
     const pIdNorm = normalizeProductIdentifier(p.id);
@@ -1006,7 +1107,6 @@ export function getProductBySlug(rawSlugOrId: string | undefined | null): Produc
   });
   if (match) return sanitizeProduct(match);
 
-  // 2. Substring or keyword match in DEFAULT_CATALOG_PRODUCTS
   if (normalized.length > 0) {
     const subMatch = DEFAULT_CATALOG_PRODUCTS.find((p) => {
       const pSlugNorm = normalizeProductIdentifier(p.slug);
@@ -1022,7 +1122,6 @@ export function getProductBySlug(rawSlugOrId: string | undefined | null): Produc
     if (subMatch) return sanitizeProduct(subMatch);
   }
 
-  // 3. Ultimate safe fallback: return first item in DEFAULT_CATALOG_PRODUCTS
   return sanitizeProduct(DEFAULT_CATALOG_PRODUCTS[0]!);
 }
 
@@ -1043,7 +1142,7 @@ export function productQuery(rawSlugOrId: string | undefined) {
           if (data) return sanitizeProduct(data);
         }
       } catch {
-        // Fallback to local default catalog
+        // Fallback
       }
 
       return getProductBySlug(rawSlugOrId);

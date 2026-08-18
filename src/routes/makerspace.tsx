@@ -21,6 +21,7 @@ import {
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Active3DPrinterAnimation } from "@/components/site/Active3DPrinterAnimation";
+import { ActiveLaserCutterAnimation } from "@/components/site/ActiveLaserCutterAnimation";
 
 export const Route = createFileRoute("/makerspace")({
   head: () => ({
@@ -230,6 +231,10 @@ function MakerspacePage() {
                     <div className="h-full w-full group-hover:scale-105 transition-transform duration-500 ease-out">
                       <Active3DPrinterAnimation />
                     </div>
+                  ) : st.id === "laser-cutting" ? (
+                    <div className="h-full w-full group-hover:scale-105 transition-transform duration-500 ease-out">
+                      <ActiveLaserCutterAnimation />
+                    </div>
                   ) : (
                     <img
                       src={st.image}
@@ -240,20 +245,6 @@ function MakerspacePage() {
                       className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                       loading="lazy"
                     />
-                  )}
-
-                  {/* ACTIVE FABRICATION MOTION OVERLAY 2: Pulsing Red Target Laser Focal Point on Mandala */}
-                  {st.id === "laser-cutting" && (
-                    <div className="pointer-events-none absolute inset-0 z-15 overflow-hidden">
-                      {/* Pulsing Red Laser Focal Point at Mandala Center */}
-                      <div className="absolute left-[54%] top-[58%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                        <div className="absolute h-8 w-8 rounded-full bg-red-500/35 animate-ping" />
-                        <div className="h-3.5 w-3.5 rounded-full bg-[#FF0033] shadow-[0_0_15px_#FF0000] ring-2 ring-white" />
-                        {/* Radiant Spark Particles */}
-                        <span className="absolute -top-3 -right-3 h-1.5 w-1.5 rounded-full bg-amber-300 animate-ping [animation-duration:0.5s]" />
-                        <span className="absolute -bottom-2 -left-3 h-1.5 w-1.5 rounded-full bg-orange-400 animate-ping [animation-duration:0.7s]" />
-                      </div>
-                    </div>
                   )}
 
                   {/* ACTIVE FABRICATION MOTION OVERLAY 3: Dynamic Orange Floating Spark Particles around CNC Cutter */}

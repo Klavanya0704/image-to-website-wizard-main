@@ -341,6 +341,22 @@
   animation: nozzleSweep 3.5s ease-in-out infinite;
 }
 
+@keyframes verticalScan {
+  0%,
+  100% {
+    top: 25%;
+    opacity: 0.8;
+  }
+  50% {
+    top: 72%;
+    opacity: 1;
+  }
+}
+
+.animate-vertical-scan {
+  animation: verticalScan 3.2s ease-in-out infinite;
+}
+
 @keyframes printRayPulse {
   0%,
   100% {

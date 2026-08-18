@@ -1,50 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="100%" height="100%">
     <defs>
-      <linearGradient id="bgOrg" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#1E293B"/>
-        <stop offset="100%" stop-color="#0B0F19"/>
+      <linearGradient id="bgWhiteStudio" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#FFFFFF"/>
+        <stop offset="80%" stop-color="#F8FAFC"/>
+        <stop offset="100%" stop-color="#E2E8F0"/>
       </linearGradient>
-      <linearGradient id="matWhite" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#F8FAFC"/>
+      <linearGradient id="whiteMatte" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFFFFF"/>
+        <stop offset="60%" stop-color="#F1F5F9"/>
         <stop offset="100%" stop-color="#CBD5E1"/>
       </linearGradient>
-      <linearGradient id="matDark" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#334155"/>
-        <stop offset="100%" stop-color="#1E293B"/>
-      </linearGradient>
+      <radialGradient id="orgShadow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#64748B" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#64748B" stop-opacity="0"/>
+      </radialGradient>
     </defs>
-    <rect width="600" height="600" fill="url(#bgOrg)"/>
-    <circle cx="300" cy="320" r="220" fill="#64748B" fill-opacity="0.15"/>
-    <ellipse cx="300" cy="490" rx="180" ry="28" fill="#000" fill-opacity="0.6"/>
+    <rect width="600" height="500" fill="url(#bgWhiteStudio)"/>
+    <ellipse cx="300" cy="410" rx="150" ry="20" fill="url(#orgShadow)"/>
 
-    <!-- Modular 3D Printed Desk Organizer -->
-    <g transform="translate(130, 200)">
-      <!-- Main Tier Platform -->
-      <polygon points="40,240 300,240 340,200 80,200" fill="url(#matDark)" stroke="#475569" stroke-width="2"/>
-      <polygon points="40,240 40,260 300,260 300,240" fill="#0F172A"/>
-      <!-- Tall Pen Cup Compartment -->
-      <polygon points="60,190 140,190 160,110 80,110" fill="url(#matWhite)" stroke="#94A3B8" stroke-width="1.5"/>
-      <polygon points="60,190 60,100 140,100 140,190" fill="url(#matWhite)" stroke="#CBD5E1"/>
-      <ellipse cx="100" cy="100" rx="40" ry="12" fill="#0F172A" stroke="#CBD5E1" stroke-width="2"/>
-      
-      <!-- Pens inside cup -->
-      <line x1="85" y1="100" x2="60" y2="10" stroke="#3B82F6" stroke-width="8" stroke-linecap="round"/>
-      <line x1="100" y1="100" x2="100" y2="0" stroke="#EF4444" stroke-width="8" stroke-linecap="round"/>
-      <line x1="115" y1="100" x2="135" y2="15" stroke="#10B981" stroke-width="8" stroke-linecap="round"/>
-      <line x1="85" y1="10" x2="60" y2="10" stroke="#93C5FD" stroke-width="2"/>
+    <!-- White Modern Desk Organizer Caddy -->
+    <g transform="translate(180, 110)">
+      <!-- Pens standing inside -->
+      <line x1="90" y1="120" x2="65" y2="15" stroke="#1E293B" stroke-width="8" stroke-linecap="round"/>
+      <line x1="90" y1="120" x2="65" y2="15" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+      <line x1="120" y1="110" x2="120" y2="5" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+      <line x1="120" y1="110" x2="120" y2="5" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"/>
+      <line x1="140" y1="120" x2="165" y2="20" stroke="#475569" stroke-width="7" stroke-linecap="round"/>
+      <line x1="140" y1="120" x2="165" y2="20" stroke="#F8FAFC" stroke-width="1.5" stroke-linecap="round"/>
 
-      <!-- Mid Compartment (Sticky Notes / Cards) -->
-      <polygon points="160,190 240,190 260,140 180,140" fill="url(#matWhite)" stroke="#94A3B8" stroke-width="1.5"/>
-      <polygon points="160,190 160,140 240,140 240,190" fill="url(#matWhite)"/>
-      <rect x="175" y="125" width="50" height="40" rx="4" fill="#FDE047" transform="rotate(-5 175 125)"/>
+      <!-- Main Organizer Geometric Compartments -->
+      <!-- Left Tall Cup -->
+      <polygon points="40,260 110,260 130,130 60,130" fill="url(#whiteMatte)" stroke="#94A3B8" stroke-width="1.5"/>
+      <ellipse cx="95" cy="130" rx="35" ry="12" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="1.5"/>
 
-      <!-- Low Compartment (USB / SD Cards) -->
-      <polygon points="250,220 320,220 335,180 265,180" fill="url(#matDark)" stroke="#64748B" stroke-width="1.5"/>
-      <rect x="270" y="170" width="16" height="24" rx="2" fill="#3B82F6" stroke="#93C5FD"/>
-      <rect x="295" y="175" width="20" height="20" rx="2" fill="#10B981" stroke="#A7F3D0"/>
-      <!-- Honeycomb Grid pattern on front -->
-      <path d="M70 130 L80 125 L90 130 L90 140 L80 145 L70 140 Z M95 130 L105 125 L115 130 L115 140 L105 145 L95 140 Z" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+      <!-- Center Stepped Section -->
+      <polygon points="110,260 180,260 200,160 130,160" fill="url(#whiteMatte)" stroke="#94A3B8" stroke-width="1.5"/>
+      <ellipse cx="165" cy="160" rx="35" ry="12" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="1.5"/>
+
+      <!-- Right Shallow Tray for clips/cards -->
+      <polygon points="180,260 230,260 245,210 195,210" fill="url(#whiteMatte)" stroke="#94A3B8" stroke-width="1.5"/>
+      <polygon points="40,260 230,260 220,270 30,270" fill="#94A3B8"/>
     </g>
-    <rect x="30" y="30" rx="8" width="160" height="26" fill="#64748B" fill-opacity="0.2" stroke="#94A3B8" stroke-width="1"/>
-    <text x="110" y="47" fill="#E2E8F0" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1">MODULAR DESK CADDY</text>
   </svg>

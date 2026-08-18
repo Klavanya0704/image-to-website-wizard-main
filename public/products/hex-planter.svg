@@ -1,50 +1,104 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="100%" height="100%">
     <defs>
-      <linearGradient id="bgPlant" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#1E293B"/>
-        <stop offset="100%" stop-color="#020617"/>
+      <linearGradient id="bgPlantStudio" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#FFFFFF"/>
+        <stop offset="85%" stop-color="#F8FAFC"/>
+        <stop offset="100%" stop-color="#E2E8F0"/>
       </linearGradient>
-      <linearGradient id="succulent" x1="0%" y1="0%" x2="0%" y2="100%">
+      <radialGradient id="plantShadow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#334155" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#334155" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="succulentGreen" x1="0%" y1="0%" x2="0%" y2="100%">
         <stop offset="0%" stop-color="#4ADE80"/>
         <stop offset="60%" stop-color="#16A34A"/>
         <stop offset="100%" stop-color="#14532D"/>
       </linearGradient>
-      <linearGradient id="mattePot" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#334155"/>
-        <stop offset="50%" stop-color="#1E293B"/>
-        <stop offset="100%" stop-color="#0F172A"/>
-      </linearGradient>
     </defs>
-    <rect width="600" height="600" fill="url(#bgPlant)"/>
-    <circle cx="300" cy="300" r="230" fill="#22C55E" fill-opacity="0.1"/>
-    <ellipse cx="300" cy="500" rx="160" ry="24" fill="#000" fill-opacity="0.6"/>
+    <rect width="600" height="500" fill="url(#bgPlantStudio)"/>
+    <ellipse cx="300" cy="410" rx="140" ry="20" fill="url(#plantShadow)"/>
 
-    <!-- Succulent Plant Growing from Planter -->
-    <g transform="translate(300, 220)">
-      <!-- Succulent fleshy leaves radiating out -->
-      <path d="M0 0 C -40 -60, -80 -40, -90 0 C -60 20, -30 20, 0 0 Z" fill="url(#succulent)" stroke="#86EFAC" stroke-width="1.5"/>
-      <path d="M0 0 C 40 -60, 80 -40, 90 0 C 60 20, 30 20, 0 0 Z" fill="url(#succulent)" stroke="#86EFAC" stroke-width="1.5"/>
-      <path d="M0 0 C -20 -90, 20 -90, 0 -110 C -20 -80, -10 -40, 0 0 Z" fill="url(#succulent)" stroke="#86EFAC" stroke-width="1.5"/>
-      <path d="M0 0 C -60 -40, -40 -80, -30 -90 C -10 -60, -10 -20, 0 0 Z" fill="url(#succulent)" stroke="#86EFAC" stroke-width="1.5"/>
-      <path d="M0 0 C 60 -40, 40 -80, 30 -90 C 10 -60, 10 -20, 0 0 Z" fill="url(#succulent)" stroke="#86EFAC" stroke-width="1.5"/>
-      <!-- Inner Rosette Center -->
-      <circle cx="0" cy="-10" r="14" fill="#86EFAC" stroke="#16A34A"/>
+    <!-- Green Succulent Plant on Top -->
+    <g transform="translate(300, 170)">
+      <!-- Succulent Rosette Petals -->
+      <path d="M0 0 C -35 -50, -70 -35, -80 0 C -50 15, -25 15, 0 0 Z" fill="url(#succulentGreen)" stroke="#86EFAC" stroke-width="1.5"/>
+      <path d="M0 0 C 35 -50, 70 -35, 80 0 C 50 15, 25 15, 0 0 Z" fill="url(#succulentGreen)" stroke="#86EFAC" stroke-width="1.5"/>
+      <path d="M0 0 C -15 -80, 15 -80, 0 -95 C -15 -70, -8 -35, 0 0 Z" fill="url(#succulentGreen)" stroke="#86EFAC" stroke-width="1.5"/>
+      <path d="M0 0 C -50 -35, -35 -70, -25 -75 C -8 -50, -8 -15, 0 0 Z" fill="url(#succulentGreen)" stroke="#86EFAC" stroke-width="1.5"/>
+      <path d="M0 0 C 50 -35, 35 -70, 25 -75 C 8 -50, 8 -15, 0 0 Z" fill="url(#succulentGreen)" stroke="#86EFAC" stroke-width="1.5"/>
+      <circle cx="0" cy="-8" r="12" fill="#86EFAC" stroke="#16A34A"/>
     </g>
 
-    <!-- 3D Printed Geometric Hex Planter Pot -->
-    <g transform="translate(170, 220)">
-      <!-- Hex Rim -->
-      <polygon points="60,20 200,20 250,70 200,120 60,120 10,70" fill="#0F172A" stroke="#64748B" stroke-width="2"/>
-      <polygon points="65,25 195,25 240,70 195,115 65,115 20,70" fill="#451A03" stroke="#78350F" stroke-width="2"/>
-      <!-- Hex Faceted Body Panels -->
-      <polygon points="10,70 60,120 70,250 20,200" fill="#1E293B" stroke="#475569" stroke-width="1.5"/>
-      <polygon points="60,120 200,120 190,250 70,250" fill="url(#mattePot)" stroke="#64748B" stroke-width="1.5"/>
-      <polygon points="200,120 250,70 240,200 190,250" fill="#0F172A" stroke="#475569" stroke-width="1.5"/>
-      <!-- Hex Pattern Emboss Lines on Pot -->
-      <path d="M90 140 L110 130 L130 140 L130 160 L110 170 L90 160 Z" fill="none" stroke="#38BDF8" stroke-width="2" opacity="0.8"/>
-      <path d="M140 140 L160 130 L180 140 L180 160 L160 170 L140 160 Z" fill="none" stroke="#38BDF8" stroke-width="2" opacity="0.8"/>
-      <path d="M115 175 L135 165 L155 175 L155 195 L135 205 L115 195 Z" fill="none" stroke="#38BDF8" stroke-width="2" opacity="0.8"/>
+    <!-- Black Hex Lattice Planter Pot -->
+    <g transform="translate(185, 170)">
+      <!-- Spherical / Hex Rounded Body -->
+      <path d="M30 60 Q 0 150 50 210 Q 115 250 180 210 Q 230 150 200 60 Z" fill="#0F172A" stroke="#334155" stroke-width="2"/>
+      
+      <!-- Hexagonal Woven Facets Array -->
+      
+            <polygon points="40,70 50,65 60,70 60,82 50,87 40,82" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="66,70 76,65 86,70 86,82 76,87 66,82" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="92,70 102,65 112,70 112,82 102,87 92,82" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="118,70 128,65 138,70 138,82 128,87 118,82" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="144,70 154,65 164,70 164,82 154,87 144,82" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="170,70 180,65 190,70 190,82 180,87 170,82" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="53,96 63,91 73,96 73,108 63,113 53,108" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="79,96 89,91 99,96 99,108 89,113 79,108" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="105,96 115,91 125,96 125,108 115,113 105,108" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="131,96 141,91 151,96 151,108 141,113 131,108" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="157,96 167,91 177,96 177,108 167,113 157,108" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="183,96 193,91 203,96 203,108 193,113 183,108" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="40,122 50,117 60,122 60,134 50,139 40,134" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="66,122 76,117 86,122 86,134 76,139 66,134" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="92,122 102,117 112,122 112,134 102,139 92,134" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="118,122 128,117 138,122 138,134 128,139 118,134" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="144,122 154,117 164,122 164,134 154,139 144,134" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="170,122 180,117 190,122 190,134 180,139 170,134" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="53,148 63,143 73,148 73,160 63,165 53,160" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="79,148 89,143 99,148 99,160 89,165 79,160" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="105,148 115,143 125,148 125,160 115,165 105,160" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="131,148 141,143 151,148 151,160 141,165 131,160" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="157,148 167,143 177,148 177,160 167,165 157,160" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="183,148 193,143 203,148 203,160 193,165 183,160" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="40,174 50,169 60,174 60,186 50,191 40,186" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="66,174 76,169 86,174 86,186 76,191 66,186" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="92,174 102,169 112,174 112,186 102,191 92,186" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="118,174 128,169 138,174 138,186 128,191 118,186" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="144,174 154,169 164,174 164,186 154,191 144,186" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+            <polygon points="170,174 180,169 190,174 190,186 180,191 170,186" fill="none" stroke="#64748B" stroke-width="2"/>
+          
+
+      <!-- Planter Top Rim -->
+      <ellipse cx="115" cy="60" rx="85" ry="20" fill="#020617" stroke="#475569" stroke-width="2"/>
+      <ellipse cx="115" cy="60" rx="70" ry="14" fill="#3E2723"/>
     </g>
-    <rect x="30" y="30" rx="8" width="160" height="26" fill="#16A34A" fill-opacity="0.2" stroke="#4ADE80" stroke-width="1"/>
-    <text x="110" y="47" fill="#4ADE80" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1">ECO HEX PLANTER</text>
   </svg>

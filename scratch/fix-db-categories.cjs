@@ -1,22 +1,26 @@
-const fs = require('fs');
-const { createClient } = require('@supabase/supabase-js');
+const fs = require("fs");
+const { createClient } = require("@supabase/supabase-js");
 
-let envContent = '';
-if (fs.existsSync('.env.local')) envContent += fs.readFileSync('.env.local', 'utf8') + '\n';
-if (fs.existsSync('.env')) envContent += fs.readFileSync('.env', 'utf8') + '\n';
+let envContent = "";
+if (fs.existsSync(".env.local")) envContent += fs.readFileSync(".env.local", "utf8") + "\n";
+if (fs.existsSync(".env")) envContent += fs.readFileSync(".env", "utf8") + "\n";
 
 const env = {};
-envContent.split('\n').forEach(line => {
-  const parts = line.split('=');
+envContent.split("\n").forEach((line) => {
+  const parts = line.split("=");
   if (parts.length >= 2) {
     const k = parts[0].trim();
-    const v = parts.slice(1).join('=').trim().replace(/^["']|["']$/g, '');
+    const v = parts
+      .slice(1)
+      .join("=")
+      .trim()
+      .replace(/^["']|["']$/g, "");
     env[k] = v;
   }
 });
 
-const url = env['VITE_SUPABASE_URL'] || env['SUPABASE_URL'];
-const key = env['VITE_SUPABASE_PUBLISHABLE_KEY'] || env['SUPABASE_PUBLISHABLE_KEY'];
+const url = env["VITE_SUPABASE_URL"] || env["SUPABASE_URL"];
+const key = env["VITE_SUPABASE_PUBLISHABLE_KEY"] || env["SUPABASE_PUBLISHABLE_KEY"];
 const sb = createClient(url, key);
 
 const EXACT_CATEGORY_MAP = {
@@ -96,9 +100,9 @@ const EXACT_CATEGORY_MAP = {
 };
 
 async function fixCategories() {
-  const { data, error } = await sb.from('products').select('*');
+  const { data, error } = await sb.from("products").select("*");
   if (error) {
-    console.error('Error fetching:', error);
+    console.error("Error fetching:", error);
     return;
   }
 
@@ -106,14 +110,11 @@ async function fixCategories() {
   for (const product of data) {
     const correctCategory = EXACT_CATEGORY_MAP[product.name] || product.category_slug;
     console.log(`Product: "${product.name}" -> ${correctCategory}`);
-    
-    await sb
-      .from('products')
-      .update({ category_slug: correctCategory })
-      .eq('id', product.id);
+
+    await sb.from("products").update({ category_slug: correctCategory }).eq("id", product.id);
   }
 
-  console.log('Database exact category normalization finished successfully.');
+  console.log("Database exact category normalization finished successfully.");
 }
 
 fixCategories();

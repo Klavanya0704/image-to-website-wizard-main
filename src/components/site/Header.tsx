@@ -358,43 +358,31 @@ export function Header() {
       </div>
 
       {/* =========================================================================
-          ROW 2 — BOTTOM CATEGORY NAVIGATION BAR (Circular Badge Items)
+          ROW 2 — CATEGORY NAVIGATION BAR (Matching Reference Image)
          ========================================================================= */}
-      <div className="border-t border-slate-100 bg-white shadow-xs">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-around py-4 px-4 sm:px-8 overflow-x-auto no-scrollbar">
+      <div className="border-t border-slate-100 bg-white shadow-2xs">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between py-2.5 px-4 sm:px-8 overflow-x-auto no-scrollbar gap-2">
           {CATEGORIES.map((cat) => {
             const isCatActive =
               cat.id === "home"
                 ? pathname === "/" || pathname === "/shop"
-                : pathname === `/category/${cat.id}`;
+                : pathname === `/category/${cat.id}` || pathname.startsWith(`/category/${cat.id}`);
 
             if (cat.isHome) {
               return (
                 <Link
                   key={cat.id}
                   to="/"
-                  className={`flex flex-col items-center gap-2 group cursor-pointer shrink-0 ${
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg group cursor-pointer shrink-0 transition-colors ${
                     isCatActive
-                      ? "border-b-2 border-blue-600 pb-1 text-blue-600 font-bold"
-                      : "text-slate-800 pb-1"
+                      ? "text-[#1455D9] font-bold border-b-2 border-[#1455D9] rounded-b-none"
+                      : "text-slate-700 hover:text-[#1455D9] font-medium"
                   }`}
                 >
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center">
-                    <Home
-                      className={`w-7 h-7 ${
-                        isCatActive ? "text-blue-600" : "text-blue-600 group-hover:scale-105"
-                      } transition-transform`}
-                    />
-                  </div>
-                  <span
-                    className={`text-xs font-semibold ${
-                      isCatActive
-                        ? "text-blue-600 font-bold"
-                        : "text-slate-800 group-hover:text-blue-600"
-                    } transition-colors`}
-                  >
-                    {cat.name}
-                  </span>
+                  <Home
+                    className={`w-4 h-4 ${isCatActive ? "text-[#1455D9]" : "text-slate-600 group-hover:text-[#1455D9]"}`}
+                  />
+                  <span className="text-xs">{cat.name}</span>
                 </Link>
               );
             }
@@ -406,27 +394,16 @@ export function Header() {
                 key={cat.id}
                 to={cat.to as any}
                 params={cat.params as any}
-                className={`flex flex-col items-center gap-2 group cursor-pointer shrink-0 ${
-                  isCatActive ? "border-b-2 border-blue-600 pb-1 text-blue-600 font-bold" : "pb-1"
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg group cursor-pointer shrink-0 transition-colors ${
+                  isCatActive
+                    ? "text-[#1455D9] font-bold border-b-2 border-[#1455D9] rounded-b-none"
+                    : "text-slate-700 hover:text-[#1455D9] font-medium"
                 }`}
               >
-                {/* Circular Badge Container (w-14 h-14 rounded-full) */}
-                <div
-                  className={`w-14 h-14 rounded-full ${cat.bgClass} flex items-center justify-center transition-colors`}
-                >
-                  <IconComponent className="w-7 h-7 transition-transform group-hover:scale-110" />
+                <div className={`p-1 rounded ${cat.bgClass} flex items-center justify-center`}>
+                  <IconComponent className="w-3.5 h-3.5" />
                 </div>
-
-                {/* Category Label */}
-                <span
-                  className={`text-xs font-semibold ${
-                    isCatActive
-                      ? "text-blue-600 font-bold"
-                      : "text-slate-800 group-hover:text-blue-600"
-                  } transition-colors`}
-                >
-                  {cat.name}
-                </span>
+                <span className="text-xs">{cat.name}</span>
               </Link>
             );
           })}

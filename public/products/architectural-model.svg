@@ -1,40 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="100%" height="100%">
     <defs>
-      <linearGradient id="bgArch" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#0F172A"/>
-        <stop offset="100%" stop-color="#020617"/>
+      <linearGradient id="bgArchStudio" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#F8FAFC"/>
+        <stop offset="100%" stop-color="#E2E8F0"/>
       </linearGradient>
-      <linearGradient id="slaResin" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#E2E8F0"/>
-        <stop offset="50%" stop-color="#94A3B8"/>
+      <linearGradient id="grayResin" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#94A3B8"/>
+        <stop offset="50%" stop-color="#64748B"/>
         <stop offset="100%" stop-color="#475569"/>
       </linearGradient>
-      <linearGradient id="slaGlow" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#A855F7" stop-opacity="0.3"/>
-        <stop offset="100%" stop-color="#A855F7" stop-opacity="0"/>
-      </linearGradient>
+      <radialGradient id="archShadow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#475569" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#475569" stop-opacity="0"/>
+      </radialGradient>
     </defs>
-    <rect width="600" height="600" fill="url(#bgArch)"/>
-    <circle cx="300" cy="280" r="230" fill="url(#slaGlow)"/>
-    <ellipse cx="300" cy="510" rx="170" ry="24" fill="#000" fill-opacity="0.7"/>
+    <rect width="600" height="500" fill="url(#bgArchStudio)"/>
+    <ellipse cx="300" cy="410" rx="170" ry="24" fill="url(#archShadow)"/>
 
-    <!-- Intricate SLA 3D Printed Architectural Building Scale Model -->
-    <g transform="translate(180, 80)">
-      <!-- Base Pedestal -->
-      <polygon points="20,420 220,420 250,390 50,390" fill="#334155" stroke="#64748B" stroke-width="2"/>
-      <!-- Main High-Rise Tower (Twisting Helix Architecture) -->
-      <path d="M70 390 L90 100 L150 100 L170 390 Z" fill="url(#slaResin)" stroke="#CBD5E1" stroke-width="1.5"/>
-      <!-- Floor Plates / Slabs Array -->
-      <polygon points="80,120 160,120 180,112 100,112" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="76.40430846046849,138 163.59569153953151,138 183.59569153953151,130 96.40430846046849,130" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="73.68896761394078,156 166.31103238605922,156 186.31103238605922,148 93.68896761394078,148" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="72.5187876004696,174 167.48121239953042,174 187.48121239953042,166 92.5187876004696,166" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="73.18026929880739,192 166.8197307011926,192 186.8197307011926,184 93.18026929880739,184" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="75.51145891922033,210 164.48854108077967,210 184.48854108077967,202 95.51145891922033,202" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="78.941599939551,228 161.058400060449,228 181.058400060449,220 98.941599939551,220" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="82.63087420767215,246 157.36912579232785,246 177.36912579232785,238 102.63087420767215,238" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="85.67601871480946,264 154.32398128519054,264 174.32398128519054,256 105.67601871480946,256" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="87.33147588248823,282 152.66852411751177,282 172.66852411751177,274 107.33147588248823,274" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="87.19193205997354,300 152.80806794002646,300 172.80806794002646,292 107.19193205997354,292" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="85.29155244177794,318 154.70844755822208,318 174.70844755822208,310 105.29155244177794,310" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="82.09561623649194,336 157.90438376350806,336 177.90438376350806,328 102.09561623649194,328" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/><polygon points="78.38660008934139,354 161.61339991065861,354 181.61339991065861,346 98.38660008934139,346" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/>
-      <!-- Cantilevered Overhanging Sky-Garden Balcony -->
-      <polygon points="50,220 190,220 210,190 70,190" fill="#F1F5F9" stroke="#A855F7" stroke-width="1.5"/>
-      <!-- Spire / Antenna -->
-      <line x1="120" y1="100" x2="120" y2="30" stroke="#E2E8F0" stroke-width="3"/>
-      <circle cx="120" cy="30" r="4" fill="#A855F7"/>
-      <!-- Glass Atrium Facet Lines -->
-      <line x1="90" y1="100" x2="70" y2="390" stroke="#CBD5E1" stroke-width="1.5"/>
-      <line x1="150" y1="100" x2="170" y2="390" stroke="#CBD5E1" stroke-width="1.5"/>
+    <!-- Detailed SLA Resin 3D Printed Architectural Temple Model -->
+    <g transform="translate(150, 140)">
+      <!-- Tiered Base Plinth & Steps -->
+      <polygon points="10,240 290,240 280,260 20,260" fill="#475569" stroke="#334155"/>
+      <polygon points="30,225 270,225 260,240 40,240" fill="#64748B" stroke="#475569"/>
+      <polygon points="50,210 250,210 240,225 60,225" fill="#94A3B8" stroke="#64748B"/>
+
+      <!-- Colonnade (Classical Pillars Array) -->
+      
+          <rect x="70" y="140" width="10" height="70" rx="2" fill="#E2E8F0" stroke="#64748B" stroke-width="1"/>
+          <rect x="68" y="136" width="14" height="4" fill="#CBD5E1"/>
+          <rect x="68" y="206" width="14" height="4" fill="#CBD5E1"/>
+        
+          <rect x="92" y="140" width="10" height="70" rx="2" fill="#E2E8F0" stroke="#64748B" stroke-width="1"/>
+          <rect x="90" y="136" width="14" height="4" fill="#CBD5E1"/>
+          <rect x="90" y="206" width="14" height="4" fill="#CBD5E1"/>
+        
+          <rect x="114" y="140" width="10" height="70" rx="2" fill="#E2E8F0" stroke="#64748B" stroke-width="1"/>
+          <rect x="112" y="136" width="14" height="4" fill="#CBD5E1"/>
+          <rect x="112" y="206" width="14" height="4" fill="#CBD5E1"/>
+        
+          <rect x="136" y="140" width="10" height="70" rx="2" fill="#E2E8F0" stroke="#64748B" stroke-width="1"/>
+          <rect x="134" y="136" width="14" height="4" fill="#CBD5E1"/>
+          <rect x="134" y="206" width="14" height="4" fill="#CBD5E1"/>
+        
+          <rect x="158" y="140" width="10" height="70" rx="2" fill="#E2E8F0" stroke="#64748B" stroke-width="1"/>
+          <rect x="156" y="136" width="14" height="4" fill="#CBD5E1"/>
+          <rect x="156" y="206" width="14" height="4" fill="#CBD5E1"/>
+        
+          <rect x="180" y="140" width="10" height="70" rx="2" fill="#E2E8F0" stroke="#64748B" stroke-width="1"/>
+          <rect x="178" y="136" width="14" height="4" fill="#CBD5E1"/>
+          <rect x="178" y="206" width="14" height="4" fill="#CBD5E1"/>
+        
+          <rect x="202" y="140" width="10" height="70" rx="2" fill="#E2E8F0" stroke="#64748B" stroke-width="1"/>
+          <rect x="200" y="136" width="14" height="4" fill="#CBD5E1"/>
+          <rect x="200" y="206" width="14" height="4" fill="#CBD5E1"/>
+        
+          <rect x="224" y="140" width="10" height="70" rx="2" fill="#E2E8F0" stroke="#64748B" stroke-width="1"/>
+          <rect x="222" y="136" width="14" height="4" fill="#CBD5E1"/>
+          <rect x="222" y="206" width="14" height="4" fill="#CBD5E1"/>
+        
+
+      <!-- Main Entablature / Architrave -->
+      <polygon points="50,136 250,136 240,120 60,120" fill="url(#grayResin)" stroke="#475569"/>
+      
+      <!-- Tiered Roof & Central Dome / Shikhara Tower -->
+      <polygon points="70,120 230,120 210,80 90,80" fill="url(#grayResin)" stroke="#334155"/>
+      <polygon points="90,80 210,80 180,40 120,40" fill="url(#grayResin)" stroke="#334155"/>
+      <path d="M120 40 Q 150 5 180 40 Z" fill="#CBD5E1" stroke="#475569"/>
+      
+      <!-- Finial Spire -->
+      <line x1="150" y1="5" x2="150" y2="-15" stroke="#E2E8F0" stroke-width="3"/>
+      <circle cx="150" cy="-15" r="4" fill="#F8FAFC"/>
     </g>
-    <rect x="30" y="30" rx="8" width="160" height="26" fill="#A855F7" fill-opacity="0.2" stroke="#C084FC" stroke-width="1"/>
-    <text x="110" y="47" fill="#C084FC" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1">8K ULTRA-FINE SLA</text>
   </svg>

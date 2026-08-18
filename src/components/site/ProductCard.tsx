@@ -1,147 +1,113 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Heart, Zap, Eye } from "lucide-react";
+import { Star, Zap } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { Stars } from "@/components/site/Stars";
 import { productImage } from "@/lib/product-images";
-import { discountPercent, effectivePrice, inr, num } from "@/lib/format";
+import { discountPercent, effectivePrice, inr } from "@/lib/format";
 import { formatProductSlug } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 import type { Product } from "@/lib/catalog";
 
-export function ProductCard({
-  product,
-  onQuickView,
-}: {
-  product: Product;
-  onQuickView?: (p: Product) => void;
-}) {
+export function ProductCard({ product }: { product: Product; onQuickView?: (p: Product) => void }) {
   const navigate = useNavigate();
-  const { addToCart, toggleWishlist, isWishlisted } = useStore();
+  const { addToCart } = useStore();
   const off = discountPercent(product);
-  const wished = isWishlisted(product?.id || "");
   const safeSlug = formatProductSlug(product);
+  const finalPrice = effectivePrice(product);
+
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart({
+      productId: product.id,
+      slug: product.slug,
+      name: product.name,
+      imageKey: product.image_key,
+      price: finalPrice,
+    });
+    navigate({ to: "/cart" });
+  };
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(20,85,217,0.12)]">
-      {/* Clickable Image Stage */}
+    <article className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-card p-3.5 shadow-2xs hover:shadow-md transition-all duration-300">
+      {/* Clickable Image Stage with Discount Badge */}
       <Link
         to="/product/$slug"
         params={{ slug: safeSlug }}
-        className="relative block aspect-square w-full overflow-hidden bg-surface cursor-pointer"
+        className="relative block aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900 cursor-pointer"
       >
         <img
           src={productImage(product?.image_key || product?.slug, product?.name)}
           alt={product?.name || "Product"}
           loading="lazy"
-          width={600}
-          height={600}
           className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
 
-        {/* Hover "View Details" Overlay Badge */}
-        <div className="absolute inset-0 bg-[#0B1736]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
-          <span className="rounded-full bg-white/95 dark:bg-card/95 backdrop-blur-xs px-3.5 py-1.5 text-xs font-black text-[#1455D9] shadow-md uppercase tracking-wider transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-1.5">
-            <Eye className="h-3.5 w-3.5" /> View Details
-          </span>
-        </div>
-
+        {/* Compact Royal Blue Discount Badge */}
         {off > 0 && (
-          <span className="absolute left-3 top-3 rounded-full bg-[#E52320] px-2.5 py-1 text-[11px] font-black text-white shadow-sm tracking-wider uppercase">
+          <span className="absolute left-2.5 top-2.5 rounded-full bg-[#1455D9] px-2.5 py-0.5 text-[10px] font-black tracking-wider uppercase text-white shadow-2xs">
             {off}% OFF
-          </span>
-        )}
-        {product?.bestseller && (
-          <span className="absolute left-3 top-11 rounded-full bg-[#F5B000] px-2.5 py-1 text-[11px] font-black text-slate-950 shadow-sm tracking-wider uppercase">
-            Bestseller
-          </span>
-        )}
-        {product?.stock === 0 && (
-          <span className="absolute inset-x-0 bottom-0 bg-topbar/85 py-1.5 text-center text-xs font-semibold text-topbar-foreground">
-            Out of stock
           </span>
         )}
       </Link>
 
-      {/* Floating Action Buttons (Wishlist / Quick View) */}
-      <div className="absolute right-3 top-3 z-10 flex flex-col gap-2 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
-        <button
-          type="button"
-          aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (!product?.id) return;
-            const added = toggleWishlist(product.id);
-            toast[added ? "success" : "message"](
-              added ? "Added to wishlist" : "Removed from wishlist",
-            );
-          }}
-          className={`flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card shadow-[var(--shadow-card)] transition-transform hover:scale-110 active:scale-95 hover:text-primary cursor-pointer ${
-            wished ? "text-primary border-primary" : "text-muted-foreground"
-          }`}
-        >
-          <Heart className={`h-4 w-4 ${wished ? "fill-primary" : ""}`} />
-        </button>
-        {onQuickView && (
-          <button
-            type="button"
-            aria-label="Quick view"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onQuickView(product);
-            }}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-[var(--shadow-card)] transition-transform hover:scale-110 active:scale-95 hover:text-primary cursor-pointer"
+      {/* Card Content Details */}
+      <div className="flex flex-1 flex-col pt-3 justify-between">
+        <div>
+          {/* Small Category Label */}
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-1">
+            {product.category || "3D PRINTING"}
+          </span>
+
+          {/* Product Title */}
+          <Link
+            to="/product/$slug"
+            params={{ slug: safeSlug }}
+            className="text-[14px] font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-snug min-h-[38px] group-hover:text-[#1455D9] transition-colors flex items-start"
+            title={product.name}
           >
-            <Eye className="h-4 w-4" />
-          </button>
-        )}
-      </div>
+            {product.name}
+          </Link>
 
-      {/* Card Body Information */}
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-          {(product?.category_slug || "lab-gear").replace(/-/g, " ")}
-        </p>
-        <Link
-          to="/product/$slug"
-          params={{ slug: safeSlug }}
-          className="line-clamp-2 text-sm font-semibold leading-snug group-hover:text-[#1455D9] transition-colors"
-        >
-          {product?.name || "Innovation Product"}
-        </Link>
-        <div className="flex items-center gap-1.5">
-          <Stars rating={num(product?.rating || 5)} />
-          <span className="text-xs text-muted-foreground">({product?.review_count || 0})</span>
-        </div>
-        <div className="mt-auto flex items-baseline gap-2 pt-1">
-          <span className="text-base font-bold text-price">{inr(effectivePrice(product))}</span>
-          {off > 0 && (
-            <span className="text-xs text-muted-foreground line-through">{inr(product.price)}</span>
-          )}
+          {/* Star Rating with Count */}
+          <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 my-1.5">
+            <div className="flex items-center text-[#F59E0B]">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  className={`h-3 w-3 ${
+                    i < Math.floor(product.rating || 5)
+                      ? "fill-[#F59E0B] text-[#F59E0B]"
+                      : "text-slate-300 dark:text-slate-600"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
+              ({product.review_count || 38})
+            </span>
+          </div>
+
+          {/* Price */}
+          <div className="flex items-baseline gap-2 mt-1">
+            <span className="text-base font-extrabold text-[#0B1736] dark:text-white tracking-tight">
+              {inr(finalPrice)}
+            </span>
+            {product.price > finalPrice && (
+              <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 line-through">
+                {inr(product.price)}
+              </span>
+            )}
+          </div>
         </div>
 
-        {/* Isolated Direct Buy Now Action Button */}
+        {/* ⚡ Buy Now Full-Width Pill Button */}
         <Button
-          size="sm"
-          className="mt-2 w-full bg-[#1455D9] hover:bg-[#0F44B2] text-white font-bold transition-all shadow-xs active:scale-95 cursor-pointer rounded-xl flex items-center justify-center gap-1.5"
-          disabled={product?.stock === 0}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            addToCart({
-              productId: product.id,
-              slug: safeSlug,
-              name: product.name,
-              imageKey: product.image_key,
-              price: effectivePrice(product),
-            });
-            navigate({ to: "/checkout" });
-          }}
+          onClick={handleBuyNow}
+          className="mt-3 w-full rounded-full bg-[#1455D9] hover:bg-[#0F44B2] text-white font-bold text-xs py-2 shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-[0.98]"
         >
-          <Zap className="h-4 w-4 fill-white text-white" /> Buy Now
+          <Zap className="h-3.5 w-3.5 fill-current" /> Buy Now
         </Button>
       </div>
     </article>

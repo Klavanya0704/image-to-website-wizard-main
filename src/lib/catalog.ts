@@ -35,13 +35,13 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category_slug: "3d-printing",
     categorySlug: "3d-printing",
     image_key: "vase",
-    price: 599,
+    price: 699,
     discount_price: 499,
     material: "PLA Pro Matte",
     dimensions: "120 × 120 × 200 mm",
     manufacturing_method: "FDM 3D Printing (0.16mm Layer Height)",
     rating: 4.8,
-    review_count: 120,
+    review_count: 38,
     bestseller: true,
     stock: 45,
     short_description: "Modern spiral lattice geometry 3D printed vase for desktop & home decor.",
@@ -69,12 +69,12 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     categorySlug: "3d-printing",
     image_key: "stand",
     price: 349,
-    discount_price: 249,
+    discount_price: 299,
     material: "High-Strength Tough PLA",
     dimensions: "100 × 75 × 15 mm (Folded)",
     manufacturing_method: "Print-in-Place FDM Printing",
     rating: 4.9,
-    review_count: 85,
+    review_count: 44,
     bestseller: true,
     stock: 60,
     short_description: "Adjustable multi-angle print-in-place foldable phone and tablet stand.",
@@ -99,13 +99,13 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category_slug: "3d-printing",
     categorySlug: "3d-printing",
     image_key: "organizer",
-    price: 499,
-    discount_price: 399,
+    price: 699,
+    discount_price: 549,
     material: "Dual-Tone Matte PLA",
     dimensions: "140 × 90 × 85 mm",
     manufacturing_method: "FDM Multi-Extrusion 3D Printing",
     rating: 4.8,
-    review_count: 54,
+    review_count: 26,
     bestseller: false,
     stock: 35,
     short_description: "Compact modular 3D printed desk organizer with pen cups and phone dock.",
@@ -124,19 +124,19 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
   {
     id: "3dp-4",
-    name: "Cable Management Clip Set",
+    name: "Cable Management Clip Set (6 Pieces)",
     slug: "cable-management-clip-set",
     category: "3D Printing",
     category_slug: "3d-printing",
     categorySlug: "3d-printing",
     image_key: "organizer",
-    price: 299,
+    price: 249,
     discount_price: 199,
     material: "Semi-Flexible PETG & 3M VHB Adhesive",
     dimensions: "35 × 18 × 12 mm (Each)",
     manufacturing_method: "High-Speed Direct Drive FDM",
     rating: 4.9,
-    review_count: 92,
+    review_count: 31,
     bestseller: true,
     stock: 120,
     short_description: "Pack of 6 precision 3D printed desk cable routing clips.",
@@ -161,13 +161,13 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category_slug: "3d-printing",
     categorySlug: "3d-printing",
     image_key: "vase",
-    price: 1299,
-    discount_price: 999,
+    price: 959,
+    discount_price: 799,
     material: "8K Tough Photopolymer UV Resin",
     dimensions: "90 × 90 × 160 mm",
     manufacturing_method: "SLA / MSLA 3D Printing (0.025mm Layers)",
     rating: 4.9,
-    review_count: 64,
+    review_count: 8,
     bestseller: false,
     stock: 20,
     short_description: "Ultra-high resolution 8K SLA resin printed architectural high-rise model.",
@@ -192,16 +192,17 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     category_slug: "3d-printing",
     categorySlug: "3d-printing",
     image_key: "vase",
-    price: 499,
-    discount_price: 399,
+    price: 409,
+    discount_price: 349,
     material: "Eco Recycled Matte Black PLA",
     dimensions: "110 × 110 × 95 mm",
     manufacturing_method: "0.2mm Precision FDM with Drainage Grid",
     rating: 4.8,
-    review_count: 48,
+    review_count: 22,
     bestseller: false,
     stock: 40,
-    short_description: "Geometric hexagonal pattern indoor succulent planter with built-in drainage.",
+    short_description:
+      "Geometric hexagonal pattern indoor succulent planter with built-in drainage.",
     description:
       "Modern hexagonal faceted planter pot designed for desk succulents and air plants. Features an internal water reservoir and subtle drainage tray.",
     specifications: {
@@ -236,7 +237,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 78,
     bestseller: true,
     stock: 30,
-    short_description: "Personalized glowing laser-etched edge-lit acrylic desk nameplate or logo sign.",
+    short_description:
+      "Personalized glowing laser-etched edge-lit acrylic desk nameplate or logo sign.",
     description:
       "Custom laser-etched acrylic panel illuminated by warm white edge-emitting LEDs set in a solid wooden base. Connects via standard USB.",
     specifications: {
@@ -267,7 +269,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 42,
     bestseller: false,
     stock: 50,
-    short_description: "Set of 4 intricate laser-carved walnut wooden drink coasters with cork backing.",
+    short_description:
+      "Set of 4 intricate laser-carved walnut wooden drink coasters with cork backing.",
     description:
       "Set of 4 botanical and geometric mandala coasters laser engraved into dark walnut with waterproof polyurethane seal.",
     specifications: {
@@ -298,7 +301,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 95,
     bestseller: true,
     stock: 120,
-    short_description: "Personalized laser-engraved birch wooden keychain with polished steel keyring.",
+    short_description:
+      "Personalized laser-engraved birch wooden keychain with polished steel keyring.",
     description:
       "Custom engraved wooden keychain crafted using high-precision CO2 laser engraving. Personalized with your custom college name, lab ID, or student initials with clear protective varnish.",
     specifications: {
@@ -330,7 +334,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 36,
     bestseller: false,
     stock: 40,
-    short_description: "Snap-fit laser cut 3D architectural bridge and truss structural analysis model.",
+    short_description:
+      "Snap-fit laser cut 3D architectural bridge and truss structural analysis model.",
     description:
       "Snap-together interlocking wooden architectural bridge structural truss model kit designed for civil engineering and STEM mechanics education.",
     specifications: {
@@ -498,7 +503,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 112,
     bestseller: true,
     stock: 45,
-    short_description: "Ultimate 37-piece sensor module kit for Arduino, ESP32 and Raspberry Pi projects.",
+    short_description:
+      "Ultimate 37-piece sensor module kit for Arduino, ESP32 and Raspberry Pi projects.",
     description:
       "Includes ultrasonic distance, temperature & humidity (DHT11), IR obstacle, sound detection, flame sensor, relay, joystick, and 30 other standard lab modules with pinout guide.",
     specifications: {
@@ -529,7 +535,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 58,
     bestseller: false,
     stock: 90,
-    short_description: "Set of 10 gold-plated double-sided universal perfboards for circuit prototyping.",
+    short_description:
+      "Set of 10 gold-plated double-sided universal perfboards for circuit prototyping.",
     description:
       "High quality 2.54mm pitch plated-through hole prototype PCBs with pre-tinned solder pads, corner mounting holes, and silkscreen column/row markings.",
     specifications: {
@@ -663,7 +670,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 34,
     bestseller: false,
     stock: 35,
-    short_description: "Crystal clear seamless acrylic showcase box for robotics models and collectibles.",
+    short_description:
+      "Crystal clear seamless acrylic showcase box for robotics models and collectibles.",
     description:
       "Museum-grade UV-filtering transparent acrylic display case with a black gloss base. Keeps trophies, electronic projects, and scale models dust-free.",
     specifications: {
@@ -726,7 +734,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 28,
     bestseller: false,
     stock: 30,
-    short_description: "Laser & CNC safety protective viewing window shield for makerspace workstations.",
+    short_description:
+      "Laser & CNC safety protective viewing window shield for makerspace workstations.",
     description:
       "Durable optical safety acrylic barrier screen designed for benchtop laser engraving machines, soldering fume stations, and lathe machine guards.",
     specifications: {
@@ -761,7 +770,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 88,
     bestseller: true,
     stock: 60,
-    short_description: "Complete line-following and obstacle-avoidance 2WD robot chassis assembly kit.",
+    short_description:
+      "Complete line-following and obstacle-avoidance 2WD robot chassis assembly kit.",
     description:
       "Hands-on robotics kit containing dual TT gear motors, motor driver shield, ultrasonic sonar sensor, infrared tracking sensors, and code library.",
     specifications: {
@@ -792,7 +802,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 74,
     bestseller: false,
     stock: 100,
-    short_description: "Learn-to-solder practice board with rotating LED chasing circuit and buzzer.",
+    short_description:
+      "Learn-to-solder practice board with rotating LED chasing circuit and buzzer.",
     description:
       "Step-by-step soldering tutorial kit featuring 0805, 0603 SMD components, transistors, capacitors, and NE555 timer IC to build an animated flashing LED wheel.",
     specifications: {
@@ -823,7 +834,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 62,
     bestseller: false,
     stock: 35,
-    short_description: "Build-your-own portable wooden Bluetooth stereo speaker with rechargeable battery.",
+    short_description:
+      "Build-your-own portable wooden Bluetooth stereo speaker with rechargeable battery.",
     description:
       "Fun hands-on STEM soldering kit allowing students to construct an active wireless speaker from scratch. Includes Bluetooth 5.0 receiver, Class-D amplifier, dual full-range speakers, and 18650 battery module.",
     specifications: {
@@ -842,7 +854,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
 
 export function sanitizeProduct(p: Product): Product {
   const nameLower = (p.name || "").toLowerCase();
-  let correctSlug = p.category_slug || (p as any).categorySlug || (p as any).category || "3d-printing";
+  let correctSlug =
+    p.category_slug || (p as any).categorySlug || (p as any).category || "3d-printing";
 
   if (
     nameLower.includes("gearbox") ||

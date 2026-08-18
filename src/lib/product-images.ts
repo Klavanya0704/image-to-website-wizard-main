@@ -20,13 +20,28 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
   if (q.includes("cable") && (q.includes("clip") || q.includes("management"))) {
     return "/products/cable-clips.svg";
   }
-  if (q.includes("desk organizer") || q.includes("mini desk") || q.includes("caddy") || q.includes("organizer")) {
+  if (
+    q.includes("desk organizer") ||
+    q.includes("mini desk") ||
+    q.includes("caddy") ||
+    q.includes("organizer")
+  ) {
     return "/products/desk-organizer.svg";
   }
-  if (q.includes("phone stand") || q.includes("foldable") || q.includes("adjustable phone") || (q.includes("stand") && !q.includes("trophy") && !q.includes("display"))) {
+  if (
+    q.includes("phone stand") ||
+    q.includes("foldable") ||
+    q.includes("adjustable phone") ||
+    (q.includes("stand") && !q.includes("trophy") && !q.includes("display"))
+  ) {
     return "/products/phone-stand.svg";
   }
-  if (q.includes("architectural") || q.includes("miniature") || q.includes("resin") || q.includes("sla")) {
+  if (
+    q.includes("architectural") ||
+    q.includes("miniature") ||
+    q.includes("resin") ||
+    q.includes("sla")
+  ) {
     return "/products/architectural-model.svg";
   }
   if (q.includes("vase") || q.includes("geometric-spiral") || q.includes("lattice")) {
@@ -37,10 +52,21 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
   if (q.includes("bushing") || q.includes("brass") || q.includes("flanged")) {
     return "/products/cnc-bushings.svg";
   }
-  if (q.includes("bracket") || q.includes("mounting bracket") || q.includes("l-bracket") || q.includes("mounting plate") || q.includes("prototype block")) {
+  if (
+    q.includes("bracket") ||
+    q.includes("mounting bracket") ||
+    q.includes("l-bracket") ||
+    q.includes("mounting plate") ||
+    q.includes("prototype block")
+  ) {
     return "/products/cnc-bracket.svg";
   }
-  if (q.includes("coupling") || q.includes("coupler") || q.includes("shaft") || q.includes("gearbox")) {
+  if (
+    q.includes("coupling") ||
+    q.includes("coupler") ||
+    q.includes("shaft") ||
+    q.includes("gearbox")
+  ) {
     return "/products/cnc-coupling.svg";
   }
 
@@ -51,7 +77,12 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
   if (q.includes("mandala") || q.includes("coaster") || q.includes("wooden mandala")) {
     return lamp;
   }
-  if (q.includes("tree of life") || q.includes("lamp") || q.includes("illuminated") || q.includes("led sign")) {
+  if (
+    q.includes("tree of life") ||
+    q.includes("lamp") ||
+    q.includes("illuminated") ||
+    q.includes("led sign")
+  ) {
     return lamp;
   }
   if (q.includes("mdf") || q.includes("structural architectural") || q.includes("photo frame")) {
@@ -65,26 +96,61 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
   if (q.includes("sensor") || q.includes("module kit") || q.includes("iot sensor")) {
     return "/products/sensor-kit.svg";
   }
-  if (q.includes("pcb") || q.includes("fr4") || q.includes("perfboard") || q.includes("soldering practice") || q.includes("display electronics")) {
+  if (
+    q.includes("pcb") ||
+    q.includes("fr4") ||
+    q.includes("perfboard") ||
+    q.includes("soldering practice") ||
+    q.includes("display electronics")
+  ) {
     return "/products/prototype-pcb.svg";
   }
 
   // 5. Drones & Parts Products
-  if (q.includes("frame") || q.includes("carbon fiber") || q.includes("fpv") || q.includes("wheelbase") || q.includes("landing gear")) {
+  if (
+    q.includes("frame") ||
+    q.includes("carbon fiber") ||
+    q.includes("fpv") ||
+    q.includes("wheelbase") ||
+    q.includes("landing gear")
+  ) {
     return "/products/drone-frame.svg";
   }
-  if (q.includes("motor") || q.includes("brushless") || q.includes("2207") || q.includes("thrust")) {
+  if (
+    q.includes("motor") ||
+    q.includes("brushless") ||
+    q.includes("2207") ||
+    q.includes("thrust")
+  ) {
     return "/products/drone-motor.svg";
   }
-  if (q.includes("propeller") || q.includes("props") || q.includes("tri-blade") || q.includes("1045")) {
+  if (
+    q.includes("propeller") ||
+    q.includes("props") ||
+    q.includes("tri-blade") ||
+    q.includes("1045")
+  ) {
     return "/products/drone-propellers.svg";
   }
 
   // 6. Acrylic Products
-  if (q.includes("display box") || q.includes("dust-proof") || q.includes("vitrine") || q.includes("showcase") || q.includes("transparent display")) {
+  if (
+    q.includes("display box") ||
+    q.includes("dust-proof") ||
+    q.includes("vitrine") ||
+    q.includes("showcase") ||
+    q.includes("transparent display")
+  ) {
     return "/products/acrylic-box.svg";
   }
-  if (q.includes("trophy") || q.includes("award") || q.includes("plaque") || q.includes("college logo") || q.includes("name plate") || q.includes("desk sign")) {
+  if (
+    q.includes("trophy") ||
+    q.includes("award") ||
+    q.includes("plaque") ||
+    q.includes("college logo") ||
+    q.includes("name plate") ||
+    q.includes("desk sign")
+  ) {
     return stand;
   }
   if (q.includes("shield") || q.includes("protective") || q.includes("barrier")) {
@@ -92,13 +158,23 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
   }
 
   // 7. DIY Kits
-  if (q.includes("robot") || q.includes("autonomous") || q.includes("line follower") || q.includes("stem starter")) {
+  if (
+    q.includes("robot") ||
+    q.includes("autonomous") ||
+    q.includes("line follower") ||
+    q.includes("stem starter")
+  ) {
     return "/products/robotics-kit.svg";
   }
   if (q.includes("speaker") || q.includes("bluetooth speaker") || q.includes("audio")) {
     return kit;
   }
-  if (q.includes("soldering") || q.includes("learning kit") || q.includes("smart home") || q.includes("kit")) {
+  if (
+    q.includes("soldering") ||
+    q.includes("learning kit") ||
+    q.includes("smart home") ||
+    q.includes("kit")
+  ) {
     return "/products/robotics-kit.svg";
   }
 
@@ -130,7 +206,10 @@ export interface ProductViewAngle {
   viewType: "front" | "isometric" | "closeup" | "cad";
 }
 
-export function productViewsFor(keyOrSlug: string | null | undefined, name?: string | null): ProductViewAngle[] {
+export function productViewsFor(
+  keyOrSlug: string | null | undefined,
+  name?: string | null,
+): ProductViewAngle[] {
   const main = productImage(keyOrSlug, name);
   return [
     {

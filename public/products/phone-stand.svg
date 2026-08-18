@@ -1,48 +1,48 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="100%" height="100%">
     <defs>
-      <linearGradient id="bgStand" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#1E293B"/>
-        <stop offset="100%" stop-color="#090D16"/>
+      <linearGradient id="bgPhone" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#F1F5F9"/>
+        <stop offset="100%" stop-color="#E2E8F0"/>
       </linearGradient>
-      <linearGradient id="metalStand" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#3B82F6"/>
-        <stop offset="50%" stop-color="#1D4ED8"/>
-        <stop offset="100%" stop-color="#1E3A8A"/>
+      <linearGradient id="phoneDisplay" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FDA4AF"/>
+        <stop offset="50%" stop-color="#FB7185"/>
+        <stop offset="100%" stop-color="#E11D48"/>
       </linearGradient>
-      <linearGradient id="phoneScreen" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#0F172A"/>
-        <stop offset="50%" stop-color="#1E1B4B"/>
-        <stop offset="100%" stop-color="#312E81"/>
-      </linearGradient>
+      <radialGradient id="standShadow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#0F172A" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="#0F172A" stop-opacity="0"/>
+      </radialGradient>
     </defs>
-    <rect width="600" height="600" fill="url(#bgStand)"/>
-    <circle cx="300" cy="300" r="240" fill="#3B82F6" fill-opacity="0.12"/>
-    <ellipse cx="300" cy="500" rx="160" ry="26" fill="#000" fill-opacity="0.5"/>
+    <rect width="600" height="500" fill="url(#bgPhone)"/>
+    <ellipse cx="300" cy="410" rx="160" ry="24" fill="url(#standShadow)"/>
 
-    <!-- 3D Stand Base -->
-    <path d="M180 460 L420 460 L400 490 L160 490 Z" fill="#1E293B" stroke="#475569" stroke-width="2"/>
-    <rect x="220" y="468" width="160" height="8" rx="4" fill="#3B82F6" opacity="0.8"/>
-    <!-- Foldable Support Arm -->
-    <path d="M260 460 L320 280 L350 290 L290 460 Z" fill="url(#metalStand)" stroke="#60A5FA" stroke-width="1.5"/>
-    <circle cx="280" cy="460" r="14" fill="#1E293B" stroke="#60A5FA" stroke-width="2"/>
-    <circle cx="335" cy="285" r="12" fill="#1E293B" stroke="#60A5FA" stroke-width="2"/>
-    <!-- Smartphone Cradle Hooks -->
-    <path d="M240 380 L380 340 L390 360 L240 400 Z" fill="#2563EB" stroke="#93C5FD" stroke-width="1.5"/>
-    <path d="M250 350 L270 350 L270 395 L250 395 Z" fill="#1D4ED8" stroke="#93C5FD"/>
-    <path d="M350 320 L370 320 L370 365 L350 365 Z" fill="#1D4ED8" stroke="#93C5FD"/>
+    <!-- Matte Black Foldable Phone Stand -->
+    <g transform="translate(190, 160)">
+      <!-- Weighted Base -->
+      <polygon points="40,240 200,240 180,265 20,265" fill="#1E293B" stroke="#475569" stroke-width="2"/>
+      <polygon points="40,240 20,265 20,275 40,250" fill="#0F172A"/>
+      <polygon points="20,275 180,275 180,265 20,265" fill="#0F172A"/>
+      
+      <!-- Hinge Joint -->
+      <ellipse cx="110" cy="245" rx="18" ry="8" fill="#334155" stroke="#64748B"/>
+      
+      <!-- Main Stem / Arm -->
+      <polygon points="100,245 140,110 160,115 120,250" fill="#1E293B" stroke="#475569" stroke-width="1.5"/>
 
-    <!-- Smartphone on Stand -->
-    <g transform="translate(230, 120) rotate(12)">
-      <rect x="0" y="0" rx="20" width="160" height="280" fill="#020617" stroke="#64748B" stroke-width="3"/>
-      <rect x="8" y="12" rx="14" width="144" height="256" fill="url(#phoneScreen)"/>
-      <!-- UI Elements on phone -->
-      <circle cx="80" cy="80" r="30" fill="#3B82F6" fill-opacity="0.3"/>
-      <path d="M70 80 L80 90 L95 70" fill="none" stroke="#60A5FA" stroke-width="4" stroke-linecap="round"/>
-      <rect x="30" y="130" width="100" height="8" rx="4" fill="#64748B" opacity="0.6"/>
-      <rect x="45" y="150" width="70" height="6" rx="3" fill="#64748B" opacity="0.4"/>
-      <!-- Speaker Notch -->
-      <rect x="60" y="6" width="40" height="4" rx="2" fill="#334155"/>
+      <!-- Cradle Shelf & Hooks -->
+      <polygon points="60,140 200,105 205,125 65,160" fill="#0F172A" stroke="#334155"/>
+      <rect x="70" y="140" width="16" height="30" rx="4" fill="#1E293B" stroke="#475569"/>
+      <rect x="180" y="110" width="16" height="30" rx="4" fill="#1E293B" stroke="#475569"/>
+
+      <!-- Smartphone placed on stand (Salmon / Peach Screen) -->
+      <g transform="translate(50, -40) rotate(-10)">
+        <!-- Phone Frame -->
+        <rect x="0" y="0" width="180" height="250" rx="18" fill="#0F172A" stroke="#475569" stroke-width="2"/>
+        <!-- Screen -->
+        <rect x="8" y="10" width="164" height="230" rx="12" fill="url(#phoneDisplay)"/>
+        <!-- Soft screen reflection -->
+        <polygon points="8,10 100,10 40,240 8,240" fill="#FFFFFF" fill-opacity="0.15"/>
+      </g>
     </g>
-    <rect x="30" y="30" rx="8" width="150" height="26" fill="#1D4ED8" fill-opacity="0.2" stroke="#60A5FA" stroke-width="1"/>
-    <text x="105" y="47" fill="#60A5FA" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1">PRINT-IN-PLACE TOUGH</text>
   </svg>

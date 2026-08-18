@@ -41,38 +41,32 @@ const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
   },
   "laser-cutting": {
     name: "Laser Cutting",
-    description:
-      "Explore laser-cut and precision engraving products, keychains, and ambient lamps.",
+    description: "Explore laser-cut and precision engraving products, keychains, and ambient lamps.",
     icon: Scissors,
   },
   "cnc-machining": {
     name: "CNC Machining",
-    description:
-      "Explore precision CNC machined aluminum couplings, brackets, and structural parts.",
+    description: "Explore precision CNC machined aluminum couplings, brackets, and structural parts.",
     icon: Settings,
   },
   electronics: {
     name: "Electronics",
-    description:
-      "Explore microcontroller development boards, sensors, and IoT prototyping hardware.",
+    description: "Explore microcontroller development boards, sensors, and IoT prototyping hardware.",
     icon: Cpu,
   },
   "drones-parts": {
     name: "Drones & Parts",
-    description:
-      "Explore racing quadcopter frames, high-thrust brushless motors, and flight accessories.",
+    description: "Explore racing quadcopter frames, high-thrust brushless motors, and flight accessories.",
     icon: Plane,
   },
   "drones-and-parts": {
     name: "Drones & Parts",
-    description:
-      "Explore racing quadcopter frames, high-thrust brushless motors, and flight accessories.",
+    description: "Explore racing quadcopter frames, high-thrust brushless motors, and flight accessories.",
     icon: Plane,
   },
   "acrylic-products": {
     name: "Acrylic Products",
-    description:
-      "Explore precision-cut acrylic trophies, custom logo plaques, and desktop accessories.",
+    description: "Explore precision-cut acrylic trophies, custom logo plaques, and desktop accessories.",
     icon: Layers,
   },
   "diy-kits": {
@@ -84,11 +78,7 @@ const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
 
 function normalizeSlug(s: string | undefined | null): string {
   if (!s) return "";
-  const cleaned = s
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+  const cleaned = s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   if (cleaned === "drones-and-parts" || cleaned === "drones-parts" || cleaned === "drones") {
     return "drones-parts";
   }
@@ -119,6 +109,22 @@ function CategoryDetail() {
     const itemCategorySlug = normalizeSlug(rawCategory);
     return itemCategorySlug === currentCategory;
   });
+
+  // Debug logs to trace data flow
+  console.log(
+    "CATEGORY DEBUG",
+    currentCategory,
+    allProducts.map((p) => ({
+      name: p.name,
+      category: p.category,
+      categorySlug: p.categorySlug || p.category_slug,
+    }))
+  );
+
+  console.log(
+    "FILTERED PRODUCTS",
+    categoryProducts.map((p) => p.name)
+  );
 
   // States for filter conditions
   const [searchTerm, setSearchTerm] = useState<string>("");

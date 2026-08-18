@@ -139,8 +139,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 42,
     bestseller: false,
     stock: 35,
-    short_description:
-      "Shock-absorbing flexible TPU rugged protective case for drone avionics and sensors.",
+    short_description: "Shock-absorbing flexible TPU rugged protective case for drone avionics and sensors.",
     description:
       "Impact-resistant 95A TPU housing providing vibration damping, scratch protection, and splash resistance for electronics and drone flight cameras.",
     specifications: {
@@ -175,8 +174,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 78,
     bestseller: true,
     stock: 30,
-    short_description:
-      "Personalized glowing laser-etched edge-lit acrylic desk nameplate or logo sign.",
+    short_description: "Personalized glowing laser-etched edge-lit acrylic desk nameplate or logo sign.",
     description:
       "Custom laser-etched acrylic panel illuminated by warm white edge-emitting LEDs set in a solid wooden base. Connects via standard USB.",
     specifications: {
@@ -207,8 +205,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 42,
     bestseller: false,
     stock: 50,
-    short_description:
-      "Set of 4 intricate laser-carved walnut wooden drink coasters with cork backing.",
+    short_description: "Set of 4 intricate laser-carved walnut wooden drink coasters with cork backing.",
     description:
       "Set of 4 botanical and geometric mandala coasters laser engraved into dark walnut with waterproof polyurethane seal.",
     specifications: {
@@ -239,8 +236,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 95,
     bestseller: true,
     stock: 120,
-    short_description:
-      "Personalized laser-engraved birch wooden keychain with polished steel keyring.",
+    short_description: "Personalized laser-engraved birch wooden keychain with polished steel keyring.",
     description:
       "Custom engraved wooden keychain crafted using high-precision CO2 laser engraving. Personalized with your custom college name, lab ID, or student initials with clear protective varnish.",
     specifications: {
@@ -272,8 +268,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 36,
     bestseller: false,
     stock: 40,
-    short_description:
-      "Snap-fit laser cut 3D architectural bridge and truss structural analysis model.",
+    short_description: "Snap-fit laser cut 3D architectural bridge and truss structural analysis model.",
     description:
       "Snap-together interlocking wooden architectural bridge structural truss model kit designed for civil engineering and STEM mechanics education.",
     specifications: {
@@ -441,8 +436,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 112,
     bestseller: true,
     stock: 45,
-    short_description:
-      "Ultimate 37-piece sensor module kit for Arduino, ESP32 and Raspberry Pi projects.",
+    short_description: "Ultimate 37-piece sensor module kit for Arduino, ESP32 and Raspberry Pi projects.",
     description:
       "Includes ultrasonic distance, temperature & humidity (DHT11), IR obstacle, sound detection, flame sensor, relay, joystick, and 30 other standard lab modules with pinout guide.",
     specifications: {
@@ -473,8 +467,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 58,
     bestseller: false,
     stock: 90,
-    short_description:
-      "Set of 10 gold-plated double-sided universal perfboards for circuit prototyping.",
+    short_description: "Set of 10 gold-plated double-sided universal perfboards for circuit prototyping.",
     description:
       "High quality 2.54mm pitch plated-through hole prototype PCBs with pre-tinned solder pads, corner mounting holes, and silkscreen column/row markings.",
     specifications: {
@@ -608,8 +601,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 34,
     bestseller: false,
     stock: 35,
-    short_description:
-      "Crystal clear seamless acrylic showcase box for robotics models and collectibles.",
+    short_description: "Crystal clear seamless acrylic showcase box for robotics models and collectibles.",
     description:
       "Museum-grade UV-filtering transparent acrylic display case with a black gloss base. Keeps trophies, electronic projects, and scale models dust-free.",
     specifications: {
@@ -672,8 +664,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 28,
     bestseller: false,
     stock: 30,
-    short_description:
-      "Laser & CNC safety protective viewing window shield for makerspace workstations.",
+    short_description: "Laser & CNC safety protective viewing window shield for makerspace workstations.",
     description:
       "Durable optical safety acrylic barrier screen designed for benchtop laser engraving machines, soldering fume stations, and lathe machine guards.",
     specifications: {
@@ -708,8 +699,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 88,
     bestseller: true,
     stock: 60,
-    short_description:
-      "Complete line-following and obstacle-avoidance 2WD robot chassis assembly kit.",
+    short_description: "Complete line-following and obstacle-avoidance 2WD robot chassis assembly kit.",
     description:
       "Hands-on robotics kit containing dual TT gear motors, motor driver shield, ultrasonic sonar sensor, infrared tracking sensors, and code library.",
     specifications: {
@@ -740,8 +730,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 74,
     bestseller: false,
     stock: 100,
-    short_description:
-      "Learn-to-solder practice board with rotating LED chasing circuit and buzzer.",
+    short_description: "Learn-to-solder practice board with rotating LED chasing circuit and buzzer.",
     description:
       "Step-by-step soldering tutorial kit featuring 0805, 0603 SMD components, transistors, capacitors, and NE555 timer IC to build an animated flashing LED wheel.",
     specifications: {
@@ -772,8 +761,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 62,
     bestseller: false,
     stock: 35,
-    short_description:
-      "Build-your-own portable wooden Bluetooth stereo speaker with rechargeable battery.",
+    short_description: "Build-your-own portable wooden Bluetooth stereo speaker with rechargeable battery.",
     description:
       "Fun hands-on STEM soldering kit allowing students to construct an active wireless speaker from scratch. Includes Bluetooth 5.0 receiver, Class-D amplifier, dual full-range speakers, and 18650 battery module.",
     specifications: {
@@ -790,6 +778,89 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
 ];
 
+export function sanitizeProduct(p: Product): Product {
+  const nameLower = (p.name || "").toLowerCase();
+  let correctSlug = p.category_slug || (p as any).categorySlug || (p as any).category || "3d-printing";
+
+  if (
+    nameLower.includes("gearbox") ||
+    nameLower.includes("coupling") ||
+    nameLower.includes("flanged brass") ||
+    nameLower.includes("machined") ||
+    nameLower.includes("mounting plate") ||
+    nameLower.includes("prototype block") ||
+    nameLower.includes("cnc")
+  ) {
+    correctSlug = "cnc-machining";
+  } else if (
+    nameLower.includes("drone") ||
+    nameLower.includes("propeller") ||
+    nameLower.includes("brushless") ||
+    nameLower.includes("fpv") ||
+    nameLower.includes("quadcopter") ||
+    nameLower.includes("landing gear")
+  ) {
+    correctSlug = "drones-parts";
+  } else if (
+    nameLower.includes("acrylic") ||
+    nameLower.includes("display box") ||
+    nameLower.includes("transparent") ||
+    nameLower.includes("shield") ||
+    nameLower.includes("desk sign") ||
+    nameLower.includes("name plate") ||
+    nameLower.includes("trophy")
+  ) {
+    correctSlug = "acrylic-products";
+  } else if (
+    nameLower.includes("mandala") ||
+    nameLower.includes("lamp") ||
+    nameLower.includes("tree of life") ||
+    nameLower.includes("laser") ||
+    nameLower.includes("engraved") ||
+    (nameLower.includes("keychain") && !nameLower.includes("acrylic"))
+  ) {
+    correctSlug = "laser-cutting";
+  } else if (
+    nameLower.includes("esp32") ||
+    nameLower.includes("arduino") ||
+    nameLower.includes("sensor kit") ||
+    nameLower.includes("sensor module") ||
+    nameLower.includes("oled") ||
+    nameLower.includes("pcb") ||
+    nameLower.includes("microcontroller") ||
+    nameLower.includes("soldering practice")
+  ) {
+    correctSlug = "electronics";
+  } else if (
+    nameLower.includes("diy") ||
+    nameLower.includes("starter kit") ||
+    nameLower.includes("learning kit") ||
+    nameLower.includes("robot kit") ||
+    nameLower.includes("robotics") ||
+    nameLower.includes("speaker build")
+  ) {
+    correctSlug = "diy-kits";
+  } else if (
+    nameLower.includes("vase") ||
+    nameLower.includes("phone stand") ||
+    nameLower.includes("mini desk organizer") ||
+    nameLower.includes("cable management") ||
+    nameLower.includes("resin") ||
+    nameLower.includes("tpu") ||
+    nameLower.includes("filament") ||
+    nameLower.includes("3d")
+  ) {
+    correctSlug = "3d-printing";
+  }
+
+  return {
+    ...p,
+    category_slug: correctSlug,
+    categorySlug: correctSlug,
+    category: p.category || correctSlug,
+  };
+}
+
 export const productsQuery = queryOptions({
   queryKey: ["products"],
   queryFn: async (): Promise<Product[]> => {
@@ -799,11 +870,11 @@ export const productsQuery = queryOptions({
         .select("*")
         .order("created_at", { ascending: false });
       if (error || !data || data.length === 0) {
-        return DEFAULT_CATALOG_PRODUCTS;
+        return DEFAULT_CATALOG_PRODUCTS.map(sanitizeProduct);
       }
-      return data;
+      return data.map(sanitizeProduct);
     } catch {
-      return DEFAULT_CATALOG_PRODUCTS;
+      return DEFAULT_CATALOG_PRODUCTS.map(sanitizeProduct);
     }
   },
   staleTime: 60_000,
@@ -858,7 +929,7 @@ export function getProductBySlug(rawSlugOrId: string | undefined | null): Produc
       p.name.toLowerCase() === raw
     );
   });
-  if (match) return match;
+  if (match) return sanitizeProduct(match);
 
   // 2. Substring or keyword match in DEFAULT_CATALOG_PRODUCTS
   if (normalized.length > 0) {
@@ -873,11 +944,11 @@ export function getProductBySlug(rawSlugOrId: string | undefined | null): Produc
         (p.image_key && normalized.includes(p.image_key))
       );
     });
-    if (subMatch) return subMatch;
+    if (subMatch) return sanitizeProduct(subMatch);
   }
 
   // 3. Ultimate safe fallback: return first item in DEFAULT_CATALOG_PRODUCTS
-  return DEFAULT_CATALOG_PRODUCTS[0]!;
+  return sanitizeProduct(DEFAULT_CATALOG_PRODUCTS[0]!);
 }
 
 export function productQuery(rawSlugOrId: string | undefined) {
@@ -894,7 +965,7 @@ export function productQuery(rawSlugOrId: string | undefined) {
             .select("*")
             .or(`slug.eq.${normalized},id.eq.${normalized},slug.eq.${raw},id.eq.${raw}`)
             .maybeSingle();
-          if (data) return data;
+          if (data) return sanitizeProduct(data);
         }
       } catch {
         // Fallback to local default catalog

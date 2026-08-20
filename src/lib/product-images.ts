@@ -27,14 +27,24 @@ const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {
   "laser-cut-acrylic-name-plate": "/products/laser-cut-acrylic-name-plate.jpg",
   "acrylic-decorative-panel": "/products/acrylic-decorative-panel.jpg",
 
-  // 3. CNC Machining Products
-  "precision-aluminum-shaft-coupler": "/products/precision-aluminum-shaft-coupler.jpg",
-  "heavy-duty-l-bracket-cnc": "/products/heavy-duty-l-bracket-cnc.jpg",
-  "cnc-aluminium-bracket": "/products/cnc-aluminium-bracket.jpg",
-  "precision-mounting-plate": "/products/precision-mounting-plate.jpg",
-  "custom-cnc-component": "/products/custom-cnc-component.jpg",
-  "aluminium-prototype-block": "/products/aluminium-prototype-block.jpg",
-  "cnc-machined-flanged-brass-bushings": "/products/cnc-machined-flanged-brass-bushings.jpg",
+  // 3. CNC Machining Products (Aluminum, Steel, Brass Precision Metal Parts)
+  "cnc-aluminum-mounting-bracket": "/products/cnc-aluminum-mounting-bracket.jpg",
+  "precision-cnc-flanged-bushing": "/products/precision-cnc-flanged-bushing.jpg",
+  "cnc-machined-gear": "/products/cnc-machined-gear.jpg",
+  "cnc-aluminum-heat-sink": "/products/cnc-aluminum-heat-sink.jpg",
+  "cnc-stainless-steel-coupling": "/products/cnc-stainless-steel-coupling.jpg",
+  "cnc-machined-shaft": "/products/cnc-machined-shaft.jpg",
+  "cnc-metal-spacer-set": "/products/cnc-metal-spacer-set.jpg",
+  "cnc-precision-motor-mount": "/products/cnc-precision-motor-mount.jpg",
+  "cnc-machined-enclosure": "/products/cnc-machined-enclosure.jpg",
+  "cnc-aluminum-fixture-plate": "/products/cnc-aluminum-fixture-plate.jpg",
+  "cnc-machined-flanged-brass-bushings": "/products/precision-cnc-flanged-bushing.jpg",
+  "precision-aluminum-shaft-coupler": "/products/cnc-stainless-steel-coupling.jpg",
+  "heavy-duty-l-bracket-cnc": "/products/cnc-aluminum-mounting-bracket.jpg",
+  "cnc-aluminium-bracket": "/products/cnc-aluminum-mounting-bracket.jpg",
+  "precision-mounting-plate": "/products/cnc-aluminum-fixture-plate.jpg",
+  "custom-cnc-component": "/products/cnc-machined-gear.jpg",
+  "aluminium-prototype-block": "/products/cnc-machined-enclosure.jpg",
 
   // 4. Electronics Products
   "esp32-iot-maker-board": "/products/esp32-iot-maker-board.jpg",

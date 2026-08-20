@@ -47,7 +47,7 @@ const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
   "cnc-machining": {
     name: "CNC Machining",
     description:
-      "Explore high-accuracy CNC milled aluminum couplings, mounting brackets, and brass bushings.",
+      "Precision 3-axis & 5-axis CNC milled and turned metal components in aerospace aluminum, stainless steel, and solid brass.",
     icon: Settings,
   },
   electronics: {

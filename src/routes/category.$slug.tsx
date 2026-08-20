@@ -96,7 +96,8 @@ function CategoryDetail() {
 
   // Exact match filter (STRICT: Case-insensitive & normalized categorySlug equality)
   const categoryProducts = allProducts.filter((item) => {
-    return normalizeCategorySlug(item.categorySlug) === normalizeCategorySlug(currentCategory);
+    const rawCategory = item.categorySlug || item.category_slug || item.category;
+    return normalizeCategorySlug(rawCategory) === normalizeCategorySlug(currentCategory);
   });
 
   // States for filter conditions

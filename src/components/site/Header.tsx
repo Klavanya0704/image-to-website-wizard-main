@@ -51,7 +51,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "3d-printing" },
     icon: Icon3DPrinter,
-    bgClass: "bg-blue-50/80 group-hover:bg-blue-100",
+    bgClass: "bg-blue-50 group-hover:bg-blue-100 text-blue-600",
   },
   {
     id: "laser-cutting",
@@ -59,7 +59,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "laser-cutting" },
     icon: IconLaserCutter,
-    bgClass: "bg-red-50/80 group-hover:bg-red-100",
+    bgClass: "bg-red-50 group-hover:bg-red-100 text-red-600",
   },
   {
     id: "cnc-machining",
@@ -67,7 +67,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "cnc-machining" },
     icon: IconCncMilling,
-    bgClass: "bg-cyan-50/80 group-hover:bg-cyan-100",
+    bgClass: "bg-cyan-50 group-hover:bg-cyan-100 text-cyan-600",
   },
   {
     id: "electronics",
@@ -75,7 +75,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "electronics" },
     icon: IconElectronics,
-    bgClass: "bg-emerald-50/80 group-hover:bg-emerald-100",
+    bgClass: "bg-emerald-50 group-hover:bg-emerald-100 text-emerald-600",
   },
   {
     id: "drones-parts",
@@ -83,7 +83,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "drones-parts" },
     icon: IconDrone,
-    bgClass: "bg-purple-50/80 group-hover:bg-purple-100",
+    bgClass: "bg-purple-50 group-hover:bg-purple-100 text-purple-600",
   },
   {
     id: "acrylic-products",
@@ -91,7 +91,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "acrylic-products" },
     icon: IconAcrylic,
-    bgClass: "bg-indigo-50/80 group-hover:bg-indigo-100",
+    bgClass: "bg-indigo-50 group-hover:bg-indigo-100 text-indigo-600",
   },
   {
     id: "diy-kits",
@@ -99,7 +99,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "diy-kits" },
     icon: IconDiyKit,
-    bgClass: "bg-amber-50/80 group-hover:bg-amber-100",
+    bgClass: "bg-amber-50 group-hover:bg-amber-100 text-amber-600",
   },
 ];
 
@@ -142,16 +142,16 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white dark:bg-card border-b border-slate-100 dark:border-border shadow-xs">
+    <header className="sticky top-0 z-40 w-full bg-white dark:bg-card border-b border-slate-200/80 dark:border-border shadow-xs">
       {/* =========================================================================
-          ROW 1 — TOP PRIMARY HEADER ROW
+          ROW 1 — TOP PRIMARY MAIN HEADER ROW (~86px Height)
          ========================================================================= */}
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-6 lg:px-10 h-[80px]">
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 lg:gap-6 px-4 sm:px-6 lg:px-10 h-[86px]">
         {/* Mobile Hamburger Menu */}
         <div className="flex items-center gap-2 md:hidden">
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-10 w-10 text-slate-800">
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-slate-800">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
@@ -160,7 +160,7 @@ export function Header() {
               <div className="border-b border-border p-5 flex items-center justify-between">
                 <Logo />
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Button variant="ghost" size="icon" className="h-9 w-9">
                     <X className="h-5 w-5" />
                   </Button>
                 </SheetTrigger>
@@ -171,20 +171,20 @@ export function Header() {
                 <Link
                   to="/"
                   onClick={() => setMobileOpen(false)}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-xs font-medium ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-full text-xs font-semibold ${
                     isStoreActive
-                      ? "border border-slate-200 bg-white text-slate-700 shadow-xs"
+                      ? "border border-slate-200 bg-white text-slate-800 shadow-xs"
                       : "bg-transparent text-slate-500"
                   }`}
                 >
-                  <Store className="h-4 w-4" />
+                  <Store className="h-4 w-4 text-blue-600" />
                   <span>Store</span>
                 </Link>
 
                 <Link
                   to="/makerspace"
                   onClick={() => setMobileOpen(false)}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-xs font-medium ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-full text-xs font-semibold ${
                     isMakerspaceActive
                       ? "bg-blue-600 text-white shadow-sm"
                       : "bg-transparent text-slate-500"
@@ -213,68 +213,71 @@ export function Header() {
           </Sheet>
         </div>
 
-        {/* Left: Brand Section + Portal Switcher Buttons */}
-        <div className="flex items-center gap-5 shrink-0">
+        {/* Left: ACTE IDEA LAB Brand + Portal Switcher Buttons */}
+        <div className="flex items-center gap-5 lg:gap-6 shrink-0">
           <Logo />
 
-          {/* Portal Switcher Buttons Side-by-Side */}
-          <div className="hidden lg:flex items-center gap-2.5 ml-1">
+          {/* Portal Switcher Buttons Side-by-Side (Height ~44-46px) */}
+          <div className="hidden lg:flex items-center gap-2.5">
             {/* Store Button */}
             <Link
               to="/"
-              className={`border border-slate-200 bg-white text-slate-700 px-5 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-slate-50 transition-all text-sm cursor-pointer ${
-                isStoreActive ? "ring-2 ring-blue-500/20 border-slate-300" : ""
+              className={`h-[46px] border border-slate-200 bg-white text-slate-800 px-5 rounded-full font-semibold flex items-center gap-2 hover:bg-slate-50 hover:border-slate-300 transition-all text-sm cursor-pointer shadow-2xs ${
+                isStoreActive ? "ring-2 ring-blue-500/20 border-slate-300 font-bold" : ""
               }`}
             >
-              <Store className="h-4 w-4 text-blue-600" />
+              <Store className="h-4.5 w-4.5 text-blue-600" />
               <span>Store</span>
             </Link>
 
             {/* Makerspace Button */}
             <Link
               to="/makerspace"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-medium flex items-center gap-2 shadow-sm transition-all text-sm cursor-pointer"
+              className="h-[46px] bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-full font-semibold flex items-center gap-2 shadow-xs hover:shadow transition-all text-sm cursor-pointer"
             >
-              <Sparkles className="h-4 w-4 text-white" />
+              <Sparkles className="h-4.5 w-4.5 text-white" />
               <span>Makerspace</span>
             </Link>
           </div>
         </div>
 
-        {/* Central Search Input with Embedded Circular Blue Button */}
+        {/* Center: Search Bar (~52px Height with generous padding) */}
         <form
           onSubmit={handleSearch}
-          className="hidden md:flex relative flex-1 max-w-xl mx-4 items-center"
+          className="hidden md:flex relative flex-1 max-w-xl mx-2 lg:mx-4 items-center"
         >
           <input
             type="search"
             placeholder="Search for products, materials, services..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-200 rounded-full px-5 py-2.5 pr-12 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+            className="w-full h-[52px] bg-slate-50/90 border border-slate-200 rounded-full pl-6 pr-14 text-sm font-medium text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 transition-all shadow-2xs"
           />
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 rounded-full p-2 text-white absolute right-1.5 top-1/2 -translate-y-1/2 transition-transform active:scale-95 cursor-pointer flex items-center justify-center"
+            aria-label="Search"
+            className="h-10 w-10 bg-blue-600 hover:bg-blue-700 rounded-full text-white absolute right-1.5 top-1/2 -translate-y-1/2 transition-all active:scale-95 cursor-pointer flex items-center justify-center shadow-xs"
           >
-            <Search className="h-4 w-4" />
+            <Search className="h-4.5 w-4.5" />
           </button>
         </form>
 
-        {/* Right Action Controls: Login/Signup, Wishlist, Cart */}
-        <div className="flex items-center gap-5 lg:gap-6 shrink-0">
+        {/* Right: Action Controls (Login/Signup, Wishlist, Cart) */}
+        <div className="flex items-center gap-4 sm:gap-5 lg:gap-6 shrink-0">
           {/* Login / Signup */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-1.5 text-sm font-medium text-slate-800 hover:text-blue-600 transition-colors focus:outline-none cursor-pointer py-1.5">
-                <User className="h-4 w-4 text-slate-600" />
+              <button className="h-[46px] px-3.5 rounded-full flex items-center gap-2 text-sm font-semibold text-slate-800 hover:text-blue-600 hover:bg-slate-50 transition-colors focus:outline-none cursor-pointer">
+                <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                  <User className="h-4.5 w-4.5 text-slate-700" />
+                </div>
                 <span className="hidden sm:inline">
                   {user ? `Hi, ${displayName.split(" ")[0]}` : "Login / Signup"}
                 </span>
-                <ChevronDown className="h-3.5 w-3.5 text-slate-500" />
+                <ChevronDown className="h-3.5 w-3.5 text-slate-500 hidden sm:inline" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 mt-1">
+            <DropdownMenuContent align="end" className="w-56 mt-2">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {user ? (
@@ -310,7 +313,7 @@ export function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={() => signOut()}
-                    className="text-destructive font-semibold"
+                    className="text-destructive font-semibold cursor-pointer"
                   >
                     <LogOut className="mr-2 h-4 w-4" /> Logout
                   </DropdownMenuItem>
@@ -337,7 +340,7 @@ export function Header() {
           {/* Wishlist Heart Icon */}
           <Link
             to="/wishlist"
-            className="flex items-center justify-center text-slate-600 hover:text-blue-600 transition-colors p-1"
+            className="h-11 w-11 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors"
             title="Wishlist"
           >
             <Heart className="h-5 w-5" />
@@ -346,11 +349,11 @@ export function Header() {
           {/* Cart Icon with Blue Badge */}
           <Link
             to="/cart"
-            className="relative flex items-center justify-center text-slate-600 hover:text-blue-600 transition-colors p-1"
+            className="relative h-11 w-11 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors"
             title="Cart"
           >
             <ShoppingCart className="h-5 w-5" />
-            <span className="absolute -right-2 -top-1.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-blue-600 text-[10px] font-bold text-white shadow-xs">
+            <span className="absolute top-1 right-1 flex h-5 min-w-[20px] px-1 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white shadow-xs">
               {cartCount > 0 ? cartCount : 3}
             </span>
           </Link>
@@ -358,10 +361,10 @@ export function Header() {
       </div>
 
       {/* =========================================================================
-          ROW 2 — CATEGORY NAVIGATION BAR (Matching Reference Image)
+          ROW 2 — CATEGORY NAVIGATION BAR (~66px Height)
          ========================================================================= */}
-      <div className="border-t border-slate-100 bg-white shadow-2xs">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between py-2.5 px-4 sm:px-8 overflow-x-auto no-scrollbar gap-2">
+      <div className="border-t border-slate-100 bg-white dark:bg-card shadow-2xs">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between h-[66px] px-4 sm:px-8 overflow-x-auto no-scrollbar gap-2 sm:gap-3 lg:gap-4">
           {CATEGORIES.map((cat) => {
             const isCatActive =
               cat.id === "home"
@@ -373,16 +376,16 @@ export function Header() {
                 <Link
                   key={cat.id}
                   to="/"
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg group cursor-pointer shrink-0 transition-colors ${
+                  className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl group cursor-pointer shrink-0 transition-all ${
                     isCatActive
-                      ? "text-[#1455D9] font-bold border-b-2 border-[#1455D9] rounded-b-none"
-                      : "text-slate-700 hover:text-[#1455D9] font-medium"
+                      ? "bg-blue-50/80 text-[#1455D9] font-bold shadow-2xs ring-1 ring-blue-500/20"
+                      : "text-slate-700 hover:text-[#1455D9] hover:bg-slate-50 font-semibold"
                   }`}
                 >
                   <Home
-                    className={`w-4 h-4 ${isCatActive ? "text-[#1455D9]" : "text-slate-600 group-hover:text-[#1455D9]"}`}
+                    className={`w-4.5 h-4.5 ${isCatActive ? "text-[#1455D9]" : "text-slate-600 group-hover:text-[#1455D9]"}`}
                   />
-                  <span className="text-xs">{cat.name}</span>
+                  <span className="text-[13px] sm:text-sm">{cat.name}</span>
                 </Link>
               );
             }
@@ -394,16 +397,16 @@ export function Header() {
                 key={cat.id}
                 to={cat.to as any}
                 params={cat.params as any}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg group cursor-pointer shrink-0 transition-colors ${
+                className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl group cursor-pointer shrink-0 transition-all ${
                   isCatActive
-                    ? "text-[#1455D9] font-bold border-b-2 border-[#1455D9] rounded-b-none"
-                    : "text-slate-700 hover:text-[#1455D9] font-medium"
+                    ? "bg-blue-50/80 text-[#1455D9] font-bold shadow-2xs ring-1 ring-blue-500/20"
+                    : "text-slate-700 hover:text-[#1455D9] hover:bg-slate-50 font-semibold"
                 }`}
               >
-                <div className={`p-1 rounded ${cat.bgClass} flex items-center justify-center`}>
-                  <IconComponent className="w-3.5 h-3.5" />
+                <div className={`p-1.5 rounded-lg ${cat.bgClass} flex items-center justify-center shrink-0`}>
+                  <IconComponent className="w-4 h-4" />
                 </div>
-                <span className="text-xs">{cat.name}</span>
+                <span className="text-[13px] sm:text-sm whitespace-nowrap">{cat.name}</span>
               </Link>
             );
           })}

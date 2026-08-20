@@ -27,31 +27,28 @@ const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {
   "laser-cut-acrylic-name-plate": "/products/laser-cut-acrylic-name-plate.jpg",
   "acrylic-decorative-panel": "/products/acrylic-decorative-panel.jpg",
 
-  // 3. CNC Machining Products (College CNC Lab Metal & 3D Wood Carving/Routing)
+  // 3. CNC Machining Products (12 College CNC Lab Metal & Wood Fabrication Projects)
   "cnc-wooden-name-plate": "/products/cnc-wooden-name-plate.jpg",
-  "cnc-carved-wooden-wall-panel": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
-  "cnc-cut-wooden-mandala": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
+  "cnc-cut-wooden-mandala": "/products/cnc-cut-wooden-mandala.jpg",
   "cnc-cut-wooden-box": "/products/cnc-cut-wooden-box.jpg",
-  "cnc-wooden-key-holder": "/products/cnc-wooden-key-holder.jpg",
-  "cnc-wooden-relief-art": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
-  "cnc-wooden-sign-board": "/products/cnc-wooden-sign-board.jpg",
-  "cnc-aluminium-bracket": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
-  "cnc-aluminum-mounting-bracket": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
-  "cnc-aluminum-fixture-plate": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
+  "cnc-carved-wooden-wall-panel": "/products/cnc-carved-wooden-wall-panel.jpg",
+  "cnc-wooden-relief-art": "/products/cnc-wooden-relief-art.jpg",
+  "cnc-aluminium-bracket": "/products/cnc-aluminium-bracket.jpg",
+  "cnc-aluminum-fixture-plate": "/products/cnc-aluminum-fixture-plate.jpg",
   "cnc-machined-gear": "/products/cnc-machined-gear.jpg",
-  "cnc-machined-shaft": "/products/cnc-machined-shaft.jpg",
-  "cnc-machined-bushing": "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80",
-  "precision-cnc-flanged-bushing": "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80",
+  "cnc-machined-bushing": "/products/cnc-machined-bushing.jpg",
   "cnc-machined-coupling": "/products/cnc-machined-coupling.jpg",
+  "cnc-machined-shaft": "/products/cnc-machined-shaft.jpg",
+  "cnc-machined-prototype-component": "/products/cnc-machined-prototype-component.jpg",
+  // Aliases for compatibility
+  "cnc-aluminum-mounting-bracket": "/products/cnc-aluminium-bracket.jpg",
+  "precision-cnc-flanged-bushing": "/products/cnc-machined-bushing.jpg",
   "cnc-stainless-steel-coupling": "/products/cnc-machined-coupling.jpg",
-  "cnc-machined-pulley": "/products/cnc-machined-pulley.jpg",
-  "cnc-machined-prototype-component": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
-  "cnc-machined-flanged-brass-bushings": "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80",
+  "cnc-machined-flanged-brass-bushings": "/products/cnc-machined-bushing.jpg",
   "precision-aluminum-shaft-coupler": "/products/cnc-machined-coupling.jpg",
-  "heavy-duty-l-bracket-cnc": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
-  "precision-mounting-plate": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
-  "custom-cnc-component": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
-  "mechanical-prototype-model": "/products/cnc-machined-gear.jpg",
+  "heavy-duty-l-bracket-cnc": "/products/cnc-aluminium-bracket.jpg",
+  "precision-mounting-plate": "/products/cnc-aluminum-fixture-plate.jpg",
+  "custom-cnc-component": "/products/cnc-machined-prototype-component.jpg",
 
   // 4. Electronics Products
   "esp32-iot-maker-board": "/products/esp32-iot-maker-board.jpg",
@@ -118,17 +115,41 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
   const q = `${slug} ${productName || ""}`.toLowerCase().trim();
 
   // CNC Specific Overrides
-  if (q.includes("wooden wall panel") || q.includes("wooden relief") || q.includes("relief carving")) {
-    return "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80";
+  if (q.includes("name plate") || q.includes("nameplate")) {
+    return "/products/cnc-wooden-name-plate.jpg";
   }
-  if (q.includes("cnc") && q.includes("mandala")) {
-    return "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80";
+  if (q.includes("mandala")) {
+    return "/products/cnc-cut-wooden-mandala.jpg";
   }
-  if (q.includes("prototype part") || q.includes("aluminium plate") || q.includes("aluminium bracket") || q.includes("aluminum bracket") || q.includes("fixture plate")) {
-    return "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80";
+  if (q.includes("wooden box") || (q.includes("cnc") && q.includes("box"))) {
+    return "/products/cnc-cut-wooden-box.jpg";
   }
-  if (q.includes("machined bushing") || q.includes("flanged bushing") || q.includes("brass flange bushing")) {
-    return "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80";
+  if (q.includes("wooden wall panel") || q.includes("wall panel")) {
+    return "/products/cnc-carved-wooden-wall-panel.jpg";
+  }
+  if (q.includes("relief") || q.includes("relief art") || q.includes("relief carving")) {
+    return "/products/cnc-wooden-relief-art.jpg";
+  }
+  if (q.includes("bracket") || q.includes("l-bracket") || q.includes("gusset")) {
+    return "/products/cnc-aluminium-bracket.jpg";
+  }
+  if (q.includes("plate") || q.includes("fixture plate") || q.includes("tooling plate")) {
+    return "/products/cnc-aluminum-fixture-plate.jpg";
+  }
+  if (q.includes("gear") || q.includes("spur gear")) {
+    return "/products/cnc-machined-gear.jpg";
+  }
+  if (q.includes("bushing") || q.includes("brass") || q.includes("flanged bushing")) {
+    return "/products/cnc-machined-bushing.jpg";
+  }
+  if (q.includes("coupling") || q.includes("coupler") || q.includes("shaft coupling")) {
+    return "/products/cnc-machined-coupling.jpg";
+  }
+  if (q.includes("shaft") || q.includes("drive shaft") || q.includes("linear shaft")) {
+    return "/products/cnc-machined-shaft.jpg";
+  }
+  if (q.includes("prototype") || q.includes("knuckle") || q.includes("component") || q.includes("part")) {
+    return "/products/cnc-machined-prototype-component.jpg";
   }
 
   // Laser cutting specific checks (prevents photo frame from ever showing drone)

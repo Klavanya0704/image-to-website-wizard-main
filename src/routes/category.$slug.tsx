@@ -47,7 +47,7 @@ const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
   "cnc-machining": {
     name: "CNC Machining",
     description:
-      "Precision 3-axis & 5-axis CNC milled and turned metal components in aerospace aluminum, stainless steel, and solid brass.",
+      "Precision 3-axis & 5-axis CNC metal milling and 3D wood routing, relief carving & architectural fretwork.",
     icon: Settings,
   },
   electronics: {

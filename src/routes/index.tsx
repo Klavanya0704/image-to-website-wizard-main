@@ -38,7 +38,7 @@ import lampImg from "@/assets/p-lamp.jpg";
 import standImg from "@/assets/p-stand.jpg";
 import { productsQuery } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
-import { inr } from "@/lib/format";
+import { inr, safeCopyText } from "@/lib/format";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -506,8 +506,8 @@ function Index() {
 
             {/* Glowing Gold STUDENT15 Button */}
             <button
-              onClick={() => {
-                navigator.clipboard.writeText("STUDENT15");
+              onClick={async () => {
+                await safeCopyText("STUDENT15");
                 toast.success("Coupon code STUDENT15 copied to clipboard!", {
                   description: "Apply at checkout for 15% instant discount.",
                 });

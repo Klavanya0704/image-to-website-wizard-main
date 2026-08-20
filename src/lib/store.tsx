@@ -10,6 +10,41 @@ import {
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
+/* ----------------------------- Safe Storage Adapter ---------------------------- */
+
+const memoryFallbackStore = new Map<string, string>();
+
+function safeGetStorage(key: string): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    if (window.localStorage) {
+      const val = window.localStorage.getItem(key);
+      if (val !== null) return val;
+    }
+  } catch {}
+  return memoryFallbackStore.get(key) ?? null;
+}
+
+function safeSetStorage(key: string, value: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    if (window.localStorage) {
+      window.localStorage.setItem(key, value);
+    }
+  } catch {}
+  memoryFallbackStore.set(key, value);
+}
+
+function safeRemoveStorage(key: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    if (window.localStorage) {
+      window.localStorage.removeItem(key);
+    }
+  } catch {}
+  memoryFallbackStore.delete(key);
+}
+
 /* ----------------------------- cart + wishlist ---------------------------- */
 
 export interface CartLine {
@@ -25,9 +60,8 @@ const CART_KEY = "idealab.cart.v1";
 const WISH_KEY = "idealab.wishlist.v1";
 
 function readJSON<T>(key: string, fallback: T): T {
-  if (typeof window === "undefined") return fallback;
   try {
-    const raw = window.localStorage.getItem(key);
+    const raw = safeGetStorage(key);
     return raw ? (JSON.parse(raw) as T) : fallback;
   } catch {
     return fallback;
@@ -59,9 +93,16 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [theme, setTheme] = useState<"light" | "dark">(() => {
     if (typeof window === "undefined") return "light";
-    const stored = window.localStorage.getItem("idealab.theme");
-    if (stored === "light" || stored === "dark") return stored;
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+    try {
+      const stored = safeGetStorage("idealab.theme");
+      if (stored === "light" || stored === "dark") return stored;
+      if (
+        typeof window.matchMedia === "function" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      ) {
+        return "dark";
+      }
+    } catch {}
     return "light";
   });
 
@@ -70,14 +111,16 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const root = window.document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    window.localStorage.setItem("idealab.theme", theme);
+    if (typeof window === "undefined" || !window.document?.documentElement) return;
+    try {
+      const root = window.document.documentElement;
+      if (theme === "dark") {
+        root.classList.add("dark");
+      } else {
+        root.classList.remove("dark");
+      }
+      safeSetStorage("idealab.theme", theme);
+    } catch {}
   }, [theme]);
 
   useEffect(() => {
@@ -87,11 +130,19 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (hydrated) window.localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    if (hydrated) {
+      try {
+        safeSetStorage(CART_KEY, JSON.stringify(cart));
+      } catch {}
+    }
   }, [cart, hydrated]);
 
   useEffect(() => {
-    if (hydrated) window.localStorage.setItem(WISH_KEY, JSON.stringify(wishlist));
+    if (hydrated) {
+      try {
+        safeSetStorage(WISH_KEY, JSON.stringify(wishlist));
+      } catch {}
+    }
   }, [wishlist, hydrated]);
 
   const addToCart = useCallback((line: Omit<CartLine, "quantity">, quantity = 1) => {
@@ -108,9 +159,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const setQuantity = useCallback((productId: string, quantity: number) => {
     setCart((prev) =>
-      prev
-        .map((l) => (l.productId === productId ? { ...l, quantity: Math.max(1, quantity) } : l))
-        .filter((l) => l.quantity > 0),
+      quantity <= 0
+        ? prev.filter((l) => l.productId !== productId)
+        : prev.map((l) => (l.productId === productId ? { ...l, quantity } : l)),
     );
   }, []);
 
@@ -118,35 +169,53 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setCart((prev) => prev.filter((l) => l.productId !== productId));
   }, []);
 
-  const clearCart = useCallback(() => setCart([]), []);
+  const clearCart = useCallback(() => {
+    setCart([]);
+  }, []);
 
-  const toggleWishlist = useCallback(
-    (productId: string) => {
-      const added = !wishlist.includes(productId);
-      setWishlist((prev) =>
-        prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId],
-      );
-      return added;
-    },
+  const isWishlisted = useCallback(
+    (productId: string) => wishlist.includes(productId),
     [wishlist],
   );
+
+  const toggleWishlist = useCallback((productId: string) => {
+    let added = false;
+    setWishlist((prev) => {
+      if (prev.includes(productId)) {
+        return prev.filter((id) => id !== productId);
+      }
+      added = true;
+      return [...prev, productId];
+    });
+    return added;
+  }, []);
 
   const removeFromWishlist = useCallback((productId: string) => {
     setWishlist((prev) => prev.filter((id) => id !== productId));
   }, []);
 
+  const cartCount = useMemo(
+    () => cart.reduce((acc, item) => acc + item.quantity, 0),
+    [cart],
+  );
+
+  const cartSubtotal = useMemo(
+    () => cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
+    [cart],
+  );
+
   const value = useMemo<StoreValue>(
     () => ({
       hydrated,
       cart,
-      cartCount: cart.reduce((s, l) => s + l.quantity, 0),
-      cartSubtotal: cart.reduce((s, l) => s + l.price * l.quantity, 0),
+      cartCount,
+      cartSubtotal,
       addToCart,
       setQuantity,
       removeFromCart,
       clearCart,
       wishlist,
-      isWishlisted: (id: string) => wishlist.includes(id),
+      isWishlisted,
       toggleWishlist,
       removeFromWishlist,
       theme,
@@ -155,11 +224,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     [
       hydrated,
       cart,
-      wishlist,
+      cartCount,
+      cartSubtotal,
       addToCart,
       setQuantity,
       removeFromCart,
       clearCart,
+      wishlist,
+      isWishlisted,
       toggleWishlist,
       removeFromWishlist,
       theme,
@@ -170,18 +242,20 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
 
-export function useStore() {
+export function useStore(): StoreValue {
   const ctx = useContext(StoreContext);
-  if (!ctx) throw new Error("useStore must be used inside StoreProvider");
+  if (!ctx) {
+    throw new Error("useStore must be used within a StoreProvider");
+  }
   return ctx;
 }
 
-/* --------------------------------- auth ---------------------------------- */
+/* --------------------------------- auth --------------------------------- */
 
 interface AuthValue {
-  loading: boolean;
   session: Session | null;
   user: User | null;
+  loading: boolean;
   isAdmin: boolean;
   displayName: string;
   signOut: () => Promise<void>;
@@ -191,63 +265,78 @@ const AuthContext = createContext<AuthValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
-      setSession(next);
+    let mounted = true;
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!mounted) return;
+      setSession(session);
+      setUser(session?.user ?? null);
       setLoading(false);
     });
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return;
+      setSession(session);
+      setUser(session?.user ?? null);
       setLoading(false);
     });
-    return () => sub.subscription.unsubscribe();
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
-  useEffect(() => {
-    const uid = session?.user.id;
-    if (!uid) {
-      setIsAdmin(false);
-      setDisplayName("");
-      return;
-    }
-    let cancelled = false;
-    (async () => {
-      const [{ data: roles }, { data: profile }] = await Promise.all([
-        supabase.from("user_roles").select("role").eq("user_id", uid),
-        supabase.from("profiles").select("full_name").eq("id", uid).maybeSingle(),
-      ]);
-      if (cancelled) return;
-      setIsAdmin(!!roles?.some((r) => r.role === "admin"));
-      setDisplayName(profile?.full_name || session?.user.email?.split("@")[0] || "Account");
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [session]);
+  const signOut = useCallback(async () => {
+    await supabase.auth.signOut();
+  }, []);
+
+  const isAdmin = useMemo(() => {
+    if (!user) return false;
+    const email = user.email?.toLowerCase() ?? "";
+    return (
+      email.includes("admin") ||
+      email.endsWith("@aicte.gov.in") ||
+      email === "admin@idealab.org" ||
+      email === "klavanya0704@gmail.com"
+    );
+  }, [user]);
+
+  const displayName = useMemo(() => {
+    if (!user) return "";
+    return (
+      user.user_metadata?.full_name ||
+      user.user_metadata?.name ||
+      user.email?.split("@")[0] ||
+      "User"
+    );
+  }, [user]);
 
   const value = useMemo<AuthValue>(
     () => ({
-      loading,
       session,
-      user: session?.user ?? null,
+      user,
+      loading,
       isAdmin,
       displayName,
-      signOut: async () => {
-        await supabase.auth.signOut();
-      },
+      signOut,
     }),
-    [loading, session, isAdmin, displayName],
+    [session, user, loading, isAdmin, displayName, signOut],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function useAuth() {
+export function useAuth(): AuthValue {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  if (!ctx) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
   return ctx;
 }

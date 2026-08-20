@@ -39,7 +39,7 @@ export function ProductCard({
       <Link
         to="/product/$slug"
         params={{ slug: safeSlug }}
-        className="relative block h-[195px] w-full overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900 cursor-pointer"
+        className="relative block h-[195px] w-full overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900 cursor-pointer isolate transform-gpu"
       >
         <img
           src={productImage(product?.image_key || product?.slug, product?.name)}

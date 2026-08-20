@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { useStore } from "@/lib/store";
 import { productImage } from "@/lib/product-images";
-import { inr } from "@/lib/format";
+import { inr, safeCopyText } from "@/lib/format";
 import {
   CreditCard,
   MapPin,
@@ -631,9 +631,9 @@ function Checkout() {
     }
   };
 
-  const handleCopyOrderId = () => {
+  const handleCopyOrderId = async () => {
     if (orderId) {
-      navigator.clipboard.writeText(orderId);
+      await safeCopyText(orderId);
       setCopiedId(true);
       toast.success("Order ID copied to clipboard!");
       setTimeout(() => setCopiedId(false), 2000);

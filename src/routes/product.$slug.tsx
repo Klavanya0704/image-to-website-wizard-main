@@ -35,7 +35,7 @@ import {
   getProductBySlug,
 } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
-import { inr, effectivePrice, discountPercent } from "@/lib/format";
+import { inr, effectivePrice, discountPercent, safeCopyText } from "@/lib/format";
 import { productImage, productViewsFor, ProductViewAngle } from "@/lib/product-images";
 import { ProductGridSkeleton } from "@/components/site/States";
 import { CadBlueprintView } from "@/components/site/CadBlueprintView";
@@ -515,8 +515,8 @@ function ProductDetail() {
 
               <button
                 type="button"
-                onClick={() => {
-                  navigator.clipboard.writeText("STUDENT15");
+                onClick={async () => {
+                  await safeCopyText("STUDENT15");
                   toast.success("Coupon code STUDENT15 copied!");
                 }}
                 className="inline-flex items-center gap-1.5 rounded-xl bg-[#F5B000] hover:bg-[#EAB308] text-[#071B4D] px-4 py-2 text-xs font-black tracking-wider transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shrink-0 shadow-sm"

@@ -114,7 +114,9 @@ function Shop() {
       return b.rating - a.rating;
     }
     if (sortBy === "newest") {
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+      const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+      return (isNaN(timeB) ? 0 : timeB) - (isNaN(timeA) ? 0 : timeA);
     }
     // Default fallback is "featured"
     if (a.featured && !b.featured) return -1;

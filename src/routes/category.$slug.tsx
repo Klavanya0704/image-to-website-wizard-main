@@ -198,8 +198,11 @@ function CategoryDetail() {
         return priceB - priceA;
       case "rating-desc":
         return (b.rating ?? 0) - (a.rating ?? 0);
-      case "newest":
-        return new Date(b.created_at || "").getTime() - new Date(a.created_at || "").getTime();
+      case "newest": {
+        const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return (isNaN(timeB) ? 0 : timeB) - (isNaN(timeA) ? 0 : timeA);
+      }
       case "featured":
       default:
         if (a.featured && !b.featured) return -1;

@@ -29,28 +29,28 @@ const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {
 
   // 3. CNC Machining Products (College CNC Lab Metal & 3D Wood Carving/Routing)
   "cnc-wooden-name-plate": "/products/cnc-wooden-name-plate.jpg",
-  "cnc-carved-wooden-wall-panel": "/products/cnc-carved-wooden-wall-panel.jpg",
-  "cnc-cut-wooden-mandala": "/products/cnc-cut-wooden-mandala.jpg",
+  "cnc-carved-wooden-wall-panel": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
+  "cnc-cut-wooden-mandala": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
   "cnc-cut-wooden-box": "/products/cnc-cut-wooden-box.jpg",
   "cnc-wooden-key-holder": "/products/cnc-wooden-key-holder.jpg",
-  "cnc-wooden-relief-art": "/products/cnc-wooden-relief-art.jpg",
+  "cnc-wooden-relief-art": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
   "cnc-wooden-sign-board": "/products/cnc-wooden-sign-board.jpg",
-  "cnc-aluminium-bracket": "/products/cnc-aluminium-bracket.jpg",
-  "cnc-aluminum-mounting-bracket": "/products/cnc-aluminium-bracket.jpg",
-  "cnc-aluminum-fixture-plate": "/products/cnc-aluminum-fixture-plate.jpg",
+  "cnc-aluminium-bracket": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
+  "cnc-aluminum-mounting-bracket": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
+  "cnc-aluminum-fixture-plate": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
   "cnc-machined-gear": "/products/cnc-machined-gear.jpg",
   "cnc-machined-shaft": "/products/cnc-machined-shaft.jpg",
-  "cnc-machined-bushing": "/products/cnc-machined-bushing.jpg",
-  "precision-cnc-flanged-bushing": "/products/cnc-machined-bushing.jpg",
+  "cnc-machined-bushing": "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80",
+  "precision-cnc-flanged-bushing": "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80",
   "cnc-machined-coupling": "/products/cnc-machined-coupling.jpg",
   "cnc-stainless-steel-coupling": "/products/cnc-machined-coupling.jpg",
   "cnc-machined-pulley": "/products/cnc-machined-pulley.jpg",
-  "cnc-machined-prototype-component": "/products/cnc-machined-prototype-component.jpg",
-  "cnc-machined-flanged-brass-bushings": "/products/cnc-machined-bushing.jpg",
+  "cnc-machined-prototype-component": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
+  "cnc-machined-flanged-brass-bushings": "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80",
   "precision-aluminum-shaft-coupler": "/products/cnc-machined-coupling.jpg",
-  "heavy-duty-l-bracket-cnc": "/products/cnc-aluminium-bracket.jpg",
-  "precision-mounting-plate": "/products/cnc-aluminum-fixture-plate.jpg",
-  "custom-cnc-component": "/products/cnc-machined-prototype-component.jpg",
+  "heavy-duty-l-bracket-cnc": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
+  "precision-mounting-plate": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
+  "custom-cnc-component": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80",
   "mechanical-prototype-model": "/products/cnc-machined-gear.jpg",
 
   // 4. Electronics Products
@@ -96,7 +96,12 @@ const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {
 };
 
 export function productImage(keyOrSlug?: string | null, productName?: string | null): string {
-  const slug = (keyOrSlug || "").toLowerCase().trim();
+  const rawKey = (keyOrSlug || "").trim();
+  if (rawKey.startsWith("http://") || rawKey.startsWith("https://")) {
+    return rawKey;
+  }
+
+  const slug = rawKey.toLowerCase();
 
   // 1. Direct match by exact slug
   if (slug && EXACT_SLUG_IMAGE_MAP[slug]) {
@@ -111,6 +116,20 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
 
   // 3. Fallback semantic resolution based on product name/slug keywords
   const q = `${slug} ${productName || ""}`.toLowerCase().trim();
+
+  // CNC Specific Overrides
+  if (q.includes("wooden wall panel") || q.includes("wooden relief") || q.includes("relief carving")) {
+    return "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80";
+  }
+  if (q.includes("cnc") && q.includes("mandala")) {
+    return "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80";
+  }
+  if (q.includes("prototype part") || q.includes("aluminium plate") || q.includes("aluminium bracket") || q.includes("aluminum bracket") || q.includes("fixture plate")) {
+    return "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80";
+  }
+  if (q.includes("machined bushing") || q.includes("flanged bushing") || q.includes("brass flange bushing")) {
+    return "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80";
+  }
 
   // Laser cutting specific checks (prevents photo frame from ever showing drone)
   if (q.includes("photo frame") || q.includes("photo-frame") || q.includes("engraved frame")) {
@@ -152,12 +171,12 @@ export function productImage(keyOrSlug?: string | null, productName?: string | n
     return "/products/geometric-spiral-vase.jpg";
   }
 
-  // CNC Machining
+  // CNC Machining generic
   if (q.includes("bushing") || q.includes("brass") || q.includes("flanged")) {
-    return "/products/cnc-machined-flanged-brass-bushings.jpg";
+    return "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80";
   }
   if (q.includes("bracket") || q.includes("mounting plate") || q.includes("l-bracket")) {
-    return "/products/heavy-duty-l-bracket-cnc.jpg";
+    return "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80";
   }
   if (q.includes("coupling") || q.includes("coupler") || q.includes("shaft") || q.includes("gearbox")) {
     return "/products/precision-aluminum-shaft-coupler.jpg";

@@ -27,12 +27,7 @@ const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {
   "laser-cut-acrylic-name-plate": "/products/laser-cut-acrylic-name-plate.jpg",
   "acrylic-decorative-panel": "/products/acrylic-decorative-panel.jpg",
 
-  // 3. CNC Machining Products (Precision Metal & 3D Wood Carving/Routing)
-  "cnc-aluminum-mounting-bracket": "/products/cnc-aluminum-mounting-bracket.jpg",
-  "precision-cnc-flanged-bushing": "/products/precision-cnc-flanged-bushing.jpg",
-  "cnc-machined-gear": "/products/cnc-machined-gear.jpg",
-  "cnc-stainless-steel-coupling": "/products/cnc-stainless-steel-coupling.jpg",
-  "cnc-aluminum-fixture-plate": "/products/cnc-aluminum-fixture-plate.jpg",
+  // 3. CNC Machining Products (College CNC Lab Metal & 3D Wood Carving/Routing)
   "cnc-carved-wooden-wall-panel": "/products/cnc-carved-wooden-wall-panel.jpg",
   "cnc-wooden-sign-board": "/products/cnc-wooden-sign-board.jpg",
   "cnc-cut-wooden-mandala": "/products/cnc-cut-wooden-mandala.jpg",
@@ -40,12 +35,21 @@ const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {
   "cnc-carved-furniture-panel": "/products/cnc-carved-furniture-panel.jpg",
   "cnc-wooden-name-plate": "/products/cnc-wooden-name-plate.jpg",
   "cnc-cut-wooden-box": "/products/cnc-cut-wooden-box.jpg",
+  "cnc-wooden-relief-art": "/products/cnc-wooden-relief-art.jpg",
+  "cnc-aluminum-mounting-bracket": "/products/cnc-aluminum-mounting-bracket.jpg",
+  "precision-cnc-flanged-bushing": "/products/precision-cnc-flanged-bushing.jpg",
+  "cnc-machined-gear": "/products/cnc-machined-gear.jpg",
+  "cnc-stainless-steel-coupling": "/products/cnc-stainless-steel-coupling.jpg",
+  "cnc-aluminum-fixture-plate": "/products/cnc-aluminum-fixture-plate.jpg",
+  "cnc-machined-linear-shaft": "/products/cnc-machined-linear-shaft.jpg",
+  "cnc-machined-prototype-component": "/products/cnc-machined-prototype-component.jpg",
+  "cnc-metal-spacer-bushing-set": "/products/cnc-metal-spacer-bushing-set.jpg",
   "cnc-machined-flanged-brass-bushings": "/products/precision-cnc-flanged-bushing.jpg",
   "precision-aluminum-shaft-coupler": "/products/cnc-stainless-steel-coupling.jpg",
   "heavy-duty-l-bracket-cnc": "/products/cnc-aluminum-mounting-bracket.jpg",
   "cnc-aluminium-bracket": "/products/cnc-aluminum-mounting-bracket.jpg",
   "precision-mounting-plate": "/products/cnc-aluminum-fixture-plate.jpg",
-  "custom-cnc-component": "/products/cnc-machined-gear.jpg",
+  "custom-cnc-component": "/products/cnc-machined-prototype-component.jpg",
   "mechanical-prototype-model": "/products/cnc-machined-gear.jpg",
 
   // 4. Electronics Products

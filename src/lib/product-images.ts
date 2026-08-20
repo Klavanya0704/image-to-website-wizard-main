@@ -11,18 +11,21 @@ const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {
   "planter-pot-hex": "/products/planter-pot-hex.jpg",
   "mechanical-prototype-model": "/products/mechanical-prototype-model.jpg",
 
-  // 2. Laser Cutting Products
+  // 2. Laser Cutting Products (Wood, Glass & Acrylic)
   "custom-name-keychain": "/products/custom-name-keychain.jpg",
-  "custom-engraved-wooden-keychain": "/products/custom-engraved-wooden-keychain.jpg",
+  "custom-engraved-wooden-keychain": "/products/custom-name-keychain.jpg",
   "tree-of-life-lamp": "/products/tree-of-life-lamp.jpg",
-  "tree-of-life-led-lamp": "/products/tree-of-life-led-lamp.jpg",
-  "custom-acrylic-led-illuminated-sign": "/products/custom-acrylic-led-illuminated-sign.jpg",
+  "tree-of-life-led-lamp": "/products/tree-of-life-lamp.jpg",
   "laser-cut-desk-organizer": "/products/laser-cut-desk-organizer.jpg",
-  "college-logo-board": "/products/college-logo-board.jpg",
   "wooden-wall-art-mandala": "/products/wooden-wall-art-mandala.jpg",
-  "mandala-laser-cut-wooden-coasters": "/products/mandala-laser-cut-wooden-coasters.jpg",
+  "mandala-laser-cut-wooden-coasters": "/products/wooden-wall-art-mandala.jpg",
   "laser-engraved-photo-frame": "/products/laser-engraved-photo-frame.jpg",
-  "mdf-structural-architectural-puzzle-kit": "/products/mdf-structural-architectural-puzzle-kit.jpg",
+  "custom-acrylic-led-sign": "/products/custom-acrylic-led-sign.jpg",
+  "custom-acrylic-led-illuminated-sign": "/products/custom-acrylic-led-sign.jpg",
+  "laser-engraved-glass-trophy": "/products/laser-engraved-glass-trophy.jpg",
+  "frosted-glass-laser-engraving": "/products/frosted-glass-laser-engraving.jpg",
+  "laser-cut-acrylic-name-plate": "/products/laser-cut-acrylic-name-plate.jpg",
+  "acrylic-decorative-panel": "/products/acrylic-decorative-panel.jpg",
 
   // 3. CNC Machining Products
   "precision-aluminum-shaft-coupler": "/products/precision-aluminum-shaft-coupler.jpg",

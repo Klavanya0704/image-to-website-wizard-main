@@ -41,7 +41,7 @@ const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
   "laser-cutting": {
     name: "Laser Cutting",
     description:
-      "Explore our high-precision laser-cut acrylic signs, wooden coasters, and custom keychains.",
+      "High-precision laser cutting & engraving across natural hardwood, optical acrylic, and frosted crystal glass.",
     icon: Scissors,
   },
   "cnc-machining": {

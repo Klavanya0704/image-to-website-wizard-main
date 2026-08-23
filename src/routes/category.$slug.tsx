@@ -100,18 +100,18 @@ function CategoryDetail() {
     (item) => item.categorySlug === currentCategory
   );
 
+  const maxPriceLimit =
+    categoryProducts.length > 0
+      ? Math.max(...categoryProducts.map((p) => p.discount_price ?? p.price))
+      : 10000;
+
   // States for filter conditions
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedAvailability, setSelectedAvailability] = useState<string>("all");
   const [minRating, setMinRating] = useState<number>(0);
-  const [maxPrice, setMaxPrice] = useState<number>(2499);
+  const [maxPrice, setMaxPrice] = useState<number>(maxPriceLimit);
   const [sortBy, setSortBy] = useState<string>("featured");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState<boolean>(false);
-
-  const maxPriceLimit =
-    categoryProducts.length > 0
-      ? Math.max(...categoryProducts.map((p) => p.discount_price ?? p.price))
-      : 2499;
 
   // Reset filter inputs and update price slider when category changes
   useEffect(() => {
@@ -120,7 +120,7 @@ function CategoryDetail() {
       const max = Math.max(...prices);
       setMaxPrice(max);
     } else {
-      setMaxPrice(2499);
+      setMaxPrice(10000);
     }
     setSearchTerm("");
     setSelectedAvailability("all");

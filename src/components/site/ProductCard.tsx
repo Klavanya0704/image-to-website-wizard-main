@@ -43,7 +43,7 @@ export function ProductCard({
       >
         <img
           src={product.image || productImage(product?.image_key || product?.slug, product?.title || product?.name)}
-          alt={product?.title || product?.name || "Product"}
+          alt={product.title || product.name || "Product"}
           loading="lazy"
           className="h-56 w-full object-cover rounded-t-2xl group-hover:scale-105 transition-transform duration-300 ease-out"
         />

@@ -174,7 +174,7 @@ CATALOG_DEF = [
         "id": "lc-1",
         "name": "Custom Laser Engraved Wooden Keychain",
         "slug": "custom-laser-engraved-wooden-keychain",
-        "image": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80",
+        "image": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -201,7 +201,7 @@ CATALOG_DEF = [
         "id": "lc-2",
         "name": "Laser Cut Tree of Life Wooden LED Lamp",
         "slug": "laser-cut-tree-of-life-wooden-led-lamp",
-        "image": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80",
+        "image": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -228,7 +228,7 @@ CATALOG_DEF = [
         "id": "lc-3",
         "name": "Slot-Together Plywood Desktop Organizer",
         "slug": "slot-together-plywood-desktop-organizer",
-        "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80",
+        "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -255,7 +255,7 @@ CATALOG_DEF = [
         "id": "lc-4",
         "name": "Multi-Layered Wooden Mandala Wall Art",
         "slug": "multi-layered-wooden-mandala-wall-art",
-        "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+        "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -282,7 +282,7 @@ CATALOG_DEF = [
         "id": "lc-5",
         "name": "Laser Engraved Hardwood Photo Frame",
         "slug": "laser-engraved-hardwood-photo-frame",
-        "image": "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=800&q=80",
+        "image": "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=600&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -309,7 +309,7 @@ CATALOG_DEF = [
         "id": "lc-6",
         "name": "Edge-Lit Laser Cut Acrylic LED Sign",
         "slug": "edge-lit-laser-cut-acrylic-led-sign",
-        "image": "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80",
+        "image": "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -1415,7 +1415,7 @@ export function searchProducts(products: Product[], term: string): Product[] {{
 with open("src/lib/catalog.ts", "w", encoding="utf-8") as f:
     f.write(catalog_content)
 
-print("src/lib/catalog.ts updated with new Laser Cutting showcase photos!")
+print("src/lib/catalog.ts updated successfully!")
 
 # Write src/lib/product-images.ts with updated laser cutting showcase URLs
 slug_map_entries = []
@@ -1432,12 +1432,12 @@ export const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {{
   "cable-management-clip-set": "/products/interlocking-cable-management-clip-pack.jpg",
   "resin-architectural-model": "/products/precision-resin-architectural-tower-model.jpg",
   "planter-pot-hex": "/products/hexagonal-geometric-succulent-planter-pot.jpg",
-  "custom-name-keychain": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80",
-  "tree-of-life-lamp": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80",
-  "laser-cut-desk-organizer": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80",
-  "wooden-wall-art-mandala": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
-  "laser-engraved-photo-frame": "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=800&q=80",
-  "custom-acrylic-led-sign": "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80",
+  "custom-name-keychain": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80",
+  "tree-of-life-lamp": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80",
+  "laser-cut-desk-organizer": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
+  "wooden-wall-art-mandala": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
+  "laser-engraved-photo-frame": "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=600&q=80",
+  "custom-acrylic-led-sign": "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80",
   "cnc-wooden-name-plate": "/products/cnc-v-carved-solid-walnut-name-plate.jpg",
   "cnc-cut-wooden-mandala": "/products/cnc-relief-carved-wooden-decorative-panel.jpg",
   "cnc-cut-wooden-box": "/products/cnc-milled-hardwood-keepsake-box.jpg",
@@ -1539,4 +1539,4 @@ export function galleryFor(keyOrSlug: string | null | undefined, name?: string |
 with open("src/lib/product-images.ts", "w", encoding="utf-8") as f:
     f.write(product_images_ts)
 
-print("src/lib/product-images.ts updated with new Laser Cutting showcase photos!")
+print("src/lib/product-images.ts updated successfully!")

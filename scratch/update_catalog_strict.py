@@ -8,6 +8,7 @@ CATALOG_DEF = [
         "id": "3dp-1",
         "name": "3D Printed Geometric Spiral Vase",
         "slug": "3d-printed-geometric-spiral-vase",
+        "image": "/products/3d-printed-geometric-spiral-vase.jpg",
         "category": "3D Printing",
         "category_slug": "3d-printing",
         "categorySlug": "3d-printing",
@@ -30,14 +31,13 @@ CATALOG_DEF = [
             "Water Resistance": "Coated Interior"
         },
         "sku": "3DP-VASE-001",
-        "subcategory": "Vases & Decor",
-        "prompt": "Professional clean e-commerce studio product photograph of a modern 3D printed tall twisted spiral vase in matte white PLA polymer with subtle fine layer line texture. Standing on a pure white background with soft studio lighting and soft drop shadow, crisp sharp focus, isolated product photo.",
-        "seed": 1001
+        "subcategory": "Vases & Decor"
     },
     {
         "id": "3dp-2",
         "name": "3D Printed Foldable Phone Stand",
         "slug": "foldable-desktop-phone-tablet-stand",
+        "image": "/products/foldable-desktop-phone-tablet-stand.jpg",
         "category": "3D Printing",
         "category_slug": "3d-printing",
         "categorySlug": "3d-printing",
@@ -58,14 +58,13 @@ CATALOG_DEF = [
             "Weight": "45g"
         },
         "sku": "3DP-STN-002",
-        "subcategory": "Phone Stands",
-        "prompt": "Professional clean e-commerce studio product photograph of an adjustable 3D printed matte black PLA foldable mobile phone and tablet stand with mechanical hinges and cable channel. Standing on a pure white background with sharp focus and studio lighting.",
-        "seed": 1002
+        "subcategory": "Phone Stands"
     },
     {
         "id": "3dp-3",
         "name": "3D Printed Mini Desk Organizer",
         "slug": "modular-desktop-stationery-organizer",
+        "image": "/products/modular-desktop-stationery-organizer.jpg",
         "category": "3D Printing",
         "category_slug": "3d-printing",
         "categorySlug": "3d-printing",
@@ -86,14 +85,13 @@ CATALOG_DEF = [
             "Weight": "120g"
         },
         "sku": "3DP-ORG-003",
-        "subcategory": "Desk Accessories",
-        "prompt": "Professional clean e-commerce studio product photograph of a 3D printed multi-compartment desktop pen, marker, and tool holder organizer in matte navy blue and grey PLA plastic. Placed on a pure white background, razor sharp focus, commercial studio lighting.",
-        "seed": 1003
+        "subcategory": "Desk Accessories"
     },
     {
         "id": "3dp-4",
         "name": "3D Printed Cable Management Clips Pack",
         "slug": "interlocking-cable-management-clip-pack",
+        "image": "/products/interlocking-cable-management-clip-pack.jpg",
         "category": "3D Printing",
         "category_slug": "3d-printing",
         "categorySlug": "3d-printing",
@@ -114,14 +112,13 @@ CATALOG_DEF = [
             "Adhesive": "Pre-applied 3M Heavy-Duty Backing"
         },
         "sku": "3DP-CLP-004",
-        "subcategory": "Cable Clips",
-        "prompt": "Professional clean e-commerce studio product photograph of six 3D printed colored PETG plastic desktop cable clips holding USB cables in place. Pure white background, sharp focus, clean studio product presentation.",
-        "seed": 1004
+        "subcategory": "Cable Clips"
     },
     {
         "id": "3dp-5",
         "name": "3D Printed Resin Architectural Model",
         "slug": "precision-resin-architectural-tower-model",
+        "image": "/products/precision-resin-architectural-tower-model.jpg",
         "category": "3D Printing",
         "category_slug": "3d-printing",
         "categorySlug": "3d-printing",
@@ -142,14 +139,13 @@ CATALOG_DEF = [
             "Finish": "Micro-sandblasted Matte Translucent"
         },
         "sku": "3DP-ARCH-005",
-        "subcategory": "Architectural Models",
-        "prompt": "Professional clean e-commerce studio product photograph of a detailed miniature modern architectural skyscraper tower scale model 3D printed in smooth translucent white UV photopolymer resin. Isolated on pure white background, crisp macro details.",
-        "seed": 1005
+        "subcategory": "Architectural Models"
     },
     {
         "id": "3dp-6",
         "name": "3D Printed Hexagonal Planter Pot",
         "slug": "hexagonal-geometric-succulent-planter-pot",
+        "image": "/products/hexagonal-geometric-succulent-planter-pot.jpg",
         "category": "3D Printing",
         "category_slug": "3d-printing",
         "categorySlug": "3d-printing",
@@ -170,9 +166,7 @@ CATALOG_DEF = [
             "Material": "Stone Marble PLA"
         },
         "sku": "3DP-PLT-006",
-        "subcategory": "Planters",
-        "prompt": "Professional clean e-commerce studio product photograph of a modern geometric faceted hexagonal planter pot 3D printed in speckled white marble PLA plastic containing a vibrant small green succulent plant. Pure white studio background, sharp focus.",
-        "seed": 1006
+        "subcategory": "Planters"
     },
 
     # ==================== 2. LASER CUTTING (categorySlug: "laser-cutting") ====================
@@ -180,6 +174,7 @@ CATALOG_DEF = [
         "id": "lc-1",
         "name": "Custom Laser Engraved Wooden Keychain",
         "slug": "custom-laser-engraved-wooden-keychain",
+        "image": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -200,14 +195,13 @@ CATALOG_DEF = [
             "Hardware": "Nickel-Plated Split Ring"
         },
         "sku": "LC-KEY-001",
-        "subcategory": "Keychains",
-        "prompt": "Professional clean e-commerce studio product photograph of a laser-cut and precision engraved natural birch wood keychain with dark charred burnished edges and silver steel split ring. Pure white background, sharp focus, studio lighting.",
-        "seed": 1011
+        "subcategory": "Keychains"
     },
     {
         "id": "lc-2",
         "name": "Laser Cut Tree of Life Wooden LED Lamp",
         "slug": "laser-cut-tree-of-life-wooden-led-lamp",
+        "image": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -228,14 +222,13 @@ CATALOG_DEF = [
             "Wood Finish": "Natural Sanded Danish Oil"
         },
         "sku": "LC-LMP-002",
-        "subcategory": "Lamps & Lighting",
-        "prompt": "Professional clean e-commerce studio product photograph of an intricate laser-cut circular wooden Tree of Life lamp standing on a solid oak base, softly glowing with warm internal ambient LED light. Pure white background, sharp focus.",
-        "seed": 1012
+        "subcategory": "Lamps & Lighting"
     },
     {
         "id": "lc-3",
         "name": "Slot-Together Plywood Desktop Organizer",
         "slug": "slot-together-plywood-desktop-organizer",
+        "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -256,14 +249,13 @@ CATALOG_DEF = [
             "Weight": "450g"
         },
         "sku": "LC-DSK-003",
-        "subcategory": "Desk Organization",
-        "prompt": "Professional clean e-commerce studio product photograph of an interlocking laser-cut birch plywood desktop shelf organizer with mail slots, drawer, and pen cups. Clean white background, razor sharp focus, visible crisp laser cut edges.",
-        "seed": 1013
+        "subcategory": "Desk Organization"
     },
     {
         "id": "lc-4",
         "name": "Multi-Layered Wooden Mandala Wall Art",
         "slug": "multi-layered-wooden-mandala-wall-art",
+        "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -284,14 +276,13 @@ CATALOG_DEF = [
             "Weight": "650g"
         },
         "sku": "LC-MND-004",
-        "subcategory": "Wall Art",
-        "prompt": "Professional clean e-commerce studio product photograph of an intricate 5-layer laser cut wooden mandala wall art disk in contrasting mahogany and birch plywood tones. Pure white background, side studio lighting showing depth and shadows.",
-        "seed": 1014
+        "subcategory": "Wall Art"
     },
     {
         "id": "lc-5",
         "name": "Laser Engraved Hardwood Photo Frame",
         "slug": "laser-engraved-hardwood-photo-frame",
+        "image": "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=800&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -312,14 +303,13 @@ CATALOG_DEF = [
             "Wood": "Kiln-Dried Solid Oak"
         },
         "sku": "LC-FRM-005",
-        "subcategory": "Frames",
-        "prompt": "Professional clean e-commerce studio product photograph of a solid natural oak wood picture photo frame with intricate laser engraved floral filigree decorative borders around the glass pane. Pure white background, sharp focus.",
-        "seed": 1015
+        "subcategory": "Frames"
     },
     {
         "id": "lc-6",
         "name": "Edge-Lit Laser Cut Acrylic LED Sign",
         "slug": "edge-lit-laser-cut-acrylic-led-sign",
+        "image": "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80",
         "category": "Laser Cutting",
         "category_slug": "laser-cutting",
         "categorySlug": "laser-cutting",
@@ -340,9 +330,7 @@ CATALOG_DEF = [
             "Power": "USB 5V Cable Included"
         },
         "sku": "LC-SGN-006",
-        "subcategory": "Acrylic Signs",
-        "prompt": "Professional clean e-commerce studio product photograph of a custom laser-etched clear acrylic desktop plaque glowing with vibrant cyan LED edge lighting from an aluminum base stand. Clean white background, sharp focus.",
-        "seed": 1016
+        "subcategory": "Acrylic Signs"
     },
 
     # ==================== 3. CNC MACHINING (categorySlug: "cnc-machining") ====================
@@ -350,6 +338,7 @@ CATALOG_DEF = [
         "id": "cnc-1",
         "name": "CNC V-Carved Solid Walnut Name Plate",
         "slug": "cnc-v-carved-solid-walnut-name-plate",
+        "image": "/products/cnc-v-carved-solid-walnut-name-plate.jpg",
         "category": "CNC Machining",
         "category_slug": "cnc-machining",
         "categorySlug": "cnc-machining",
@@ -370,14 +359,13 @@ CATALOG_DEF = [
             "Base": "Weighted Chamfered Bottom"
         },
         "sku": "CNC-WNP-001",
-        "subcategory": "Wooden CNC Products",
-        "prompt": "Professional clean e-commerce studio product photograph of an executive solid dark walnut desktop name plate with precision deep CNC V-carved serif letters and beveled edges. Isolated on pure white background, studio lighting, sharp focus.",
-        "seed": 1021
+        "subcategory": "Wooden CNC Products"
     },
     {
         "id": "cnc-2",
         "name": "CNC Relief-Carved Wooden Decorative Panel",
         "slug": "cnc-relief-carved-wooden-decorative-panel",
+        "image": "/products/cnc-relief-carved-wooden-decorative-panel.jpg",
         "category": "CNC Machining",
         "category_slug": "cnc-machining",
         "categorySlug": "cnc-machining",
@@ -398,14 +386,13 @@ CATALOG_DEF = [
             "Finish": "Clear Satin Polyurethane"
         },
         "sku": "CNC-WPN-002",
-        "subcategory": "Wooden CNC Products",
-        "prompt": "Professional clean e-commerce studio product photograph of a solid teak wood rectangular panel featuring intricate 3D CNC sculpted flowing wave relief carving. Isolated on pure white background, studio side lighting showing carving depth, sharp focus.",
-        "seed": 1022
+        "subcategory": "Wooden CNC Products"
     },
     {
         "id": "cnc-3",
         "name": "CNC Milled Hardwood Keepsake Box",
         "slug": "cnc-milled-hardwood-keepsake-box",
+        "image": "/products/cnc-milled-hardwood-keepsake-box.jpg",
         "category": "CNC Machining",
         "category_slug": "cnc-machining",
         "categorySlug": "cnc-machining",
@@ -426,14 +413,13 @@ CATALOG_DEF = [
             "Finish": "Organic Danish Oil"
         },
         "sku": "CNC-WBX-003",
-        "subcategory": "Wooden CNC Products",
-        "prompt": "Professional clean e-commerce studio product photograph of a solid oak keepsake box precision CNC milled from solid wood with seamless fitted lid and chamfered corners. Pure white background, smooth wood grain, sharp focus.",
-        "seed": 1023
+        "subcategory": "Wooden CNC Products"
     },
     {
         "id": "cnc-4",
         "name": "CNC Machined 6061 Aluminium L-Bracket",
         "slug": "cnc-machined-6061-aluminium-l-bracket",
+        "image": "/products/cnc-machined-6061-aluminium-l-bracket.jpg",
         "category": "CNC Machining",
         "category_slug": "cnc-machining",
         "categorySlug": "cnc-machining",
@@ -454,14 +440,13 @@ CATALOG_DEF = [
             "Surface": "Bead-Blasted Clear Anodized"
         },
         "sku": "CNC-BRK-004",
-        "subcategory": "Metal CNC Machining",
-        "prompt": "Professional clean e-commerce studio product photograph of a heavy-duty 90-degree corner mounting bracket precision machined from 6061 aerospace aluminium on a 3-axis CNC mill, with silver bead-blasted anodized finish and counterbored screw holes. Pure white background, sharp metallic reflections.",
-        "seed": 1024
+        "subcategory": "Metal CNC Machining"
     },
     {
         "id": "cnc-5",
         "name": "CNC Precision Aluminium Fixture Plate",
         "slug": "cnc-precision-aluminium-fixture-plate",
+        "image": "/products/cnc-precision-aluminium-fixture-plate.jpg",
         "category": "CNC Machining",
         "category_slug": "cnc-machining",
         "categorySlug": "cnc-machining",
@@ -482,14 +467,13 @@ CATALOG_DEF = [
             "Material": "Mic-6 Precision Cast Aluminum"
         },
         "sku": "CNC-PLT-005",
-        "subcategory": "Metal CNC Machining",
-        "prompt": "Professional clean e-commerce studio product photograph of a precision CNC milled aluminium tooling fixture tooling plate with a grid of threaded M6 mounting holes and silver satin finish. Pure white background, razor sharp metallic focus.",
-        "seed": 1025
+        "subcategory": "Metal CNC Machining"
     },
     {
         "id": "cnc-6",
         "name": "CNC Machined High-Precision Spur Gear",
         "slug": "cnc-machined-high-precision-spur-gear",
+        "image": "/products/cnc-machined-high-precision-spur-gear.jpg",
         "category": "CNC Machining",
         "category_slug": "cnc-machining",
         "categorySlug": "cnc-machining",
@@ -510,9 +494,7 @@ CATALOG_DEF = [
             "Material": "AISI 304 Stainless Steel"
         },
         "sku": "CNC-GER-006",
-        "subcategory": "Metal CNC Machining",
-        "prompt": "Professional clean e-commerce studio product photograph of a precision CNC machined stainless steel spur gear with polished involute teeth and center bore keyway. Pure white background, crisp metal highlights, sharp focus.",
-        "seed": 1026
+        "subcategory": "Metal CNC Machining"
     },
 
     # ==================== 4. ELECTRONICS (categorySlug: "electronics") ====================
@@ -520,6 +502,7 @@ CATALOG_DEF = [
         "id": "elec-1",
         "name": "ESP32 Dual-Core IoT Development Board",
         "slug": "esp32-dual-core-iot-development-board",
+        "image": "/products/esp32-dual-core-iot-development-board.jpg",
         "category": "Electronics",
         "category_slug": "electronics",
         "categorySlug": "electronics",
@@ -540,14 +523,13 @@ CATALOG_DEF = [
             "Interface": "USB Type-C CH340 Chipset"
         },
         "sku": "EL-ESP-001",
-        "subcategory": "Microcontrollers",
-        "prompt": "Professional clean e-commerce studio product photograph of an ESP32 dual-core Wi-Fi and Bluetooth IoT microcontroller development board on a matte black PCB with gold-plated pin headers and USB-C port. Pure white background, sharp electronics macro focus.",
-        "seed": 1031
+        "subcategory": "Microcontrollers"
     },
     {
         "id": "elec-2",
         "name": "37-Piece IoT Sensor Module Starter Kit",
         "slug": "37-piece-iot-sensor-module-starter-kit",
+        "image": "/products/37-piece-iot-sensor-module-starter-kit.jpg",
         "category": "Electronics",
         "category_slug": "electronics",
         "categorySlug": "electronics",
@@ -568,14 +550,13 @@ CATALOG_DEF = [
             "Packaging": "Compartmentalized Transparent Storage Case"
         },
         "sku": "EL-SNS-002",
-        "subcategory": "Sensors & Modules",
-        "prompt": "Professional clean e-commerce studio product photograph of an assortment of electronics breakout sensor modules including ultrasonic, temperature, PIR motion, and light sensors on neat blue and red PCBs arranged neatly on a pure white background.",
-        "seed": 1032
+        "subcategory": "Sensors & Modules"
     },
     {
         "id": "elec-3",
         "name": "Double-Sided FR4 Prototype PCB Pack",
         "slug": "double-sided-fr4-prototype-pcb-pack",
+        "image": "/products/double-sided-fr4-prototype-pcb-pack.jpg",
         "category": "Electronics",
         "category_slug": "electronics",
         "categorySlug": "electronics",
@@ -596,14 +577,13 @@ CATALOG_DEF = [
             "Quantity": "10 Universal Boards per Pack"
         },
         "sku": "EL-PCB-003",
-        "subcategory": "Prototyping Boards",
-        "prompt": "Professional clean e-commerce studio product photograph of a neat stack of 10 green double-sided FR4 copper plated perfboard prototype PCBs with through-hole solder pads. Pure white background, studio lighting, sharp focus.",
-        "seed": 1033
+        "subcategory": "Prototyping Boards"
     },
     {
         "id": "elec-4",
         "name": "Arduino Compatible ATmega328P Microcontroller",
         "slug": "arduino-compatible-atmega328p-microcontroller",
+        "image": "/products/arduino-compatible-atmega328p-microcontroller.jpg",
         "category": "Electronics",
         "category_slug": "electronics",
         "categorySlug": "electronics",
@@ -624,14 +604,13 @@ CATALOG_DEF = [
             "Flash Memory": "32 KB"
         },
         "sku": "EL-ARD-004",
-        "subcategory": "Microcontrollers",
-        "prompt": "Professional clean e-commerce studio product photograph of an blue Arduino Uno compatible ATmega328P development board with clear white silk-screen labeling and female headers. Pure white background, sharp studio focus.",
-        "seed": 1034
+        "subcategory": "Microcontrollers"
     },
     {
         "id": "elec-5",
         "name": "I2C 0.96-Inch OLED Display Module",
         "slug": "i2c-096-inch-oled-display-module",
+        "image": "/products/i2c-096-inch-oled-display-module.jpg",
         "category": "Electronics",
         "category_slug": "electronics",
         "categorySlug": "electronics",
@@ -652,9 +631,7 @@ CATALOG_DEF = [
             "Voltage": "3.3V - 5V DC Compatible"
         },
         "sku": "EL-DSP-005",
-        "subcategory": "Displays",
-        "prompt": "Professional clean e-commerce studio product photograph of a small 0.96 inch blue monochrome OLED graphic display module on a blue PCB with 4 header pins displaying crisp illuminated digital test graphics. Pure white background, sharp focus.",
-        "seed": 1035
+        "subcategory": "Displays"
     },
 
     # ==================== 5. DRONES & PARTS (categorySlug: "drones-parts") ====================
@@ -662,6 +639,7 @@ CATALOG_DEF = [
         "id": "drn-1",
         "name": "5-Inch FPV Racing 3K Carbon Fiber Drone Frame",
         "slug": "5-inch-fpv-racing-3k-carbon-fiber-drone-frame",
+        "image": "/products/5-inch-fpv-racing-3k-carbon-fiber-drone-frame.jpg",
         "category": "Drones & Parts",
         "category_slug": "drones-parts",
         "categorySlug": "drones-parts",
@@ -683,14 +661,13 @@ CATALOG_DEF = [
             "Weight": "115g"
         },
         "sku": "DRN-FRM-001",
-        "subcategory": "Drone Frames",
-        "prompt": "Professional clean e-commerce studio product photograph of a disassembled 5-inch FPV quadcopter drone frame made of 3K twill matte carbon fiber plates and arms with purple anodized aluminum standoffs. Pure white background, razor sharp focus.",
-        "seed": 1041
+        "subcategory": "Drone Frames"
     },
     {
         "id": "drn-2",
         "name": "2207 2450KV High-Power Brushless Drone Motor",
         "slug": "2207-2450kv-high-power-brushless-drone-motor",
+        "image": "/products/2207-2450kv-high-power-brushless-drone-motor.jpg",
         "category": "Drones & Parts",
         "category_slug": "drones-parts",
         "categorySlug": "drones-parts",
@@ -712,14 +689,13 @@ CATALOG_DEF = [
             "Quantity": "Set of 4 Motors"
         },
         "sku": "DRN-MTR-002",
-        "subcategory": "Motors",
-        "prompt": "Professional clean e-commerce studio product photograph of a set of 4 high-thrust 2207 2450KV brushless drone motors with visible copper windings, curved neodymium magnets, and silver steel rotor shafts. Pure white background, sharp metallic focus.",
-        "seed": 1042
+        "subcategory": "Motors"
     },
     {
         "id": "drn-3",
         "name": "5-Inch Tri-Blade FPV Drone Propellers Pack",
         "slug": "5-inch-tri-blade-fpv-drone-propellers-pack",
+        "image": "/products/5-inch-tri-blade-fpv-drone-propellers-pack.jpg",
         "category": "Drones & Parts",
         "category_slug": "drones-parts",
         "categorySlug": "drones-parts",
@@ -740,14 +716,13 @@ CATALOG_DEF = [
             "Center Hole": "5mm Standard M5 POPO Compatible"
         },
         "sku": "DRN-PRP-003",
-        "subcategory": "Propellers",
-        "prompt": "Professional clean e-commerce studio product photograph of 4 pairs of 5-inch tri-blade polycarbonate FPV racing drone propellers in translucent cyan blue and black neatly organized on a pure white background, sharp focus.",
-        "seed": 1043
+        "subcategory": "Propellers"
     },
     {
         "id": "drn-4",
         "name": "30A 4-in-1 BLHeli_S Electronic Speed Controller",
         "slug": "30a-4-in-1-blheli-s-electronic-speed-controller",
+        "image": "/products/30a-4-in-1-blheli-s-electronic-speed-controller.jpg",
         "category": "Drones & Parts",
         "category_slug": "drones-parts",
         "categorySlug": "drones-parts",
@@ -768,14 +743,13 @@ CATALOG_DEF = [
             "Firmware": "BLHeli_S / Bluejay Compatible"
         },
         "sku": "DRN-ESC-004",
-        "subcategory": "Speed Controllers",
-        "prompt": "Professional clean e-commerce studio product photograph of a compact 30A 4-in-1 drone electronic speed controller ESC board with gold solder pads and miniature MOSFETs. Pure white background, macro electronics detail.",
-        "seed": 1044
+        "subcategory": "Speed Controllers"
     },
     {
         "id": "drn-5",
         "name": "Omnidirectional 5.8GHz FPV Cloverleaf Antenna",
         "slug": "omnidirectional-58ghz-fpv-cloverleaf-antenna",
+        "image": "/products/omnidirectional-58ghz-fpv-cloverleaf-antenna.jpg",
         "category": "Drones & Parts",
         "category_slug": "drones-parts",
         "categorySlug": "drones-parts",
@@ -796,9 +770,7 @@ CATALOG_DEF = [
             "Connector": "Standard Male SMA"
         },
         "sku": "DRN-ANT-005",
-        "subcategory": "Antennas & Video",
-        "prompt": "Professional clean e-commerce studio product photograph of a 5.8GHz omnidirectional cloverleaf FPV video transmitter antenna with black flexible stem and red protective mushroom cover. Pure white background, sharp focus.",
-        "seed": 1045
+        "subcategory": "Antennas & Video"
     },
 
     # ==================== 6. ACRYLIC PRODUCTS (categorySlug: "acrylic-products") ====================
@@ -806,6 +778,7 @@ CATALOG_DEF = [
         "id": "acr-1",
         "name": "Crystal Clear Cast Acrylic Showcase Cube Box",
         "slug": "crystal-clear-cast-acrylic-showcase-cube-box",
+        "image": "/products/crystal-clear-cast-acrylic-showcase-cube-box.jpg",
         "category": "Acrylic Products",
         "category_slug": "acrylic-products",
         "categorySlug": "acrylic-products",
@@ -826,14 +799,13 @@ CATALOG_DEF = [
             "Joints": "Invisible Solvent-Welded Seams"
         },
         "sku": "ACR-BOX-001",
-        "subcategory": "Display Boxes",
-        "prompt": "Professional clean e-commerce studio product photograph of a crystal clear transparent cast acrylic dust-proof showcase cube display box with flame-polished edges resting on a sleek glossy black acrylic pedestal base. Pure white background, sharp optical reflections.",
-        "seed": 1051
+        "subcategory": "Display Boxes"
     },
     {
         "id": "acr-2",
         "name": "Laser Engraved Beveled Acrylic Award Trophy",
         "slug": "laser-engraved-beveled-acrylic-award-trophy",
+        "image": "/products/laser-engraved-beveled-acrylic-award-trophy.jpg",
         "category": "Acrylic Products",
         "category_slug": "acrylic-products",
         "categorySlug": "acrylic-products",
@@ -854,14 +826,13 @@ CATALOG_DEF = [
             "Engraving": "Sub-Surface Laser Etching"
         },
         "sku": "ACR-TRP-002",
-        "subcategory": "Trophies & Awards",
-        "prompt": "Professional clean e-commerce studio product photograph of a modern geometric clear acrylic corporate trophy award plaque with laser engraved gold crest emblem and thick beveled weighted base. Pure white background, crisp glass-like reflections.",
-        "seed": 1052
+        "subcategory": "Trophies & Awards"
     },
     {
         "id": "acr-3",
         "name": "High-Clarity Heavy Duty Acrylic Sneeze Shield",
         "slug": "high-clarity-heavy-duty-acrylic-sneeze-shield",
+        "image": "/products/high-clarity-heavy-duty-acrylic-sneeze-shield.jpg",
         "category": "Acrylic Products",
         "category_slug": "acrylic-products",
         "categorySlug": "acrylic-products",
@@ -882,14 +853,13 @@ CATALOG_DEF = [
             "Base": "Dual Interlocking Slip-On Feet"
         },
         "sku": "ACR-SHD-003",
-        "subcategory": "Safety Barriers",
-        "prompt": "Professional clean e-commerce studio product photograph of a transparent 5mm thick optical-grade acrylic counter protective sneeze shield with pass-through slot and aluminum support feet. Pure white background, sharp clarity.",
-        "seed": 1053
+        "subcategory": "Safety Barriers"
     },
     {
         "id": "acr-4",
         "name": "Desktop Acrylic Slanted Brochure & Menu Holder",
         "slug": "desktop-acrylic-slanted-brochure-menu-holder",
+        "image": "/products/desktop-acrylic-slanted-brochure-menu-holder.jpg",
         "category": "Acrylic Products",
         "category_slug": "acrylic-products",
         "categorySlug": "acrylic-products",
@@ -910,14 +880,13 @@ CATALOG_DEF = [
             "Material": "UV-Resistant Clear Acrylic"
         },
         "sku": "ACR-STD-004",
-        "subcategory": "Display Stands",
-        "prompt": "Professional clean e-commerce studio product photograph of a transparent L-shaped slanted clear acrylic sign and brochure stand holder on pure white background, sharp polished edges.",
-        "seed": 1054
+        "subcategory": "Display Stands"
     },
     {
         "id": "acr-5",
         "name": "Multi-Tiered Clear Acrylic Cosmetic Display Riser",
         "slug": "multi-tiered-clear-acrylic-cosmetic-display-riser",
+        "image": "/products/multi-tiered-clear-acrylic-cosmetic-display-riser.jpg",
         "category": "Acrylic Products",
         "category_slug": "acrylic-products",
         "categorySlug": "acrylic-products",
@@ -938,9 +907,7 @@ CATALOG_DEF = [
             "Clarity": "Glass-like High Gloss Transparency"
         },
         "sku": "ACR-RSR-005",
-        "subcategory": "Display Stands",
-        "prompt": "Professional clean e-commerce studio product photograph of a 3-tier clear transparent acrylic step display riser shelf for collectibles and models. Pure white background, crisp studio lighting.",
-        "seed": 1055
+        "subcategory": "Display Stands"
     },
 
     # ==================== 7. DIY KITS (categorySlug: "diy-kits") ====================
@@ -948,6 +915,7 @@ CATALOG_DEF = [
         "id": "diy-1",
         "name": "Autonomous 4WD Smart Robotic STEM Starter Kit",
         "slug": "autonomous-4wd-smart-robotic-stem-starter-kit",
+        "image": "/products/autonomous-4wd-smart-robotic-stem-starter-kit.jpg",
         "category": "DIY Kits",
         "category_slug": "diy-kits",
         "categorySlug": "diy-kits",
@@ -968,14 +936,13 @@ CATALOG_DEF = [
             "Included": "Chassis, Motors, Driver, Microcontroller, Hardware"
         },
         "sku": "DIY-ROB-001",
-        "subcategory": "Robotics Kits",
-        "prompt": "Professional clean e-commerce studio product photograph of a complete educational 4WD smart robot car DIY maker kit with dual transparent chassis plates, DC gear motors, rubber wheels, ultrasonic sensor, and microcontroller neatly organized on pure white background.",
-        "seed": 1061
+        "subcategory": "Robotics Kits"
     },
     {
         "id": "diy-2",
         "name": "Educational Electronics Soldering Practice Kit",
         "slug": "educational-electronics-soldering-practice-kit",
+        "image": "/products/educational-electronics-soldering-practice-kit.jpg",
         "category": "DIY Kits",
         "category_slug": "diy-kits",
         "categorySlug": "diy-kits",
@@ -996,14 +963,13 @@ CATALOG_DEF = [
             "Power": "9V Battery Clip Included"
         },
         "sku": "DIY-SLD-002",
-        "subcategory": "Electronics Training",
-        "prompt": "Professional clean e-commerce studio product photograph of a DIY educational soldering practice board kit with a blue PCB, assorted multi-color LEDs, resistors, capacitors, buzzer, and battery connector on clean white background, sharp focus.",
-        "seed": 1062
+        "subcategory": "Electronics Training"
     },
     {
         "id": "diy-3",
         "name": "DIY Portable Bluetooth Stereo Speaker Maker Kit",
         "slug": "diy-portable-bluetooth-stereo-speaker-maker-kit",
+        "image": "/products/diy-portable-bluetooth-stereo-speaker-maker-kit.jpg",
         "category": "DIY Kits",
         "category_slug": "diy-kits",
         "categorySlug": "diy-kits",
@@ -1024,14 +990,13 @@ CATALOG_DEF = [
             "Assembly": "Snap-fit Wooden Panels + Soldering Free Option"
         },
         "sku": "DIY-SPK-003",
-        "subcategory": "Audio Kits",
-        "prompt": "Professional clean e-commerce studio product photograph of a DIY maker wooden Bluetooth speaker assembly kit with laser-cut plywood housing parts, two 3W speaker cones, audio amplifier PCB module, and wire harnesses neatly laid out on pure white background.",
-        "seed": 1063
+        "subcategory": "Audio Kits"
     },
     {
         "id": "diy-4",
         "name": "Miniature Solar Powered STEM Rover Buggy Kit",
         "slug": "miniature-solar-powered-stem-rover-buggy-kit",
+        "image": "/products/miniature-solar-powered-stem-rover-buggy-kit.jpg",
         "category": "DIY Kits",
         "category_slug": "diy-kits",
         "categorySlug": "diy-kits",
@@ -1052,14 +1017,13 @@ CATALOG_DEF = [
             "Material": "Laser-Cut Basswood Frame"
         },
         "sku": "DIY-SLR-004",
-        "subcategory": "Solar STEM",
-        "prompt": "Professional clean e-commerce studio product photograph of a miniature solar-powered electric car buggy kit with mini photovoltaic solar panel, electric motor, gears, and lightweight chassis parts on white background, sharp focus.",
-        "seed": 1064
+        "subcategory": "Solar STEM"
     },
     {
         "id": "diy-5",
         "name": "Smart Weather Station IoT ESP8266 Maker Kit",
         "slug": "smart-weather-station-iot-esp8266-maker-kit",
+        "image": "/products/smart-weather-station-iot-esp8266-maker-kit.jpg",
         "category": "DIY Kits",
         "category_slug": "diy-kits",
         "categorySlug": "diy-kits",
@@ -1080,9 +1044,7 @@ CATALOG_DEF = [
             "Display": "0.96 inch I2C OLED Display"
         },
         "sku": "DIY-WTH-005",
-        "subcategory": "IoT Kits",
-        "prompt": "Professional clean e-commerce studio product photograph of a DIY smart IoT weather station electronics kit including ESP8266 Wi-Fi board, OLED display, DHT11 temp-humidity sensor, and jumper wires laid out neatly on pure white background.",
-        "seed": 1065
+        "subcategory": "IoT Kits"
     }
 ]
 
@@ -1191,7 +1153,7 @@ for p in CATALOG_DEF:
     name: {json.dumps(p["name"])},
     title: {json.dumps(p["name"])},
     slug: {json.dumps(p["slug"])},
-    image: "/products/{p["slug"]}.jpg",
+    image: {json.dumps(p["image"])},
     category: {json.dumps(p["category"])},
     category_slug: {json.dumps(p["category_slug"])},
     categorySlug: {json.dumps(p["category_slug"])},
@@ -1453,4 +1415,128 @@ export function searchProducts(products: Product[], term: string): Product[] {{
 with open("src/lib/catalog.ts", "w", encoding="utf-8") as f:
     f.write(catalog_content)
 
-print("src/lib/catalog.ts updated with pure definitive product catalog and strict category slugs!")
+print("src/lib/catalog.ts updated with new Laser Cutting showcase photos!")
+
+# Write src/lib/product-images.ts with updated laser cutting showcase URLs
+slug_map_entries = []
+for p in CATALOG_DEF:
+    slug_map_entries.append(f'  "{p["slug"]}": {json.dumps(p["image"])},')
+
+product_images_ts = f"""// Clean 1-to-1 Product Image Resolution
+export const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {{
+{chr(10).join(slug_map_entries)}
+  // Aliases and Legacy Slugs
+  "geometric-spiral-vase": "/products/3d-printed-geometric-spiral-vase.jpg",
+  "universal-foldable-phone-stand-3d": "/products/foldable-desktop-phone-tablet-stand.jpg",
+  "mini-desk-organizer": "/products/modular-desktop-stationery-organizer.jpg",
+  "cable-management-clip-set": "/products/interlocking-cable-management-clip-pack.jpg",
+  "resin-architectural-model": "/products/precision-resin-architectural-tower-model.jpg",
+  "planter-pot-hex": "/products/hexagonal-geometric-succulent-planter-pot.jpg",
+  "custom-name-keychain": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80",
+  "tree-of-life-lamp": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80",
+  "laser-cut-desk-organizer": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80",
+  "wooden-wall-art-mandala": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+  "laser-engraved-photo-frame": "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=800&q=80",
+  "custom-acrylic-led-sign": "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80",
+  "cnc-wooden-name-plate": "/products/cnc-v-carved-solid-walnut-name-plate.jpg",
+  "cnc-cut-wooden-mandala": "/products/cnc-relief-carved-wooden-decorative-panel.jpg",
+  "cnc-cut-wooden-box": "/products/cnc-milled-hardwood-keepsake-box.jpg",
+  "cnc-carved-wooden-wall-panel": "/products/cnc-relief-carved-wooden-decorative-panel.jpg",
+  "cnc-aluminium-bracket": "/products/cnc-machined-6061-aluminium-l-bracket.jpg",
+  "cnc-aluminum-fixture-plate": "/products/cnc-precision-aluminium-fixture-plate.jpg",
+  "cnc-machined-gear": "/products/cnc-machined-high-precision-spur-gear.jpg",
+  "esp32-iot-maker-board": "/products/esp32-dual-core-iot-development-board.jpg",
+  "37-in-1-iot-sensor-module-kit": "/products/37-piece-iot-sensor-module-starter-kit.jpg",
+  "fr4-double-sided-prototype-pcb-10pack": "/products/double-sided-fr4-prototype-pcb-pack.jpg",
+  "fpv-drone-carbon-fiber-frame": "/products/5-inch-fpv-racing-3k-carbon-fiber-drone-frame.jpg",
+  "brushless-drone-motor-2207-2450kv": "/products/2207-2450kv-high-power-brushless-drone-motor.jpg",
+  "5-inch-tri-blade-fpv-propellers": "/products/5-inch-tri-blade-fpv-drone-propellers-pack.jpg",
+  "clear-cast-acrylic-display-box": "/products/crystal-clear-cast-acrylic-showcase-cube-box.jpg",
+  "custom-acrylic-trophy-plaque": "/products/laser-engraved-beveled-acrylic-award-trophy.jpg",
+  "transparent-protective-acrylic-shield": "/products/high-clarity-heavy-duty-acrylic-sneeze-shield.jpg",
+  "starter-maker-diy-electronics-kit": "/products/autonomous-4wd-smart-robotic-stem-starter-kit.jpg",
+  "diy-soldering-practice-electronics-kit": "/products/educational-electronics-soldering-practice-kit.jpg",
+  "diy-bluetooth-speaker-assembly-kit": "/products/diy-portable-bluetooth-stereo-speaker-maker-kit.jpg",
+}};
+
+export function productImage(imageKey: string | undefined | null, name?: string | null): string {{
+  if (!imageKey) return "/products/3d-printed-geometric-spiral-vase.jpg";
+  if (imageKey.startsWith("http://") || imageKey.startsWith("https://") || imageKey.startsWith("/products/")) {{
+    return imageKey;
+  }}
+  if (EXACT_SLUG_IMAGE_MAP[imageKey]) {{
+    return EXACT_SLUG_IMAGE_MAP[imageKey];
+  }}
+  return `/products/${{imageKey}}.jpg`;
+}}
+
+export interface ProductViewAngle {{
+  id: string;
+  label: string;
+  badgeTitle: string;
+  angle: string;
+  src: string;
+  stageStyle: string;
+  thumbStyle: string;
+  viewType: "front" | "isometric" | "closeup" | "cad";
+}}
+
+export function productViewsFor(
+  keyOrSlug: string | null | undefined,
+  name?: string | null,
+): ProductViewAngle[] {{
+  const main = productImage(keyOrSlug, name);
+  return [
+    {{
+      id: "view-front",
+      label: "Front View",
+      badgeTitle: "STUDIO FRONT VIEW",
+      angle: "0° Elevation",
+      src: main,
+      stageStyle: "scale-100 rotate-0 brightness-100 contrast-100",
+      thumbStyle: "scale-100 rotate-0",
+      viewType: "front",
+    }},
+    {{
+      id: "view-iso",
+      label: "3D Isometric",
+      badgeTitle: "3D ISOMETRIC PROFILE",
+      angle: "45° Oblique Angle",
+      src: main,
+      stageStyle: "scale-105 -rotate-2 drop-shadow-md",
+      thumbStyle: "scale-105 -rotate-2",
+      viewType: "isometric",
+    }},
+    {{
+      id: "view-detail",
+      label: "Macro Detail",
+      badgeTitle: "ZOOMED DETAIL VIEW",
+      angle: "Material Texture",
+      src: main,
+      stageStyle: "scale-125 origin-center contrast-105 saturate-110",
+      thumbStyle: "scale-125 origin-center",
+      viewType: "closeup",
+    }},
+    {{
+      id: "view-cad",
+      label: "Technical CAD",
+      badgeTitle: "CAD BLUEPRINT & SPECS",
+      angle: "Dimension Tolerances",
+      src: main,
+      stageStyle: "",
+      thumbStyle: "brightness-95 contrast-110",
+      viewType: "cad",
+    }},
+  ];
+}}
+
+export function galleryFor(keyOrSlug: string | null | undefined, name?: string | null): string[] {{
+  const main = productImage(keyOrSlug, name);
+  return [main, main, main, main];
+}}
+"""
+
+with open("src/lib/product-images.ts", "w", encoding="utf-8") as f:
+    f.write(product_images_ts)
+
+print("src/lib/product-images.ts updated with new Laser Cutting showcase photos!")

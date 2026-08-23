@@ -39,13 +39,13 @@ export function ProductCard({
       <Link
         to="/product/$slug"
         params={{ slug: safeSlug }}
-        className="relative block h-[195px] w-full overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900 cursor-pointer isolate transform-gpu"
+        className="relative block h-56 w-full overflow-hidden rounded-t-2xl bg-slate-50 dark:bg-slate-900 cursor-pointer isolate transform-gpu"
       >
         <img
           src={product.image || productImage(product?.image_key || product?.slug, product?.title || product?.name)}
           alt={product?.title || product?.name || "Product"}
           loading="lazy"
-          className="h-48 w-full object-cover rounded-t-xl transition-transform duration-500 ease-out group-hover:scale-105"
+          className="h-56 w-full object-cover rounded-t-2xl group-hover:scale-105 transition-transform duration-300 ease-out"
         />
 
         {/* Compact Royal Blue Discount Badge */}

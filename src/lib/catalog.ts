@@ -61,51 +61,30 @@ export const EXACT_PRODUCT_CATEGORY_MAP: Record<string, string> = {
   "interlocking-cable-management-clip-pack": "3d-printing",
   "precision-resin-architectural-tower-model": "3d-printing",
   "hexagonal-geometric-succulent-planter-pot": "3d-printing",
-  "custom-laser-engraved-wooden-keychain": "laser-cutting",
-  "laser-cut-tree-of-life-wooden-led-lamp": "laser-cutting",
-  "slot-together-plywood-desktop-organizer": "laser-cutting",
-  "multi-layered-wooden-mandala-wall-art": "laser-cutting",
-  "laser-engraved-hardwood-photo-frame": "laser-cutting",
-  "edge-lit-laser-cut-acrylic-led-sign": "laser-cutting",
-  "cnc-v-carved-solid-walnut-name-plate": "cnc-machining",
-  "cnc-relief-carved-wooden-decorative-panel": "cnc-machining",
-  "cnc-milled-hardwood-keepsake-box": "cnc-machining",
-  "cnc-machined-6061-aluminium-l-bracket": "cnc-machining",
-  "cnc-precision-aluminium-fixture-plate": "cnc-machining",
-  "cnc-machined-high-precision-spur-gear": "cnc-machining",
-  "esp32-dual-core-iot-development-board": "electronics",
-  "37-piece-iot-sensor-module-starter-kit": "electronics",
-  "double-sided-fr4-prototype-pcb-pack": "electronics",
-  "arduino-compatible-atmega328p-microcontroller": "electronics",
-  "i2c-096-inch-oled-display-module": "electronics",
-  "5-inch-fpv-racing-3k-carbon-fiber-drone-frame": "drones-parts",
-  "2207-2450kv-high-power-brushless-drone-motor": "drones-parts",
-  "5-inch-tri-blade-fpv-drone-propellers-pack": "drones-parts",
-  "30a-4-in-1-blheli-s-electronic-speed-controller": "drones-parts",
-  "omnidirectional-58ghz-fpv-cloverleaf-antenna": "drones-parts",
-  "crystal-clear-cast-acrylic-showcase-cube-box": "acrylic-products",
-  "laser-engraved-beveled-acrylic-award-trophy": "acrylic-products",
-  "high-clarity-heavy-duty-acrylic-sneeze-shield": "acrylic-products",
-  "desktop-acrylic-slanted-brochure-menu-holder": "acrylic-products",
-  "multi-tiered-clear-acrylic-cosmetic-display-riser": "acrylic-products",
-  "autonomous-4wd-smart-robotic-stem-starter-kit": "diy-kits",
-  "educational-electronics-soldering-practice-kit": "diy-kits",
-  "diy-portable-bluetooth-stereo-speaker-maker-kit": "diy-kits",
-  "miniature-solar-powered-stem-rover-buggy-kit": "diy-kits",
-  "smart-weather-station-iot-esp8266-maker-kit": "diy-kits",
-  "3d-printed-geometric-vase": "3d-printing",
   "geometric-spiral-vase": "3d-printing",
   "universal-foldable-phone-stand-3d": "3d-printing",
   "mini-desk-organizer": "3d-printing",
   "cable-management-clip-set": "3d-printing",
   "resin-architectural-model": "3d-printing",
   "planter-pot-hex": "3d-printing",
+  "custom-laser-engraved-wooden-keychain": "laser-cutting",
+  "laser-cut-tree-of-life-wooden-led-lamp": "laser-cutting",
+  "slot-together-plywood-desktop-organizer": "laser-cutting",
+  "multi-layered-wooden-mandala-wall-art": "laser-cutting",
+  "laser-engraved-hardwood-photo-frame": "laser-cutting",
+  "edge-lit-laser-cut-acrylic-led-sign": "laser-cutting",
   "custom-name-keychain": "laser-cutting",
   "tree-of-life-lamp": "laser-cutting",
   "laser-cut-desk-organizer": "laser-cutting",
   "wooden-wall-art-mandala": "laser-cutting",
   "laser-engraved-photo-frame": "laser-cutting",
   "custom-acrylic-led-sign": "laser-cutting",
+  "cnc-v-carved-solid-walnut-name-plate": "cnc-machining",
+  "cnc-relief-carved-wooden-decorative-panel": "cnc-machining",
+  "cnc-milled-hardwood-keepsake-box": "cnc-machining",
+  "cnc-machined-6061-aluminium-l-bracket": "cnc-machining",
+  "cnc-precision-aluminium-fixture-plate": "cnc-machining",
+  "cnc-machined-high-precision-spur-gear": "cnc-machining",
   "cnc-wooden-name-plate": "cnc-machining",
   "cnc-cut-wooden-mandala": "cnc-machining",
   "cnc-cut-wooden-box": "cnc-machining",
@@ -113,15 +92,37 @@ export const EXACT_PRODUCT_CATEGORY_MAP: Record<string, string> = {
   "cnc-aluminium-bracket": "cnc-machining",
   "cnc-aluminum-fixture-plate": "cnc-machining",
   "cnc-machined-gear": "cnc-machining",
+  "mechanical-gearbox-prototype-model": "cnc-machining",
+  "mechanical-prototype-model": "cnc-machining",
+  "esp32-dual-core-iot-development-board": "electronics",
+  "37-piece-iot-sensor-module-starter-kit": "electronics",
+  "double-sided-fr4-prototype-pcb-pack": "electronics",
+  "arduino-compatible-atmega328p-microcontroller": "electronics",
+  "i2c-096-inch-oled-display-module": "electronics",
   "esp32-iot-maker-board": "electronics",
   "37-in-1-iot-sensor-module-kit": "electronics",
   "fr4-double-sided-prototype-pcb-10pack": "electronics",
+  "5-inch-fpv-racing-3k-carbon-fiber-drone-frame": "drones-parts",
+  "2207-2450kv-high-power-brushless-drone-motor": "drones-parts",
+  "5-inch-tri-blade-fpv-drone-propellers-pack": "drones-parts",
+  "30a-4-in-1-blheli-s-electronic-speed-controller": "drones-parts",
+  "omnidirectional-58ghz-fpv-cloverleaf-antenna": "drones-parts",
   "fpv-drone-carbon-fiber-frame": "drones-parts",
   "brushless-drone-motor-2207-2450kv": "drones-parts",
   "5-inch-tri-blade-fpv-propellers": "drones-parts",
+  "crystal-clear-cast-acrylic-showcase-cube-box": "acrylic-products",
+  "laser-engraved-beveled-acrylic-award-trophy": "acrylic-products",
+  "high-clarity-heavy-duty-acrylic-sneeze-shield": "acrylic-products",
+  "desktop-acrylic-slanted-brochure-menu-holder": "acrylic-products",
+  "multi-tiered-clear-acrylic-cosmetic-display-riser": "acrylic-products",
   "clear-cast-acrylic-display-box": "acrylic-products",
   "custom-acrylic-trophy-plaque": "acrylic-products",
   "transparent-protective-acrylic-shield": "acrylic-products",
+  "autonomous-4wd-smart-robotic-stem-starter-kit": "diy-kits",
+  "educational-electronics-soldering-practice-kit": "diy-kits",
+  "diy-portable-bluetooth-stereo-speaker-maker-kit": "diy-kits",
+  "miniature-solar-powered-stem-rover-buggy-kit": "diy-kits",
+  "smart-weather-station-iot-esp8266-maker-kit": "diy-kits",
   "starter-maker-diy-electronics-kit": "diy-kits",
   "diy-soldering-practice-electronics-kit": "diy-kits",
   "diy-bluetooth-speaker-assembly-kit": "diy-kits",
@@ -174,8 +175,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
   {
     id: "3dp-2",
-    name: "Foldable Desktop Phone and Tablet Stand",
-    title: "Foldable Desktop Phone and Tablet Stand",
+    name: "3D Printed Foldable Phone Stand",
+    title: "3D Printed Foldable Phone Stand",
     slug: "foldable-desktop-phone-tablet-stand",
     image: "/products/foldable-desktop-phone-tablet-stand.jpg",
     category: "3D Printing",
@@ -191,8 +192,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     review_count: 56,
     bestseller: true,
     stock: 80,
-    short_description: "Adjustable multi-angle print-in-place foldable phone and tablet stand.",
-    description: "Sturdy, compact print-in-place phone stand with 6 adjustable viewing angles. Features integrated cable routing channel and non-slip rubber grip base.",
+    short_description: "Adjustable multi-angle 3D printed print-in-place foldable phone and tablet stand.",
+    description: "Sturdy, compact print-in-place 3D printed phone stand with 6 adjustable viewing angles. Features integrated cable routing channel and non-slip rubber grip base.",
     specifications: {
       "Compatibility": "Smartphones & Tablets up to 11 inches",
       "Angles": "6 Adjustable Stepped Positions",
@@ -206,8 +207,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
   {
     id: "3dp-3",
-    name: "Modular Desktop Stationery Organizer",
-    title: "Modular Desktop Stationery Organizer",
+    name: "3D Printed Mini Desk Organizer",
+    title: "3D Printed Mini Desk Organizer",
     slug: "modular-desktop-stationery-organizer",
     image: "/products/modular-desktop-stationery-organizer.jpg",
     category: "3D Printing",
@@ -224,7 +225,7 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     bestseller: false,
     stock: 35,
     short_description: "Compact modular 3D printed desk organizer with pen cups and phone dock.",
-    description: "Modern dual-tone desk organizer engineered to neatly store pens, stylus, flash drives, and notes with integrated cable pass-through channels.",
+    description: "Modern dual-tone 3D printed desk organizer engineered to neatly store pens, stylus, flash drives, and notes with integrated cable pass-through channels.",
     specifications: {
       "Material": "Tough Matte PLA",
       "Compartments": "4 Modular Sections",
@@ -238,8 +239,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
   {
     id: "3dp-4",
-    name: "Interlocking Cable Management Clip Pack",
-    title: "Interlocking Cable Management Clip Pack",
+    name: "3D Printed Cable Management Clips Pack",
+    title: "3D Printed Cable Management Clips Pack",
     slug: "interlocking-cable-management-clip-pack",
     image: "/products/interlocking-cable-management-clip-pack.jpg",
     category: "3D Printing",
@@ -250,13 +251,13 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
     discount_price: 199,
     material: "Semi-Flexible PETG",
     dimensions: "35 \u00d7 18 \u00d7 12 mm (Each)",
-    manufacturing_method: "High-Speed Direct Drive FDM",
+    manufacturing_method: "High-Speed Direct Drive FDM 3D Printing",
     rating: 4.9,
     review_count: 38,
     bestseller: true,
     stock: 120,
     short_description: "Pack of 6 precision 3D printed desk cable routing clips.",
-    description: "Keep charging cords, USB-C lines, and HDMI cables securely routed across desks or monitors. High elasticity PETG clips prevent cable wear.",
+    description: "Keep charging cords, USB-C lines, and HDMI cables securely routed across desks or monitors. High elasticity PETG 3D printed clips prevent cable wear.",
     specifications: {
       "Quantity": "6 Clips per Pack",
       "Cable Diameters": "3mm to 8mm Supported",
@@ -270,8 +271,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
   {
     id: "3dp-5",
-    name: "Precision Resin Architectural Tower Model",
-    title: "Precision Resin Architectural Tower Model",
+    name: "3D Printed Resin Architectural Model",
+    title: "3D Printed Resin Architectural Model",
     slug: "precision-resin-architectural-tower-model",
     image: "/products/precision-resin-architectural-tower-model.jpg",
     category: "3D Printing",
@@ -302,8 +303,8 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
   },
   {
     id: "3dp-6",
-    name: "Hexagonal Geometric Succulent Planter Pot",
-    title: "Hexagonal Geometric Succulent Planter Pot",
+    name: "3D Printed Hexagonal Planter Pot",
+    title: "3D Printed Hexagonal Planter Pot",
     slug: "hexagonal-geometric-succulent-planter-pot",
     image: "/products/hexagonal-geometric-succulent-planter-pot.jpg",
     category: "3D Printing",
@@ -1362,11 +1363,14 @@ export const DEFAULT_CATALOG_PRODUCTS: Product[] = [
 
 export function sanitizeProduct(p: any): Product {
   let canonicalSlug = "";
-  const exactCat = EXACT_PRODUCT_CATEGORY_MAP[p.slug];
-  if (exactCat) {
-    canonicalSlug = exactCat;
-  } else {
-    canonicalSlug = normalizeCategorySlug(p.category_slug || p.categorySlug || p.category || "3d-printing");
+  if (p.slug && EXACT_PRODUCT_CATEGORY_MAP[p.slug]) {
+    canonicalSlug = EXACT_PRODUCT_CATEGORY_MAP[p.slug];
+  } else if (p.category_slug && normalizeCategorySlug(p.category_slug)) {
+    canonicalSlug = normalizeCategorySlug(p.category_slug);
+  } else if (p.categorySlug && normalizeCategorySlug(p.categorySlug)) {
+    canonicalSlug = normalizeCategorySlug(p.categorySlug);
+  } else if (p.category && normalizeCategorySlug(p.category)) {
+    canonicalSlug = normalizeCategorySlug(p.category);
   }
 
   return {
@@ -1382,25 +1386,7 @@ export function sanitizeProduct(p: any): Product {
 export const productsQuery = queryOptions({
   queryKey: ["products"],
   queryFn: async (): Promise<Product[]> => {
-    try {
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (error || !data || data.length === 0) {
-        return DEFAULT_CATALOG_PRODUCTS.map(sanitizeProduct);
-      }
-
-      const sanitizedDb = data.map(sanitizeProduct);
-      const dbSlugs = new Set(sanitizedDb.map((p) => p.slug));
-      const missingDefaults = DEFAULT_CATALOG_PRODUCTS.filter(
-        (p) => !dbSlugs.has(p.slug)
-      ).map(sanitizeProduct);
-
-      return [...sanitizedDb, ...missingDefaults];
-    } catch {
-      return DEFAULT_CATALOG_PRODUCTS.map(sanitizeProduct);
-    }
+    return DEFAULT_CATALOG_PRODUCTS.map(sanitizeProduct);
   },
   staleTime: 60_000,
 });
@@ -1480,19 +1466,6 @@ export function productQuery(rawSlugOrId: string | undefined) {
   return queryOptions({
     queryKey: ["product", normalized || "default"],
     queryFn: async (): Promise<Product> => {
-      try {
-        if (normalized) {
-          const { data, error } = await supabase
-            .from("products")
-            .select("*")
-            .or(`slug.eq.${normalized},id.eq.${normalized},slug.eq.${raw},id.eq.${raw}`)
-            .maybeSingle();
-          if (data) return sanitizeProduct(data);
-        }
-      } catch {
-        // Fallback
-      }
-
       return getProductBySlug(rawSlugOrId);
     },
     initialData: () => getProductBySlug(rawSlugOrId),

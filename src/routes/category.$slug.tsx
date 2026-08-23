@@ -94,11 +94,10 @@ function CategoryDetail() {
     icon: Box,
   };
 
-  // Exact match filter (STRICT: Case-insensitive & normalized categorySlug equality)
-  const categoryProducts = allProducts.filter((item) => {
-    const rawCategory = item.categorySlug || item.category_slug || item.category;
-    return normalizeCategorySlug(rawCategory) === normalizeCategorySlug(currentCategory);
-  });
+  // Exact match filter: ONLY products whose categorySlug exactly matches currentCategory
+  const categoryProducts = allProducts.filter(
+    (item) => item.categorySlug === currentCategory
+  );
 
   // States for filter conditions
   const [searchTerm, setSearchTerm] = useState<string>("");

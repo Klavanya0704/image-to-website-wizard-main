@@ -1355,6 +1355,7 @@ export const productsQuery = queryOptions({
   queryFn: async (): Promise<Product[]> => {
     return DEFAULT_CATALOG_PRODUCTS.map(sanitizeProduct);
   },
+  initialData: () => DEFAULT_CATALOG_PRODUCTS.map(sanitizeProduct),
   staleTime: 60_000,
 });
 

@@ -23,6 +23,7 @@ import { inr } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/category/$slug")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery),
   component: CategoryDetail,
 });
 

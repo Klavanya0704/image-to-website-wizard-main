@@ -1,256 +1,86 @@
-// Exact mapping: PRODUCT SLUG -> IMAGE PATH
-const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {
-  // 1. 3D Printing Products
-  "geometric-spiral-vase": "/products/geometric-spiral-vase.jpg",
-  "3d-printed-geometric-vase": "/products/3d-printed-geometric-vase.jpg",
-  "universal-foldable-phone-stand-3d": "/products/universal-foldable-phone-stand-3d.jpg",
-  "adjustable-phone-stand": "/products/adjustable-phone-stand.jpg",
-  "mini-desk-organizer": "/products/mini-desk-organizer.jpg",
-  "cable-management-clip-set": "/products/cable-management-clip-set.jpg",
-  "resin-architectural-model": "/products/resin-architectural-model.jpg",
-  "planter-pot-hex": "/products/planter-pot-hex.jpg",
-  "mechanical-prototype-model": "/products/mechanical-prototype-model.jpg",
-
-  // 2. Laser Cutting Products (Wood, Glass & Acrylic)
-  "custom-name-keychain": "/products/custom-name-keychain.jpg",
-  "custom-engraved-wooden-keychain": "/products/custom-name-keychain.jpg",
-  "tree-of-life-lamp": "/products/tree-of-life-lamp.jpg",
-  "tree-of-life-led-lamp": "/products/tree-of-life-lamp.jpg",
-  "laser-cut-desk-organizer": "/products/laser-cut-desk-organizer.jpg",
-  "wooden-wall-art-mandala": "/products/wooden-wall-art-mandala.jpg",
-  "mandala-laser-cut-wooden-coasters": "/products/wooden-wall-art-mandala.jpg",
-  "laser-engraved-photo-frame": "/products/laser-engraved-photo-frame.jpg",
-  "custom-acrylic-led-sign": "/products/custom-acrylic-led-sign.jpg",
-  "custom-acrylic-led-illuminated-sign": "/products/custom-acrylic-led-sign.jpg",
-  "laser-engraved-glass-trophy": "/products/laser-engraved-glass-trophy.jpg",
-  "frosted-glass-laser-engraving": "/products/frosted-glass-laser-engraving.jpg",
-  "laser-cut-acrylic-name-plate": "/products/laser-cut-acrylic-name-plate.jpg",
-  "acrylic-decorative-panel": "/products/acrylic-decorative-panel.jpg",
-
-  // 3. CNC Machining Products (12 College CNC Lab Metal & Wood Fabrication Projects)
-  "cnc-wooden-name-plate": "/products/cnc-wooden-name-plate.jpg",
-  "cnc-cut-wooden-mandala": "/products/cnc-cut-wooden-mandala.jpg",
-  "cnc-cut-wooden-box": "/products/cnc-cut-wooden-box.jpg",
-  "cnc-carved-wooden-wall-panel": "/products/cnc-carved-wooden-wall-panel.jpg",
-  "cnc-wooden-relief-art": "/products/cnc-wooden-relief-art.jpg",
-  "cnc-aluminium-bracket": "/products/cnc-aluminium-bracket.jpg",
-  "cnc-aluminum-fixture-plate": "/products/cnc-aluminum-fixture-plate.jpg",
-  "cnc-machined-gear": "/products/cnc-machined-gear.jpg",
-  "cnc-machined-bushing": "/products/cnc-machined-bushing.jpg",
-  "cnc-machined-coupling": "/products/cnc-machined-coupling.jpg",
-  "cnc-machined-shaft": "/products/cnc-machined-shaft.jpg",
-  "cnc-machined-prototype-component": "/products/cnc-machined-prototype-component.jpg",
-  // Aliases for compatibility
-  "cnc-aluminum-mounting-bracket": "/products/cnc-aluminium-bracket.jpg",
-  "precision-cnc-flanged-bushing": "/products/cnc-machined-bushing.jpg",
-  "cnc-stainless-steel-coupling": "/products/cnc-machined-coupling.jpg",
-  "cnc-machined-flanged-brass-bushings": "/products/cnc-machined-bushing.jpg",
-  "precision-aluminum-shaft-coupler": "/products/cnc-machined-coupling.jpg",
-  "heavy-duty-l-bracket-cnc": "/products/cnc-aluminium-bracket.jpg",
-  "precision-mounting-plate": "/products/cnc-aluminum-fixture-plate.jpg",
-  "custom-cnc-component": "/products/cnc-machined-prototype-component.jpg",
-
-  // 4. Electronics Products
-  "esp32-iot-maker-board": "/products/esp32-iot-maker-board.jpg",
-  "esp32-development-board": "/products/esp32-development-board.jpg",
-  "37-in-1-iot-sensor-module-kit": "/products/37-in-1-iot-sensor-module-kit.jpg",
-  "arduino-sensor-kit": "/products/arduino-sensor-kit.jpg",
-  "iot-starter-kit": "/products/iot-starter-kit.jpg",
-  "led-electronics-kit": "/products/led-electronics-kit.jpg",
-  "soldering-practice-board": "/products/soldering-practice-board.jpg",
-  "fr4-double-sided-prototype-pcb-10pack": "/products/fr4-double-sided-prototype-pcb-10pack.jpg",
-  "mini-robotics-kit": "/products/mini-robotics-kit.jpg",
-
-  // 5. Drones & Parts Products
-  "fpv-drone-carbon-fiber-frame": "/products/fpv-drone-carbon-fiber-frame.jpg",
-  "drone-frame-kit": "/products/drone-frame-kit.jpg",
-  "fpv-prototype-frame": "/products/fpv-prototype-frame.jpg",
-  "brushless-motor-mount": "/products/brushless-motor-mount.jpg",
-  "brushless-drone-motor-2207-2450kv": "/products/brushless-drone-motor-2207-2450kv.jpg",
-  "propeller-set-1045": "/products/propeller-set-1045.jpg",
-  "5-inch-tri-blade-fpv-propellers": "/products/5-inch-tri-blade-fpv-propellers.jpg",
-  "drone-landing-gear": "/products/drone-landing-gear.jpg",
-
-  // 6. Acrylic Products
-  "clear-cast-acrylic-display-box": "/products/clear-cast-acrylic-display-box.jpg",
-  "custom-acrylic-trophy-plaque": "/products/custom-acrylic-trophy-plaque.jpg",
-  "transparent-protective-acrylic-shield": "/products/transparent-protective-acrylic-shield.jpg",
-  "acrylic-name-plate": "/products/acrylic-name-plate.jpg",
-  "acrylic-keychain": "/products/acrylic-keychain.jpg",
-  "acrylic-desk-sign": "/products/acrylic-desk-sign.jpg",
-  "transparent-display-stand": "/products/transparent-display-stand.jpg",
-  "college-logo-acrylic-board": "/products/college-logo-acrylic-board.jpg",
-
-  // 7. DIY Kits
-  "starter-maker-diy-electronics-kit": "/products/starter-maker-diy-electronics-kit.jpg",
-  "smart-home-diy-kit": "/products/smart-home-diy-kit.jpg",
-  "mini-robot-kit": "/products/mini-robot-kit.jpg",
-  "electronics-learning-kit": "/products/electronics-learning-kit.jpg",
-  "arduino-project-kit": "/products/arduino-project-kit.jpg",
-  "drone-building-diy-kit": "/products/drone-building-diy-kit.jpg",
-  "diy-soldering-practice-electronics-kit": "/products/diy-soldering-practice-electronics-kit.jpg",
-  "diy-bluetooth-speaker-assembly-kit": "/products/diy-bluetooth-speaker-assembly-kit.jpg",
+// Clean 1-to-1 Product Image Resolution
+export const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {
+  "3d-printed-geometric-spiral-vase": "/products/3d-printed-geometric-spiral-vase.jpg",
+  "foldable-desktop-phone-tablet-stand": "/products/foldable-desktop-phone-tablet-stand.jpg",
+  "modular-desktop-stationery-organizer": "/products/modular-desktop-stationery-organizer.jpg",
+  "interlocking-cable-management-clip-pack": "/products/interlocking-cable-management-clip-pack.jpg",
+  "precision-resin-architectural-tower-model": "/products/precision-resin-architectural-tower-model.jpg",
+  "hexagonal-geometric-succulent-planter-pot": "/products/hexagonal-geometric-succulent-planter-pot.jpg",
+  "custom-laser-engraved-wooden-keychain": "/products/custom-laser-engraved-wooden-keychain.jpg",
+  "laser-cut-tree-of-life-wooden-led-lamp": "/products/laser-cut-tree-of-life-wooden-led-lamp.jpg",
+  "slot-together-plywood-desktop-organizer": "/products/slot-together-plywood-desktop-organizer.jpg",
+  "multi-layered-wooden-mandala-wall-art": "/products/multi-layered-wooden-mandala-wall-art.jpg",
+  "laser-engraved-hardwood-photo-frame": "/products/laser-engraved-hardwood-photo-frame.jpg",
+  "edge-lit-laser-cut-acrylic-led-sign": "/products/edge-lit-laser-cut-acrylic-led-sign.jpg",
+  "cnc-v-carved-solid-walnut-name-plate": "/products/cnc-v-carved-solid-walnut-name-plate.jpg",
+  "cnc-relief-carved-wooden-decorative-panel": "/products/cnc-relief-carved-wooden-decorative-panel.jpg",
+  "cnc-milled-hardwood-keepsake-box": "/products/cnc-milled-hardwood-keepsake-box.jpg",
+  "cnc-machined-6061-aluminium-l-bracket": "/products/cnc-machined-6061-aluminium-l-bracket.jpg",
+  "cnc-precision-aluminium-fixture-plate": "/products/cnc-precision-aluminium-fixture-plate.jpg",
+  "cnc-machined-high-precision-spur-gear": "/products/cnc-machined-high-precision-spur-gear.jpg",
+  "esp32-dual-core-iot-development-board": "/products/esp32-dual-core-iot-development-board.jpg",
+  "37-piece-iot-sensor-module-starter-kit": "/products/37-piece-iot-sensor-module-starter-kit.jpg",
+  "double-sided-fr4-prototype-pcb-pack": "/products/double-sided-fr4-prototype-pcb-pack.jpg",
+  "arduino-compatible-atmega328p-microcontroller": "/products/arduino-compatible-atmega328p-microcontroller.jpg",
+  "i2c-096-inch-oled-display-module": "/products/i2c-096-inch-oled-display-module.jpg",
+  "5-inch-fpv-racing-3k-carbon-fiber-drone-frame": "/products/5-inch-fpv-racing-3k-carbon-fiber-drone-frame.jpg",
+  "2207-2450kv-high-power-brushless-drone-motor": "/products/2207-2450kv-high-power-brushless-drone-motor.jpg",
+  "5-inch-tri-blade-fpv-drone-propellers-pack": "/products/5-inch-tri-blade-fpv-drone-propellers-pack.jpg",
+  "30a-4-in-1-blheli-s-electronic-speed-controller": "/products/30a-4-in-1-blheli-s-electronic-speed-controller.jpg",
+  "omnidirectional-58ghz-fpv-cloverleaf-antenna": "/products/omnidirectional-58ghz-fpv-cloverleaf-antenna.jpg",
+  "crystal-clear-cast-acrylic-showcase-cube-box": "/products/crystal-clear-cast-acrylic-showcase-cube-box.jpg",
+  "laser-engraved-beveled-acrylic-award-trophy": "/products/laser-engraved-beveled-acrylic-award-trophy.jpg",
+  "high-clarity-heavy-duty-acrylic-sneeze-shield": "/products/high-clarity-heavy-duty-acrylic-sneeze-shield.jpg",
+  "desktop-acrylic-slanted-brochure-menu-holder": "/products/desktop-acrylic-slanted-brochure-menu-holder.jpg",
+  "multi-tiered-clear-acrylic-cosmetic-display-riser": "/products/multi-tiered-clear-acrylic-cosmetic-display-riser.jpg",
+  "autonomous-4wd-smart-robotic-stem-starter-kit": "/products/autonomous-4wd-smart-robotic-stem-starter-kit.jpg",
+  "educational-electronics-soldering-practice-kit": "/products/educational-electronics-soldering-practice-kit.jpg",
+  "diy-portable-bluetooth-stereo-speaker-maker-kit": "/products/diy-portable-bluetooth-stereo-speaker-maker-kit.jpg",
+  "miniature-solar-powered-stem-rover-buggy-kit": "/products/miniature-solar-powered-stem-rover-buggy-kit.jpg",
+  "smart-weather-station-iot-esp8266-maker-kit": "/products/smart-weather-station-iot-esp8266-maker-kit.jpg",
+  // Aliases and Legacy Slugs
+  "geometric-spiral-vase": "/products/3d-printed-geometric-spiral-vase.jpg",
+  "universal-foldable-phone-stand-3d": "/products/foldable-desktop-phone-tablet-stand.jpg",
+  "mini-desk-organizer": "/products/modular-desktop-stationery-organizer.jpg",
+  "cable-management-clip-set": "/products/interlocking-cable-management-clip-pack.jpg",
+  "resin-architectural-model": "/products/precision-resin-architectural-tower-model.jpg",
+  "planter-pot-hex": "/products/hexagonal-geometric-succulent-planter-pot.jpg",
+  "custom-name-keychain": "/products/custom-laser-engraved-wooden-keychain.jpg",
+  "tree-of-life-lamp": "/products/laser-cut-tree-of-life-wooden-led-lamp.jpg",
+  "laser-cut-desk-organizer": "/products/slot-together-plywood-desktop-organizer.jpg",
+  "wooden-wall-art-mandala": "/products/multi-layered-wooden-mandala-wall-art.jpg",
+  "laser-engraved-photo-frame": "/products/laser-engraved-hardwood-photo-frame.jpg",
+  "custom-acrylic-led-sign": "/products/edge-lit-laser-cut-acrylic-led-sign.jpg",
+  "cnc-wooden-name-plate": "/products/cnc-v-carved-solid-walnut-name-plate.jpg",
+  "cnc-cut-wooden-mandala": "/products/cnc-relief-carved-wooden-decorative-panel.jpg",
+  "cnc-cut-wooden-box": "/products/cnc-milled-hardwood-keepsake-box.jpg",
+  "cnc-carved-wooden-wall-panel": "/products/cnc-relief-carved-wooden-decorative-panel.jpg",
+  "cnc-aluminium-bracket": "/products/cnc-machined-6061-aluminium-l-bracket.jpg",
+  "cnc-aluminum-fixture-plate": "/products/cnc-precision-aluminium-fixture-plate.jpg",
+  "cnc-machined-gear": "/products/cnc-machined-high-precision-spur-gear.jpg",
+  "esp32-iot-maker-board": "/products/esp32-dual-core-iot-development-board.jpg",
+  "37-in-1-iot-sensor-module-kit": "/products/37-piece-iot-sensor-module-starter-kit.jpg",
+  "fr4-double-sided-prototype-pcb-10pack": "/products/double-sided-fr4-prototype-pcb-pack.jpg",
+  "fpv-drone-carbon-fiber-frame": "/products/5-inch-fpv-racing-3k-carbon-fiber-drone-frame.jpg",
+  "brushless-drone-motor-2207-2450kv": "/products/2207-2450kv-high-power-brushless-drone-motor.jpg",
+  "5-inch-tri-blade-fpv-propellers": "/products/5-inch-tri-blade-fpv-drone-propellers-pack.jpg",
+  "clear-cast-acrylic-display-box": "/products/crystal-clear-cast-acrylic-showcase-cube-box.jpg",
+  "custom-acrylic-trophy-plaque": "/products/laser-engraved-beveled-acrylic-award-trophy.jpg",
+  "transparent-protective-acrylic-shield": "/products/high-clarity-heavy-duty-acrylic-sneeze-shield.jpg",
+  "starter-maker-diy-electronics-kit": "/products/autonomous-4wd-smart-robotic-stem-starter-kit.jpg",
+  "diy-soldering-practice-electronics-kit": "/products/educational-electronics-soldering-practice-kit.jpg",
+  "diy-bluetooth-speaker-assembly-kit": "/products/diy-portable-bluetooth-stereo-speaker-maker-kit.jpg",
 };
 
-export function productImage(keyOrSlug?: string | null, productName?: string | null): string {
-  const rawKey = (keyOrSlug || "").trim();
-  if (rawKey.startsWith("http://") || rawKey.startsWith("https://")) {
-    return rawKey;
+export function productImage(imageKey: string | undefined | null, name?: string | null): string {
+  if (!imageKey) return "/products/3d-printed-geometric-spiral-vase.jpg";
+  if (imageKey.startsWith("http://") || imageKey.startsWith("https://") || imageKey.startsWith("/products/")) {
+    return imageKey;
   }
-
-  const slug = rawKey.toLowerCase();
-
-  // 1. Direct match by exact slug
-  if (slug && EXACT_SLUG_IMAGE_MAP[slug]) {
-    return EXACT_SLUG_IMAGE_MAP[slug];
+  if (EXACT_SLUG_IMAGE_MAP[imageKey]) {
+    return EXACT_SLUG_IMAGE_MAP[imageKey];
   }
-
-  // 2. Exact match by slug with sanitized hyphens
-  const cleanSlug = slug.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-  if (cleanSlug && EXACT_SLUG_IMAGE_MAP[cleanSlug]) {
-    return EXACT_SLUG_IMAGE_MAP[cleanSlug];
-  }
-
-  // 3. Fallback semantic resolution based on product name/slug keywords
-  const q = `${slug} ${productName || ""}`.toLowerCase().trim();
-
-  // CNC Specific Overrides
-  if (q.includes("name plate") || q.includes("nameplate")) {
-    return "/products/cnc-wooden-name-plate.jpg";
-  }
-  if (q.includes("mandala")) {
-    return "/products/cnc-cut-wooden-mandala.jpg";
-  }
-  if (q.includes("wooden box") || (q.includes("cnc") && q.includes("box"))) {
-    return "/products/cnc-cut-wooden-box.jpg";
-  }
-  if (q.includes("wooden wall panel") || q.includes("wall panel")) {
-    return "/products/cnc-carved-wooden-wall-panel.jpg";
-  }
-  if (q.includes("relief") || q.includes("relief art") || q.includes("relief carving")) {
-    return "/products/cnc-wooden-relief-art.jpg";
-  }
-  if (q.includes("bracket") || q.includes("l-bracket") || q.includes("gusset")) {
-    return "/products/cnc-aluminium-bracket.jpg";
-  }
-  if (q.includes("plate") || q.includes("fixture plate") || q.includes("tooling plate")) {
-    return "/products/cnc-aluminum-fixture-plate.jpg";
-  }
-  if (q.includes("gear") || q.includes("spur gear")) {
-    return "/products/cnc-machined-gear.jpg";
-  }
-  if (q.includes("bushing") || q.includes("brass") || q.includes("flanged bushing")) {
-    return "/products/cnc-machined-bushing.jpg";
-  }
-  if (q.includes("coupling") || q.includes("coupler") || q.includes("shaft coupling")) {
-    return "/products/cnc-machined-coupling.jpg";
-  }
-  if (q.includes("shaft") || q.includes("drive shaft") || q.includes("linear shaft")) {
-    return "/products/cnc-machined-shaft.jpg";
-  }
-  if (q.includes("prototype") || q.includes("knuckle") || q.includes("component") || q.includes("part")) {
-    return "/products/cnc-machined-prototype-component.jpg";
-  }
-
-  // Laser cutting specific checks (prevents photo frame from ever showing drone)
-  if (q.includes("photo frame") || q.includes("photo-frame") || q.includes("engraved frame")) {
-    return "/products/laser-engraved-photo-frame.jpg";
-  }
-  if (q.includes("tree of life") || q.includes("lamp") || q.includes("tree-of-life")) {
-    return "/products/tree-of-life-led-lamp.jpg";
-  }
-  if (q.includes("mandala") || q.includes("wall art") || q.includes("coaster")) {
-    return "/products/wooden-wall-art-mandala.jpg";
-  }
-  if (q.includes("logo board") || q.includes("college logo") || q.includes("college-logo")) {
-    return "/products/college-logo-board.jpg";
-  }
-  if (q.includes("keychain") || q.includes("key ring")) {
-    return "/products/custom-name-keychain.jpg";
-  }
-  if (q.includes("laser") && q.includes("desk organizer")) {
-    return "/products/laser-cut-desk-organizer.jpg";
-  }
-
-  // 3D Printing specific checks
-  if (q.includes("hex") && (q.includes("planter") || q.includes("pot"))) {
-    return "/products/planter-pot-hex.jpg";
-  }
-  if (q.includes("cable") && (q.includes("clip") || q.includes("management"))) {
-    return "/products/cable-management-clip-set.jpg";
-  }
-  if (q.includes("mini desk") || q.includes("desk organizer")) {
-    return "/products/mini-desk-organizer.jpg";
-  }
-  if (q.includes("phone stand") || q.includes("foldable") || q.includes("adjustable phone")) {
-    return "/products/universal-foldable-phone-stand-3d.jpg";
-  }
-  if (q.includes("architectural") || q.includes("miniature") || q.includes("resin")) {
-    return "/products/resin-architectural-model.jpg";
-  }
-  if (q.includes("vase") || q.includes("geometric-spiral") || q.includes("lattice")) {
-    return "/products/geometric-spiral-vase.jpg";
-  }
-
-  // CNC Machining generic
-  if (q.includes("bushing") || q.includes("brass") || q.includes("flanged")) {
-    return "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80";
-  }
-  if (q.includes("bracket") || q.includes("mounting plate") || q.includes("l-bracket")) {
-    return "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80";
-  }
-  if (q.includes("coupling") || q.includes("coupler") || q.includes("shaft") || q.includes("gearbox")) {
-    return "/products/precision-aluminum-shaft-coupler.jpg";
-  }
-  if (q.includes("prototype block") || q.includes("custom cnc")) {
-    return "/products/custom-cnc-component.jpg";
-  }
-
-  // Electronics
-  if (q.includes("esp32") || q.includes("microcontroller")) {
-    return "/products/esp32-development-board.jpg";
-  }
-  if (q.includes("sensor") || q.includes("module kit")) {
-    return "/products/37-in-1-iot-sensor-module-kit.jpg";
-  }
-  if (q.includes("pcb") || q.includes("fr4") || q.includes("perfboard")) {
-    return "/products/fr4-double-sided-prototype-pcb-10pack.jpg";
-  }
-
-  // Drones
-  if (q.includes("frame") || q.includes("carbon fiber") || q.includes("fpv")) {
-    return "/products/fpv-drone-carbon-fiber-frame.jpg";
-  }
-  if (q.includes("motor") || q.includes("brushless") || q.includes("2207")) {
-    return "/products/brushless-drone-motor-2207-2450kv.jpg";
-  }
-  if (q.includes("propeller") || q.includes("props") || q.includes("tri-blade")) {
-    return "/products/5-inch-tri-blade-fpv-propellers.jpg";
-  }
-
-  // Acrylic
-  if (q.includes("display box") || q.includes("dust-proof") || q.includes("showcase")) {
-    return "/products/clear-cast-acrylic-display-box.jpg";
-  }
-  if (q.includes("trophy") || q.includes("award") || q.includes("plaque")) {
-    return "/products/custom-acrylic-trophy-plaque.jpg";
-  }
-  if (q.includes("shield") || q.includes("protective") || q.includes("barrier")) {
-    return "/products/transparent-protective-acrylic-shield.jpg";
-  }
-
-  // DIY Kits
-  if (q.includes("robot") || q.includes("autonomous") || q.includes("stem starter")) {
-    return "/products/starter-maker-diy-electronics-kit.jpg";
-  }
-  if (q.includes("soldering") || q.includes("training kit")) {
-    return "/products/diy-soldering-practice-electronics-kit.jpg";
-  }
-  if (q.includes("speaker") || q.includes("bluetooth speaker")) {
-    return "/products/diy-bluetooth-speaker-assembly-kit.jpg";
-  }
-
-  return "/products/geometric-spiral-vase.jpg";
+  return `/products/${imageKey}.jpg`;
 }
 
 export interface ProductViewAngle {

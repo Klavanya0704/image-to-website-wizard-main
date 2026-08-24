@@ -1,17 +1,36 @@
-// Clean 1-to-1 Product Image Resolution for 84 Catalog Products
+// Clean 1-to-1 Product Image Resolution
 export const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {
-  "3d-printed-geometric-spiral-vase": "/products/v4/3d-printed-geometric-spiral-vase.jpg",
-  "3d-printed-foldable-phone-stand": "/products/v4/3d-printed-foldable-phone-stand.jpg",
-  "3d-printed-mini-desk-organizer": "/products/v4/3d-printed-mini-desk-organizer.jpg",
-  "3d-printed-cable-management-clips-pack": "/products/v4/3d-printed-cable-management-clips-pack.jpg",
-  "3d-printed-resin-architectural-tower-model": "/products/v4/3d-printed-resin-architectural-tower-model.jpg",
-  "3d-printed-hexagonal-geometric-succulent-planter": "/products/v4/3d-printed-hexagonal-geometric-succulent-planter.jpg",
-  "3d-printed-modular-tool-holder": "/products/v4/3d-printed-modular-tool-holder.jpg",
-  "3d-printed-articulated-dragon": "/products/v4/3d-printed-articulated-dragon.jpg",
-  "3d-printed-mechanical-gear-assembly": "/products/v4/3d-printed-mechanical-gear-assembly.jpg",
-  "3d-printed-headphone-stand": "/products/v4/3d-printed-headphone-stand.jpg",
-  "3d-printed-desk-cable-dock": "/products/v4/3d-printed-desk-cable-dock.jpg",
-  "3d-printed-parametric-wall-planter": "/products/v4/3d-printed-parametric-wall-planter.jpg",
+  "3d-printed-winged-mythical-dragon-sculpture": "/products/v5/3d-printed-winged-mythical-dragon-sculpture.jpg",
+  "3d-printed-cute-animal-cable-organizer-clips": "/products/v5/3d-printed-cute-animal-cable-organizer-clips.jpg",
+  "3d-printed-institutional-desktop-nameplate": "/products/v5/3d-printed-institutional-desktop-nameplate.jpg",
+  "3d-printed-ergonomic-bed-scraper-tool": "/products/v5/3d-printed-ergonomic-bed-scraper-tool.jpg",
+  "3d-printed-dual-tone-emblem-coaster-token": "/products/v5/3d-printed-dual-tone-emblem-coaster-token.jpg",
+  "3d-printed-personalized-vertical-name-keychain": "/products/v5/3d-printed-personalized-vertical-name-keychain.jpg",
+  "3d-printed-custom-oval-name-badge": "/products/v5/3d-printed-custom-oval-name-badge.jpg",
+  "3d-printed-custom-executive-name-tag": "/products/v5/3d-printed-custom-executive-name-tag.jpg",
+  "3d-printed-articulated-folding-name-banner": "/products/v5/3d-printed-articulated-folding-name-banner.jpg",
+  "3d-printed-custom-cable-label-clip-set": "/products/v5/3d-printed-custom-cable-label-clip-set.jpg",
+  "3d-printed-humanoid-seated-succulent-planter-set": "/products/v5/3d-printed-humanoid-seated-succulent-planter-set.jpg",
+  "3d-printed-modular-outdoor-geometric-wall-planter": "/products/v5/3d-printed-modular-outdoor-geometric-wall-planter.jpg",
+  "3d-printed-faceted-wall-planter-ambient-sconce": "/products/v5/3d-printed-faceted-wall-planter-ambient-sconce.jpg",
+  "3d-printed-foldable-pocket-phone-stand-keychain": "/products/v5/3d-printed-foldable-pocket-phone-stand-keychain.jpg",
+  "3d-printed-sculptural-ribbon-phone-stand": "/products/v5/3d-printed-sculptural-ribbon-phone-stand.jpg",
+  "3d-printed-low-poly-faceted-succulent-planter": "/products/v5/3d-printed-low-poly-faceted-succulent-planter.jpg",
+  "3d-printed-batwing-desktop-headphone-stand": "/products/v5/3d-printed-batwing-desktop-headphone-stand.jpg",
+  "3d-printed-profile-face-eyeglass-stand": "/products/v5/3d-printed-profile-face-eyeglass-stand.jpg",
+  "3d-printed-dancing-cat-earbud-pen-holder": "/products/v5/3d-printed-dancing-cat-earbud-pen-holder.jpg",
+  "3d-printed-mini-octopus-toothpick-holder-pair": "/products/v5/3d-printed-mini-octopus-toothpick-holder-pair.jpg",
+  "3d-printed-hedgehog-pencil-caddy-desk-organizer": "/products/v5/3d-printed-hedgehog-pencil-caddy-desk-organizer.jpg",
+  "3d-printed-cute-animal-miniature-phone-stand-pair": "/products/v5/3d-printed-cute-animal-miniature-phone-stand-pair.jpg",
+  "3d-printed-cartoon-eyeglass-rest-desk-tray": "/products/v5/3d-printed-cartoon-eyeglass-rest-desk-tray.jpg",
+  "3d-printed-climbing-figure-smartphone-stand-trio": "/products/v5/3d-printed-climbing-figure-smartphone-stand-trio.jpg",
+  "3d-printed-ghost-desktop-pen-rest": "/products/v5/3d-printed-ghost-desktop-pen-rest.jpg",
+  "3d-printed-infinity-loop-stationery-organizer": "/products/v5/3d-printed-infinity-loop-stationery-organizer.jpg",
+  "3d-printed-avengers-emblem-desk-pen-caddy": "/products/v5/3d-printed-avengers-emblem-desk-pen-caddy.jpg",
+  "3d-printed-rounded-modular-wall-terrarium-planters": "/products/v5/3d-printed-rounded-modular-wall-terrarium-planters.jpg",
+  "3d-printed-fluted-spiral-flower-vase-pair": "/products/v5/3d-printed-fluted-spiral-flower-vase-pair.jpg",
+  "3d-printed-sci-fi-reactor-core-art-model": "/products/v5/3d-printed-sci-fi-reactor-core-art-model.jpg",
+  "3d-printed-bold-custom-name-keychain": "/products/v5/3d-printed-bold-custom-name-keychain.jpg",
   "custom-laser-engraved-wooden-keychain": "/products/v4/custom-laser-engraved-wooden-keychain.jpg",
   "laser-cut-tree-of-life-wooden-led-lamp": "/products/v4/laser-cut-tree-of-life-wooden-led-lamp.jpg",
   "slot-together-plywood-desktop-organizer": "/products/v4/slot-together-plywood-desktop-organizer.jpg",
@@ -87,14 +106,14 @@ export const EXACT_SLUG_IMAGE_MAP: Record<string, string> = {
 };
 
 export function productImage(imageKey: string | undefined | null, name?: string | null): string {
-  if (!imageKey) return "/products/v4/3d-printed-geometric-spiral-vase.jpg";
+  if (!imageKey) return "/products/v5/3d-printed-winged-mythical-dragon-sculpture.jpg";
   if (imageKey.startsWith("http://") || imageKey.startsWith("https://") || imageKey.startsWith("/products/")) {
     return imageKey;
   }
   if (EXACT_SLUG_IMAGE_MAP[imageKey]) {
     return EXACT_SLUG_IMAGE_MAP[imageKey];
   }
-  return `/products/v4/${imageKey}.jpg`;
+  return `/products/v5/${imageKey}.jpg`;
 }
 
 export interface ProductViewAngle {

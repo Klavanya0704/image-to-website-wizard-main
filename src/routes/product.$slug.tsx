@@ -33,6 +33,7 @@ import {
   reviewsQuery,
   Product,
   getProductBySlug,
+  DEFAULT_CATALOG_PRODUCTS,
 } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 import { inr, effectivePrice, discountPercent, safeCopyText } from "@/lib/format";
@@ -69,7 +70,7 @@ function ProductDetail() {
   const { addToCart, toggleWishlist, isWishlisted } = useStore();
 
   const { data: rawProduct } = useQuery(productQuery(rawSlug));
-  const product: Product = rawProduct || getProductBySlug(rawSlug);
+  const product: Product = (rawProduct || getProductBySlug(rawSlug) || DEFAULT_CATALOG_PRODUCTS[0]) as Product;
   const { data: allProducts = [] } = useQuery(productsQuery);
   const { data: reviews = [] } = useQuery(reviewsQuery(product?.id));
 

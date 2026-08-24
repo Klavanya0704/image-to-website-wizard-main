@@ -311,8 +311,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const displayName = useMemo(() => {
     if (!user) return "";
     return (
-      user.user_metadata?.full_name ||
-      user.user_metadata?.name ||
+      user.user_metadata?.["full_name"] ||
+      user.user_metadata?.["name"] ||
       user.email?.split("@")[0] ||
       "User"
     );

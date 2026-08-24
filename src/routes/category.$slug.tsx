@@ -148,9 +148,8 @@ function CategoryDetail() {
       <div className="min-h-screen bg-[#F8FAFC] dark:bg-background">
         <div className="mx-auto max-w-[1440px] px-6 sm:px-8 py-12">
           <ErrorState
-            title="Failed to load category products"
-            description="There was an error loading the product catalog. Please try again."
-            retry={refetch}
+            message="There was an error loading the product catalog. Please try again."
+            onRetry={() => refetch()}
           />
         </div>
       </div>

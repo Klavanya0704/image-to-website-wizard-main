@@ -100,15 +100,15 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       onMouseLeave={handleMouseLeave}
       style={{
         transform: isHovered
-          ? `translateY(-8px) scale(1.02) perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`
+          ? `translateY(-6px) scale(1.015) perspective(1000px) rotateX(${tilt.y * 0.7}deg) rotateY(${tilt.x * 0.7}deg)`
           : "translateY(0px) scale(1) perspective(1000px) rotateX(0deg) rotateY(0deg)",
         transition: isHovered
-          ? "transform 100ms ease-out, box-shadow 300ms ease-out, border-color 300ms ease-out"
-          : "transform 300ms ease-out, box-shadow 300ms ease-out, border-color 300ms ease-out",
+          ? "transform 100ms ease-out, box-shadow 250ms ease-out, border-color 250ms ease-out"
+          : "transform 250ms ease-out, box-shadow 250ms ease-out, border-color 250ms ease-out",
       }}
       className={`interactive-product-card group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-white dark:bg-card p-3.5 cursor-pointer ${
         isHovered
-          ? "border-blue-300 dark:border-blue-600 shadow-[0_20px_35px_-8px_rgba(20,85,217,0.22),0_10px_18px_-4px_rgba(0,0,0,0.08)]"
+          ? "border-blue-300 dark:border-blue-600 shadow-[0_16px_30px_-6px_rgba(20,85,217,0.18),0_8px_14px_-4px_rgba(0,0,0,0.06)]"
           : "border-slate-200/90 dark:border-slate-800/80 shadow-xs"
       }`}
     >
@@ -129,8 +129,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           alt={product.title || product.name || "Product"}
           loading="lazy"
           style={{
-            transform: isHovered ? "scale(1.07)" : "scale(1)",
-            transition: "transform 300ms ease-out",
+            transform: isHovered ? "scale(1.04)" : "scale(1)",
+            transition: "transform 250ms ease-out",
           }}
           className="interactive-product-image h-56 w-full object-cover rounded-xl"
         />

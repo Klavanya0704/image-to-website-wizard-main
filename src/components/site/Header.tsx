@@ -14,6 +14,7 @@ import {
   Store,
   Sparkles,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { useStore } from "@/lib/store";
 import { useAuth } from "@/lib/store";
@@ -121,9 +122,10 @@ const MOBILE_NAV_LINKS = [
 ];
 
 export function Header() {
-  const { cartCount } = useStore();
+  const { cartCount, wishlistCount } = useStore();
   const { user, isAdmin, displayName, signOut } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -142,7 +144,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white dark:bg-card border-b border-slate-200/80 dark:border-border shadow-xs">
+    <header className="sticky top-0 z-40 w-full bg-white/95 dark:bg-card/95 backdrop-blur-md border-b border-slate-200/80 dark:border-border shadow-xs transition-colors">
       {/* =========================================================================
           ROW 1 — TOP PRIMARY MAIN HEADER ROW (~86px Height)
          ========================================================================= */}
@@ -215,7 +217,9 @@ export function Header() {
 
         {/* Left: ACTE IDEA LAB Brand + Portal Switcher Buttons */}
         <div className="flex items-center gap-5 lg:gap-6 shrink-0">
-          <Logo />
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Logo />
+          </motion.div>
 
           {/* Portal Switcher Buttons Side-by-Side (Height ~44-46px) */}
           <div className="hidden lg:flex items-center gap-2.5">
@@ -246,20 +250,30 @@ export function Header() {
           onSubmit={handleSearch}
           className="hidden md:flex relative flex-1 max-w-xl mx-2 lg:mx-4 items-center"
         >
-          <input
-            type="search"
-            placeholder="Search for products, materials, services..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-[52px] bg-slate-50/90 border border-slate-200 rounded-full pl-6 pr-14 text-sm font-medium text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 transition-all shadow-2xs"
-          />
-          <button
-            type="submit"
-            aria-label="Search"
-            className="h-10 w-10 bg-blue-600 hover:bg-blue-700 rounded-full text-white absolute right-1.5 top-1/2 -translate-y-1/2 transition-all active:scale-95 cursor-pointer flex items-center justify-center shadow-xs"
+          <motion.div
+            animate={{ scale: searchFocused ? 1.01 : 1 }}
+            transition={{ duration: 0.2 }}
+            className="w-full relative flex items-center"
           >
-            <Search className="h-4.5 w-4.5" />
-          </button>
+            <input
+              type="search"
+              placeholder="Search for products, materials, services..."
+              value={searchTerm}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setSearchFocused(false)}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full h-[52px] bg-slate-50/90 border border-slate-200 rounded-full pl-6 pr-14 text-sm font-medium text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 transition-all shadow-2xs"
+            />
+            <motion.button
+              type="submit"
+              whileTap={{ scale: 0.92 }}
+              whileHover={{ scale: 1.05 }}
+              aria-label="Search"
+              className="h-10 w-10 bg-blue-600 hover:bg-blue-700 rounded-full text-white absolute right-1.5 top-1/2 -translate-y-1/2 transition-colors cursor-pointer flex items-center justify-center shadow-xs"
+            >
+              <Search className="h-4.5 w-4.5" />
+            </motion.button>
+          </motion.div>
         </form>
 
         {/* Right: Action Controls (Login/Signup, Wishlist, Cart) */}
@@ -267,7 +281,11 @@ export function Header() {
           {/* Login / Signup */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="h-[46px] px-3.5 rounded-full flex items-center gap-2 text-sm font-semibold text-slate-800 hover:text-blue-600 hover:bg-slate-50 transition-colors focus:outline-none cursor-pointer">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="h-[46px] px-3.5 rounded-full flex items-center gap-2 text-sm font-semibold text-slate-800 hover:text-blue-600 hover:bg-slate-50 transition-colors focus:outline-none cursor-pointer"
+              >
                 <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
                   <User className="h-4.5 w-4.5 text-slate-700" />
                 </div>
@@ -275,7 +293,7 @@ export function Header() {
                   {user ? `Hi, ${displayName.split(" ")[0]}` : "Login / Signup"}
                 </span>
                 <ChevronDown className="h-3.5 w-3.5 text-slate-500 hidden sm:inline" />
-              </button>
+              </motion.button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 mt-2">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -340,30 +358,48 @@ export function Header() {
           {/* Wishlist Heart Icon */}
           <Link
             to="/wishlist"
-            className="h-11 w-11 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors"
+            className="relative h-11 w-11 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors"
             title="Wishlist"
           >
-            <Heart className="h-5 w-5" />
+            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}>
+              <Heart className="h-5 w-5" />
+            </motion.div>
+            {wishlistCount > 0 && (
+              <span className="absolute top-1 right-1 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-xs">
+                {wishlistCount}
+              </span>
+            )}
           </Link>
 
-          {/* Cart Icon with Blue Badge */}
+          {/* Cart Icon with Animated Blue Badge */}
           <Link
             to="/cart"
             className="relative h-11 w-11 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors"
             title="Cart"
           >
-            <ShoppingCart className="h-5 w-5" />
-            <span className="absolute top-1 right-1 flex h-5 min-w-[20px] px-1 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white shadow-xs">
-              {cartCount > 0 ? cartCount : 3}
-            </span>
+            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}>
+              <ShoppingCart className="h-5 w-5" />
+            </motion.div>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={cartCount}
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.5, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                className="absolute top-1 right-1 flex h-5 min-w-[20px] px-1 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white shadow-xs"
+              >
+                {cartCount > 0 ? cartCount : 0}
+              </motion.span>
+            </AnimatePresence>
           </Link>
         </div>
       </div>
 
       {/* =========================================================================
-          ROW 2 — CATEGORY NAVIGATION BAR (~66px Height)
+          ROW 2 — CATEGORY NAVIGATION BAR (~66px Height) with Animated Interactive Pills
          ========================================================================= */}
-      <div className="border-t border-slate-100 bg-white dark:bg-card shadow-2xs">
+      <div className="border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-card shadow-2xs">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between h-[66px] px-4 sm:px-8 overflow-x-auto no-scrollbar gap-2 sm:gap-3 lg:gap-4">
           {CATEGORIES.map((cat) => {
             const isCatActive =
@@ -376,16 +412,24 @@ export function Header() {
                 <Link
                   key={cat.id}
                   to="/"
-                  className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl group cursor-pointer shrink-0 transition-all ${
-                    isCatActive
-                      ? "bg-blue-50/80 text-[#1455D9] font-bold shadow-2xs ring-1 ring-blue-500/20"
-                      : "text-slate-700 hover:text-[#1455D9] hover:bg-slate-50 font-semibold"
-                  }`}
+                  className="relative group shrink-0"
                 >
-                  <Home
-                    className={`w-4.5 h-4.5 ${isCatActive ? "text-[#1455D9]" : "text-slate-600 group-hover:text-[#1455D9]"}`}
-                  />
-                  <span className="text-[13px] sm:text-sm">{cat.name}</span>
+                  <motion.div
+                    whileHover={{ y: -2, scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-pointer transition-all ${
+                      isCatActive
+                        ? "bg-blue-50/90 text-[#1455D9] font-bold shadow-2xs ring-1 ring-blue-500/20"
+                        : "text-slate-700 hover:text-[#1455D9] hover:bg-slate-50 font-semibold"
+                    }`}
+                  >
+                    <Home
+                      className={`w-4.5 h-4.5 transition-transform duration-200 group-hover:scale-110 ${
+                        isCatActive ? "text-[#1455D9]" : "text-slate-600 group-hover:text-[#1455D9]"
+                      }`}
+                    />
+                    <span className="text-[13px] sm:text-sm">{cat.name}</span>
+                  </motion.div>
                 </Link>
               );
             }
@@ -397,16 +441,22 @@ export function Header() {
                 key={cat.id}
                 to={cat.to as any}
                 params={cat.params as any}
-                className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl group cursor-pointer shrink-0 transition-all ${
-                  isCatActive
-                    ? "bg-blue-50/80 text-[#1455D9] font-bold shadow-2xs ring-1 ring-blue-500/20"
-                    : "text-slate-700 hover:text-[#1455D9] hover:bg-slate-50 font-semibold"
-                }`}
+                className="relative group shrink-0"
               >
-                <div className={`p-1.5 rounded-lg ${cat.bgClass} flex items-center justify-center shrink-0`}>
-                  <IconComponent className="w-4 h-4" />
-                </div>
-                <span className="text-[13px] sm:text-sm whitespace-nowrap">{cat.name}</span>
+                <motion.div
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-pointer transition-all ${
+                    isCatActive
+                      ? "bg-blue-50/90 text-[#1455D9] font-bold shadow-2xs ring-1 ring-blue-500/20"
+                      : "text-slate-700 hover:text-[#1455D9] hover:bg-slate-50 font-semibold"
+                  }`}
+                >
+                  <div className={`p-1.5 rounded-lg ${cat.bgClass} flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110`}>
+                    <IconComponent className="w-4 h-4" />
+                  </div>
+                  <span className="text-[13px] sm:text-sm whitespace-nowrap">{cat.name}</span>
+                </motion.div>
               </Link>
             );
           })}

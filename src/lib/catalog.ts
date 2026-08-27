@@ -4470,9 +4470,43 @@ export async function getProducts(): Promise<Product[]> {
   return DEFAULT_CATALOG_PRODUCTS.map(sanitizeProduct);
 }
 
-export function getProductBySlug(slug: string): Product | null {
-  const p = DEFAULT_CATALOG_PRODUCTS.find(x => x.slug === slug);
-  return p ? sanitizeProduct(p) : null;
+export function getProductBySlug(rawSlug: string | undefined | null): Product | null {
+  if (!rawSlug) return null;
+  const decoded = decodeURIComponent(String(rawSlug)).toLowerCase().trim();
+  const normalized = decoded.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+  // 1. Direct slug match
+  let match = DEFAULT_CATALOG_PRODUCTS.find((p) => {
+    const pSlug = (p.slug || "").toLowerCase().trim();
+    return pSlug === decoded || pSlug === normalized;
+  });
+
+  // 2. Formatted slug match
+  if (!match) {
+    match = DEFAULT_CATALOG_PRODUCTS.find((p) => {
+      const pFormatted = formatProductSlug(p).toLowerCase().trim();
+      return pFormatted === decoded || pFormatted === normalized;
+    });
+  }
+
+  // 3. Title / Name normalized match
+  if (!match) {
+    match = DEFAULT_CATALOG_PRODUCTS.find((p) => {
+      const pName = (p.name || p.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      return pName === normalized;
+    });
+  }
+
+  // 4. ID or image_key match
+  if (!match) {
+    match = DEFAULT_CATALOG_PRODUCTS.find((p) => {
+      const pId = (p.id || "").toLowerCase().trim();
+      const pImageKey = (p.image_key || "").toLowerCase().trim();
+      return pId === decoded || pImageKey === decoded;
+    });
+  }
+
+  return match ? sanitizeProduct(match) : null;
 }
 
 export const productsQuery = {

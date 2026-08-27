@@ -29,6 +29,17 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const finalPrice = effectivePrice(product);
   const wished = isWishlisted(product.id);
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // If clicked on wishlist heart, buy now button, or any interactive control, do not navigate from card container
+    if (
+      (e.target as HTMLElement).closest("button") ||
+      (e.target as HTMLElement).closest("a")
+    ) {
+      return;
+    }
+    navigate({ to: "/product/$slug", params: { slug: safeSlug } });
+  };
+
   const handleBuyNow = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -83,6 +94,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
         ease: [0.22, 1, 0.36, 1],
       }}
       ref={cardRef}
+      onClick={handleCardClick}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -94,7 +106,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           ? "transform 100ms ease-out, box-shadow 300ms ease-out, border-color 300ms ease-out"
           : "transform 300ms ease-out, box-shadow 300ms ease-out, border-color 300ms ease-out",
       }}
-      className={`interactive-product-card group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-white dark:bg-card p-3.5 ${
+      className={`interactive-product-card group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-white dark:bg-card p-3.5 cursor-pointer ${
         isHovered
           ? "border-blue-300 dark:border-blue-600 shadow-[0_20px_35px_-8px_rgba(20,85,217,0.22),0_10px_18px_-4px_rgba(0,0,0,0.08)]"
           : "border-slate-200/90 dark:border-slate-800/80 shadow-xs"

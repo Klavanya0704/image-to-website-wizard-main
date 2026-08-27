@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Printer,
   Scissors,
@@ -133,6 +133,8 @@ function CategoryDetail() {
   const [maxPrice, setMaxPrice] = useState<number>(maxPriceLimit);
   const [sortBy, setSortBy] = useState<string>("featured");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState<boolean>(false);
+  const [heroParallax, setHeroParallax] = useState({ x: 0, y: 0 });
+  const bannerRef = useRef<HTMLDivElement>(null);
 
   // Reset filter inputs and update price slider when category changes
   useEffect(() => {
@@ -149,6 +151,19 @@ function CategoryDetail() {
     setSortBy("featured");
     setMobileFiltersOpen(false);
   }, [currentCategory, allProducts.length]);
+
+  const handleBannerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!bannerRef.current) return;
+    const rect = bannerRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5; // -0.5 to 0.5
+    // Max 6px shift for subtle premium parallax
+    setHeroParallax({ x: +(x * 12).toFixed(2), y: +(y * 12).toFixed(2) });
+  };
+
+  const handleBannerMouseLeave = () => {
+    setHeroParallax({ x: 0, y: 0 });
+  };
 
   if (isLoading) {
     return (
@@ -247,7 +262,7 @@ function CategoryDetail() {
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className="min-h-screen bg-[#F8FAFC] dark:bg-background pb-16"
     >
-      {/* Category Quick Pills Bar with layoutId Indicator */}
+      {/* Category Quick Pills Bar with interactive hover physics & layoutId */}
       <div className="bg-white/95 dark:bg-card/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 sticky top-16 z-30 shadow-2xs">
         <div className="mx-auto max-w-[1440px] px-6 sm:px-8">
           <div className="flex items-center gap-2 overflow-x-auto py-2.5 no-scrollbar">
@@ -260,7 +275,9 @@ function CategoryDetail() {
                   params={{ slug: cat.slug }}
                   className="relative group shrink-0 py-1"
                 >
-                  <div
+                  <motion.div
+                    whileHover={{ y: -3 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
                     className={`relative z-10 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors duration-200 cursor-pointer ${
                       isActive
                         ? "text-white font-bold"
@@ -268,7 +285,7 @@ function CategoryDetail() {
                     }`}
                   >
                     {cat.name}
-                  </div>
+                  </motion.div>
                   {isActive && (
                     <motion.div
                       layoutId="activeCategorySubBarPill"
@@ -284,18 +301,36 @@ function CategoryDetail() {
       </div>
 
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 pt-6 pb-4">
-        {/* Animated Category Header Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white p-6 sm:p-8 lg:p-10 mb-8 shadow-md border border-blue-700/40"
+        {/* Animated Category Header Banner with subtle mouse parallax */}
+        <div
+          ref={bannerRef}
+          onMouseMove={handleBannerMouseMove}
+          onMouseLeave={handleBannerMouseLeave}
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white p-6 sm:p-8 lg:p-10 mb-8 shadow-md border border-blue-700/40 cursor-default"
         >
           {/* Ambient background glow and grid */}
-          <div className="absolute top-0 right-0 -mt-8 -mr-8 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-1/3 -mb-8 h-48 w-48 rounded-full bg-indigo-500/20 blur-2xl pointer-events-none" />
+          <div
+            style={{
+              transform: `translate(${heroParallax.x * -1}px, ${heroParallax.y * -1}px)`,
+              transition: "transform 150ms ease-out",
+            }}
+            className="absolute top-0 right-0 -mt-8 -mr-8 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl pointer-events-none"
+          />
+          <div
+            style={{
+              transform: `translate(${heroParallax.x * 1.5}px, ${heroParallax.y * 1.5}px)`,
+              transition: "transform 150ms ease-out",
+            }}
+            className="absolute bottom-0 left-1/3 -mb-8 h-48 w-48 rounded-full bg-indigo-500/20 blur-2xl pointer-events-none"
+          />
 
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div
+            style={{
+              transform: `translate(${heroParallax.x * 0.4}px, ${heroParallax.y * 0.4}px)`,
+              transition: "transform 150ms ease-out",
+            }}
+            className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6"
+          >
             <div className="max-w-2xl">
               {/* Category Breadcrumb / Badge */}
               <motion.div
@@ -334,7 +369,8 @@ function CategoryDetail() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.25 }}
-              className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 shrink-0 self-start md:self-auto"
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 shrink-0 self-start md:self-auto shadow-sm"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 text-white">
                 <IconComp className="h-6 w-6" />
@@ -345,7 +381,7 @@ function CategoryDetail() {
               </div>
             </motion.div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Filter and Sort Toolbar */}
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
@@ -363,7 +399,7 @@ function CategoryDetail() {
               id="sort-select"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-card px-3.5 py-2 text-xs font-bold text-slate-800 dark:text-slate-200 focus:border-[#1455D9] focus:outline-none cursor-pointer shadow-2xs transition-colors"
+              className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-card px-3.5 py-2 text-xs font-bold text-slate-800 dark:text-slate-200 focus:border-[#1455D9] hover:border-blue-400 focus:outline-none cursor-pointer shadow-2xs transition-colors"
             >
               <option value="featured">Featured First</option>
               <option value="price-asc">Price: Low to High</option>
@@ -396,7 +432,7 @@ function CategoryDetail() {
                   <SlidersHorizontal className="h-3.5 w-3.5 text-[#1455D9]" /> Filters
                 </span>
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ y: -2, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleResetFilters}
                   className="text-[11px] font-bold text-[#1455D9] hover:underline cursor-pointer flex items-center gap-1"
@@ -418,7 +454,7 @@ function CategoryDetail() {
                       placeholder="Filter title or spec..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-card pl-8.5 pr-3 py-2 text-xs font-medium text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:border-[#1455D9] focus:bg-white focus:outline-none transition-all"
+                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-card pl-8.5 pr-3 py-2 text-xs font-medium text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:border-[#1455D9] hover:border-slate-300 focus:bg-white focus:outline-none transition-all"
                     />
                   </div>
                 </div>
@@ -457,14 +493,14 @@ function CategoryDetail() {
                   <label className="text-[11px] font-bold uppercase tracking-wider text-[#52627A] dark:text-slate-400 block mb-2.5">
                     Availability
                   </label>
-                  <label className="flex items-center gap-2.5 cursor-pointer group">
+                  <label className="flex items-center gap-2.5 cursor-pointer group hover:translate-x-0.5 transition-transform">
                     <input
                       type="checkbox"
                       checked={selectedAvailability === "in-stock"}
                       onChange={(e) =>
                         setSelectedAvailability(e.target.checked ? "in-stock" : "all")
                       }
-                      className="h-4 w-4 rounded border-slate-300 text-[#1455D9] focus:ring-[#1455D9] accent-[#1455D9] cursor-pointer"
+                      className="h-4 w-4 rounded border-slate-300 text-[#1455D9] focus:ring-[#1455D9] accent-[#1455D9] cursor-pointer group-hover:scale-105 transition-transform"
                     />
                     <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 select-none group-hover:text-[#1455D9] transition-colors">
                       In Stock Only
@@ -483,7 +519,7 @@ function CategoryDetail() {
                     value={minRating}
                     onChange={(e) => setMinRating(Number(e.target.value))}
                     aria-label="Filter by minimum rating"
-                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-card px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#1455D9] focus:outline-none cursor-pointer"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-card px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-[#1455D9] hover:border-slate-400 focus:outline-none cursor-pointer transition-colors"
                   >
                     <option value="0">All Ratings</option>
                     <option value="4">4★ &amp; Above</option>
@@ -503,7 +539,7 @@ function CategoryDetail() {
                 </span>
                 <button
                   onClick={() => setMobileFiltersOpen(true)}
-                  className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-[#0B1736] shadow-2xs cursor-pointer"
+                  className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-[#0B1736] shadow-2xs cursor-pointer hover:border-blue-400 transition-colors"
                 >
                   <SlidersHorizontal className="h-3.5 w-3.5" /> Filters
                 </button>

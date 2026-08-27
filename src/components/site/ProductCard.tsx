@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Star, Zap, Heart, Check, ArrowRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Star, Zap, Heart, Check } from "lucide-react";
+import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { productImage } from "@/lib/product-images";
@@ -21,7 +21,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const { addToCart, toggleWishlist, isWishlisted } = useStore();
   const [isHovered, setIsHovered] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const off = discountPercent(product);
   const safeSlug = formatProductSlug(product);
@@ -50,16 +51,25 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     toggleWishlist(product.id);
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMousePos({ x: x * 8, y: -y * 8 });
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5; // -0.5 to 0.5
+    // Subtle 3D tilt: max 2.5 degrees rotation
+    setTilt({
+      x: +(x * 4).toFixed(2),
+      y: +(-y * 4).toFixed(2),
+    });
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    setMousePos({ x: 0, y: 0 });
+    setTilt({ x: 0, y: 0 });
   };
 
   return (
@@ -72,16 +82,29 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
         delay: Math.min(index * 0.07, 0.45),
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="interactive-product-card group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 dark:border-slate-800/80 bg-white dark:bg-card p-3.5 shadow-xs"
+      ref={cardRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: isHovered
+          ? `translateY(-8px) scale(1.02) perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`
+          : "translateY(0px) scale(1) perspective(1000px) rotateX(0deg) rotateY(0deg)",
+        transition: isHovered
+          ? "transform 100ms ease-out, box-shadow 300ms ease-out, border-color 300ms ease-out"
+          : "transform 300ms ease-out, box-shadow 300ms ease-out, border-color 300ms ease-out",
+      }}
+      className={`interactive-product-card group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-white dark:bg-card p-3.5 ${
+        isHovered
+          ? "border-blue-300 dark:border-blue-600 shadow-[0_20px_35px_-8px_rgba(20,85,217,0.22),0_10px_18px_-4px_rgba(0,0,0,0.08)]"
+          : "border-slate-200/90 dark:border-slate-800/80 shadow-xs"
+      }`}
     >
       {/* Clickable Image Stage with Discount Badge & Animated Wishlist Button */}
       <Link
         to="/product/$slug"
         params={{ slug: safeSlug }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        className="relative block h-56 w-full overflow-hidden rounded-xl bg-slate-100/80 dark:bg-slate-900/80 cursor-pointer isolate [perspective:800px]"
+        className="relative block h-56 w-full overflow-hidden rounded-xl bg-slate-100/80 dark:bg-slate-900/80 cursor-pointer isolate"
       >
         <img
           src={
@@ -94,9 +117,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           alt={product.title || product.name || "Product"}
           loading="lazy"
           style={{
-            transform: isHovered
-              ? `scale(1.06) rotateX(${mousePos.y}deg) rotateY(${mousePos.x}deg)`
-              : "scale(1) rotateX(0deg) rotateY(0deg)",
+            transform: isHovered ? "scale(1.07)" : "scale(1)",
+            transition: "transform 300ms ease-out",
           }}
           className="interactive-product-image h-56 w-full object-cover rounded-xl"
         />
@@ -129,10 +151,10 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             <div />
           )}
 
-          {/* Animated Wishlist Heart Button */}
+          {/* Animated Wishlist Heart Button with hover & click physics */}
           <motion.button
-            whileHover={{ scale: 1.15 }}
-            whileTap={{ scale: 1.25, rotate: -12 }}
+            whileHover={{ scale: 1.15, rotate: 5 }}
+            whileTap={{ scale: 1.3 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
             onClick={handleToggleWishlist}
             aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
@@ -164,11 +186,19 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             {product.category || "3D PRINTING"}
           </span>
 
-          {/* Product Title */}
+          {/* Product Title with smooth 2px upward hover translation */}
           <Link
             to="/product/$slug"
             params={{ slug: safeSlug }}
-            className="text-[15px] font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-snug min-h-[42px] group-hover:text-[#1455D9] transition-colors flex items-start"
+            style={{
+              transform: isHovered ? "translateY(-2px)" : "translateY(0)",
+              transition: "transform 200ms ease-out, color 200ms ease-out",
+            }}
+            className={`interactive-product-title text-[15px] font-bold line-clamp-2 leading-snug min-h-[42px] flex items-start ${
+              isHovered
+                ? "text-[#1455D9] dark:text-blue-400"
+                : "text-[#0B1736] dark:text-white"
+            }`}
             title={product.name}
           >
             {product.name}

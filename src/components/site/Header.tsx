@@ -223,23 +223,27 @@ export function Header() {
 
           {/* Portal Switcher Buttons Side-by-Side */}
           <div className="hidden lg:flex items-center gap-2.5">
-            <Link
-              to="/"
-              className={`h-[46px] border border-slate-200 bg-white text-slate-800 px-5 rounded-full font-semibold flex items-center gap-2 hover:bg-slate-50 hover:border-slate-300 transition-all text-sm cursor-pointer shadow-2xs ${
-                isStoreActive ? "ring-2 ring-blue-500/20 border-slate-300 font-bold" : ""
-              }`}
-            >
-              <Store className="h-4.5 w-4.5 text-blue-600" />
-              <span>Store</span>
-            </Link>
+            <motion.div whileHover={{ y: -2, scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Link
+                to="/"
+                className={`h-[46px] border border-slate-200 bg-white text-slate-800 px-5 rounded-full font-semibold flex items-center gap-2 hover:bg-slate-50 hover:border-slate-300 transition-all text-sm cursor-pointer shadow-2xs ${
+                  isStoreActive ? "ring-2 ring-blue-500/20 border-slate-300 font-bold" : ""
+                }`}
+              >
+                <Store className="h-4.5 w-4.5 text-blue-600" />
+                <span>Store</span>
+              </Link>
+            </motion.div>
 
-            <Link
-              to="/makerspace"
-              className="h-[46px] bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-full font-semibold flex items-center gap-2 shadow-xs hover:shadow transition-all text-sm cursor-pointer"
-            >
-              <Sparkles className="h-4.5 w-4.5 text-white" />
-              <span>Makerspace</span>
-            </Link>
+            <motion.div whileHover={{ y: -2, scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Link
+                to="/makerspace"
+                className="h-[46px] bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-full font-semibold flex items-center gap-2 shadow-xs hover:shadow transition-all text-sm cursor-pointer"
+              >
+                <Sparkles className="h-4.5 w-4.5 text-white" />
+                <span>Makerspace</span>
+              </Link>
+            </motion.div>
           </div>
         </div>
 
@@ -361,7 +365,7 @@ export function Header() {
             className="relative h-11 w-11 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors"
             title="Wishlist"
           >
-            <motion.div whileHover={{ scale: 1.18 }} whileTap={{ scale: 0.85 }}>
+            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}>
               <Heart className="h-5 w-5" />
             </motion.div>
             {wishlistCount > 0 && (
@@ -377,7 +381,7 @@ export function Header() {
             className="relative h-11 w-11 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors group"
             title="Cart"
           >
-            <motion.div whileHover={{ scale: 1.18 }} whileTap={{ scale: 0.85 }}>
+            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}>
               <ShoppingCart className="h-5 w-5 group-hover:text-blue-600 transition-colors" />
             </motion.div>
             <AnimatePresence mode="wait">
@@ -397,7 +401,7 @@ export function Header() {
       </div>
 
       {/* =========================================================================
-          ROW 2 — CATEGORY NAVIGATION BAR with Animated layoutId Indicator
+          ROW 2 — CATEGORY NAVIGATION BAR with Interactive Hover Physics & layoutId
          ========================================================================= */}
       <div className="border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-card shadow-2xs">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between h-[66px] px-4 sm:px-8 overflow-x-auto no-scrollbar gap-2 sm:gap-3 lg:gap-4">
@@ -414,7 +418,9 @@ export function Header() {
                   to="/"
                   className="relative group shrink-0 py-1"
                 >
-                  <div
+                  <motion.div
+                    whileHover={{ y: -3 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
                     className={`relative z-10 flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200 ${
                       isCatActive
                         ? "text-[#1455D9] font-black"
@@ -422,14 +428,14 @@ export function Header() {
                     }`}
                   >
                     <Home
-                      className={`w-4.5 h-4.5 transition-transform duration-200 group-hover:scale-115 ${
+                      className={`w-4.5 h-4.5 category-icon transition-transform duration-200 group-hover:scale-115 ${
                         isCatActive ? "text-[#1455D9]" : "text-slate-600 group-hover:text-[#1455D9]"
                       }`}
                     />
-                    <span className="text-[13px] sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200">
+                    <span className="category-text text-[13px] sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200">
                       {cat.name}
                     </span>
-                  </div>
+                  </motion.div>
 
                   {/* Animated Background Pill Indicator */}
                   {isCatActive && (
@@ -452,7 +458,9 @@ export function Header() {
                 params={cat.params as any}
                 className="relative group shrink-0 py-1"
               >
-                <div
+                <motion.div
+                  whileHover={{ y: -3 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
                   className={`relative z-10 flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200 ${
                     isCatActive
                       ? "text-[#1455D9] font-black"
@@ -460,14 +468,14 @@ export function Header() {
                   }`}
                 >
                   <div
-                    className={`p-1.5 rounded-lg ${cat.bgClass} flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-115 shadow-2xs`}
+                    className={`category-icon p-1.5 rounded-lg ${cat.bgClass} flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-115 shadow-2xs`}
                   >
                     <IconComponent className="w-4 h-4" />
                   </div>
-                  <span className="text-[13px] sm:text-sm whitespace-nowrap group-hover:translate-x-0.5 transition-transform duration-200">
+                  <span className="category-text text-[13px] sm:text-sm whitespace-nowrap group-hover:translate-x-0.5 transition-transform duration-200">
                     {cat.name}
                   </span>
-                </div>
+                </motion.div>
 
                 {/* Animated Background Pill Indicator */}
                 {isCatActive && (

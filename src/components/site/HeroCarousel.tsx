@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import heroStoreBg from "@/assets/hero-store-bg.png";
+import heroStoreBg from "@/assets/hero-store-bg.jpg";
 import heroMakerspaceBg from "@/assets/hero-makerspace-bg.jpg";
 
 interface SlideData {
@@ -54,8 +54,9 @@ const SLIDES: SlideData[] = [
       { icon: Headphones, label: "Lab Support" },
     ],
     bgImage: heroStoreBg,
+    // Subtle left-to-right gradient to keep typography crisp without washing out the 3D product showcase on right
     gradientOverlay:
-      "bg-gradient-to-r from-[#06122d]/90 via-[#091b45]/65 to-transparent sm:from-[#06122d]/92 sm:via-[#091b45]/55 sm:to-transparent",
+      "bg-gradient-to-r from-[#040e28]/90 via-[#071842]/45 to-transparent",
   },
   {
     id: "makerspace",
@@ -76,8 +77,9 @@ const SLIDES: SlideData[] = [
       { icon: Sparkles, label: "Modern Workspace" },
     ],
     bgImage: heroMakerspaceBg,
+    // Subtle left-to-right dark tech gradient keeping workshop machinery crisp on right
     gradientOverlay:
-      "bg-gradient-to-r from-[#03091e]/90 via-[#051133]/65 to-transparent sm:from-[#03091e]/92 sm:via-[#051133]/55 sm:to-transparent",
+      "bg-gradient-to-r from-[#03091e]/90 via-[#051133]/45 to-transparent",
   },
 ];
 
@@ -149,7 +151,7 @@ export function HeroCarousel() {
         onMouseLeave={handleMouseLeave}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        className="relative overflow-hidden rounded-[24px] h-[430px] sm:h-[400px] lg:h-[400px] shadow-[0_8px_30px_rgba(7,19,48,0.12)] border border-slate-200/50 dark:border-blue-950/60 isolate flex items-center"
+        className="relative overflow-hidden rounded-[24px] h-[430px] sm:h-[400px] lg:h-[400px] shadow-[0_8px_30px_rgba(7,19,48,0.12)] border border-slate-200/50 dark:border-blue-950/60 isolate flex items-center bg-[#071330]"
       >
         {/* Full-width Edge-to-Edge Animated Background Image */}
         <AnimatePresence mode="wait">
@@ -161,7 +163,7 @@ export function HeroCarousel() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="absolute inset-0 w-full h-full pointer-events-none"
           >
-            {/* Background image covering entire container with subtle mouse parallax */}
+            {/* High-Resolution Wide 16:9 Background image covering entire container */}
             <div
               style={{
                 backgroundImage: `url(${currentSlide.bgImage})`,
@@ -173,12 +175,12 @@ export function HeroCarousel() {
               className="absolute inset-0 w-full h-full bg-no-repeat"
             />
 
-            {/* Directional Vignette Gradient Overlay */}
+            {/* Subtle Directional Gradient Overlay */}
             <div className={`absolute inset-0 ${currentSlide.gradientOverlay}`} />
           </motion.div>
         </AnimatePresence>
 
-        {/* Clean, Decluttered Content Layer */}
+        {/* Clean Left-Aligned Content Layer */}
         <div className="relative z-20 w-full px-6 sm:px-10 lg:px-12 py-6 sm:py-8">
           <AnimatePresence mode="wait">
             <motion.div
@@ -200,12 +202,12 @@ export function HeroCarousel() {
                 <span>{currentSlide.badge}</span>
               </motion.div>
 
-              {/* Main Headline (44-50px desktop, line-height 1.05) */}
+              {/* Main Headline */}
               <motion.h1
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-3 text-3xl sm:text-4xl lg:text-[46px] font-black tracking-tight leading-[1.06] text-white drop-shadow-sm"
+                className="mt-3 text-3xl sm:text-4xl lg:text-[44px] font-black tracking-tight leading-[1.06] text-white drop-shadow-sm"
               >
                 {currentSlide.titleLine1} <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-sky-200 to-cyan-300">
@@ -213,7 +215,7 @@ export function HeroCarousel() {
                 </span>
               </motion.h1>
 
-              {/* Short, Concise Description (15-16px) */}
+              {/* Short, Concise Description */}
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -230,7 +232,7 @@ export function HeroCarousel() {
                 transition={{ duration: 0.4, delay: 0.28 }}
                 className="mt-5 flex flex-wrap items-center gap-3 w-full sm:w-auto"
               >
-                {/* Primary CTA */}
+                {/* Primary CTA with sliding arrow */}
                 <Link
                   to={currentSlide.primaryCtaLink}
                   className="group/cta inline-flex items-center justify-center gap-2 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] text-white px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-extrabold shadow-[0_4px_16px_rgba(20,85,217,0.35)] hover:shadow-[0_6px_22px_rgba(20,85,217,0.5)] transition-all duration-200 hover:scale-[1.03] active:scale-95 cursor-pointer border border-blue-400/30"

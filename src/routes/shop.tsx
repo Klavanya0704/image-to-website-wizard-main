@@ -143,7 +143,12 @@ function Shop() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-background pb-20">
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="min-h-screen bg-[#F8FAFC] dark:bg-background pb-20"
+    >
       {/* 1. Premium Blue-Gradient All Products Hero Banner */}
       <section className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8 pt-6">
         <motion.div
@@ -218,7 +223,12 @@ function Shop() {
         ) : (
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             {/* Left Desktop Filters Sidebar */}
-            <aside className="hidden lg:block w-[280px] shrink-0">
+            <motion.aside
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="hidden lg:block w-[280px] shrink-0"
+            >
               <div className="sticky top-28 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-card p-6 shadow-xs space-y-6">
                 <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
                   <h3 className="text-xs font-black uppercase tracking-wider text-[#0B1736] dark:text-white flex items-center gap-1.5">
@@ -310,7 +320,7 @@ function Shop() {
                   <RotateCcw className="h-3.5 w-3.5" /> Clear Filters
                 </button>
               </div>
-            </aside>
+            </motion.aside>
 
             {/* Right Products Area */}
             <div className="flex-1 min-w-0">
@@ -356,17 +366,13 @@ function Shop() {
                   onAction={handleResetFilters}
                 />
               ) : (
-                <motion.div
-                  key={`shop-grid-${sortBy}-${maxPrice}-${minRating}-${q}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.25 }}
-                  className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
-                >
-                  {sortedProducts.map((product, idx) => (
-                    <ProductCard key={product.id} product={product} index={idx} />
-                  ))}
-                </motion.div>
+                <div className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+                  <AnimatePresence mode="popLayout">
+                    {sortedProducts.map((product, idx) => (
+                      <ProductCard key={product.id} product={product} index={idx} />
+                    ))}
+                  </AnimatePresence>
+                </div>
               )}
             </div>
           </div>
@@ -481,6 +487,6 @@ function Shop() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }

@@ -707,7 +707,7 @@ function ProductDetail() {
                 <button
                   type="button"
                   onClick={handleAddToCart}
-                  className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] text-white py-3.5 px-6 text-sm font-black tracking-wide shadow-[0_4px_16px_rgba(20,85,217,0.3)] hover:shadow-[0_6px_22px_rgba(20,85,217,0.45)] hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer"
+                  className="interactive-buy-btn flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] text-white py-3.5 px-6 text-sm font-black tracking-wide shadow-[0_4px_16px_rgba(20,85,217,0.3)] hover:shadow-[0_6px_22px_rgba(20,85,217,0.45)] cursor-pointer"
                 >
                   <ShoppingCart className="h-4 w-4" />
                   <span>Add to Cart ({inr(finalPrice * quantity)})</span>
@@ -717,9 +717,9 @@ function ProductDetail() {
                 <button
                   type="button"
                   onClick={handleBuyNow}
-                  className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#0B1736] hover:bg-[#1E293B] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#0B1736] py-3.5 px-6 text-sm font-black tracking-wide shadow-md hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer"
+                  className="interactive-buy-btn flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#0B1736] hover:bg-[#1E293B] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#0B1736] py-3.5 px-6 text-sm font-black tracking-wide shadow-md cursor-pointer"
                 >
-                  <Zap className="h-4 w-4 fill-current text-[#FACC15]" />
+                  <Zap className="interactive-buy-icon h-4 w-4 fill-current text-[#FACC15]" />
                   <span>Buy Now</span>
                 </button>
               </div>
@@ -926,69 +926,8 @@ function ProductDetail() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
-            {relatedProducts.map((p) => (
-              <div
-                key={p.id}
-                onClick={(e) => {
-                  if ((e.target as HTMLElement).closest("button")) return;
-                  navigate({ to: "/product/$slug", params: { slug: p.slug } });
-                }}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#DCE5F2] dark:border-slate-800 bg-white dark:bg-card p-3.5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(20,85,217,0.12)] cursor-pointer"
-              >
-                <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900/50 block">
-                  <img
-                    src={productImage(p.image_key)}
-                    alt={p.name}
-                    className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
-                  />
-                  <span className="absolute left-2 top-2 rounded-full bg-[#1455D9] text-white px-2 py-0.5 text-[9px] font-black uppercase tracking-wider shadow-xs">
-                    {p.category_slug.replace(/-/g, " ")}
-                  </span>
-                </div>
-
-                <div className="flex flex-1 flex-col pt-3 justify-between space-y-2">
-                  <div className="space-y-1">
-                    <h3 className="text-xs sm:text-sm font-bold text-[#0B1736] dark:text-white line-clamp-2 leading-[1.35] min-h-[2.6rem] group-hover:text-[#1455D9] transition-colors">
-                      {p.name}
-                    </h3>
-                    <div className="flex items-center gap-1 text-[11px] font-semibold text-[#52627A] dark:text-slate-400">
-                      <Star className="h-3 w-3 fill-[#F59E0B] text-[#F59E0B]" />
-                      <span className="font-bold text-[#0B1736] dark:text-white">{p.rating}</span>
-                      <span>({p.review_count || 50})</span>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 border-t border-[#DCE5F2]/40 dark:border-border/40 mt-auto">
-                    <div className="flex items-baseline gap-2 pb-2">
-                      <span className="text-base font-black text-[#0B1736] dark:text-white">
-                        {inr(effectivePrice(p))}
-                      </span>
-                      {p.discount_price && (
-                        <span className="text-xs text-[#52627A]/70 line-through">
-                          {inr(p.price)}
-                        </span>
-                      )}
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToCart({
-                          productId: p.id,
-                          slug: p.slug,
-                          name: p.name,
-                          imageKey: p.image_key,
-                          price: effectivePrice(p),
-                        });
-                        navigate({ to: "/checkout" });
-                      }}
-                      className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] text-white py-2 text-xs font-bold shadow-xs transition-transform active:scale-95 cursor-pointer"
-                    >
-                      <Zap className="h-3.5 w-3.5 fill-white text-white" />
-                      <span>Buy Now</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
+            {relatedProducts.map((p, idx) => (
+              <ProductCard key={p.id} product={p} index={idx} />
             ))}
           </div>
         </div>

@@ -15,8 +15,6 @@ import {
   RotateCcw,
   Search,
   Sparkles,
-  Check,
-  ChevronRight,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -181,7 +179,6 @@ function CategoryDetail() {
 
   // Filter products by user inputs
   const filteredProducts = categoryProducts.filter((product) => {
-    // 1. Search keyword
     if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase();
       const matchName = product.name.toLowerCase().includes(term);
@@ -190,17 +187,14 @@ function CategoryDetail() {
       if (!matchName && !matchDesc && !matchSub) return false;
     }
 
-    // 2. Availability
     if (selectedAvailability === "in-stock" && (product.stock ?? 0) <= 0) {
       return false;
     }
 
-    // 3. Rating
     if (minRating > 0 && (product.rating ?? 0) < minRating) {
       return false;
     }
 
-    // 4. Price
     const effectivePrice = product.discount_price ?? product.price;
     if (effectivePrice > maxPrice) {
       return false;
@@ -245,8 +239,15 @@ function CategoryDetail() {
   const IconComp = category.icon;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-background pb-16">
-      {/* Category Quick Pills Bar */}
+    <motion.div
+      key={currentCategory}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      className="min-h-screen bg-[#F8FAFC] dark:bg-background pb-16"
+    >
+      {/* Category Quick Pills Bar with layoutId Indicator */}
       <div className="bg-white/95 dark:bg-card/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 sticky top-16 z-30 shadow-2xs">
         <div className="mx-auto max-w-[1440px] px-6 sm:px-8">
           <div className="flex items-center gap-2 overflow-x-auto py-2.5 no-scrollbar">
@@ -257,19 +258,24 @@ function CategoryDetail() {
                   key={cat.slug}
                   to="/category/$slug"
                   params={{ slug: cat.slug }}
-                  className="relative group shrink-0"
+                  className="relative group shrink-0 py-1"
                 >
-                  <motion.div
-                    whileHover={{ y: -1.5, scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
+                  <div
+                    className={`relative z-10 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors duration-200 cursor-pointer ${
                       isActive
-                        ? "bg-[#1455D9] text-white shadow-xs font-bold ring-2 ring-blue-400/30"
-                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800"
+                        ? "text-white font-bold"
+                        : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                     }`}
                   >
                     {cat.name}
-                  </motion.div>
+                  </div>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeCategorySubBarPill"
+                      transition={{ type: "spring", stiffness: 450, damping: 30 }}
+                      className="absolute inset-0 rounded-full bg-[#1455D9] shadow-sm"
+                    />
+                  )}
                 </Link>
               );
             })}
@@ -280,10 +286,9 @@ function CategoryDetail() {
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 pt-6 pb-4">
         {/* Animated Category Header Banner */}
         <motion.div
-          key={`header-${currentCategory}`}
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white p-6 sm:p-8 lg:p-10 mb-8 shadow-md border border-blue-700/40"
         >
           {/* Ambient background glow and grid */}
@@ -293,24 +298,44 @@ function CategoryDetail() {
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="max-w-2xl">
               {/* Category Breadcrumb / Badge */}
-              <div className="flex items-center gap-2 mb-3">
+              <motion.div
+                initial={{ opacity: 0, x: -15 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.35, delay: 0.1 }}
+                className="flex items-center gap-2 mb-3"
+              >
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-md px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-200 border border-white/10">
                   <Sparkles className="h-3 w-3 text-amber-300" />
                   {category.badge}
                 </span>
                 <span className="text-xs text-blue-200/80 font-semibold">• AICTE IDEA Lab</span>
-              </div>
+              </motion.div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white">
+              <motion.h1
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.15 }}
+                className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white"
+              >
                 {category.name}
-              </h1>
-              <p className="mt-2 text-sm sm:text-base text-blue-100/90 leading-relaxed">
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="mt-2 text-sm sm:text-base text-blue-100/90 leading-relaxed"
+              >
                 {category.description}
-              </p>
+              </motion.p>
             </div>
 
             {/* Right Badge Icon & Stats */}
-            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 shrink-0 self-start md:self-auto">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: 0.25 }}
+              className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 shrink-0 self-start md:self-auto"
+            >
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 text-white">
                 <IconComp className="h-6 w-6" />
               </div>
@@ -318,7 +343,7 @@ function CategoryDetail() {
                 <div className="text-2xl font-black text-white">{categoryProducts.length}</div>
                 <div className="text-xs font-semibold text-blue-200">Catalog Products</div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
 
@@ -359,8 +384,13 @@ function CategoryDetail() {
           />
         ) : (
           <div className="flex flex-col lg:flex-row gap-8 items-start">
-            {/* Left Filter Sidebar (280px Desktop) */}
-            <aside className="hidden lg:block w-[280px] shrink-0 sticky top-32 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-card p-5 shadow-xs">
+            {/* Left Filter Sidebar with entrance animation */}
+            <motion.aside
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+              className="hidden lg:block w-[280px] shrink-0 sticky top-32 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-card p-5 shadow-xs"
+            >
               <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-5">
                 <span className="text-xs font-bold uppercase tracking-wider text-[#0B1736] dark:text-white flex items-center gap-1.5">
                   <SlidersHorizontal className="h-3.5 w-3.5 text-[#1455D9]" /> Filters
@@ -462,9 +492,9 @@ function CategoryDetail() {
                   </select>
                 </div>
               </div>
-            </aside>
+            </motion.aside>
 
-            {/* Right Product Grid */}
+            {/* Right Product Grid with AnimatePresence */}
             <div className="flex-1 min-w-0">
               {/* Mobile Filter Toggle Button */}
               <div className="flex lg:hidden items-center justify-between pb-4 mb-4 border-b border-slate-200 dark:border-slate-800">
@@ -487,17 +517,13 @@ function CategoryDetail() {
                   onAction={handleResetFilters}
                 />
               ) : (
-                <motion.div
-                  key={`grid-${currentCategory}-${sortBy}-${maxPrice}-${minRating}-${searchTerm}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.25 }}
-                  className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
-                >
-                  {sortedProducts.map((product, idx) => (
-                    <ProductCard key={product.id} product={product} index={idx} />
-                  ))}
-                </motion.div>
+                <div className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+                  <AnimatePresence mode="popLayout">
+                    {sortedProducts.map((product, idx) => (
+                      <ProductCard key={product.id} product={product} index={idx} />
+                    ))}
+                  </AnimatePresence>
+                </div>
               )}
             </div>
           </div>
@@ -613,6 +639,6 @@ function CategoryDetail() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }

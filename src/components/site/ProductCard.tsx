@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Star, Zap, Heart, Check } from "lucide-react";
-import { motion } from "framer-motion";
+import { Star, Zap, Heart, Check, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { productImage } from "@/lib/product-images";
@@ -21,6 +21,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const { addToCart, toggleWishlist, isWishlisted } = useStore();
   const [isHovered, setIsHovered] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const off = discountPercent(product);
   const safeSlug = formatProductSlug(product);
@@ -40,7 +41,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     });
     setTimeout(() => {
       navigate({ to: "/cart" });
-    }, 150);
+    }, 120);
   };
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
@@ -49,28 +50,40 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     toggleWishlist(product.id);
   };
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setMousePos({ x: x * 8, y: -y * 8 });
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setMousePos({ x: 0, y: 0 });
+  };
+
   return (
     <motion.article
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-20px" }}
+      initial={{ opacity: 0, y: 40, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.92, y: 20 }}
       transition={{
-        duration: 0.32,
-        delay: Math.min((index % 6) * 0.04, 0.24),
-        ease: [0.21, 0.47, 0.32, 0.98],
+        duration: 0.5,
+        delay: Math.min(index * 0.07, 0.45),
+        ease: [0.22, 1, 0.36, 1],
       }}
-      whileHover={{ y: -6, scale: 1.01 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 dark:border-slate-800/80 bg-white dark:bg-card p-3.5 shadow-xs hover:shadow-xl hover:border-blue-300/80 dark:hover:border-blue-600/50 transition-all duration-300 transform-gpu"
+      className="interactive-product-card group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 dark:border-slate-800/80 bg-white dark:bg-card p-3.5 shadow-xs"
     >
-      {/* Clickable Image Stage with Discount Badge & Wishlist Button */}
+      {/* Clickable Image Stage with Discount Badge & Animated Wishlist Button */}
       <Link
         to="/product/$slug"
         params={{ slug: safeSlug }}
-        className="relative block h-56 w-full overflow-hidden rounded-xl bg-slate-100/80 dark:bg-slate-900/80 cursor-pointer isolate transform-gpu"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="relative block h-56 w-full overflow-hidden rounded-xl bg-slate-100/80 dark:bg-slate-900/80 cursor-pointer isolate [perspective:800px]"
       >
-        <motion.img
+        <img
           src={
             product.image ||
             productImage(
@@ -80,14 +93,17 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           }
           alt={product.title || product.name || "Product"}
           loading="lazy"
-          animate={{ scale: isHovered ? 1.04 : 1 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="h-56 w-full object-cover rounded-xl"
+          style={{
+            transform: isHovered
+              ? `scale(1.06) rotateX(${mousePos.y}deg) rotateY(${mousePos.x}deg)`
+              : "scale(1) rotateX(0deg) rotateY(0deg)",
+          }}
+          className="interactive-product-image h-56 w-full object-cover rounded-xl"
         />
 
         {/* Ambient subtle image gradient on hover */}
         <div
-          className={`absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent pointer-events-none transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-gradient-to-t from-slate-950/25 via-transparent to-transparent pointer-events-none transition-opacity duration-300 ${
             isHovered ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -97,10 +113,15 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           {/* Animated Royal Blue Discount Badge */}
           {off > 0 ? (
             <motion.span
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.7, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="rounded-full bg-[#1455D9] px-2.5 py-0.5 text-[11px] font-black tracking-wider uppercase text-white shadow-sm border border-blue-400/30"
+              transition={{
+                delay: Math.min(index * 0.07 + 0.15, 0.5),
+                type: "spring",
+                stiffness: 400,
+                damping: 20,
+              }}
+              className="rounded-full bg-[#1455D9] px-2.5 py-0.5 text-[11px] font-black tracking-wider uppercase text-white shadow-sm border border-blue-400/30 select-none"
             >
               {off}% OFF
             </motion.span>
@@ -108,23 +129,29 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             <div />
           )}
 
-          {/* Quick Wishlist Toggle Button */}
+          {/* Animated Wishlist Heart Button */}
           <motion.button
-            whileTap={{ scale: 0.8 }}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.15 }}
+            whileTap={{ scale: 1.25, rotate: -12 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
             onClick={handleToggleWishlist}
             aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
-            className={`pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full backdrop-blur-md shadow-sm transition-all duration-200 ${
+            className={`pointer-events-auto flex h-8.5 w-8.5 items-center justify-center rounded-full backdrop-blur-md shadow-sm transition-colors duration-200 cursor-pointer ${
               wished
                 ? "bg-red-50 text-red-500 border border-red-200 dark:bg-red-950/80 dark:border-red-800"
                 : "bg-white/90 text-slate-400 hover:text-red-500 border border-slate-200/80 dark:bg-slate-900/90 dark:border-slate-700"
             }`}
           >
-            <Heart
-              className={`h-4 w-4 transition-transform duration-200 ${
-                wished ? "fill-red-500 text-red-500 scale-110" : ""
-              }`}
-            />
+            <motion.div
+              animate={{ scale: wished ? [1, 1.3, 1] : 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Heart
+                className={`h-4 w-4 transition-colors duration-200 ${
+                  wished ? "fill-red-500 text-red-500" : ""
+                }`}
+              />
+            </motion.div>
           </motion.button>
         </div>
       </Link>
@@ -180,32 +207,22 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
         </div>
 
         {/* ⚡ Buy Now Full-Width Pill Button with Micro-Interaction */}
-        <motion.div
-          whileTap={{ scale: 0.97 }}
-          whileHover={{ scale: 1.01 }}
-          className="mt-3 w-full"
-        >
+        <div className="mt-3 w-full">
           <Button
             onClick={handleBuyNow}
-            className="w-full rounded-full bg-[#1455D9] hover:bg-[#0F44B2] hover:shadow-md hover:shadow-blue-500/20 text-white font-bold text-xs py-2.5 flex items-center justify-center gap-1.5 cursor-pointer transition-all duration-200 active:scale-[0.98]"
+            className="interactive-buy-btn w-full rounded-full bg-[#1455D9] hover:bg-[#0F44B2] text-white font-bold text-xs py-2.5 flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
           >
-            <motion.div
-              animate={{ x: isHovered ? 2 : 0 }}
-              transition={{ duration: 0.2 }}
-              className="flex items-center gap-1.5"
-            >
-              {isAdding ? (
-                <>
-                  <Check className="h-3.5 w-3.5 text-emerald-300" /> Adding...
-                </>
-              ) : (
-                <>
-                  <Zap className="h-3.5 w-3.5 fill-current" /> Buy Now
-                </>
-              )}
-            </motion.div>
+            {isAdding ? (
+              <span className="flex items-center gap-1.5">
+                <Check className="h-3.5 w-3.5 text-emerald-300" /> Adding...
+              </span>
+            ) : (
+              <span className="flex items-center gap-1.5">
+                <Zap className="interactive-buy-icon h-3.5 w-3.5 fill-current" /> Buy Now
+              </span>
+            )}
           </Button>
-        </motion.div>
+        </div>
       </div>
     </motion.article>
   );

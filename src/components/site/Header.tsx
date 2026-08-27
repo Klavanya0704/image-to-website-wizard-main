@@ -52,7 +52,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "3d-printing" },
     icon: Icon3DPrinter,
-    bgClass: "bg-blue-50 group-hover:bg-blue-100 text-blue-600",
+    bgClass: "bg-blue-50 text-blue-600",
   },
   {
     id: "laser-cutting",
@@ -60,7 +60,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "laser-cutting" },
     icon: IconLaserCutter,
-    bgClass: "bg-red-50 group-hover:bg-red-100 text-red-600",
+    bgClass: "bg-red-50 text-red-600",
   },
   {
     id: "cnc-machining",
@@ -68,7 +68,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "cnc-machining" },
     icon: IconCncMilling,
-    bgClass: "bg-cyan-50 group-hover:bg-cyan-100 text-cyan-600",
+    bgClass: "bg-cyan-50 text-cyan-600",
   },
   {
     id: "electronics",
@@ -76,7 +76,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "electronics" },
     icon: IconElectronics,
-    bgClass: "bg-emerald-50 group-hover:bg-emerald-100 text-emerald-600",
+    bgClass: "bg-emerald-50 text-emerald-600",
   },
   {
     id: "drones-parts",
@@ -84,7 +84,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "drones-parts" },
     icon: IconDrone,
-    bgClass: "bg-purple-50 group-hover:bg-purple-100 text-purple-600",
+    bgClass: "bg-purple-50 text-purple-600",
   },
   {
     id: "acrylic-products",
@@ -92,7 +92,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "acrylic-products" },
     icon: IconAcrylic,
-    bgClass: "bg-indigo-50 group-hover:bg-indigo-100 text-indigo-600",
+    bgClass: "bg-indigo-50 text-indigo-600",
   },
   {
     id: "diy-kits",
@@ -100,7 +100,7 @@ const CATEGORIES = [
     to: "/category/$slug",
     params: { slug: "diy-kits" },
     icon: IconDiyKit,
-    bgClass: "bg-amber-50 group-hover:bg-amber-100 text-amber-600",
+    bgClass: "bg-amber-50 text-amber-600",
   },
 ];
 
@@ -221,9 +221,8 @@ export function Header() {
             <Logo />
           </motion.div>
 
-          {/* Portal Switcher Buttons Side-by-Side (Height ~44-46px) */}
+          {/* Portal Switcher Buttons Side-by-Side */}
           <div className="hidden lg:flex items-center gap-2.5">
-            {/* Store Button */}
             <Link
               to="/"
               className={`h-[46px] border border-slate-200 bg-white text-slate-800 px-5 rounded-full font-semibold flex items-center gap-2 hover:bg-slate-50 hover:border-slate-300 transition-all text-sm cursor-pointer shadow-2xs ${
@@ -234,7 +233,6 @@ export function Header() {
               <span>Store</span>
             </Link>
 
-            {/* Makerspace Button */}
             <Link
               to="/makerspace"
               className="h-[46px] bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-full font-semibold flex items-center gap-2 shadow-xs hover:shadow transition-all text-sm cursor-pointer"
@@ -245,16 +243,14 @@ export function Header() {
           </div>
         </div>
 
-        {/* Center: Search Bar (~52px Height with generous padding) */}
+        {/* Center: Interactive Expanding Search Bar */}
         <form
           onSubmit={handleSearch}
-          className="hidden md:flex relative flex-1 max-w-xl mx-2 lg:mx-4 items-center"
+          className={`hidden md:flex relative flex-1 mx-2 lg:mx-4 items-center transition-all duration-300 ${
+            searchFocused ? "max-w-2xl" : "max-w-xl"
+          }`}
         >
-          <motion.div
-            animate={{ scale: searchFocused ? 1.01 : 1 }}
-            transition={{ duration: 0.2 }}
-            className="w-full relative flex items-center"
-          >
+          <div className="w-full relative flex items-center">
             <input
               type="search"
               placeholder="Search for products, materials, services..."
@@ -262,21 +258,25 @@ export function Header() {
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-[52px] bg-slate-50/90 border border-slate-200 rounded-full pl-6 pr-14 text-sm font-medium text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 transition-all shadow-2xs"
+              className={`w-full h-[52px] rounded-full pl-6 pr-14 text-sm font-medium text-slate-800 placeholder:text-slate-400 outline-none transition-all duration-300 shadow-2xs ${
+                searchFocused
+                  ? "bg-white border-2 border-blue-600 shadow-lg shadow-blue-500/10 ring-4 ring-blue-500/15"
+                  : "bg-slate-50/90 border border-slate-200 hover:border-slate-300"
+              }`}
             />
             <motion.button
               type="submit"
               whileTap={{ scale: 0.92 }}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.08 }}
               aria-label="Search"
               className="h-10 w-10 bg-blue-600 hover:bg-blue-700 rounded-full text-white absolute right-1.5 top-1/2 -translate-y-1/2 transition-colors cursor-pointer flex items-center justify-center shadow-xs"
             >
-              <Search className="h-4.5 w-4.5" />
+              <Search className={`h-4.5 w-4.5 transition-transform duration-200 ${searchFocused ? "scale-110" : ""}`} />
             </motion.button>
-          </motion.div>
+          </div>
         </form>
 
-        {/* Right: Action Controls (Login/Signup, Wishlist, Cart) */}
+        {/* Right: Action Controls */}
         <div className="flex items-center gap-4 sm:gap-5 lg:gap-6 shrink-0">
           {/* Login / Signup */}
           <DropdownMenu>
@@ -361,7 +361,7 @@ export function Header() {
             className="relative h-11 w-11 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors"
             title="Wishlist"
           >
-            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}>
+            <motion.div whileHover={{ scale: 1.18 }} whileTap={{ scale: 0.85 }}>
               <Heart className="h-5 w-5" />
             </motion.div>
             {wishlistCount > 0 && (
@@ -371,22 +371,22 @@ export function Header() {
             )}
           </Link>
 
-          {/* Cart Icon with Animated Blue Badge */}
+          {/* Cart Icon with Bounce Micro-Interaction */}
           <Link
             to="/cart"
-            className="relative h-11 w-11 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors"
+            className="relative h-11 w-11 rounded-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors group"
             title="Cart"
           >
-            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}>
-              <ShoppingCart className="h-5 w-5" />
+            <motion.div whileHover={{ scale: 1.18 }} whileTap={{ scale: 0.85 }}>
+              <ShoppingCart className="h-5 w-5 group-hover:text-blue-600 transition-colors" />
             </motion.div>
             <AnimatePresence mode="wait">
               <motion.span
                 key={cartCount}
-                initial={{ scale: 0.5, opacity: 0 }}
+                initial={{ scale: 0.4, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.5, opacity: 0 }}
-                transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                exit={{ scale: 0.4, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 600, damping: 20 }}
                 className="absolute top-1 right-1 flex h-5 min-w-[20px] px-1 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white shadow-xs"
               >
                 {cartCount > 0 ? cartCount : 0}
@@ -397,7 +397,7 @@ export function Header() {
       </div>
 
       {/* =========================================================================
-          ROW 2 — CATEGORY NAVIGATION BAR (~66px Height) with Animated Interactive Pills
+          ROW 2 — CATEGORY NAVIGATION BAR with Animated layoutId Indicator
          ========================================================================= */}
       <div className="border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-card shadow-2xs">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between h-[66px] px-4 sm:px-8 overflow-x-auto no-scrollbar gap-2 sm:gap-3 lg:gap-4">
@@ -412,24 +412,33 @@ export function Header() {
                 <Link
                   key={cat.id}
                   to="/"
-                  className="relative group shrink-0"
+                  className="relative group shrink-0 py-1"
                 >
-                  <motion.div
-                    whileHover={{ y: -2, scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-pointer transition-all ${
+                  <div
+                    className={`relative z-10 flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200 ${
                       isCatActive
-                        ? "bg-blue-50/90 text-[#1455D9] font-bold shadow-2xs ring-1 ring-blue-500/20"
-                        : "text-slate-700 hover:text-[#1455D9] hover:bg-slate-50 font-semibold"
+                        ? "text-[#1455D9] font-black"
+                        : "text-slate-700 hover:text-[#1455D9] font-bold"
                     }`}
                   >
                     <Home
-                      className={`w-4.5 h-4.5 transition-transform duration-200 group-hover:scale-110 ${
+                      className={`w-4.5 h-4.5 transition-transform duration-200 group-hover:scale-115 ${
                         isCatActive ? "text-[#1455D9]" : "text-slate-600 group-hover:text-[#1455D9]"
                       }`}
                     />
-                    <span className="text-[13px] sm:text-sm">{cat.name}</span>
-                  </motion.div>
+                    <span className="text-[13px] sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200">
+                      {cat.name}
+                    </span>
+                  </div>
+
+                  {/* Animated Background Pill Indicator */}
+                  {isCatActive && (
+                    <motion.div
+                      layoutId="activeCategoryHeaderPill"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      className="absolute inset-0 rounded-xl bg-blue-50 dark:bg-blue-950/70 border border-blue-200 dark:border-blue-800 shadow-2xs"
+                    />
+                  )}
                 </Link>
               );
             }
@@ -441,22 +450,33 @@ export function Header() {
                 key={cat.id}
                 to={cat.to as any}
                 params={cat.params as any}
-                className="relative group shrink-0"
+                className="relative group shrink-0 py-1"
               >
-                <motion.div
-                  whileHover={{ y: -2, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-pointer transition-all ${
+                <div
+                  className={`relative z-10 flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200 ${
                     isCatActive
-                      ? "bg-blue-50/90 text-[#1455D9] font-bold shadow-2xs ring-1 ring-blue-500/20"
-                      : "text-slate-700 hover:text-[#1455D9] hover:bg-slate-50 font-semibold"
+                      ? "text-[#1455D9] font-black"
+                      : "text-slate-700 hover:text-[#1455D9] font-bold"
                   }`}
                 >
-                  <div className={`p-1.5 rounded-lg ${cat.bgClass} flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110`}>
+                  <div
+                    className={`p-1.5 rounded-lg ${cat.bgClass} flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-115 shadow-2xs`}
+                  >
                     <IconComponent className="w-4 h-4" />
                   </div>
-                  <span className="text-[13px] sm:text-sm whitespace-nowrap">{cat.name}</span>
-                </motion.div>
+                  <span className="text-[13px] sm:text-sm whitespace-nowrap group-hover:translate-x-0.5 transition-transform duration-200">
+                    {cat.name}
+                  </span>
+                </div>
+
+                {/* Animated Background Pill Indicator */}
+                {isCatActive && (
+                  <motion.div
+                    layoutId="activeCategoryHeaderPill"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    className="absolute inset-0 rounded-xl bg-blue-50 dark:bg-blue-950/70 border border-blue-200 dark:border-blue-800 shadow-2xs"
+                  />
+                )}
               </Link>
             );
           })}

@@ -31,9 +31,9 @@ import {
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
-import heroShowcaseImg from "@/assets/hero-showcase.png";
 import { productsQuery } from "@/lib/catalog";
 import { ProductCard } from "@/components/site/ProductCard";
+import { HeroCarousel } from "@/components/site/HeroCarousel";
 import { useStore } from "@/lib/store";
 import { inr, safeCopyText } from "@/lib/format";
 
@@ -119,109 +119,8 @@ function Index() {
 
   return (
     <div className="bg-[#F8FAFC] dark:bg-background pb-20 space-y-10 sm:space-y-14">
-      {/* 1. Enhanced Hero Section with Smooth Framer Motion & Glow */}
-      <section className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 pt-5 sm:pt-7">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] bg-gradient-to-r from-[#EFF6FF] via-[#F4F8FE] to-[#E5F0FD] dark:from-[#0D1E42] dark:via-[#091530] dark:to-[#080F22] border border-[#D9E5F7] dark:border-blue-950/60 p-6 sm:p-10 lg:p-12 xl:py-14 shadow-[0_4px_30px_rgba(20,85,217,0.06)]"
-        >
-          {/* Subtle Blue Particle / Dot Grid Background */}
-          <div className="absolute inset-0 opacity-25 bg-[radial-gradient(#1455D9_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
-
-          {/* Animated Blue Floating Blobs */}
-          <div className="absolute -right-16 -top-16 h-80 w-80 rounded-full bg-[#2563EB]/15 blur-3xl pointer-events-none animate-hero-float" />
-          <div className="absolute right-1/4 top-1/3 h-72 w-72 rounded-full bg-[#1455D9]/18 blur-2xl pointer-events-none animate-hero-glow" />
-          <div className="absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-[#00AEEF]/12 blur-3xl pointer-events-none animate-hero-float-reverse" />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
-            {/* Left Column */}
-            <div className="lg:col-span-7 xl:col-span-6 flex flex-col items-start z-10">
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.1, duration: 0.3 }}
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#1455D9] px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-xs"
-              >
-                <Sparkles className="h-3 w-3 text-amber-300" /> ACTE IDEA LAB STORE
-              </motion.div>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.4 }}
-                className="mt-4 sm:mt-5 text-4xl sm:text-5xl lg:text-[54px] xl:text-[58px] font-black tracking-tight leading-[1.12] text-[#0B1736] dark:text-white"
-              >
-                Where Ideas <br />
-                <span className="text-[#1455D9] dark:text-[#3B82F6]">Become Reality</span>
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
-                className="mt-4 sm:mt-5 max-w-xl text-sm sm:text-base leading-relaxed text-[#52627A] dark:text-slate-300 font-medium"
-              >
-                High-quality 3D printed, laser cut, CNC machined products and electronics for
-                innovators, makers, and creators.
-              </motion.p>
-
-              {/* Action Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
-                className="mt-7 sm:mt-8 flex flex-wrap items-center gap-3.5 sm:gap-4"
-              >
-                <Link
-                  to="/shop"
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#1455D9] hover:bg-[#0F44B2] px-7 py-3.5 text-sm font-bold text-white transition-all duration-200 shadow-[0_4px_16px_rgba(20,85,217,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_22px_rgba(20,85,217,0.45)] active:scale-95 cursor-pointer"
-                >
-                  Shop Catalog <ArrowRight className="h-4 w-4" />
-                </Link>
-                <a
-                  href="#categories"
-                  className="inline-flex items-center rounded-xl border border-[#D9E5F7] dark:border-slate-700 bg-white dark:bg-card hover:bg-blue-50/50 dark:hover:bg-slate-800 px-6 py-3.5 text-sm font-bold text-[#0B1736] dark:text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1455D9]/40 active:scale-95 cursor-pointer shadow-xs"
-                >
-                  Explore Categories
-                </a>
-              </motion.div>
-
-              {/* Trust Indicators */}
-              <div className="mt-10 sm:mt-12 flex flex-wrap items-center gap-y-3 gap-x-6 sm:gap-x-8 text-xs font-bold text-[#52627A] dark:text-slate-400">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-[#1455D9]" />
-                  <span>Premium Quality</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CreditCard className="h-4 w-4 text-[#1455D9]" />
-                  <span>Secure Payments</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Truck className="h-4 w-4 text-[#1455D9]" />
-                  <span>Fast Delivery</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-[#1455D9]" />
-                  <span>Lab Support</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Hero Showcase Image */}
-            <div className="lg:col-span-5 xl:col-span-6 flex items-center justify-center relative">
-              <div className="relative w-full max-w-[540px] lg:max-w-none animate-hero-product">
-                <img
-                  src={heroShowcaseImg}
-                  alt="ACTE IDEA LAB Innovation Showcase"
-                  className="w-full h-auto object-contain drop-shadow-[0_16px_32px_rgba(20,85,217,0.14)] select-none"
-                />
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </section>
+      {/* 1. Full-Width Edge-to-Edge 2-Slide Animated Hero Carousel */}
+      <HeroCarousel />
 
       {/* 2. Student Discount Coupon Banner */}
       <section className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">

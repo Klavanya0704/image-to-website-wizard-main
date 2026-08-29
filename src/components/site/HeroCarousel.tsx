@@ -17,7 +17,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import heroStoreBg from "@/assets/hero-store-bg.jpg";
 import heroMakerspaceBg from "@/assets/hero-makerspace-bg.jpg";
-import { HeroStoreSceneAnimation } from "@/components/site/HeroStoreSceneAnimation";
+import { StoreShoppingJourneyHero } from "@/components/site/StoreShoppingJourneyHero";
 
 interface SlideData {
   id: "store" | "makerspace";
@@ -96,13 +96,13 @@ export function HeroCarousel() {
 
   const currentSlide = SLIDES[currentSlideIndex];
 
-  // Auto-play timer: 8 seconds per slide, pauses on hover/touch
+  // Auto-play timer: 8.5 seconds per slide, pauses on hover/touch
   useEffect(() => {
     if (isHovered) return;
     const interval = setInterval(() => {
       setDirection(1);
       setCurrentSlideIndex((prev) => (prev + 1) % SLIDES.length);
-    }, 8000);
+    }, 8500);
     return () => clearInterval(interval);
   }, [isHovered, currentSlideIndex]);
 
@@ -227,13 +227,8 @@ export function HeroCarousel() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Live Object-Level Shopping Storytelling Animation on Store Slide */}
-        {currentSlide.id === "store" && (
-          <HeroStoreSceneAnimation isActive={currentSlideIndex === 0} />
-        )}
-
-        {/* Responsive Content Layer: Left text & CTAs */}
-        <div className="relative z-20 w-full px-5 sm:px-10 lg:px-12 pt-6 pb-12 sm:py-8 flex flex-col justify-end sm:justify-center">
+        {/* Responsive Content Layer: 2-Column on Desktop (Left text & CTAs, Right 4-Stage Animated Shopping Journey) */}
+        <div className="relative z-20 w-full px-5 sm:px-10 lg:px-12 pt-6 pb-12 sm:py-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide.id}
@@ -319,6 +314,13 @@ export function HeroCarousel() {
               </div>
             </motion.div>
           </AnimatePresence>
+
+          {/* Right Column: 4-Stage Connected Shopping Journey Hero Animation */}
+          <div className="hidden md:flex flex-1 items-center justify-end pr-2 lg:pr-6 shrink-0 w-full max-w-[580px]">
+            {currentSlide.id === "store" && (
+              <StoreShoppingJourneyHero isActive={currentSlideIndex === 0} />
+            )}
+          </div>
         </div>
 
         {/* Small & Elegant Glassmorphic Navigation Arrows with Hover & Tap Physics */}

@@ -238,11 +238,11 @@ export function HeroCarousel() {
         </AnimatePresence>
 
         {/* Responsive Content Layer: 2-Column on Desktop (Left text & CTAs, Right 4-Stage Animated Shopping Journey) */}
-        <div className="relative z-20 w-full px-5 sm:px-10 lg:px-12 pt-6 pb-12 sm:py-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="relative z-20 w-full px-5 sm:px-8 lg:px-10 pt-4 pb-10 sm:py-6 flex flex-col md:flex-row md:items-center justify-between gap-4 lg:gap-6">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide.id}
-              className="max-w-xl lg:max-w-md xl:max-w-lg flex flex-col items-start text-left shrink-0"
+              className="max-w-xl lg:max-w-sm xl:max-w-md flex flex-col items-start text-left shrink-0"
             >
               {/* 1. Badge: 0ms delay */}
               <motion.div
@@ -326,7 +326,7 @@ export function HeroCarousel() {
           </AnimatePresence>
 
           {/* Right Column: 4-Stage Connected Shopping Journey Hero Animation */}
-          <div className="hidden md:flex flex-1 items-center justify-end pr-2 lg:pr-6 shrink-0 w-full max-w-[580px]">
+          <div className="hidden md:flex flex-1 items-center justify-end pr-1 lg:pr-4 shrink-0 w-full max-w-[700px]">
             {currentSlide.id === "store" && (
               <StoreShoppingJourneyHero isActive={currentSlideIndex === 0} />
             )}

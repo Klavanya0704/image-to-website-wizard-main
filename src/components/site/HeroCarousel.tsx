@@ -17,7 +17,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import heroStoreBg from "@/assets/hero-store-bg.jpg";
 import heroMakerspaceBg from "@/assets/hero-makerspace-bg.jpg";
-import { StoreShoppingJourney } from "@/components/site/StoreShoppingJourney";
+import { IntegratedShoppingScene } from "@/components/site/IntegratedShoppingScene";
 
 interface SlideData {
   id: "store" | "makerspace";
@@ -319,9 +319,9 @@ export function HeroCarousel() {
           </AnimatePresence>
 
           {/* Right Column: Interactive Storytelling Shopping Journey on Store Slide */}
-          <div className="hidden md:flex flex-col items-end justify-center pr-6 lg:pr-10 shrink-0">
+          <div className="hidden md:flex flex-col items-end justify-center pr-4 lg:pr-8 shrink-0 w-full max-w-[420px] lg:max-w-[480px]">
             {currentSlide.id === "store" && (
-              <StoreShoppingJourney isActive={currentSlideIndex === 0} />
+              <IntegratedShoppingScene isActive={currentSlideIndex === 0} />
             )}
           </div>
         </div>

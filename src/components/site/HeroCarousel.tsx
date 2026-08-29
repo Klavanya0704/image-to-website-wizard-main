@@ -17,7 +17,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import heroStoreBg from "@/assets/hero-store-bg.jpg";
 import heroMakerspaceBg from "@/assets/hero-makerspace-bg.jpg";
-import { IntegratedShoppingScene } from "@/components/site/IntegratedShoppingScene";
+import { HeroStoreSceneAnimation } from "@/components/site/HeroStoreSceneAnimation";
 
 interface SlideData {
   id: "store" | "makerspace";
@@ -87,7 +87,7 @@ const SLIDES: SlideData[] = [
 
 export function HeroCarousel() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
-  const [direction, setDirection] = useState<number>(1); // 1 = next, -1 = prev
+  const [direction, setDirection] = useState<number>(1);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
   const touchStartX = useRef<number | null>(null);
@@ -96,13 +96,13 @@ export function HeroCarousel() {
 
   const currentSlide = SLIDES[currentSlideIndex];
 
-  // Auto-play timer: 6.5 seconds per slide, pauses on hover/touch
+  // Auto-play timer: 8 seconds per slide, pauses on hover/touch
   useEffect(() => {
     if (isHovered) return;
     const interval = setInterval(() => {
       setDirection(1);
       setCurrentSlideIndex((prev) => (prev + 1) % SLIDES.length);
-    }, 6500);
+    }, 8000);
     return () => clearInterval(interval);
   }, [isHovered, currentSlideIndex]);
 
@@ -116,13 +116,12 @@ export function HeroCarousel() {
     setCurrentSlideIndex((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
   };
 
-  // High-performance Parallax Tracking
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (window.innerWidth < 768 || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMouseOffset({ x: +(x * -18).toFixed(2), y: +(y * -12).toFixed(2) });
+    setMouseOffset({ x: +(x * -16).toFixed(2), y: +(y * -10).toFixed(2) });
   };
 
   const handleMouseEnter = () => {
@@ -163,7 +162,6 @@ export function HeroCarousel() {
     setIsHovered(false);
   };
 
-  // Visible Directional Slide Transition Variants (700ms cubic-bezier)
   const slideVariants = {
     enter: (dir: number) => ({
       x: dir > 0 ? "100%" : "-100%",
@@ -213,7 +211,7 @@ export function HeroCarousel() {
             exit="exit"
             className="absolute inset-0 w-full h-full pointer-events-none"
           >
-            {/* Background Image Container with Interactive Mouse Parallax */}
+            {/* Background Image Container */}
             <div
               style={{
                 backgroundImage: `url(${currentSlide.bgImage})`,
@@ -229,13 +227,17 @@ export function HeroCarousel() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Responsive Content Layer: 2-Column on Desktop (Left text, Right shopping journey) */}
-        <div className="relative z-20 w-full px-5 sm:px-10 lg:px-12 pt-6 pb-12 sm:py-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        {/* Live Object-Level Shopping Storytelling Animation on Store Slide */}
+        {currentSlide.id === "store" && (
+          <HeroStoreSceneAnimation isActive={currentSlideIndex === 0} />
+        )}
+
+        {/* Responsive Content Layer: Left text & CTAs */}
+        <div className="relative z-20 w-full px-5 sm:px-10 lg:px-12 pt-6 pb-12 sm:py-8 flex flex-col justify-end sm:justify-center">
           <AnimatePresence mode="wait">
-            {/* Left Column: Headlines, CTAs, Benefits */}
             <motion.div
               key={currentSlide.id}
-              className="max-w-xl lg:max-w-md xl:max-w-xl flex flex-col items-start text-left shrink-0"
+              className="max-w-xl lg:max-w-md xl:max-w-lg flex flex-col items-start text-left shrink-0"
             >
               {/* 1. Badge: 0ms delay */}
               <motion.div
@@ -317,13 +319,6 @@ export function HeroCarousel() {
               </div>
             </motion.div>
           </AnimatePresence>
-
-          {/* Right Column: Interactive Storytelling Shopping Journey on Store Slide */}
-          <div className="hidden md:flex flex-col items-end justify-center pr-4 lg:pr-8 shrink-0 w-full max-w-[420px] lg:max-w-[480px]">
-            {currentSlide.id === "store" && (
-              <IntegratedShoppingScene isActive={currentSlideIndex === 0} />
-            )}
-          </div>
         </div>
 
         {/* Small & Elegant Glassmorphic Navigation Arrows with Hover & Tap Physics */}

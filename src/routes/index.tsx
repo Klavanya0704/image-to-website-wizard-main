@@ -34,6 +34,7 @@ import { toast } from "sonner";
 import { productsQuery } from "@/lib/catalog";
 import { ProductCard } from "@/components/site/ProductCard";
 import { HeroCarousel } from "@/components/site/HeroCarousel";
+import { StudentOfferBanner } from "@/components/site/StudentOfferBanner";
 import { useStore } from "@/lib/store";
 import { inr, safeCopyText } from "@/lib/format";
 
@@ -122,40 +123,8 @@ function Index() {
       {/* 1. Full-Width Edge-to-Edge 2-Slide Animated Hero Carousel */}
       <HeroCarousel />
 
-      {/* 2. Student Discount Coupon Banner */}
-      <section className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#040E29] via-[#071B4D] to-[#0A2E7A] text-white border border-[#D4AF37]/50 shadow-[0_8px_30px_rgba(7,27,77,0.35)] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6"
-        >
-          <div className="space-y-1.5 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-2 text-xs font-bold tracking-wider text-[#D4AF37] uppercase">
-              <Award className="h-4 w-4" /> AICTE Student Special
-            </div>
-            <h3 className="text-xl sm:text-2xl font-black text-white">
-              Get 15% Instant Student Discount on All Lab Prototypes
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-300">
-              Apply code <span className="text-[#FACC15] font-black">STUDENT15</span> during checkout with college ID.
-            </p>
-          </div>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            type="button"
-            onClick={async () => {
-              await safeCopyText("STUDENT15");
-              toast.success("Coupon code STUDENT15 copied!");
-            }}
-            className="inline-flex items-center gap-2 rounded-2xl bg-[#F5B000] hover:bg-[#EAB308] text-[#071B4D] px-6 py-3 text-xs font-black tracking-wider shadow-md cursor-pointer shrink-0"
-          >
-            <span>COPY CODE: STUDENT15</span>
-          </motion.button>
-        </motion.div>
-      </section>
+      {/* 2. AICTE Student Special Offer Ticket / Coupon Banner */}
+      <StudentOfferBanner />
 
       {/* 3. Category Grid Section with Interactive Hover Cards */}
       <section id="categories" className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">

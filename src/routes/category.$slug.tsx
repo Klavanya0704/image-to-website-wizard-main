@@ -20,6 +20,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { productsQuery, normalizeCategorySlug } from "@/lib/catalog";
 import { ProductCard } from "@/components/site/ProductCard";
+import { CategoryHero } from "@/components/site/CategoryHero";
 import { ProductGridSkeleton, EmptyState, ErrorState } from "@/components/site/States";
 import { inr } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -123,8 +124,6 @@ function CategoryDetail() {
   const [maxPrice, setMaxPrice] = useState<number>(maxPriceLimit);
   const [sortBy, setSortBy] = useState<string>("featured");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState<boolean>(false);
-  const [heroParallax, setHeroParallax] = useState({ x: 0, y: 0 });
-  const bannerRef = useRef<HTMLDivElement>(null);
 
   // Reset filter inputs and update price slider when category changes
   useEffect(() => {
@@ -141,19 +140,6 @@ function CategoryDetail() {
     setSortBy("featured");
     setMobileFiltersOpen(false);
   }, [currentCategory, allProducts.length]);
-
-  const handleBannerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!bannerRef.current) return;
-    const rect = bannerRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5; // -0.5 to 0.5
-    // Max 6px shift for subtle premium parallax
-    setHeroParallax({ x: +(x * 12).toFixed(2), y: +(y * 12).toFixed(2) });
-  };
-
-  const handleBannerMouseLeave = () => {
-    setHeroParallax({ x: 0, y: 0 });
-  };
 
   if (isLoading) {
     return (
@@ -253,87 +239,12 @@ function CategoryDetail() {
       className="min-h-screen bg-[#F8FAFC] dark:bg-background pb-16"
     >
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-4">
-        {/* Animated Category Header Banner with subtle mouse parallax */}
-        <div
-          ref={bannerRef}
-          onMouseMove={handleBannerMouseMove}
-          onMouseLeave={handleBannerMouseLeave}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white p-6 sm:p-8 lg:p-10 mb-8 shadow-md border border-blue-700/40 cursor-default"
-        >
-          {/* Ambient background glow and grid */}
-          <div
-            style={{
-              transform: `translate(${heroParallax.x * -1}px, ${heroParallax.y * -1}px)`,
-              transition: "transform 150ms ease-out",
-            }}
-            className="absolute top-0 right-0 -mt-8 -mr-8 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl pointer-events-none"
-          />
-          <div
-            style={{
-              transform: `translate(${heroParallax.x * 1.5}px, ${heroParallax.y * 1.5}px)`,
-              transition: "transform 150ms ease-out",
-            }}
-            className="absolute bottom-0 left-1/3 -mb-8 h-48 w-48 rounded-full bg-indigo-500/20 blur-2xl pointer-events-none"
-          />
-
-          <div
-            style={{
-              transform: `translate(${heroParallax.x * 0.4}px, ${heroParallax.y * 0.4}px)`,
-              transition: "transform 150ms ease-out",
-            }}
-            className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6"
-          >
-            <div className="max-w-2xl">
-              {/* Category Breadcrumb / Badge */}
-              <motion.div
-                initial={{ opacity: 0, x: -15 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.35, delay: 0.1 }}
-                className="flex items-center gap-2 mb-3"
-              >
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-md px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-200 border border-white/10">
-                  <Sparkles className="h-3 w-3 text-amber-300" />
-                  {category.badge}
-                </span>
-                <span className="text-xs text-blue-200/80 font-semibold">• AICTE IDEA Lab</span>
-              </motion.div>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 25 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white"
-              >
-                {category.name}
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                className="mt-2 text-sm sm:text-base text-blue-100/90 leading-relaxed"
-              >
-                {category.description}
-              </motion.p>
-            </div>
-
-            {/* Right Badge Icon & Stats */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: 0.25 }}
-              whileHover={{ scale: 1.05 }}
-              className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 shrink-0 self-start md:self-auto shadow-sm"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 text-white">
-                <IconComp className="h-6 w-6" />
-              </div>
-              <div>
-                <div className="text-2xl font-black text-white">{categoryProducts.length}</div>
-                <div className="text-xs font-semibold text-blue-200">Catalog Products</div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
+        {/* Rich Animated Category Hero Banner */}
+        <CategoryHero
+          slug={currentCategory}
+          category={category}
+          productCount={categoryProducts.length}
+        />
 
         {/* Filter and Sort Toolbar */}
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">

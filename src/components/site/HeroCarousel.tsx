@@ -188,7 +188,7 @@ export function HeroCarousel() {
         onMouseLeave={handleMouseLeave}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        className="relative overflow-hidden rounded-[20px] sm:rounded-[24px] h-[520px] max-h-[560px] sm:h-[400px] sm:max-h-[400px] lg:h-[400px] shadow-[0_10px_35px_rgba(7,19,48,0.18)] border border-slate-200/50 dark:border-blue-950/60 isolate flex items-end sm:items-center bg-[#071330]"
+        className="relative overflow-hidden rounded-[20px] sm:rounded-[24px] h-[540px] max-h-[580px] sm:h-[450px] sm:max-h-[450px] lg:h-[450px] shadow-[0_10px_35px_rgba(7,19,48,0.18)] border border-slate-200/50 dark:border-blue-950/60 isolate flex items-end sm:items-center bg-[#071330]"
       >
         {/* Full-width Directional Animated Background */}
         <AnimatePresence initial={false} custom={direction} mode="popLayout">

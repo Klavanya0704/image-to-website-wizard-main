@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
-import { Sparkles, Printer, Box, CheckCircle2, Layers, Cpu, Scissors, Plane, Bot } from "lucide-react";
+import { Sparkles, Printer, Scissors, CheckCircle2, Flame } from "lucide-react";
 import { motion } from "framer-motion";
 import hero3dPrinterImg from "@/assets/hero-3d-printer.jpg";
+import heroLaserCutterImg from "@/assets/hero-laser-cutter.jpg";
 
 interface CategoryHeroProps {
   slug: string;
@@ -33,6 +34,27 @@ export function CategoryHero({ slug, category, productCount }: CategoryHeroProps
 
   const IconComp = category.icon;
   const is3DPrinting = slug === "3d-printing";
+  const isLaserCutting = slug === "laser-cutting";
+
+  // Category-specific supporting lines
+  const supportingText = isLaserCutting
+    ? "From intricate engravings to precision-cut prototypes."
+    : is3DPrinting
+    ? "From rapid prototypes to functional creations."
+    : "Engineered for precision fabrication and rapid creation.";
+
+  // Category-specific showcase image
+  const showcaseImage = isLaserCutting
+    ? heroLaserCutterImg
+    : is3DPrinting
+    ? hero3dPrinterImg
+    : null;
+
+  const countLabel = isLaserCutting
+    ? "Active Designs"
+    : is3DPrinting
+    ? "Active Models"
+    : "Catalog Products";
 
   return (
     <div
@@ -60,14 +82,16 @@ export function CategoryHero({ slug, category, productCount }: CategoryHeroProps
       <motion.div
         animate={{
           x: [25, -15, 25],
-          opacity: [0.2, 0.35, 0.2],
+          opacity: isLaserCutting ? [0.25, 0.45, 0.25] : [0.2, 0.35, 0.2],
         }}
         transition={{
           duration: 8,
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute right-1/4 -bottom-10 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl pointer-events-none"
+        className={`absolute right-1/4 -bottom-10 h-64 w-64 rounded-full blur-3xl pointer-events-none ${
+          isLaserCutting ? "bg-amber-400/15" : "bg-cyan-400/20"
+        }`}
       />
 
       {/* Floating Particles */}
@@ -125,14 +149,14 @@ export function CategoryHero({ slug, category, productCount }: CategoryHeroProps
             className="flex items-center gap-2 text-[11px] sm:text-xs font-bold text-cyan-300/90 pt-0.5"
           >
             <CheckCircle2 className="h-3.5 w-3.5 text-cyan-400 shrink-0" />
-            <span>From rapid prototypes to functional creations.</span>
+            <span>{supportingText}</span>
           </motion.div>
         </div>
 
-        {/* ================= RIGHT SIDE: 3D Printer Visual & Integrated Count ================= */}
+        {/* ================= RIGHT SIDE: Visual Showcase & Integrated Count ================= */}
         <div className="shrink-0 flex items-center justify-end">
-          {is3DPrinting ? (
-            /* Rich 3D Printer Showcase Card with Floating Physics */
+          {showcaseImage ? (
+            /* Rich Machine Showcase Card with Floating Physics */
             <motion.div
               initial={{ opacity: 0, scale: 0.94, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -143,20 +167,26 @@ export function CategoryHero({ slug, category, productCount }: CategoryHeroProps
               }}
               className="relative group/showcase"
             >
-              {/* Soft Ambient Cyan Backlight Behind 3D Printer */}
-              <div className="absolute -inset-2 rounded-2xl bg-gradient-to-r from-cyan-500/30 via-blue-500/20 to-indigo-500/30 blur-xl opacity-75 group-hover/showcase:opacity-100 transition-opacity" />
+              {/* Soft Ambient Laser/Light Backlight Behind Machine */}
+              <div
+                className={`absolute -inset-2 rounded-2xl blur-xl opacity-75 group-hover/showcase:opacity-100 transition-opacity ${
+                  isLaserCutting
+                    ? "bg-gradient-to-r from-amber-500/30 via-cyan-500/25 to-blue-500/30"
+                    : "bg-gradient-to-r from-cyan-500/30 via-blue-500/20 to-indigo-500/30"
+                }`}
+              />
 
-              {/* 3D Printer Render Container */}
+              {/* Machine Render Container */}
               <div className="relative rounded-2xl border border-white/20 bg-slate-950/60 backdrop-blur-md overflow-hidden shadow-2xl p-1.5 flex items-center gap-3">
-                {/* 3D Printer Visual Image */}
+                {/* Visual Image */}
                 <motion.div
                   animate={{ y: [0, -4, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                   className="relative w-36 sm:w-44 lg:w-52 aspect-[16/10] rounded-xl overflow-hidden bg-slate-900"
                 >
                   <img
-                    src={hero3dPrinterImg}
-                    alt="AICTE IDEA Lab 3D Printer Setup"
+                    src={showcaseImage}
+                    alt={isLaserCutting ? "AICTE IDEA Lab CO2 Laser Cutter" : "AICTE IDEA Lab 3D Printer Setup"}
                     className="w-full h-full object-cover rounded-xl select-none transition-transform duration-300 group-hover/showcase:scale-105"
                   />
                   {/* Subtle glossy reflection overlay */}
@@ -175,7 +205,7 @@ export function CategoryHero({ slug, category, productCount }: CategoryHeroProps
                     {productCount}
                   </div>
                   <div className="text-[11px] font-bold text-slate-300 whitespace-nowrap">
-                    Active Models
+                    {countLabel}
                   </div>
                 </div>
               </div>

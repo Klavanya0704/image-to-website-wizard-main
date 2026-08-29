@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Check, Sparkles } from "lucide-react";
 
 interface HeroStoreSceneAnimationProps {
@@ -7,15 +7,13 @@ interface HeroStoreSceneAnimationProps {
 }
 
 export function HeroStoreSceneAnimation({ isActive }: HeroStoreSceneAnimationProps) {
-  // Pure Object Timeline (Total: 8.0s loop):
-  // 1: Product Selection on Phone Screen (0.0s - 1.0s)
-  // 2: Product Physical Arc Motion into Cart (1.0s - 2.5s)
-  // 3: Cart Bounce & Parcel Box Materialization (2.5s - 3.5s)
-  // 4: Parcel Sealing & Label Stamping (3.5s - 4.5s)
-  // 5: Delivery Vehicle Traveling along Route (4.5s - 6.0s)
-  // 6: Package Delivered at Destination (6.0s - 7.0s)
-  // 7: Visual Delivery Checkmark Sparkle (7.0s - 8.0s)
-  const [stage, setStage] = useState<1 | 2 | 3 | 4 | 5 | 6 | 7>(1);
+  // Timeline Stages (Total 8.2s loop):
+  // 1: Product Selection & Elevation (0.0s - 1.5s)
+  // 2: Product Curved Arc Trajectory into Cart (1.5s - 2.8s)
+  // 3: Cart Physical Impact Bounce & Box Materialization (2.8s - 4.2s)
+  // 4: Delivery Van Driving along Route (4.2s - 6.2s)
+  // 5: Package Delivered & Emerald Checkmark (6.2s - 8.0s)
+  const [stage, setStage] = useState<1 | 2 | 3 | 4 | 5>(1);
 
   useEffect(() => {
     if (!isActive) {
@@ -23,13 +21,11 @@ export function HeroStoreSceneAnimation({ isActive }: HeroStoreSceneAnimationPro
       return;
     }
 
-    const t1 = setTimeout(() => setStage(2), 1000);
-    const t2 = setTimeout(() => setStage(3), 2500);
-    const t3 = setTimeout(() => setStage(4), 3500);
-    const t4 = setTimeout(() => setStage(5), 4500);
-    const t5 = setTimeout(() => setStage(6), 6000);
-    const t6 = setTimeout(() => setStage(7), 7000);
-    const t7 = setTimeout(() => setStage(1), 8000);
+    const t1 = setTimeout(() => setStage(2), 1500);
+    const t2 = setTimeout(() => setStage(3), 2800);
+    const t3 = setTimeout(() => setStage(4), 4200);
+    const t4 = setTimeout(() => setStage(5), 6200);
+    const t5 = setTimeout(() => setStage(1), 8200);
 
     return () => {
       clearTimeout(t1);
@@ -37,177 +33,175 @@ export function HeroStoreSceneAnimation({ isActive }: HeroStoreSceneAnimationPro
       clearTimeout(t3);
       clearTimeout(t4);
       clearTimeout(t5);
-      clearTimeout(t6);
-      clearTimeout(t7);
     };
   }, [isActive, stage]);
 
   if (!isActive) return null;
 
   return (
-    <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden select-none z-10">
+    <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden select-none z-25">
       {/* ========================================================================= */}
-      {/* 1. PRODUCT SELECTION: LIFTS DIRECTLY FROM PHONE SCREEN (0.0s - 1.0s) */}
+      {/* STAGE 1: PRODUCT SELECTION & ELEVATION (0.0s - 1.5s) */}
       {/* ========================================================================= */}
       {stage === 1 && (
         <motion.div
-          initial={{ scale: 0.85, opacity: 0, y: 0 }}
+          initial={{ opacity: 0, scale: 0.7, y: 0 }}
           animate={{
-            scale: [0.85, 1.15, 1.08],
-            opacity: 1,
-            y: [0, -14, -10],
+            opacity: [0, 1, 1],
+            scale: [0.7, 1.25, 1.15],
+            y: [0, -22, -18],
           }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="absolute right-[35%] sm:right-[31%] lg:right-[29%] top-[34%] sm:top-[30%]"
+          transition={{ duration: 1.1, ease: "easeOut" }}
+          className="absolute right-[36%] sm:right-[32%] lg:right-[30%] top-[38%] sm:top-[34%]"
         >
-          {/* Ambient Glowing Selection Ring */}
-          <div className="absolute -inset-2.5 rounded-2xl bg-cyan-400/40 blur-md animate-pulse" />
+          {/* Glowing Radial Halo */}
+          <div className="absolute -inset-4 rounded-2xl bg-cyan-400/50 blur-lg animate-ping" />
 
-          {/* 3D Product Cube / Model */}
-          <div className="relative h-12 w-12 rounded-xl bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-600 border-2 border-white/80 shadow-[0_0_25px_rgba(56,189,248,0.9)] flex items-center justify-center">
-            {/* Inner Geometric Hologram Facets */}
-            <div className="h-6 w-6 rounded-md border border-cyan-200/90 bg-white/20 rotate-45 animate-spin [animation-duration:8s]" />
+          {/* Bold 3D Product Cube */}
+          <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-600 border-2 border-white shadow-[0_0_35px_rgba(56,189,248,1)] flex items-center justify-center">
+            <div className="h-7 w-7 rounded-lg border-2 border-cyan-100 bg-white/30 rotate-45 animate-pulse" />
           </div>
+
+          {/* Selection Ring */}
+          <div className="absolute -inset-2 rounded-2xl border-2 border-cyan-300 animate-pulse" />
         </motion.div>
       )}
 
       {/* ========================================================================= */}
-      {/* 2. PRODUCT FLIES ALONG CURVED ARC INTO CART (1.0s - 2.5s) */}
+      {/* STAGE 2: PRODUCT PHYSICAL ARC TRAJECTORY INTO CART (1.5s - 2.8s) */}
       {/* ========================================================================= */}
       {stage === 2 && (
         <>
-          {/* Flying Product Object with Motion Blur Trail */}
+          {/* Moving 3D Product following a wide curved parabolic arc */}
           <motion.div
             initial={{
-              right: "29%",
-              top: "30%",
-              scale: 1.08,
+              right: "30%",
+              top: "32%",
+              scale: 1.15,
               rotate: 0,
               opacity: 1,
             }}
             animate={{
-              right: ["29%", "22%", "15%"],
-              top: ["30%", "14%", "44%"],
-              scale: [1.08, 1.25, 0.45],
-              rotate: [0, 180, 420],
+              right: ["30%", "21%", "12%"],
+              top: ["32%", "12%", "48%"],
+              scale: [1.15, 1.35, 0.4],
+              rotate: [0, 240, 540],
               opacity: [1, 1, 0.9],
             }}
-            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="absolute z-30"
           >
-            {/* Glowing Motion Particle Trail */}
-            <div className="relative h-12 w-12 rounded-xl bg-gradient-to-tr from-cyan-300 via-blue-500 to-indigo-600 border-2 border-white shadow-[0_0_35px_rgba(56,189,248,1)] flex items-center justify-center">
-              <div className="h-6 w-6 rounded-md border border-white bg-white/30 rotate-45" />
+            {/* 3D Product Cube with Comet Trail */}
+            <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-tr from-cyan-300 via-blue-500 to-indigo-600 border-2 border-white shadow-[0_0_40px_rgba(56,189,248,1)] flex items-center justify-center">
+              <div className="h-7 w-7 rounded-lg border-2 border-white bg-white/40 rotate-45" />
             </div>
           </motion.div>
 
-          {/* Cart Receiving Reaction (Physical Bounce) */}
+          {/* Cart Receiving Impact Ring (Bounces on Impact) */}
           <motion.div
-            initial={{ scale: 1, y: 0 }}
+            initial={{ scale: 0.8, opacity: 0 }}
             animate={{
-              scale: [1, 1.2, 0.95, 1.05, 1],
-              y: [0, 8, -4, 2, 0],
-              rotate: [0, -4, 4, -2, 0],
+              scale: [0.8, 1.5, 0],
+              opacity: [0, 0.9, 0],
             }}
-            transition={{ delay: 0.9, duration: 0.5 }}
-            className="absolute right-[14%] top-[42%] h-14 w-14 rounded-2xl bg-cyan-400/20 blur-lg pointer-events-none"
+            transition={{ delay: 0.95, duration: 0.35 }}
+            className="absolute right-[11%] top-[46%] h-20 w-20 rounded-full border-4 border-cyan-400 bg-cyan-400/30 blur-xs"
           />
         </>
       )}
 
       {/* ========================================================================= */}
-      {/* 3 & 4. PARCEL BOX MATERIALIZATION & SEALING (2.5s - 4.5s) */}
+      {/* STAGE 3: CART BOUNCE & PARCEL BOX SEALING (2.8s - 4.2s) */}
       {/* ========================================================================= */}
-      {(stage === 3 || stage === 4) && (
-        <div className="absolute right-[20%] sm:right-[17%] lg:right-[15%] top-[38%] sm:top-[35%] flex flex-col items-center">
-          {/* Ambient Packaging Glow */}
-          <div className="absolute -inset-3 rounded-2xl bg-amber-400/25 blur-lg animate-pulse" />
+      {stage === 3 && (
+        <div className="absolute right-[18%] sm:right-[15%] lg:right-[13%] top-[36%] sm:top-[32%] flex flex-col items-center">
+          {/* Packaging Amber Halo */}
+          <div className="absolute -inset-5 rounded-3xl bg-amber-400/30 blur-xl animate-pulse" />
 
-          {/* Realistic 3D Parcel Box */}
+          {/* 3D Parcel Box Materializing with Pop Animation */}
           <motion.div
-            initial={{ scale: 0.4, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: "backOut" }}
-            className="relative h-16 w-20 rounded-xl bg-gradient-to-b from-[#eab308] via-[#ca8a04] to-[#854d0e] border-2 border-amber-200/90 shadow-[0_12px_30px_rgba(0,0,0,0.65)] p-1.5 flex flex-col justify-between overflow-hidden"
+            initial={{ scale: 0.3, opacity: 0, y: 30 }}
+            animate={{
+              scale: [0.3, 1.18, 1.0],
+              opacity: 1,
+              y: [30, -5, 0],
+            }}
+            transition={{ duration: 0.5, ease: "backOut" }}
+            className="relative h-20 w-24 rounded-2xl bg-gradient-to-b from-[#facc15] via-[#ca8a04] to-[#78350f] border-2 border-amber-200 shadow-[0_15px_35px_rgba(0,0,0,0.7)] p-2 flex flex-col justify-between overflow-hidden"
           >
-            {/* Sealing Tape Animated Across Top Seam (Stage 4) */}
+            {/* Animated Sealing Tape Line (Zips across top seam) */}
             <motion.div
               initial={{ scaleX: 0 }}
-              animate={stage === 4 ? { scaleX: 1 } : { scaleX: 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="h-2.5 bg-amber-100/95 border-y border-amber-900/40 rounded-xs mx-auto w-full origin-left shadow-inner"
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.45, delay: 0.35, ease: "easeInOut" }}
+              className="h-3 bg-amber-100 border-y border-amber-900/40 rounded-xs mx-auto w-full origin-left shadow-inner"
             />
 
-            {/* ACTE IDEA LAB Branding Stamp */}
-            <div className="text-center my-auto">
-              <div className="h-1.5 w-10 bg-amber-950/40 rounded-full mx-auto" />
-            </div>
-
-            {/* Stamped White Shipping Barcode Label (Stage 4) */}
-            {stage === 4 && (
-              <motion.div
-                initial={{ scale: 2, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.3, ease: "backOut" }}
-                className="bg-white rounded-xs p-0.5 flex items-center justify-between shadow-xs"
-              >
-                <div className="space-y-0.5">
-                  <div className="h-0.5 w-7 bg-slate-900 rounded-xs" />
-                  <div className="h-0.5 w-5 bg-slate-900 rounded-xs" />
-                </div>
-                <div className="h-2 w-2 rounded-full bg-emerald-500" />
-              </motion.div>
-            )}
+            {/* Stamped Shipping Barcode Label */}
+            <motion.div
+              initial={{ scale: 2.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.7, ease: "backOut" }}
+              className="bg-white rounded-xs p-1 flex items-center justify-between shadow-md"
+            >
+              <div className="space-y-0.5">
+                <div className="h-1 w-10 bg-slate-900 rounded-xs" />
+                <div className="h-1 w-6 bg-slate-900 rounded-xs" />
+              </div>
+              <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+            </motion.div>
           </motion.div>
         </div>
       )}
 
       {/* ========================================================================= */}
-      {/* 5. DELIVERY VEHICLE TRAVELING ALONG GROUND ROUTE (4.5s - 6.0s) */}
+      {/* STAGE 4: DELIVERY VEHICLE TRAVELING ALONG ROUTE (4.2s - 6.2s) */}
       {/* ========================================================================= */}
-      {stage === 5 && (
-        <div className="absolute inset-x-8 sm:inset-x-14 bottom-[12%] sm:bottom-[16%] h-20">
-          {/* Animated Curved Glowing Dotted Path */}
+      {stage === 4 && (
+        <div className="absolute inset-x-6 sm:inset-x-12 bottom-[10%] sm:bottom-[15%] h-24">
+          {/* Glowing Animated Dotted Road Path */}
           <svg className="absolute inset-0 w-full h-full overflow-visible">
             <motion.path
-              d="M 120 45 Q 320 15 580 45"
+              d="M 80 50 Q 300 10 600 50"
               fill="none"
-              stroke="rgba(56, 189, 248, 0.75)"
-              strokeWidth="3.5"
-              strokeDasharray="6 6"
+              stroke="rgba(56, 189, 248, 0.85)"
+              strokeWidth="4"
+              strokeDasharray="8 8"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.8 }}
             />
           </svg>
 
-          {/* Animated Moving Delivery Vehicle Carrying the Parcel */}
+          {/* Delivery Van Driving Smoothly from Left to Right */}
           <motion.div
-            initial={{ left: "15%", top: "30px", rotate: -3 }}
+            initial={{ left: "10%", top: "35px", rotate: -4 }}
             animate={{
-              left: ["15%", "52%", "86%"],
-              top: ["30px", "14px", "32px"],
-              rotate: [-3, 2, -1],
+              left: ["10%", "50%", "88%"],
+              top: ["35px", "10px", "35px"],
+              rotate: [-4, 3, -1],
             }}
-            transition={{ duration: 1.4, ease: "easeInOut" }}
-            className="absolute z-20 flex items-center gap-1.5"
+            transition={{ duration: 1.8, ease: "easeInOut" }}
+            className="absolute z-20 flex items-center gap-2"
           >
             {/* Speed Wind Streaks */}
-            <div className="space-y-1 -mr-1">
-              <div className="h-0.5 w-5 bg-cyan-300 rounded-full animate-pulse" />
-              <div className="h-0.5 w-3 bg-cyan-300/60 rounded-full" />
+            <div className="space-y-1.5 -mr-1">
+              <div className="h-1 w-7 bg-cyan-300 rounded-full animate-pulse shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
+              <div className="h-1 w-4 bg-cyan-300/60 rounded-full" />
             </div>
 
-            {/* Delivery Vehicle Body */}
-            <div className="relative flex items-center bg-[#1455D9] text-white px-3 py-2 rounded-xl shadow-[0_10px_28px_rgba(20,85,217,0.9)] border border-cyan-300/60">
-              {/* Mini Parcel in Rear Cargo Bed */}
-              <div className="h-4 w-4 rounded-xs bg-[#ca8a04] border border-amber-200 mr-2 shadow-xs" />
-              {/* Front Cab */}
+            {/* High-Contrast Delivery Vehicle Body */}
+            <div className="relative flex items-center bg-gradient-to-r from-blue-600 to-[#1455D9] text-white px-3.5 py-2.5 rounded-2xl shadow-[0_12px_32px_rgba(20,85,217,1)] border-2 border-cyan-300">
+              {/* Parcel in Cargo Bed */}
+              <div className="h-5 w-5 rounded-xs bg-[#facc15] border border-amber-200 mr-2.5 shadow-xs flex items-center justify-center">
+                <div className="h-1 w-3 bg-amber-900/40 rounded-xs" />
+              </div>
+              {/* Cab & Rotating Wheels */}
               <div className="flex flex-col items-center">
-                <div className="h-2.5 w-3.5 bg-cyan-200/80 rounded-xs border border-white/40" />
-                <div className="flex items-center gap-1.5 mt-1">
-                  <div className="h-2 w-2 rounded-full bg-slate-900 border border-white/60 animate-spin" />
-                  <div className="h-2 w-2 rounded-full bg-slate-900 border border-white/60 animate-spin" />
+                <div className="h-3.5 w-5 bg-cyan-200 rounded-xs border border-white" />
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="h-2.5 w-2.5 rounded-full bg-slate-950 border border-white animate-spin" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-slate-950 border border-white animate-spin" />
                 </div>
               </div>
             </div>
@@ -216,42 +210,42 @@ export function HeroStoreSceneAnimation({ isActive }: HeroStoreSceneAnimationPro
       )}
 
       {/* ========================================================================= */}
-      {/* 6 & 7. PACKAGE DELIVERED AT DESTINATION & CHECKMARK SPARKLE (6.0s - 8.0s) */}
+      {/* STAGE 5: PACKAGE DELIVERED & EMERALD CHECKMARK BLOOM (6.2s - 8.0s) */}
       {/* ========================================================================= */}
-      {(stage === 6 || stage === 7) && (
-        <div className="absolute right-[14%] sm:right-[18%] bottom-[16%] sm:bottom-[20%] flex flex-col items-center">
-          {/* Delivered Parcel Dropping onto Doorstep Platform */}
+      {stage === 5 && (
+        <div className="absolute right-[12%] sm:right-[16%] bottom-[14%] sm:bottom-[18%] flex flex-col items-center">
+          {/* Delivered Parcel Touching Down */}
           <motion.div
-            initial={{ y: -35, opacity: 0, scale: 0.7 }}
+            initial={{ y: -45, opacity: 0, scale: 0.6 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             transition={{ type: "spring", stiffness: 350, damping: 18 }}
-            className="relative h-14 w-18 rounded-xl bg-gradient-to-b from-[#eab308] to-[#854d0e] border-2 border-amber-200/90 shadow-[0_15px_30px_rgba(0,0,0,0.7)] p-1 flex flex-col justify-between"
+            className="relative h-18 w-22 rounded-2xl bg-gradient-to-b from-[#facc15] to-[#78350f] border-2 border-amber-200 shadow-[0_18px_35px_rgba(0,0,0,0.75)] p-1.5 flex flex-col justify-between"
           >
-            <div className="h-2 bg-amber-100 rounded-xs mx-auto w-full" />
-            <div className="h-1 w-8 bg-amber-950/40 rounded-full mx-auto" />
-            <div className="h-2.5 w-4 bg-white rounded-xs ml-auto shadow-xs" />
+            <div className="h-2.5 bg-amber-100 rounded-xs mx-auto w-full" />
+            <div className="h-1.5 w-10 bg-amber-950/40 rounded-full mx-auto" />
+            <div className="h-3 w-5 bg-white rounded-xs ml-auto shadow-xs" />
           </motion.div>
 
-          {/* Stage 7: Elegant Glowing Emerald Checkmark Bloom */}
-          {stage === 7 && (
-            <motion.div
-              initial={{ scale: 0, opacity: 0, y: 10 }}
-              animate={{ scale: [0, 1.25, 1], opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: "backOut" }}
-              className="mt-2.5 relative flex items-center justify-center"
-            >
-              {/* Emerald Pulse Aura */}
-              <div className="absolute -inset-2 rounded-full bg-emerald-400/50 blur-md animate-ping" />
+          {/* Prominent Emerald Delivery Checkmark Sparkle */}
+          <motion.div
+            initial={{ scale: 0, opacity: 0, y: 15 }}
+            animate={{
+              scale: [0, 1.3, 1.0],
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{ duration: 0.5, delay: 0.35, ease: "backOut" }}
+            className="mt-3 relative flex items-center justify-center"
+          >
+            <div className="absolute -inset-3 rounded-full bg-emerald-400/60 blur-lg animate-ping" />
+            <div className="relative h-11 w-11 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,1)] border-2 border-white">
+              <Check className="h-6 w-6 stroke-[3.5] text-white" />
+            </div>
 
-              <div className="relative h-9 w-9 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 flex items-center justify-center shadow-[0_0_25px_rgba(16,185,129,0.9)] border-2 border-white">
-                <Check className="h-5 w-5 stroke-[3.5] text-white drop-shadow-xs" />
-              </div>
-
-              {/* Sparkle Stars */}
-              <Sparkles className="absolute -right-3 -top-2 h-4 w-4 text-amber-300 animate-spin [animation-duration:4s]" />
-              <Sparkles className="absolute -left-3 -bottom-1 h-3.5 w-3.5 text-cyan-300 animate-pulse" />
-            </motion.div>
-          )}
+            {/* Sparkling Starbursts */}
+            <Sparkles className="absolute -right-4 -top-3 h-5 w-5 text-amber-300 animate-spin [animation-duration:4s]" />
+            <Sparkles className="absolute -left-4 -bottom-2 h-4 w-4 text-cyan-300 animate-pulse" />
+          </motion.div>
         </div>
       )}
     </div>

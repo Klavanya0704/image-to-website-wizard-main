@@ -17,6 +17,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import heroStoreBg from "@/assets/hero-store-bg.jpg";
 import heroMakerspaceBg from "@/assets/hero-makerspace-bg.jpg";
+import { StoreShoppingJourney } from "@/components/site/StoreShoppingJourney";
 
 interface SlideData {
   id: "store" | "makerspace";
@@ -95,13 +96,13 @@ export function HeroCarousel() {
 
   const currentSlide = SLIDES[currentSlideIndex];
 
-  // Auto-play timer: 6 seconds per slide, pauses on hover/touch
+  // Auto-play timer: 6.5 seconds per slide, pauses on hover/touch
   useEffect(() => {
     if (isHovered) return;
     const interval = setInterval(() => {
       setDirection(1);
       setCurrentSlideIndex((prev) => (prev + 1) % SLIDES.length);
-    }, 6000);
+    }, 6500);
     return () => clearInterval(interval);
   }, [isHovered, currentSlideIndex]);
 
@@ -119,10 +120,9 @@ export function HeroCarousel() {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (window.innerWidth < 768 || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5; // -0.5 to 0.5
-    // Clearly noticeable 10-14px parallax shift in opposite direction
-    setMouseOffset({ x: +(x * -20).toFixed(2), y: +(y * -14).toFixed(2) });
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setMouseOffset({ x: +(x * -18).toFixed(2), y: +(y * -12).toFixed(2) });
   };
 
   const handleMouseEnter = () => {
@@ -168,7 +168,7 @@ export function HeroCarousel() {
     enter: (dir: number) => ({
       x: dir > 0 ? "100%" : "-100%",
       opacity: 0,
-      scale: 1.03,
+      scale: 1.02,
     }),
     center: {
       x: "0%",
@@ -213,13 +213,13 @@ export function HeroCarousel() {
             exit="exit"
             className="absolute inset-0 w-full h-full pointer-events-none"
           >
-            {/* Background Image Container with Interactive Mouse Parallax & Hover Zoom */}
+            {/* Background Image Container with Interactive Mouse Parallax */}
             <div
               style={{
                 backgroundImage: `url(${currentSlide.bgImage})`,
                 backgroundSize: "cover",
-                transform: `scale(${isHovered ? 1.04 : 1.0}) translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
-                transition: "transform 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+                transform: `scale(1.02) translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
+                transition: "transform 350ms cubic-bezier(0.16, 1, 0.3, 1)",
               }}
               className="absolute inset-0 w-full h-full bg-no-repeat bg-[position:72%_15%] sm:bg-[position:center_right]"
             />
@@ -229,12 +229,13 @@ export function HeroCarousel() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Responsive Content Layer: bottom-anchored on mobile, center-left on desktop */}
-        <div className="relative z-20 w-full px-5 sm:px-10 lg:px-12 pt-6 pb-12 sm:py-8 flex flex-col justify-end sm:justify-center">
+        {/* Responsive Content Layer: 2-Column on Desktop (Left text, Right shopping journey) */}
+        <div className="relative z-20 w-full px-5 sm:px-10 lg:px-12 pt-6 pb-12 sm:py-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <AnimatePresence mode="wait">
+            {/* Left Column: Headlines, CTAs, Benefits */}
             <motion.div
               key={currentSlide.id}
-              className="max-w-xl lg:max-w-lg xl:max-w-xl flex flex-col items-start text-left"
+              className="max-w-xl lg:max-w-md xl:max-w-xl flex flex-col items-start text-left shrink-0"
             >
               {/* 1. Badge: 0ms delay */}
               <motion.div
@@ -316,6 +317,13 @@ export function HeroCarousel() {
               </div>
             </motion.div>
           </AnimatePresence>
+
+          {/* Right Column: Interactive Storytelling Shopping Journey on Store Slide */}
+          <div className="hidden md:flex flex-col items-end justify-center pr-6 lg:pr-10 shrink-0">
+            {currentSlide.id === "store" && (
+              <StoreShoppingJourney isActive={currentSlideIndex === 0} />
+            )}
+          </div>
         </div>
 
         {/* Small & Elegant Glassmorphic Navigation Arrows with Hover & Tap Physics */}

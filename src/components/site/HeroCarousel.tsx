@@ -15,8 +15,9 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import heroStoreJourney from "@/assets/hero-store-journey.png";
 import heroMakerspaceBg from "@/assets/hero-makerspace-bg.jpg";
-import { StoreShoppingJourneyHero } from "@/components/site/StoreShoppingJourneyHero";
+import { StoreShoppingJourneyAnimation } from "@/components/site/StoreShoppingJourneyAnimation";
 
 interface SlideData {
   id: "store" | "makerspace";
@@ -31,7 +32,9 @@ interface SlideData {
   secondaryCtaText: string;
   secondaryCtaLink: string;
   features: { icon: React.ComponentType<any>; label: string }[];
-  bgImage?: string;
+  bgImage: string;
+  gradientOverlay: string;
+  bgPosition: string;
 }
 
 const SLIDES: SlideData[] = [
@@ -52,6 +55,10 @@ const SLIDES: SlideData[] = [
       { icon: Truck, label: "Fast Delivery" },
       { icon: Headphones, label: "Lab Support" },
     ],
+    bgImage: heroStoreJourney,
+    gradientOverlay:
+      "bg-gradient-to-t from-[#020719]/95 via-[#020719]/80 to-transparent sm:bg-gradient-to-r sm:from-[#020719]/95 sm:via-[#020719]/65 sm:via-35% sm:to-transparent",
+    bgPosition: "center right",
   },
   {
     id: "makerspace",
@@ -72,6 +79,9 @@ const SLIDES: SlideData[] = [
       { icon: Sparkles, label: "Modern Workspace" },
     ],
     bgImage: heroMakerspaceBg,
+    gradientOverlay:
+      "bg-gradient-to-t from-[#03091e]/95 via-[#051133]/70 to-[#051133]/20 sm:bg-gradient-to-r sm:from-[#03091e]/90 sm:via-[#051133]/45 sm:to-transparent",
+    bgPosition: "70% 25%",
   },
 ];
 
@@ -111,7 +121,7 @@ export function HeroCarousel() {
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMouseOffset({ x: +(x * -14).toFixed(2), y: +(y * -8).toFixed(2) });
+    setMouseOffset({ x: +(x * -12).toFixed(2), y: +(y * -6).toFixed(2) });
   };
 
   const handleMouseEnter = () => {
@@ -188,9 +198,9 @@ export function HeroCarousel() {
         onMouseLeave={handleMouseLeave}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        className="relative overflow-hidden rounded-[20px] sm:rounded-[24px] h-[540px] max-h-[580px] sm:h-[450px] sm:max-h-[450px] lg:h-[450px] shadow-[0_10px_35px_rgba(7,19,48,0.18)] border border-slate-200/50 dark:border-blue-950/60 isolate flex items-end sm:items-center bg-[#071330]"
+        className="relative overflow-hidden rounded-[20px] sm:rounded-[24px] h-[520px] max-h-[560px] sm:h-[450px] sm:max-h-[450px] lg:h-[450px] shadow-[0_10px_35px_rgba(7,19,48,0.18)] border border-slate-200/50 dark:border-blue-950/60 isolate flex items-end sm:items-center bg-[#071330]"
       >
-        {/* Full-width Directional Animated Background */}
+        {/* Full-width Directional Animated Background Image */}
         <AnimatePresence initial={false} custom={direction} mode="popLayout">
           <motion.div
             key={currentSlide.id}
@@ -201,48 +211,34 @@ export function HeroCarousel() {
             exit="exit"
             className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
           >
-            {currentSlide.id === "store" ? (
-              /* NEW STORE BACKGROUND: Deep Dark Navy Gradient + Dot Matrix + Ambient Cyan Glows (NO OLD ARTWORK) */
-              <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#03091e] via-[#05143a] to-[#040e28]">
-                {/* Technical Dot Matrix Overlay */}
-                <div
-                  style={{
-                    backgroundImage:
-                      "radial-gradient(circle, rgba(56, 189, 248, 0.12) 1.2px, transparent 1.2px)",
-                    backgroundSize: "24px 24px",
-                  }}
-                  className="absolute inset-0 w-full h-full opacity-60"
-                />
+            {/* Background Image Asset Container */}
+            <div
+              style={{
+                backgroundImage: `url(${currentSlide.bgImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: currentSlide.bgPosition,
+                transform: `scale(1.01) translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
+                transition: "transform 350ms cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+              className="absolute inset-0 w-full h-full bg-no-repeat"
+            />
 
-                {/* Ambient Cyan & Blue Radial Glows */}
-                <div className="absolute top-[-10%] right-[20%] w-[380px] h-[380px] rounded-full bg-cyan-500/10 blur-[90px] pointer-events-none" />
-                <div className="absolute bottom-[-15%] right-[5%] w-[420px] h-[420px] rounded-full bg-blue-600/15 blur-[100px] pointer-events-none" />
-                <div className="absolute top-[20%] left-[5%] w-[300px] h-[300px] rounded-full bg-indigo-600/10 blur-[80px] pointer-events-none" />
-              </div>
-            ) : (
-              /* Makerspace Background Image */
-              <>
-                <div
-                  style={{
-                    backgroundImage: `url(${currentSlide.bgImage})`,
-                    backgroundSize: "cover",
-                    transform: `scale(1.02) translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
-                    transition: "transform 350ms cubic-bezier(0.16, 1, 0.3, 1)",
-                  }}
-                  className="absolute inset-0 w-full h-full bg-no-repeat bg-[position:70%_25%] sm:bg-[position:center_right]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#03091e]/95 via-[#051133]/70 to-[#051133]/20 sm:bg-gradient-to-r sm:from-[#03091e]/90 sm:via-[#051133]/45 sm:to-transparent" />
-              </>
-            )}
+            {/* Gradient Overlay for Text Contrast */}
+            <div className={`absolute inset-0 ${currentSlide.gradientOverlay}`} />
           </motion.div>
         </AnimatePresence>
 
-        {/* Responsive Content Layer: 2-Column on Desktop (Left text & CTAs, Right 4-Stage Animated Shopping Journey) */}
-        <div className="relative z-20 w-full px-5 sm:px-8 lg:px-10 pt-4 pb-10 sm:py-6 flex flex-col md:flex-row md:items-center justify-between gap-4 lg:gap-6">
+        {/* Live Synchronized Storytelling Animation over the Store Shopping Image */}
+        {currentSlide.id === "store" && (
+          <StoreShoppingJourneyAnimation isActive={currentSlideIndex === 0} />
+        )}
+
+        {/* Responsive Content Layer: Left text & CTAs */}
+        <div className="relative z-20 w-full px-5 sm:px-10 lg:px-12 pt-6 pb-12 sm:py-8 flex flex-col justify-end sm:justify-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide.id}
-              className="max-w-xl lg:max-w-sm xl:max-w-md flex flex-col items-start text-left shrink-0"
+              className="max-w-xl lg:max-w-md xl:max-w-lg flex flex-col items-start text-left shrink-0"
             >
               {/* 1. Badge: 0ms delay */}
               <motion.div
@@ -324,13 +320,6 @@ export function HeroCarousel() {
               </div>
             </motion.div>
           </AnimatePresence>
-
-          {/* Right Column: 4-Stage Connected Shopping Journey Hero Animation */}
-          <div className="hidden md:flex flex-1 items-center justify-end pr-1 lg:pr-4 shrink-0 w-full max-w-[700px]">
-            {currentSlide.id === "store" && (
-              <StoreShoppingJourneyHero isActive={currentSlideIndex === 0} />
-            )}
-          </div>
         </div>
 
         {/* Small & Elegant Glassmorphic Navigation Arrows with Hover & Tap Physics */}

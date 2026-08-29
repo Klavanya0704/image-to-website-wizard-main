@@ -6,7 +6,6 @@ import {
   Package,
   Truck,
   Sparkles,
-  MapPin,
   MousePointer2,
   CreditCard,
   Layers,
@@ -19,7 +18,7 @@ interface StoreShoppingJourneyHeroProps {
 }
 
 export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroProps) {
-  // 4 Core Story Stages (8.0s Loop):
+  // 4 Story Stages (8.0s Loop):
   // Stage 1: Browse Products & Add to Cart (0.0s - 2.0s)
   // Stage 2: Place Order & Checkout (2.0s - 3.8s)
   // Stage 3: Packing & Express Delivery (3.8s - 5.8s)
@@ -48,36 +47,36 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
   if (!isActive) return null;
 
   return (
-    <div className="relative w-full h-[340px] max-w-[580px] pointer-events-none select-none overflow-visible flex items-center justify-center">
+    <div className="relative w-full h-[330px] max-w-[560px] pointer-events-none select-none overflow-visible flex items-center justify-center">
       {/* ========================================================================= */}
       {/* CONNECTING DOTTED ROUTE PATH ACROSS THE 4 STAGES */}
       {/* ========================================================================= */}
-      <svg className="absolute inset-0 w-full h-full overflow-visible z-0 opacity-70">
+      <svg className="absolute inset-0 w-full h-full overflow-visible z-0 opacity-80">
         <defs>
           <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#38bdf8" />
-            <stop offset="50%" stopColor="#1455d9" />
+            <stop offset="45%" stopColor="#1455d9" />
             <stop offset="100%" stopColor="#10b981" />
           </linearGradient>
         </defs>
 
-        {/* Dynamic Curved Path connecting Phone -> Cart -> Packing -> Delivery Route -> Doorstep */}
+        {/* Dynamic Curved Path connecting Phone -> Checkout -> Packing -> Delivery Route -> Doorstep */}
         <path
-          d="M 120 180 Q 200 60 290 140 T 480 230"
+          d="M 90 175 Q 180 50 270 130 T 470 210"
           fill="none"
           stroke="url(#routeGradient)"
-          strokeWidth="3"
+          strokeWidth="3.5"
           strokeDasharray="6 6"
         />
 
         {/* Animated Light Pulse traveling along the path */}
         <motion.circle
-          r="4"
+          r="4.5"
           fill="#38bdf8"
-          filter="drop-shadow(0 0 6px #38bdf8)"
+          filter="drop-shadow(0 0 8px #38bdf8)"
           animate={{
-            cx: [120, 200, 290, 480],
-            cy: [180, 85, 140, 230],
+            cx: [90, 180, 270, 470],
+            cy: [175, 75, 130, 210],
           }}
           transition={{
             duration: 7.8,
@@ -87,28 +86,28 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
         />
       </svg>
 
-      {/* Stage Step Labels (Pills at Top) */}
-      <div className="absolute top-1 inset-x-2 flex items-center justify-between z-20 text-[9px] font-black uppercase tracking-wider text-slate-300">
-        <span className={`transition-colors duration-300 ${stage === 1 ? "text-cyan-300 font-bold" : "opacity-40"}`}>
+      {/* Stage Step Indicators (Top Header Navigation) */}
+      <div className="absolute -top-3 inset-x-2 flex items-center justify-between z-20 text-[10px] font-extrabold uppercase tracking-wider text-slate-300">
+        <span className={`px-2 py-0.5 rounded-full transition-all duration-300 ${stage === 1 ? "bg-cyan-500/20 text-cyan-300 border border-cyan-400/50 shadow-[0_0_10px_rgba(56,189,248,0.3)]" : "opacity-40"}`}>
           1. Browse
         </span>
-        <span className={`transition-colors duration-300 ${stage === 2 ? "text-cyan-300 font-bold" : "opacity-40"}`}>
+        <span className={`px-2 py-0.5 rounded-full transition-all duration-300 ${stage === 2 ? "bg-blue-500/20 text-blue-300 border border-blue-400/50 shadow-[0_0_10px_rgba(59,130,246,0.3)]" : "opacity-40"}`}>
           2. Order
         </span>
-        <span className={`transition-colors duration-300 ${stage === 3 ? "text-cyan-300 font-bold" : "opacity-40"}`}>
+        <span className={`px-2 py-0.5 rounded-full transition-all duration-300 ${stage === 3 ? "bg-amber-500/20 text-amber-300 border border-amber-400/50 shadow-[0_0_10px_rgba(245,158,11,0.3)]" : "opacity-40"}`}>
           3. Pack &amp; Ship
         </span>
-        <span className={`transition-colors duration-300 ${stage === 4 ? "text-emerald-300 font-bold" : "opacity-40"}`}>
+        <span className={`px-2 py-0.5 rounded-full transition-all duration-300 ${stage === 4 ? "bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "opacity-40"}`}>
           4. Delivered
         </span>
       </div>
 
       {/* ========================================================================= */}
-      {/* STAGE 1: BROWSE PRODUCTS ON PHONE & PHYSICAL PRODUCT MOTION INTO CART */}
+      {/* STAGE 1: BROWSE PRODUCTS ON PHONE */}
       {/* ========================================================================= */}
-      <div className="absolute left-2 sm:left-4 top-8 w-[175px] h-[250px] rounded-[22px] border-2 border-blue-400/40 bg-gradient-to-b from-[#061947]/95 via-[#030e2e]/95 to-[#020719]/95 backdrop-blur-md p-2.5 shadow-[0_0_30px_rgba(20,85,217,0.4)] flex flex-col justify-between z-10">
+      <div className="absolute left-1 sm:left-3 top-6 w-[160px] h-[240px] rounded-[20px] border-2 border-blue-400/40 bg-gradient-to-b from-[#061947]/95 via-[#030e2e]/95 to-[#020719]/95 backdrop-blur-md p-2 shadow-[0_0_25px_rgba(20,85,217,0.35)] flex flex-col justify-between z-10">
         {/* Phone Speaker & Cart Status Header */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-1.5">
+        <div className="flex items-center justify-between border-b border-white/10 pb-1">
           <div className="h-1 w-8 bg-white/20 rounded-full mx-auto" />
           <motion.div
             animate={stage >= 1 ? { scale: [1, 1.2, 1] } : {}}
@@ -133,9 +132,9 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
                 : "border-white/10 bg-white/5"
             }`}
           >
-            <div className="flex items-center gap-2">
-              <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white shrink-0 shadow-inner">
-                <Box className="h-5 w-5 text-cyan-100" />
+            <div className="flex items-center gap-1.5">
+              <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white shrink-0 shadow-inner">
+                <Box className="h-4 w-4 text-cyan-100" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-[10px] font-black text-white truncate">3D Spiral Vase</div>
@@ -146,27 +145,27 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
             {/* Add to Cart Button */}
             <motion.div
               animate={stage >= 2 ? { backgroundColor: "rgb(16, 185, 129)" } : {}}
-              className="mt-1.5 py-1 rounded-md bg-[#1455D9] text-center text-[8px] font-black text-white flex items-center justify-center gap-1 shadow-xs"
+              className="mt-1 py-1 rounded-md bg-[#1455D9] text-center text-[8px] font-black text-white flex items-center justify-center gap-1 shadow-xs"
             >
               {stage >= 2 ? <Check className="h-2.5 w-2.5" /> : null}
               <span>{stage === 1 ? "+ Add to Cart" : "Added to Cart"}</span>
             </motion.div>
           </div>
 
-          {/* Secondary Inactive Products (Laser Cut Tree, Circuit Board) */}
-          <div className="rounded-lg border border-white/5 bg-white/5 p-1.5 flex items-center gap-2 opacity-50">
-            <div className="h-6 w-6 rounded bg-emerald-600/30 flex items-center justify-center">
-              <Layers className="h-3.5 w-3.5 text-emerald-300" />
+          {/* Secondary Products */}
+          <div className="rounded-lg border border-white/5 bg-white/5 p-1 flex items-center gap-1.5 opacity-50">
+            <div className="h-5 w-5 rounded bg-emerald-600/30 flex items-center justify-center">
+              <Layers className="h-3 w-3 text-emerald-300" />
             </div>
             <span className="text-[8px] font-bold text-slate-300">Laser Cut Art</span>
           </div>
         </div>
 
-        {/* Gliding Finger / Pointer clicking Add to Cart (Stage 1) */}
+        {/* Gliding Pointer clicking Add to Cart (Stage 1) */}
         {stage === 1 && (
           <motion.div
-            initial={{ x: 20, y: 180, opacity: 0 }}
-            animate={{ x: 75, y: 130, opacity: 1 }}
+            initial={{ x: 20, y: 160, opacity: 0 }}
+            animate={{ x: 65, y: 115, opacity: 1 }}
             transition={{ duration: 0.65, ease: "easeOut" }}
             className="absolute z-30 text-cyan-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
           >
@@ -184,10 +183,10 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
       {/* Physically Flying Product Object Arc across screen into Cart (Stage 1 -> Stage 2) */}
       {stage === 1 && (
         <motion.div
-          initial={{ left: "60px", top: "120px", scale: 1, opacity: 0 }}
+          initial={{ left: "50px", top: "110px", scale: 1, opacity: 0 }}
           animate={{
-            left: ["60px", "140px", "240px"],
-            top: ["120px", "50px", "130px"],
+            left: ["50px", "130px", "220px"],
+            top: ["110px", "40px", "110px"],
             scale: [0.8, 1.2, 0.4],
             rotate: [0, 180, 360],
             opacity: [0, 1, 1],
@@ -200,7 +199,7 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
       )}
 
       {/* ========================================================================= */}
-      {/* STAGE 2: PLACE ORDER & CHECKOUT PANEL (2.0s - 3.8s) */}
+      {/* STAGE 2: PLACE ORDER & CHECKOUT PANEL */}
       {/* ========================================================================= */}
       {stage === 2 && (
         <motion.div
@@ -208,7 +207,7 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9 }}
           transition={{ duration: 0.35, ease: "backOut" }}
-          className="absolute left-[200px] sm:left-[215px] top-[45px] w-[170px] rounded-2xl bg-[#040E29]/95 border-2 border-blue-400/50 p-2.5 shadow-[0_10px_35px_rgba(7,27,77,0.8),0_0_20px_rgba(56,189,248,0.3)] backdrop-blur-xl z-20 space-y-2"
+          className="absolute left-[180px] sm:left-[195px] top-[40px] w-[160px] rounded-2xl bg-[#040E29]/95 border-2 border-blue-400/50 p-2.5 shadow-[0_10px_35px_rgba(7,27,77,0.8),0_0_20px_rgba(56,189,248,0.3)] backdrop-blur-xl z-20 space-y-2"
         >
           <div className="flex items-center justify-between border-b border-white/10 pb-1">
             <span className="text-[9px] font-black uppercase text-cyan-300 flex items-center gap-1">
@@ -240,8 +239,8 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
 
           {/* Cursor Clicking Place Order */}
           <motion.div
-            initial={{ x: 120, y: 80, opacity: 0 }}
-            animate={{ x: 75, y: 70, opacity: 1 }}
+            initial={{ x: 110, y: 70, opacity: 0 }}
+            animate={{ x: 65, y: 65, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="absolute z-30 text-cyan-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
           >
@@ -257,7 +256,7 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
       )}
 
       {/* ========================================================================= */}
-      {/* STAGE 3: PACKING & DELIVERY VEHICLE DRIVING ALONG ROUTE (3.8s - 5.8s) */}
+      {/* STAGE 3: PACKING & DELIVERY VEHICLE DRIVING ALONG ROUTE */}
       {/* ========================================================================= */}
       {stage === 3 && (
         <>
@@ -266,7 +265,7 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
             initial={{ scale: 0.5, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="absolute left-[200px] top-[140px] h-16 w-20 rounded-xl bg-gradient-to-b from-[#eab308] to-[#854d0e] border-2 border-amber-200 shadow-[0_10px_25px_rgba(0,0,0,0.7)] p-1 flex flex-col justify-between z-10"
+            className="absolute left-[180px] top-[130px] h-16 w-20 rounded-xl bg-gradient-to-b from-[#eab308] to-[#854d0e] border-2 border-amber-200 shadow-[0_10px_25px_rgba(0,0,0,0.7)] p-1 flex flex-col justify-between z-10"
           >
             <motion.div
               initial={{ scaleX: 0 }}
@@ -282,10 +281,10 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
 
           {/* Delivery Van moving smoothly along the route path */}
           <motion.div
-            initial={{ left: "220px", top: "140px", rotate: -4 }}
+            initial={{ left: "200px", top: "130px", rotate: -4 }}
             animate={{
-              left: ["220px", "340px", "440px"],
-              top: ["140px", "110px", "180px"],
+              left: ["200px", "320px", "420px"],
+              top: ["130px", "100px", "170px"],
               rotate: [-4, 2, -2],
             }}
             transition={{ duration: 1.8, ease: "easeInOut" }}
@@ -307,7 +306,7 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
       )}
 
       {/* ========================================================================= */}
-      {/* STAGE 4: ORDER DELIVERED AT DESTINATION & CHECKMARK BLOOM (5.8s - 7.8s) */}
+      {/* STAGE 4: ORDER DELIVERED AT DESTINATION */}
       {/* ========================================================================= */}
       {stage === 4 && (
         <motion.div
@@ -315,7 +314,7 @@ export function StoreShoppingJourneyHero({ isActive }: StoreShoppingJourneyHeroP
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
           transition={{ duration: 0.4 }}
-          className="absolute right-4 sm:right-8 bottom-6 flex flex-col items-center z-20"
+          className="absolute right-3 sm:right-6 bottom-4 flex flex-col items-center z-20"
         >
           {/* Delivered Parcel Box */}
           <motion.div

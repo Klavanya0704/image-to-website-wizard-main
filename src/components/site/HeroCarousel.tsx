@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import heroStoreBg from "@/assets/hero-store-bg.jpg";
 import heroMakerspaceBg from "@/assets/hero-makerspace-bg.jpg";
 import { StoreShoppingJourneyHero } from "@/components/site/StoreShoppingJourneyHero";
 
@@ -32,9 +31,7 @@ interface SlideData {
   secondaryCtaText: string;
   secondaryCtaLink: string;
   features: { icon: React.ComponentType<any>; label: string }[];
-  bgImage: string;
-  gradientOverlay: string;
-  bgPositionMobile: string;
+  bgImage?: string;
 }
 
 const SLIDES: SlideData[] = [
@@ -55,10 +52,6 @@ const SLIDES: SlideData[] = [
       { icon: Truck, label: "Fast Delivery" },
       { icon: Headphones, label: "Lab Support" },
     ],
-    bgImage: heroStoreBg,
-    gradientOverlay:
-      "bg-gradient-to-t from-[#040e28]/95 via-[#071842]/70 to-[#071842]/20 sm:bg-gradient-to-r sm:from-[#040e28]/90 sm:via-[#071842]/45 sm:to-transparent",
-    bgPositionMobile: "72% 20%",
   },
   {
     id: "makerspace",
@@ -79,9 +72,6 @@ const SLIDES: SlideData[] = [
       { icon: Sparkles, label: "Modern Workspace" },
     ],
     bgImage: heroMakerspaceBg,
-    gradientOverlay:
-      "bg-gradient-to-t from-[#03091e]/95 via-[#051133]/70 to-[#051133]/20 sm:bg-gradient-to-r sm:from-[#03091e]/90 sm:via-[#051133]/45 sm:to-transparent",
-    bgPositionMobile: "70% 25%",
   },
 ];
 
@@ -121,7 +111,7 @@ export function HeroCarousel() {
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMouseOffset({ x: +(x * -16).toFixed(2), y: +(y * -10).toFixed(2) });
+    setMouseOffset({ x: +(x * -14).toFixed(2), y: +(y * -8).toFixed(2) });
   };
 
   const handleMouseEnter = () => {
@@ -200,7 +190,7 @@ export function HeroCarousel() {
         onTouchEnd={handleTouchEnd}
         className="relative overflow-hidden rounded-[20px] sm:rounded-[24px] h-[520px] max-h-[560px] sm:h-[400px] sm:max-h-[400px] lg:h-[400px] shadow-[0_10px_35px_rgba(7,19,48,0.18)] border border-slate-200/50 dark:border-blue-950/60 isolate flex items-end sm:items-center bg-[#071330]"
       >
-        {/* Full-width Edge-to-Edge Directional Animated Background Image */}
+        {/* Full-width Directional Animated Background */}
         <AnimatePresence initial={false} custom={direction} mode="popLayout">
           <motion.div
             key={currentSlide.id}
@@ -209,21 +199,41 @@ export function HeroCarousel() {
             initial="enter"
             animate="center"
             exit="exit"
-            className="absolute inset-0 w-full h-full pointer-events-none"
+            className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
           >
-            {/* Background Image Container */}
-            <div
-              style={{
-                backgroundImage: `url(${currentSlide.bgImage})`,
-                backgroundSize: "cover",
-                transform: `scale(1.02) translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
-                transition: "transform 350ms cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-              className="absolute inset-0 w-full h-full bg-no-repeat bg-[position:72%_15%] sm:bg-[position:center_right]"
-            />
+            {currentSlide.id === "store" ? (
+              /* NEW STORE BACKGROUND: Deep Dark Navy Gradient + Dot Matrix + Ambient Cyan Glows (NO OLD ARTWORK) */
+              <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#03091e] via-[#05143a] to-[#040e28]">
+                {/* Technical Dot Matrix Overlay */}
+                <div
+                  style={{
+                    backgroundImage:
+                      "radial-gradient(circle, rgba(56, 189, 248, 0.12) 1.2px, transparent 1.2px)",
+                    backgroundSize: "24px 24px",
+                  }}
+                  className="absolute inset-0 w-full h-full opacity-60"
+                />
 
-            {/* Responsive Directional Gradient Overlay */}
-            <div className={`absolute inset-0 ${currentSlide.gradientOverlay}`} />
+                {/* Ambient Cyan & Blue Radial Glows */}
+                <div className="absolute top-[-10%] right-[20%] w-[380px] h-[380px] rounded-full bg-cyan-500/10 blur-[90px] pointer-events-none" />
+                <div className="absolute bottom-[-15%] right-[5%] w-[420px] h-[420px] rounded-full bg-blue-600/15 blur-[100px] pointer-events-none" />
+                <div className="absolute top-[20%] left-[5%] w-[300px] h-[300px] rounded-full bg-indigo-600/10 blur-[80px] pointer-events-none" />
+              </div>
+            ) : (
+              /* Makerspace Background Image */
+              <>
+                <div
+                  style={{
+                    backgroundImage: `url(${currentSlide.bgImage})`,
+                    backgroundSize: "cover",
+                    transform: `scale(1.02) translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
+                    transition: "transform 350ms cubic-bezier(0.16, 1, 0.3, 1)",
+                  }}
+                  className="absolute inset-0 w-full h-full bg-no-repeat bg-[position:70%_25%] sm:bg-[position:center_right]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#03091e]/95 via-[#051133]/70 to-[#051133]/20 sm:bg-gradient-to-r sm:from-[#03091e]/90 sm:via-[#051133]/45 sm:to-transparent" />
+              </>
+            )}
           </motion.div>
         </AnimatePresence>
 

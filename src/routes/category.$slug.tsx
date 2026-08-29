@@ -87,16 +87,6 @@ const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
   },
 };
 
-const ALL_CATEGORY_PILLS = [
-  { slug: "3d-printing", name: "3D Printing" },
-  { slug: "laser-cutting", name: "Laser Cutting" },
-  { slug: "cnc-machining", name: "CNC Machining" },
-  { slug: "electronics", name: "Electronics" },
-  { slug: "drones-parts", name: "Drones & Parts" },
-  { slug: "acrylic-products", name: "Acrylic Products" },
-  { slug: "diy-kits", name: "DIY Kits" },
-];
-
 function CategoryDetail() {
   const params = Route.useParams() as Record<string, string | undefined>;
 
@@ -262,45 +252,7 @@ function CategoryDetail() {
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className="min-h-screen bg-[#F8FAFC] dark:bg-background pb-16"
     >
-      {/* Category Quick Pills Bar with interactive hover physics & layoutId */}
-      <div className="bg-white/95 dark:bg-card/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 sticky top-16 z-30 shadow-2xs">
-        <div className="mx-auto max-w-[1440px] px-6 sm:px-8">
-          <div className="flex items-center gap-2 overflow-x-auto py-2.5 no-scrollbar">
-            {ALL_CATEGORY_PILLS.map((cat) => {
-              const isActive = currentCategory === cat.slug;
-              return (
-                <Link
-                  key={cat.slug}
-                  to="/category/$slug"
-                  params={{ slug: cat.slug }}
-                  className="relative group shrink-0 py-1"
-                >
-                  <motion.div
-                    whileHover={{ y: -3 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                    className={`relative z-10 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors duration-200 cursor-pointer ${
-                      isActive
-                        ? "text-white font-bold"
-                        : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                    }`}
-                  >
-                    {cat.name}
-                  </motion.div>
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeCategorySubBarPill"
-                      transition={{ type: "spring", stiffness: 450, damping: 30 }}
-                      className="absolute inset-0 rounded-full bg-[#1455D9] shadow-sm"
-                    />
-                  )}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 pt-5 sm:pt-6 pb-4">
         {/* Animated Category Header Banner with subtle mouse parallax */}
         <div
           ref={bannerRef}

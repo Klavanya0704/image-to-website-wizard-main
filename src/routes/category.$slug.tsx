@@ -40,51 +40,51 @@ interface CategoryMeta {
 const CATEGORY_DETAILS: Record<string, CategoryMeta> = {
   "3d-printing": {
     name: "3D Printing",
-    description: "Explore our precision FDM, SLA, and resin 3D-printed products and prototypes.",
+    description: "Explore precision FDM, SLA, and resin 3D-printed products and prototypes.",
     icon: Printer,
-    badge: "Additive Fabrication",
+    badge: "ADDITIVE FABRICATION",
   },
   "laser-cutting": {
     name: "Laser Cutting",
     description:
-      "High-precision laser cutting & engraving across natural hardwood, optical cast acrylic, and layered wood.",
+      "High-precision laser cutting & engraving across natural hardwood, optical acrylic, and layered wood.",
     icon: Scissors,
-    badge: "CO2 Precision Laser",
+    badge: "CO2 PRECISION LASER",
   },
   "cnc-machining": {
     name: "CNC Machining",
     description:
-      "Subtractive 3-axis & 5-axis CNC metal milling, custom aluminum couplers, and hardwood 3D relief carving.",
+      "Precision 3-axis and 5-axis CNC machining for metal, aluminum, wood and engineering prototypes.",
     icon: Settings,
-    badge: "Subtractive Milling",
+    badge: "SUBTRACTIVE MANUFACTURING",
   },
   electronics: {
     name: "Electronics",
     description:
-      "Explore IoT microcontroller boards, sensor breakout modules, and prototype development hardware.",
+      "Explore IoT microcontrollers, sensor modules, development boards and prototype hardware.",
     icon: Cpu,
-    badge: "Circuit Hardware",
+    badge: "CIRCUIT HARDWARE",
   },
   "drones-parts": {
     name: "Drones & Parts",
     description:
-      "Explore 3K carbon fiber FPV racing frames, high-thrust brushless motors, and precision flight parts.",
+      "Explore professional drone frames, motors, flight components and precision FPV parts.",
     icon: Plane,
-    badge: "Aerospace & FPV",
+    badge: "AEROSPACE & FPV",
   },
   "acrylic-products": {
     name: "Acrylic Products",
     description:
-      "Crystal clear optical acrylic display cubes, custom laser-etched trophies, and desktop organizers.",
+      "Discover crystal-clear acrylic displays, custom engraved products, signs and desktop organizers.",
     icon: Layers,
-    badge: "Optical Acrylic",
+    badge: "OPTICAL ACRYLIC",
   },
   "diy-kits": {
     name: "DIY Kits",
     description:
-      "Explore hands-on STEM robotics starter kits, IoT development modules, and maker workshop packages.",
+      "Explore hands-on STEM robotics kits, IoT development modules and maker workshop packages.",
     icon: Bot,
-    badge: "Hands-on STEM",
+    badge: "HANDS-ON STEM",
   },
 };
 

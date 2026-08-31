@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Check, MousePointer2, Sparkles } from "lucide-react";
 
 interface StoreShoppingJourneyAnimationProps {
@@ -45,12 +45,12 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       {/* ========================================================================= */}
       {stage === 1 && (
         <>
-          {/* Gliding Cursor over the Phone "Add to Cart" Button */}
+          {/* Gliding Cursor over Phone "Add to Cart" Button (located around left 18% of right visual container) */}
           <motion.div
-            initial={{ left: "36%", top: "66%", opacity: 0 }}
+            initial={{ left: "10%", top: "66%", opacity: 0 }}
             animate={{
-              left: ["36%", "39%", "41.5%"],
-              top: ["66%", "69%", "71.5%"],
+              left: ["10%", "15%", "19%"],
+              top: ["66%", "69%", "72.5%"],
               opacity: [0, 1, 1],
             }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
@@ -75,7 +75,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
               opacity: [0, 1, 1],
             }}
             transition={{ delay: 1.3, duration: 0.35, ease: "backOut" }}
-            className="absolute left-[47.2%] top-[40.5%] sm:top-[39.5%] flex items-center justify-center h-4 w-4 rounded-full bg-red-500 text-[9px] font-black text-white shadow-[0_0_10px_rgba(239,68,68,0.95)] z-20"
+            className="absolute left-[27.2%] top-[39.5%] flex items-center justify-center h-4 w-4 rounded-full bg-red-500 text-[9px] font-black text-white shadow-[0_0_10px_rgba(239,68,68,0.95)] z-20"
           >
             1
           </motion.div>
@@ -89,9 +89,9 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
         <>
           {/* Flowing Light Pulse along '>>' arrow from Phone to Checkout */}
           <motion.div
-            initial={{ left: "47%", top: "45%", opacity: 0 }}
+            initial={{ left: "27%", top: "45%", opacity: 0 }}
             animate={{
-              left: ["47%", "51%", "54%"],
+              left: ["27%", "33%", "38%"],
               top: ["45%", "49%", "52%"],
               opacity: [0, 1, 0.85],
             }}
@@ -101,10 +101,10 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
 
           {/* Gliding Cursor over Checkout "Place Order" Button */}
           <motion.div
-            initial={{ left: "44%", top: "70%", opacity: 0 }}
+            initial={{ left: "24%", top: "70%", opacity: 0 }}
             animate={{
-              left: ["44%", "53%", "58%"],
-              top: ["70%", "68%", "72.5%"],
+              left: ["24%", "34%", "43.5%"],
+              top: ["70%", "68%", "73.5%"],
               opacity: [0, 1, 1],
             }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
@@ -126,7 +126,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 0.9, 0.9, 0] }}
             transition={{ delay: 1.3, duration: 1.5 }}
-            className="absolute left-[54%] sm:left-[55.5%] bottom-[23%] px-2.5 py-0.5 rounded-lg bg-emerald-500 text-white flex items-center justify-center gap-1 shadow-[0_0_15px_rgba(16,185,129,0.8)] border border-emerald-300 text-[9px] font-black z-20"
+            className="absolute left-[38.5%] bottom-[23%] px-2.5 py-0.5 rounded-lg bg-emerald-500 text-white flex items-center justify-center gap-1 shadow-[0_0_15px_rgba(16,185,129,0.8)] border border-emerald-300 text-[9px] font-black z-20"
           >
             <Check className="h-3 w-3 stroke-[3]" />
             <span>Confirmed</span>
@@ -141,9 +141,9 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
         <>
           {/* Flowing Light Pulse along '>>' arrow from Checkout to Conveyor */}
           <motion.div
-            initial={{ left: "60%", top: "52%", opacity: 0 }}
+            initial={{ left: "45%", top: "52%", opacity: 0 }}
             animate={{
-              left: ["60%", "64%", "68%"],
+              left: ["45%", "50%", "55%"],
               top: ["52%", "48%", "45%"],
               opacity: [0, 1, 0.85],
             }}
@@ -152,8 +152,8 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
           />
 
           {/* Conveyor Rollers Operating Light Motion */}
-          <div className="absolute left-[64%] sm:left-[66%] bottom-[16.5%] w-[16%] h-[4%] overflow-hidden flex items-center justify-between opacity-75 z-10">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
+          <div className="absolute left-[54%] bottom-[16.5%] w-[22%] h-[4%] overflow-hidden flex items-center justify-between opacity-75 z-10">
+            {[1, 2, 3, 4, 5, 6, 7].map((i) => (
               <motion.div
                 key={i}
                 animate={{ x: [0, 22] }}
@@ -168,7 +168,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 0.95, 0.95, 0] }}
             transition={{ duration: 3.2, ease: "easeInOut" }}
-            className="absolute left-[72.5%] sm:left-[73.5%] top-[23%] w-[60px] sm:w-[80px] h-[120px] pointer-events-none flex flex-col items-center z-20"
+            className="absolute left-[65.5%] top-[23%] w-[65px] sm:w-[85px] h-[120px] pointer-events-none flex flex-col items-center z-20"
           >
             {/* Blue Laser Cone */}
             <div className="w-full h-full bg-gradient-to-b from-cyan-400/70 via-cyan-400/25 to-transparent [clip-path:polygon(50%_0%,0%_100%,100%_100%)] blur-xs" />
@@ -189,9 +189,9 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
         <>
           {/* Progressive Light Beacon along Curved Dotted Route */}
           <motion.div
-            initial={{ left: "77%", top: "42%", opacity: 0 }}
+            initial={{ left: "70%", top: "42%", opacity: 0 }}
             animate={{
-              left: ["77%", "84%", "91%"],
+              left: ["70%", "79%", "88%"],
               top: ["42%", "34%", "44%"],
               opacity: [0, 1, 0.9],
             }}
@@ -204,7 +204,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 0.85, 0.85, 0] }}
             transition={{ duration: 3.0 }}
-            className="absolute right-[0%] sm:right-[1%] bottom-[20%] w-[110px] h-[45px] pointer-events-none z-20"
+            className="absolute right-[0%] bottom-[20%] w-[110px] h-[45px] pointer-events-none z-20"
           >
             <div className="w-full h-full bg-gradient-to-r from-amber-300/45 via-amber-200/15 to-transparent blur-md [clip-path:polygon(0%_40%,100%_0%,100%_100%,0%_60%)]" />
           </motion.div>
@@ -213,7 +213,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
           <motion.div
             animate={{ opacity: [0.2, 0.8, 0.2] }}
             transition={{ duration: 0.6, repeat: Infinity }}
-            className="absolute right-[11%] sm:right-[13%] bottom-[26%] w-[7%] h-[2px] bg-cyan-300/70 rounded-full blur-xs shadow-[0_0_8px_rgba(56,189,248,1)] z-20"
+            className="absolute right-[12%] bottom-[26%] w-[7%] h-[2px] bg-cyan-300/70 rounded-full blur-xs shadow-[0_0_8px_rgba(56,189,248,1)] z-20"
           />
         </>
       )}
@@ -231,7 +231,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
               opacity: [0, 0.85, 0],
             }}
             transition={{ duration: 1.4, ease: "easeOut" }}
-            className="absolute right-[5.5%] sm:right-[6.5%] top-[24%] h-12 w-12 rounded-full border-2 border-amber-300 bg-amber-400/20 shadow-[0_0_25px_rgba(251,191,36,0.8)] z-20"
+            className="absolute right-[6%] top-[24%] h-12 w-12 rounded-full border-2 border-amber-300 bg-amber-400/20 shadow-[0_0_25px_rgba(251,191,36,0.8)] z-20"
           />
 
           {/* Bottom Right "✓ Order Delivered Successfully!" Badge Celebration Glow */}
@@ -239,7 +239,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.35, ease: "backOut" }}
-            className="absolute right-[3%] sm:right-[4%] bottom-[12%] px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600/90 via-emerald-500/90 to-teal-400/90 text-white font-black text-[11px] shadow-[0_0_25px_rgba(16,185,129,0.9)] border border-white flex items-center gap-1.5 z-30"
+            className="absolute right-[3%] bottom-[12%] px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600/90 via-emerald-500/90 to-teal-400/90 text-white font-black text-[11px] shadow-[0_0_25px_rgba(16,185,129,0.9)] border border-white flex items-center gap-1.5 z-30"
           >
             <div className="h-4 w-4 rounded-full bg-white text-emerald-600 flex items-center justify-center">
               <Check className="h-3 w-3 stroke-[3.5]" />

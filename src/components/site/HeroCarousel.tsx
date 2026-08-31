@@ -57,7 +57,7 @@ const SLIDES: SlideData[] = [
     ],
     bgImage: heroStoreJourney,
     gradientOverlay:
-      "bg-gradient-to-t from-[#020719]/95 via-[#020719]/80 to-transparent sm:bg-gradient-to-r sm:from-[#020719]/95 sm:via-[#020719]/65 sm:via-35% sm:to-transparent",
+      "bg-gradient-to-t from-[#020719]/95 via-[#020719]/80 to-transparent sm:bg-gradient-to-r sm:from-[#020719]/95 sm:via-[#020719]/50 sm:via-38% sm:to-transparent",
     bgPosition: "center right",
   },
   {
@@ -238,7 +238,7 @@ export function HeroCarousel() {
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide.id}
-              className="max-w-xl lg:max-w-md xl:max-w-lg flex flex-col items-start text-left shrink-0"
+              className="max-w-xl lg:max-w-md xl:max-w-[460px] flex flex-col items-start text-left shrink-0"
             >
               {/* 1. Badge: 0ms delay */}
               <motion.div

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Check, MousePointer2, Sparkles } from "lucide-react";
 
 interface StoreShoppingJourneyAnimationProps {
@@ -7,12 +7,12 @@ interface StoreShoppingJourneyAnimationProps {
 }
 
 export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourneyAnimationProps) {
-  // Deterministic 5-Stage Storytelling Flow (15-Second Continuous Loop):
-  // Stage 1 (0.0s – 3.0s): Phone Browsing & Cursor clicks "Add to Cart" + Cart badge pop
-  // Stage 2 (3.0s – 6.0s): Cursor moves to Checkout & clicks "Place Order" (Confirmed state)
-  // Stage 3 (6.0s – 9.5s): Conveyor belt roller motion + Overhead laser scanner sweep
-  // Stage 4 (9.5s – 13.0s): Glowing route highway illumination & Delivery van travel
-  // Stage 5 (13.0s – 15.0s): Location Pin pulse & subtle "✓ Order Delivered" indicator
+  // Deterministic 5-Stage Storytelling Loop (15-Second Cycle):
+  // Stage 1 (0.0s – 3.0s): Browse Phone & Cursor clicks "Add to Cart" + Cart badge pop
+  // Stage 2 (3.0s – 6.0s): Arrow pulse to Checkout & Cursor clicks "Place Order" (Confirmed)
+  // Stage 3 (6.0s – 9.5s): Arrow pulse to Conveyor + Rollers motion + Robot Laser Scanner sweep
+  // Stage 4 (9.5s – 13.0s): Glowing dotted route illumination & Delivery Van travel
+  // Stage 5 (13.0s – 15.0s): Destination Pin pulse & "✓ Order Delivered Successfully!" celebration
   const [stage, setStage] = useState<1 | 2 | 3 | 4 | 5>(1);
 
   useEffect(() => {
@@ -41,16 +41,16 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
   return (
     <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden select-none z-10">
       {/* ========================================================================= */}
-      {/* STAGE 1: BROWSE & ADD TO CART INTERACTION (0.0s – 3.0s) */}
+      {/* STAGE 1: BROWSE PRODUCTS & ADD TO CART (0.0s – 3.0s) */}
       {/* ========================================================================= */}
       {stage === 1 && (
         <>
-          {/* Gliding Cursor over the Smartphone "Add to Cart" Button */}
+          {/* Gliding Cursor over the Phone "Add to Cart" Button */}
           <motion.div
-            initial={{ left: "14%", top: "68%", opacity: 0 }}
+            initial={{ left: "36%", top: "66%", opacity: 0 }}
             animate={{
-              left: ["14%", "18%", "21%"],
-              top: ["68%", "70%", "72.5%"],
+              left: ["36%", "39%", "41.5%"],
+              top: ["66%", "69%", "71.5%"],
               opacity: [0, 1, 1],
             }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
@@ -61,21 +61,21 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             {/* Subtle Button Click Ripple */}
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: [0, 1.6, 0], opacity: [0, 0.8, 0] }}
+              animate={{ scale: [0, 1.8, 0], opacity: [0, 0.85, 0] }}
               transition={{ delay: 1.1, duration: 0.45 }}
               className="absolute -left-1 -top-1 h-7 w-7 rounded-full border-2 border-cyan-300 bg-cyan-400/25"
             />
           </motion.div>
 
-          {/* Cart Badge Increment Pop (0 -> 1 Counter) */}
+          {/* Cart Badge Pop (0 -> 1 Counter) */}
           <motion.div
             initial={{ scale: 0.7, opacity: 0 }}
             animate={{
-              scale: [0.7, 1.25, 1],
+              scale: [0.7, 1.3, 1],
               opacity: [0, 1, 1],
             }}
             transition={{ delay: 1.3, duration: 0.35, ease: "backOut" }}
-            className="absolute left-[26.9%] sm:left-[27.4%] top-[40%] sm:top-[39%] flex items-center justify-center h-3.5 w-3.5 rounded-full bg-red-500 text-[8px] font-black text-white shadow-[0_0_8px_rgba(239,68,68,0.9)] z-20"
+            className="absolute left-[47.2%] top-[40.5%] sm:top-[39.5%] flex items-center justify-center h-4 w-4 rounded-full bg-red-500 text-[9px] font-black text-white shadow-[0_0_10px_rgba(239,68,68,0.95)] z-20"
           >
             1
           </motion.div>
@@ -83,17 +83,17 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       )}
 
       {/* ========================================================================= */}
-      {/* STAGE 2: PLACE ORDER INTERACTION (3.0s – 6.0s) */}
+      {/* STAGE 2: PLACE ORDER & CHECKOUT CONFIRMATION (3.0s – 6.0s) */}
       {/* ========================================================================= */}
       {stage === 2 && (
         <>
-          {/* Light Pulse traveling along Dotted Route from Phone to Checkout */}
+          {/* Flowing Light Pulse along '>>' arrow from Phone to Checkout */}
           <motion.div
-            initial={{ left: "27.5%", top: "45%", opacity: 0 }}
+            initial={{ left: "47%", top: "45%", opacity: 0 }}
             animate={{
-              left: ["27.5%", "33%", "39%"],
-              top: ["45%", "52%", "55%"],
-              opacity: [0, 1, 0.8],
+              left: ["47%", "51%", "54%"],
+              top: ["45%", "49%", "52%"],
+              opacity: [0, 1, 0.85],
             }}
             transition={{ duration: 1.0, ease: "easeInOut" }}
             className="absolute h-3 w-3 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(56,189,248,1)] z-20"
@@ -101,10 +101,10 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
 
           {/* Gliding Cursor over Checkout "Place Order" Button */}
           <motion.div
-            initial={{ left: "23%", top: "72%", opacity: 0 }}
+            initial={{ left: "44%", top: "70%", opacity: 0 }}
             animate={{
-              left: ["23%", "33%", "42.5%"],
-              top: ["72%", "70%", "74%"],
+              left: ["44%", "53%", "58%"],
+              top: ["70%", "68%", "72.5%"],
               opacity: [0, 1, 1],
             }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
@@ -115,18 +115,18 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             {/* Subtle Button Click Ripple */}
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: [0, 1.6, 0], opacity: [0, 0.8, 0] }}
+              animate={{ scale: [0, 1.8, 0], opacity: [0, 0.85, 0] }}
               transition={{ delay: 1.1, duration: 0.45 }}
               className="absolute -left-1 -top-1 h-7 w-7 rounded-full border-2 border-emerald-400 bg-emerald-400/25"
             />
           </motion.div>
 
-          {/* Subtle Green Check Confirmation Glow over Place Order Button */}
+          {/* Subtle Green Check Confirmation on Place Order Button */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.85, 0.85, 0] }}
+            animate={{ opacity: [0, 0.9, 0.9, 0] }}
             transition={{ delay: 1.3, duration: 1.5 }}
-            className="absolute left-[34%] sm:left-[36%] lg:left-[37.5%] bottom-[22%] sm:bottom-[23%] px-2 py-0.5 rounded-lg bg-emerald-500/90 text-white flex items-center justify-center gap-1 shadow-[0_0_15px_rgba(16,185,129,0.7)] border border-emerald-300 text-[9px] font-black z-20"
+            className="absolute left-[54%] sm:left-[55.5%] bottom-[23%] px-2.5 py-0.5 rounded-lg bg-emerald-500 text-white flex items-center justify-center gap-1 shadow-[0_0_15px_rgba(16,185,129,0.8)] border border-emerald-300 text-[9px] font-black z-20"
           >
             <Check className="h-3 w-3 stroke-[3]" />
             <span>Confirmed</span>
@@ -135,53 +135,65 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       )}
 
       {/* ========================================================================= */}
-      {/* STAGE 3: CONVEYOR BELT MOVEMENT & LASER SCANNER SWEEP (6.0s – 9.5s) */}
+      {/* STAGE 3: PACK & SHIP / CONVEYOR & ROBOT SCANNER (6.0s – 9.5s) */}
       {/* ========================================================================= */}
       {stage === 3 && (
         <>
-          {/* Conveyor Roller Motion Shimmer */}
-          <div className="absolute left-[52%] sm:left-[54%] lg:left-[56%] bottom-[16.5%] w-[20%] h-[4%] overflow-hidden flex items-center justify-between opacity-70 z-10">
-            {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+          {/* Flowing Light Pulse along '>>' arrow from Checkout to Conveyor */}
+          <motion.div
+            initial={{ left: "60%", top: "52%", opacity: 0 }}
+            animate={{
+              left: ["60%", "64%", "68%"],
+              top: ["52%", "48%", "45%"],
+              opacity: [0, 1, 0.85],
+            }}
+            transition={{ duration: 1.0, ease: "easeInOut" }}
+            className="absolute h-3 w-3 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(56,189,248,1)] z-20"
+          />
+
+          {/* Conveyor Rollers Operating Light Motion */}
+          <div className="absolute left-[64%] sm:left-[66%] bottom-[16.5%] w-[16%] h-[4%] overflow-hidden flex items-center justify-between opacity-75 z-10">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
               <motion.div
                 key={i}
-                animate={{ x: [0, 20] }}
+                animate={{ x: [0, 22] }}
                 transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
                 className="h-full w-0.5 bg-cyan-300 rounded-full shadow-[0_0_6px_rgba(56,189,248,0.7)]"
               />
             ))}
           </div>
 
-          {/* Overhead Cyan Laser Scanner Beam Sweeping across Boxes */}
+          {/* Robotic Scanner Overhead Cone Beam & Sweeping Line */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.9, 0.9, 0] }}
+            animate={{ opacity: [0, 0.95, 0.95, 0] }}
             transition={{ duration: 3.2, ease: "easeInOut" }}
-            className="absolute left-[64%] sm:left-[66%] lg:left-[67%] top-[24%] w-[65px] sm:w-[85px] h-[125px] pointer-events-none flex flex-col items-center z-20"
+            className="absolute left-[72.5%] sm:left-[73.5%] top-[23%] w-[60px] sm:w-[80px] h-[120px] pointer-events-none flex flex-col items-center z-20"
           >
-            {/* Laser Cone Glow */}
-            <div className="w-full h-full bg-gradient-to-b from-cyan-400/60 via-cyan-400/20 to-transparent [clip-path:polygon(50%_0%,0%_100%,100%_100%)] blur-xs" />
-            {/* Horizontal Sweeping Laser Line */}
+            {/* Blue Laser Cone */}
+            <div className="w-full h-full bg-gradient-to-b from-cyan-400/70 via-cyan-400/25 to-transparent [clip-path:polygon(50%_0%,0%_100%,100%_100%)] blur-xs" />
+            {/* Horizontal Sweeping Scanner Line */}
             <motion.div
               animate={{ y: [0, 65, 0] }}
               transition={{ duration: 1.3, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-[28%] w-full h-[2px] bg-cyan-200 shadow-[0_0_12px_rgba(56,189,248,1)]"
+              className="absolute top-[26%] w-full h-[2px] bg-cyan-200 shadow-[0_0_12px_rgba(56,189,248,1)]"
             />
           </motion.div>
         </>
       )}
 
       {/* ========================================================================= */}
-      {/* STAGE 4: EXPRESS DELIVERY HIGHWAY ROUTE ILLUMINATION (9.5s – 13.0s) */}
+      {/* STAGE 4: DELIVERY VAN ON GLOWING HIGHWAY (9.5s – 13.0s) */}
       {/* ========================================================================= */}
       {stage === 4 && (
         <>
-          {/* Progressive Route Illumination Beacon */}
+          {/* Progressive Light Beacon along Curved Dotted Route */}
           <motion.div
-            initial={{ left: "70%", top: "42%", opacity: 0 }}
+            initial={{ left: "77%", top: "42%", opacity: 0 }}
             animate={{
-              left: ["70%", "78%", "86%"],
+              left: ["77%", "84%", "91%"],
               top: ["42%", "34%", "44%"],
-              opacity: [0, 1, 0.85],
+              opacity: [0, 1, 0.9],
             }}
             transition={{ duration: 2.6, ease: "easeInOut" }}
             className="absolute h-3.5 w-3.5 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(56,189,248,1)] z-20"
@@ -192,7 +204,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 0.85, 0.85, 0] }}
             transition={{ duration: 3.0 }}
-            className="absolute right-[0%] sm:right-[1%] lg:right-[2%] bottom-[20%] w-[120px] h-[45px] pointer-events-none z-20"
+            className="absolute right-[0%] sm:right-[1%] bottom-[20%] w-[110px] h-[45px] pointer-events-none z-20"
           >
             <div className="w-full h-full bg-gradient-to-r from-amber-300/45 via-amber-200/15 to-transparent blur-md [clip-path:polygon(0%_40%,100%_0%,100%_100%,0%_60%)]" />
           </motion.div>
@@ -201,17 +213,17 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
           <motion.div
             animate={{ opacity: [0.2, 0.8, 0.2] }}
             transition={{ duration: 0.6, repeat: Infinity }}
-            className="absolute right-[12%] sm:right-[14%] bottom-[26%] w-[8%] h-[2px] bg-cyan-300/70 rounded-full blur-xs shadow-[0_0_8px_rgba(56,189,248,1)] z-20"
+            className="absolute right-[11%] sm:right-[13%] bottom-[26%] w-[7%] h-[2px] bg-cyan-300/70 rounded-full blur-xs shadow-[0_0_8px_rgba(56,189,248,1)] z-20"
           />
         </>
       )}
 
       {/* ========================================================================= */}
-      {/* STAGE 5: DESTINATION PIN ACTIVATION & ORDER DELIVERED (13.0s – 15.0s) */}
+      {/* STAGE 5: DESTINATION PIN & "✓ ORDER DELIVERED" (13.0s – 15.0s) */}
       {/* ========================================================================= */}
       {stage === 5 && (
         <>
-          {/* Location Pin Radar Pulse */}
+          {/* Location Pin Radar Wave */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{
@@ -219,21 +231,21 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
               opacity: [0, 0.85, 0],
             }}
             transition={{ duration: 1.4, ease: "easeOut" }}
-            className="absolute right-[6%] sm:right-[7.5%] lg:right-[8.5%] top-[24%] h-12 w-12 rounded-full border-2 border-amber-300 bg-amber-400/20 shadow-[0_0_25px_rgba(251,191,36,0.8)] z-20"
+            className="absolute right-[5.5%] sm:right-[6.5%] top-[24%] h-12 w-12 rounded-full border-2 border-amber-300 bg-amber-400/20 shadow-[0_0_25px_rgba(251,191,36,0.8)] z-20"
           />
 
-          {/* Clean Emerald Delivered Confirmation Capsule Beside Pin */}
+          {/* Bottom Right "✓ Order Delivered Successfully!" Badge Celebration Glow */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.85, y: 8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.35, ease: "backOut" }}
-            className="absolute right-[3%] sm:right-[4.5%] lg:right-[5.5%] top-[16%] px-3 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-400 text-white font-black text-[10px] shadow-[0_0_20px_rgba(16,185,129,0.8)] border border-white flex items-center gap-1.5 z-30"
+            className="absolute right-[3%] sm:right-[4%] bottom-[12%] px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600/90 via-emerald-500/90 to-teal-400/90 text-white font-black text-[11px] shadow-[0_0_25px_rgba(16,185,129,0.9)] border border-white flex items-center gap-1.5 z-30"
           >
-            <div className="h-3.5 w-3.5 rounded-full bg-white text-emerald-600 flex items-center justify-center">
-              <Check className="h-2.5 w-2.5 stroke-[3.5]" />
+            <div className="h-4 w-4 rounded-full bg-white text-emerald-600 flex items-center justify-center">
+              <Check className="h-3 w-3 stroke-[3.5]" />
             </div>
-            <span>✓ Order Delivered</span>
-            <Sparkles className="h-3 w-3 text-amber-300 animate-spin" />
+            <span>Order Delivered Successfully!</span>
+            <Sparkles className="h-3.5 w-3.5 text-amber-300 animate-spin" />
           </motion.div>
         </>
       )}

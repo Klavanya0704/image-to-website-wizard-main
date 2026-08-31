@@ -56,9 +56,8 @@ const SLIDES: SlideData[] = [
       { icon: Headphones, label: "Lab Support" },
     ],
     bgImage: heroStoreJourney,
-    gradientOverlay:
-      "bg-gradient-to-t from-[#020719]/95 via-[#020719]/80 to-transparent sm:bg-gradient-to-r sm:from-[#020719] sm:via-[#020719]/85 sm:via-25% sm:via-[#020719]/30 sm:via-35% sm:to-transparent",
-    bgPosition: "right center",
+    gradientOverlay: "",
+    bgPosition: "center center",
   },
   {
     id: "makerspace",
@@ -204,43 +203,18 @@ export function HeroCarousel() {
             initial="enter"
             animate="center"
             exit="exit"
-            className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
+            className="absolute inset-0 w-full h-full flex flex-col sm:flex-row items-center justify-between"
           >
-            {/* Seamless Single-Scene Background Image Asset */}
-            <div
-              style={{
-                backgroundImage: `url(${currentSlide.bgImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: currentSlide.bgPosition,
-                transform: `translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
-                transition: "transform 350ms cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-              className="absolute inset-0 w-full h-full bg-no-repeat"
-            />
-
-            {/* Seamless Horizontal Vignette Gradient (Solid on far left for text, completely clear on right) */}
-            <div className={`absolute inset-0 ${currentSlide.gradientOverlay}`} />
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Live Synchronized Storytelling Animation over the Store Shopping Image */}
-        {currentSlide.id === "store" && (
-          <StoreShoppingJourneyAnimation isActive={currentSlideIndex === 0} />
-        )}
-
-        {/* Dedicated Left-Side Marketing Content Layer (~35% Width) */}
-        <div className="relative z-20 w-full px-6 sm:px-8 lg:px-10 py-6 sm:py-8 flex flex-col justify-end sm:justify-center">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide.id}
-              className="max-w-xl lg:max-w-[340px] xl:max-w-[370px] flex flex-col items-start text-left shrink-0"
-            >
+            {/* ================================================================= */}
+            {/* LEFT ZONE: DEDICATED MARKETING CONTENT AREA (~35% Width) */}
+            {/* ================================================================= */}
+            <div className="relative z-20 w-full sm:w-[35%] lg:w-[34%] h-full flex flex-col justify-center px-6 sm:px-8 lg:px-10 py-6 sm:py-8 bg-[#020719] shrink-0">
               {/* 1. Badge */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.05 }}
-                className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-[11px] font-black uppercase tracking-wider shadow-sm border backdrop-blur-md ${currentSlide.badgeColor}`}
+                className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-[11px] font-black uppercase tracking-wider shadow-sm border backdrop-blur-md w-fit ${currentSlide.badgeColor}`}
               >
                 <currentSlide.badgeIcon className="h-3 w-3 text-amber-300 shrink-0" />
                 <span className="truncate">{currentSlide.badge}</span>
@@ -264,7 +238,7 @@ export function HeroCarousel() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 }}
-                className="mt-2 sm:mt-2.5 text-[12px] sm:text-[13px] lg:text-sm text-slate-300 leading-snug font-medium max-w-[330px]"
+                className="mt-2 sm:mt-2.5 text-[12px] sm:text-[13px] lg:text-sm text-slate-300 leading-snug font-medium max-w-[340px]"
               >
                 {currentSlide.description}
               </motion.p>
@@ -292,7 +266,7 @@ export function HeroCarousel() {
                 </Link>
               </motion.div>
 
-              {/* 5. Highlight Benefits */}
+              {/* 5. Benefit Pills */}
               <div className="mt-3.5 sm:mt-5 flex flex-wrap items-center gap-1.5 sm:gap-2.5 text-[10px] sm:text-[11px] font-bold text-white/90">
                 {currentSlide.features.map((feat, idx) => (
                   <motion.div
@@ -307,11 +281,41 @@ export function HeroCarousel() {
                   </motion.div>
                 ))}
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+            </div>
 
-        {/* Navigation Arrows */}
+            {/* Seamless Soft Feathering Seam between Left Zone and Right Zone */}
+            <div className="hidden sm:block absolute left-[34%] top-0 bottom-0 w-12 bg-gradient-to-r from-[#020719] to-transparent z-15 pointer-events-none" />
+
+            {/* ================================================================= */}
+            {/* RIGHT ZONE: DEDICATED SHOPPING JOURNEY VISUAL SCENE (~65% Width) */}
+            {/* ================================================================= */}
+            <div className="relative w-full sm:w-[65%] lg:w-[66%] h-full overflow-hidden shrink-0">
+              {/* Full Brightness Background Artwork Layer (ZERO dark overlays) */}
+              <div
+                style={{
+                  backgroundImage: `url(${currentSlide.bgImage})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: currentSlide.bgPosition,
+                  transform: `translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
+                  transition: "transform 350ms cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
+                className="absolute inset-0 w-full h-full bg-no-repeat"
+              />
+
+              {/* Slide 2 Gradient Overlay if applicable */}
+              {currentSlide.gradientOverlay && (
+                <div className={`absolute inset-0 ${currentSlide.gradientOverlay}`} />
+              )}
+
+              {/* Store Slide Synchronized Storytelling Animation */}
+              {currentSlide.id === "store" && (
+                <StoreShoppingJourneyAnimation isActive={currentSlideIndex === 0} />
+              )}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Carousel Navigation Arrows */}
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.94 }}

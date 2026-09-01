@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Check, MousePointer2, Sparkles } from "lucide-react";
 
 interface StoreShoppingJourneyAnimationProps {
@@ -289,7 +289,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             className="absolute left-[65%] top-[23%] w-[65px] sm:w-[85px] h-[120px] pointer-events-none flex flex-col items-center z-20"
           >
             {/* Blue Laser Cone */}
-            <div className="w-full h-full bg-gradient-to-b from-cyan-400/70 via-cyan-400/25 to-transparent [clip-path:polygon(50%_0%,0%_100%,100%_100%)] blur-xs" />
+            <div className="w-full h-full bg-gradient-to-b from-cyan-400/70 via-cyan-400/25 to-transparent [clip-path:polygon(50%_0%,0%_100%,100%_100%)]" />
             {/* Horizontal Sweeping Scanner Line */}
             <motion.div
               animate={{ y: [0, 65, 0] }}
@@ -324,14 +324,14 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             transition={{ duration: 3.0 }}
             className="absolute right-[0%] bottom-[20%] w-[110px] h-[45px] pointer-events-none z-20"
           >
-            <div className="w-full h-full bg-gradient-to-r from-amber-300/45 via-amber-200/15 to-transparent blur-md [clip-path:polygon(0%_40%,100%_0%,100%_100%,0%_60%)]" />
+            <div className="w-full h-full bg-gradient-to-r from-amber-300/45 via-amber-200/15 to-transparent [clip-path:polygon(0%_40%,100%_0%,100%_100%,0%_60%)]" />
           </motion.div>
 
           {/* Speed Streaks Behind Van */}
           <motion.div
             animate={{ opacity: [0.2, 0.8, 0.2] }}
             transition={{ duration: 0.6, repeat: Infinity }}
-            className="absolute right-[12%] bottom-[26%] w-[7%] h-[2px] bg-cyan-300/70 rounded-full blur-xs shadow-[0_0_8px_rgba(56,189,248,1)] z-20"
+            className="absolute right-[12%] bottom-[26%] w-[7%] h-[2px] bg-cyan-300/70 rounded-full shadow-[0_0_8px_rgba(56,189,248,1)] z-20"
           />
 
           {/* Location Pin Radar Wave */}

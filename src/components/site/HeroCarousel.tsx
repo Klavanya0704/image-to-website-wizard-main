@@ -88,7 +88,6 @@ export function HeroCarousel() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
   const [direction, setDirection] = useState<number>(1);
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -115,21 +114,12 @@ export function HeroCarousel() {
     setCurrentSlideIndex((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (window.innerWidth < 768 || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMouseOffset({ x: +(x * -8).toFixed(2), y: +(y * -4).toFixed(2) });
-  };
-
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    setMouseOffset({ x: 0, y: 0 });
   };
 
   // Mobile Touch Swipe Handlers with vertical scroll protection
@@ -189,7 +179,6 @@ export function HeroCarousel() {
       <div
         ref={containerRef}
         onMouseEnter={handleMouseEnter}
-        onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -299,14 +288,14 @@ export function HeroCarousel() {
             {/* RIGHT ZONE: DEDICATED SHOPPING JOURNEY VISUAL SCENE (~65% Width) */}
             {/* ================================================================= */}
             <div className="relative w-full sm:w-[65%] lg:w-[66%] h-full overflow-hidden shrink-0">
-              {/* Full Brightness Background Artwork Layer (ZERO dark overlays) */}
+              {/* Ultra-Sharp 100% Full Clarity Background Artwork Layer */}
               <div
                 style={{
                   backgroundImage: `url(${currentSlide.bgImage})`,
                   backgroundSize: "cover",
                   backgroundPosition: currentSlide.bgPosition,
-                  transform: `translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
-                  transition: "transform 350ms cubic-bezier(0.16, 1, 0.3, 1)",
+                  imageRendering: "-webkit-optimize-contrast",
+                  opacity: 1,
                 }}
                 className="absolute inset-0 w-full h-full bg-no-repeat"
               />

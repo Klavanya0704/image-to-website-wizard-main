@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Check, MousePointer2, Sparkles } from "lucide-react";
 
 interface StoreShoppingJourneyAnimationProps {
@@ -8,10 +8,10 @@ interface StoreShoppingJourneyAnimationProps {
 
 export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourneyAnimationProps) {
   // Deterministic 4-Stage Synchronized Timeline (16-Second Continuous Loop):
-  // 1. BROWSE: 0s to 4s (0 – 4000ms) -> "1 Browse" active, cursor clicks Add to Cart, cart badge increments 0 -> 1
-  // 2. PLACE ORDER: 4s to 8s (4000 – 8000ms) -> "2 Place Order" active, connection pulse, cursor clicks Place Order, Confirmed checkmark
-  // 3. PACK & SHIP: 8s to 12s (8000 – 12000ms) -> "3 Pack & Ship" active, conveyor rollers move, boxes motion, laser scan beam
-  // 4. DELIVERED: 12s to 16s (12000 – 16000ms) -> "4 Delivered" active, van travels route, pin pulses, "Order Delivered Successfully!"
+  // 1. BROWSE: 0s to 4s (0 – 4000ms) -> "1 Browse" active, Phone floats/scales into focus, cursor clicks Add to Cart, cart badge pops 0 -> 1
+  // 2. PLACE ORDER: 4s to 8s (4000 – 8000ms) -> "2 Place Order" active, Checkout moves forward, cursor clicks Place Order, Confirmed checkmark
+  // 3. PACK & SHIP: 8s to 12s (8000 – 12000ms) -> "3 Pack & Ship" active, Conveyor rollers move, boxes translate along belt, scanner laser sweeps
+  // 4. DELIVERED: 12s to 16s (12000 – 16000ms) -> "4 Delivered" active, Truck travels along route, headlights & wind trails, location pin radar, Delivered badge
   const [stage, setStage] = useState<1 | 2 | 3 | 4>(1);
 
   useEffect(() => {
@@ -159,10 +159,18 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       </div>
 
       {/* ========================================================================= */}
-      {/* 1. BROWSE — 0s to 4s: Cursor moves to Add to Cart & Cart Counter Pops */}
+      {/* 1. BROWSE — 0s to 4s: Phone Floating Focus & Cursor Clicks Add to Cart */}
       {/* ========================================================================= */}
       {stage === 1 && (
         <>
+          {/* Subtle Focus Ring around Phone */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: [0, 0.4, 0.2], scale: [0.98, 1.02, 1] }}
+            transition={{ duration: 2.0, repeat: Infinity, repeatType: "reverse" }}
+            className="absolute left-[4%] top-[18%] w-[24%] h-[74%] rounded-[28px] border border-cyan-400/40 pointer-events-none z-15"
+          />
+
           {/* Cursor moving naturally to Phone "Add to Cart" Button */}
           <motion.div
             initial={{ left: "8%", top: "66%", opacity: 0 }}
@@ -205,6 +213,14 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       {/* ========================================================================= */}
       {stage === 2 && (
         <>
+          {/* Subtle Focus Ring around Checkout Panel */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: [0, 0.4, 0.2], scale: [0.98, 1.02, 1] }}
+            transition={{ duration: 2.0, repeat: Infinity, repeatType: "reverse" }}
+            className="absolute left-[30.5%] top-[22%] w-[25.5%] h-[66%] rounded-[24px] border border-cyan-400/40 pointer-events-none z-15"
+          />
+
           {/* Flowing Connection Light along '>>' chevron from Phone to Checkout */}
           <motion.div
             initial={{ left: "26%", top: "45%", opacity: 0 }}
@@ -253,7 +269,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       )}
 
       {/* ========================================================================= */}
-      {/* 3. PACK & SHIP — 8s to 12s: Conveyor Rollers & Overhead Scanner Laser */}
+      {/* 3. PACK & SHIP — 8s to 12s: Conveyor Rollers & Moving Box Stream */}
       {/* ========================================================================= */}
       {stage === 3 && (
         <>
@@ -269,17 +285,25 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             className="absolute h-3 w-3 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(56,189,248,1)] z-20"
           />
 
-          {/* Conveyor Rollers Motion */}
-          <div className="absolute left-[54%] bottom-[16.5%] w-[22%] h-[4%] overflow-hidden flex items-center justify-between opacity-80 z-10">
+          {/* Conveyor Rollers Physical Motion */}
+          <div className="absolute left-[54%] bottom-[16.5%] w-[22%] h-[4%] overflow-hidden flex items-center justify-between opacity-85 z-10">
             {[1, 2, 3, 4, 5, 6, 7].map((i) => (
               <motion.div
                 key={i}
                 animate={{ x: [0, 22] }}
-                transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 0.45, repeat: Infinity, ease: "linear" }}
                 className="h-full w-0.5 bg-cyan-300 rounded-full shadow-[0_0_6px_rgba(56,189,248,0.7)]"
               />
             ))}
           </div>
+
+          {/* Box Physical Movement Stream along Conveyor */}
+          <motion.div
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: [0, 0.9, 0.9, 0], x: [-16, 12, 38] }}
+            transition={{ duration: 3.5, ease: "easeInOut" }}
+            className="absolute left-[58%] top-[48%] h-12 w-12 rounded-lg border border-amber-300/40 bg-amber-400/10 z-15 pointer-events-none"
+          />
 
           {/* Overhead Scanner Blue Laser Cone & Sweeping Line */}
           <motion.div
@@ -301,7 +325,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       )}
 
       {/* ========================================================================= */}
-      {/* 4. DELIVERED — 12s to 16s: Van on Highway Route & Destination Arrival */}
+      {/* 4. DELIVERED — 12s to 16s: Truck on Highway Route & Destination Arrival */}
       {/* ========================================================================= */}
       {stage === 4 && (
         <>
@@ -317,11 +341,11 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             className="absolute h-3.5 w-3.5 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(56,189,248,1)] z-20"
           />
 
-          {/* Delivery Van Headlights */}
+          {/* Delivery Van Physical Movement Glow */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.85, 0.85, 0] }}
-            transition={{ duration: 3.5 }}
+            initial={{ opacity: 0, x: -12 }}
+            animate={{ opacity: [0, 0.85, 0.85, 0], x: [-12, 8, 24] }}
+            transition={{ duration: 3.2, ease: "easeInOut" }}
             className="absolute right-[0%] bottom-[20%] w-[110px] h-[45px] pointer-events-none z-20"
           >
             <div className="w-full h-full bg-gradient-to-r from-amber-300/45 via-amber-200/15 to-transparent [clip-path:polygon(0%_40%,100%_0%,100%_100%,0%_60%)]" />

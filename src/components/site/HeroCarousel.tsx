@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import heroStoreJourneyClean from "@/assets/hero-store-journey-bg.png";
+import heroStoreJourneyClean from "@/assets/hero-store-journey-clean.png";
 import heroMakerspaceBg from "@/assets/hero-makerspace-bg.jpg";
 import { StoreShoppingJourneyAnimation } from "@/components/site/StoreShoppingJourneyAnimation";
 

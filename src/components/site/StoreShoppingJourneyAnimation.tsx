@@ -2,18 +2,18 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Check, MousePointer2, Sparkles } from "lucide-react";
 
-import animTruck from "@/assets/anim_truck.png";
+import heroDeliveryTruck from "@/assets/hero-delivery-truck.png";
 
 interface StoreShoppingJourneyAnimationProps {
   isActive: boolean;
 }
 
 export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourneyAnimationProps) {
-  // Deterministic 4-Stage Synchronized Timeline (16-Second Continuous Loop):
-  // 1. BROWSE (0s – 4s): "1 Browse" active, Phone aura focus, cursor clicks Add to Cart, cart badge pops 0 -> 1
-  // 2. PLACE ORDER (4s – 8s): "2 Place Order" active, Checkout aura focus, cursor clicks Place Order, Confirmed checkmark
-  // 3. PACK & SHIP (8s – 12s): "3 Pack & Ship" active, Conveyor rollers move, robotic laser sweeps boxes
-  // 4. DELIVERED (12s – 16s): "4 Delivered" active, Truck physically drives along route to pin, headlights, radar waves, Delivered badge
+  // Single Source of Truth for the 16-Second Storytelling Timeline:
+  // 1. BROWSE (0s – 4s): Stage 1 active, Phone cyan focus ring, cursor clicks Add to Cart, cart badge pops 0 -> 1
+  // 2. PLACE ORDER (4s – 8s): Stage 2 active, Checkout cyan focus ring, chevron pulse, cursor clicks Place Order, Confirmed checkmark
+  // 3. PACK & SHIP (8s – 12s): Stage 3 active, Conveyor rollers move, light stream sweeps across boxes, robotic scanner laser sweeps
+  // 4. DELIVERED (12s – 16s): Stage 4 active, Physical Isolated Delivery Truck drives along curved highway route to pin, headlights, radar waves, Delivered badge
   const [stage, setStage] = useState<1 | 2 | 3 | 4>(1);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
           <div
             className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-black transition-all duration-300 ${
               stage === 1
-                ? "bg-cyan-400 text-slate-950 shadow-[0_0_14px_rgba(34,211,238,0.9)] scale-110"
+                ? "bg-cyan-400 text-slate-950 shadow-[0_0_14px_rgba(34,211,238,0.95)] scale-110"
                 : "bg-blue-900/60 text-cyan-300 border border-cyan-500/30"
             }`}
           >
@@ -80,7 +80,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
           <div
             className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-black transition-all duration-300 ${
               stage === 2
-                ? "bg-cyan-400 text-slate-950 shadow-[0_0_14px_rgba(34,211,238,0.9)] scale-110"
+                ? "bg-cyan-400 text-slate-950 shadow-[0_0_14px_rgba(34,211,238,0.95)] scale-110"
                 : "bg-blue-900/60 text-cyan-300 border border-cyan-500/30"
             }`}
           >
@@ -112,7 +112,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
           <div
             className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-black transition-all duration-300 ${
               stage === 3
-                ? "bg-cyan-400 text-slate-950 shadow-[0_0_14px_rgba(34,211,238,0.9)] scale-110"
+                ? "bg-cyan-400 text-slate-950 shadow-[0_0_14px_rgba(34,211,238,0.95)] scale-110"
                 : "bg-blue-900/60 text-cyan-300 border border-cyan-500/30"
             }`}
           >
@@ -144,7 +144,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
           <div
             className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-black transition-all duration-300 ${
               stage === 4
-                ? "bg-cyan-400 text-slate-950 shadow-[0_0_14px_rgba(34,211,238,0.9)] scale-110"
+                ? "bg-cyan-400 text-slate-950 shadow-[0_0_14px_rgba(34,211,238,0.95)] scale-110"
                 : "bg-blue-900/60 text-cyan-300 border border-cyan-500/30"
             }`}
           >
@@ -161,16 +161,16 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       </div>
 
       {/* ========================================================================= */}
-      {/* 1. BROWSE — 0s to 4s: Phone Aura Focus & Cursor Clicks Add to Cart */}
+      {/* 1. BROWSE — 0s to 4s: Phone Focus Ring & Cursor Clicks Add to Cart */}
       {/* ========================================================================= */}
       {stage === 1 && (
         <>
-          {/* Subtle Glowing Aura Focus around Smartphone (No duplicate image) */}
+          {/* Subtle Glowing Cyan Focus Aura around Smartphone */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: [0, 0.5, 0.25], scale: [0.98, 1.03, 1] }}
-            transition={{ duration: 2.0, repeat: Infinity, repeatType: "reverse" }}
-            className="absolute left-[3.5%] top-[17%] w-[25%] h-[75%] rounded-[28px] border-2 border-cyan-400/60 shadow-[0_0_24px_rgba(34,211,238,0.6)] pointer-events-none z-15"
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: [0, 0.7, 0.35], scale: [0.97, 1.02, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity, repeatType: "reverse" }}
+            className="absolute left-[3.5%] top-[17%] w-[25%] h-[75%] rounded-[28px] border-2 border-cyan-400/60 shadow-[0_0_24px_rgba(34,211,238,0.65)] pointer-events-none z-15"
           />
 
           {/* Cursor moving naturally to Phone "Add to Cart" Button */}
@@ -215,12 +215,12 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       {/* ========================================================================= */}
       {stage === 2 && (
         <>
-          {/* Subtle Glowing Aura Focus around Checkout Panel (No duplicate image) */}
+          {/* Subtle Glowing Cyan Focus Aura around Checkout */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: [0, 0.5, 0.25], scale: [0.98, 1.03, 1] }}
-            transition={{ duration: 2.0, repeat: Infinity, repeatType: "reverse" }}
-            className="absolute left-[30%] top-[21%] w-[26%] h-[68%] rounded-[24px] border-2 border-cyan-400/60 shadow-[0_0_24px_rgba(34,211,238,0.6)] pointer-events-none z-15"
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: [0, 0.7, 0.35], scale: [0.97, 1.02, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity, repeatType: "reverse" }}
+            className="absolute left-[30%] top-[21%] w-[26%] h-[68%] rounded-[24px] border-2 border-cyan-400/60 shadow-[0_0_24px_rgba(34,211,238,0.65)] pointer-events-none z-15"
           />
 
           {/* Flowing Connection Light along '>>' chevron from Phone to Checkout */}
@@ -299,12 +299,12 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             ))}
           </div>
 
-          {/* Moving Laser Light Pulse along the Boxes */}
+          {/* Moving Light Stream sweeping across Conveyor Boxes */}
           <motion.div
             initial={{ left: "58%", opacity: 0 }}
             animate={{ left: ["58%", "68%", "76%"], opacity: [0, 0.85, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "linear" }}
-            className="absolute top-[48%] h-10 w-4 bg-gradient-to-r from-transparent via-cyan-300/40 to-transparent blur-xs z-15"
+            className="absolute top-[48%] h-10 w-4 bg-gradient-to-r from-transparent via-cyan-300/40 to-transparent z-15"
           />
 
           {/* Overhead Scanner Blue Laser Cone & Sweeping Line */}
@@ -327,11 +327,57 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       )}
 
       {/* ========================================================================= */}
-      {/* 4. DELIVERED — 12s to 16s: Truck Physically Drives to Destination Pin */}
+      {/* 4. DELIVERED — 12s to 16s: SINGLE ISOLATED TRUCK PHYSICALLY DRIVES ALONG ROUTE */}
       {/* ========================================================================= */}
+      {/* The single isolated truck element is positioned at left: 77.2%, top: 39.2% */}
+      {/* It physically translates along the curved highway route to the orange location pin */}
+      <motion.div
+        animate={
+          stage === 4
+            ? {
+                x: [0, 32, 68, 98],
+                y: [0, -14, -28, -16],
+                scale: [1, 0.97, 0.93, 0.90],
+                opacity: 1,
+              }
+            : {
+                x: 0,
+                y: 0,
+                scale: 1,
+                opacity: 1,
+              }
+        }
+        transition={{
+          duration: stage === 4 ? 3.5 : 0.8,
+          ease: stage === 4 ? [0.25, 1, 0.5, 1] : "easeInOut",
+        }}
+        className="absolute left-[77.2%] top-[39.2%] w-[22%] h-[38%] z-25 origin-center pointer-events-none"
+      >
+        <img
+          src={heroDeliveryTruck}
+          alt="ACTE IDEA LAB Delivery Truck"
+          className="w-full h-full object-contain pointer-events-none select-none drop-shadow-[0_0_20px_rgba(56,189,248,0.9)]"
+          style={{ imageRendering: "-webkit-optimize-contrast" }}
+        />
+
+        {/* Dynamic Headlight Beams attached to Moving Truck */}
+        {stage === 4 && (
+          <div className="absolute right-[-15%] bottom-[15%] w-[80px] h-[35px] pointer-events-none bg-gradient-to-r from-amber-300/60 via-amber-200/20 to-transparent [clip-path:polygon(0%_40%,100%_0%,100%_100%,0%_60%)]" />
+        )}
+
+        {/* Dynamic Speed Trails attached behind Moving Truck */}
+        {stage === 4 && (
+          <motion.div
+            animate={{ opacity: [0.3, 0.9, 0.3] }}
+            transition={{ duration: 0.5, repeat: Infinity }}
+            className="absolute left-[-20%] bottom-[20%] w-[35px] h-[3px] bg-cyan-300/80 rounded-full shadow-[0_0_10px_rgba(56,189,248,1)]"
+          />
+        )}
+      </motion.div>
+
       {stage === 4 && (
         <>
-          {/* Progressive Light Beacon along Curved Highway Route */}
+          {/* Progressive Light Beacon traveling along Curved Highway Route */}
           <motion.div
             initial={{ left: "70%", top: "42%", opacity: 0 }}
             animate={{
@@ -342,35 +388,6 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             transition={{ duration: 3.0, ease: "easeInOut" }}
             className="absolute h-3.5 w-3.5 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(56,189,248,1)] z-20"
           />
-
-          {/* Truck Physical Travel along Delivery Highway Path */}
-          <motion.div
-            initial={{ x: 0, y: 0, scale: 1 }}
-            animate={{
-              x: [0, 30, 65, 95],
-              y: [0, -14, -28, -16],
-              scale: [1, 0.97, 0.93, 0.90],
-            }}
-            transition={{ duration: 3.5, ease: [0.25, 1, 0.5, 1] }}
-            className="absolute left-[77%] top-[39%] w-[22%] h-[38%] z-25 origin-center pointer-events-none"
-          >
-            <img
-              src={animTruck}
-              alt="ACTE Delivery Truck in motion"
-              className="w-full h-full object-contain pointer-events-none select-none drop-shadow-[0_0_18px_rgba(56,189,248,0.9)]"
-              style={{ imageRendering: "-webkit-optimize-contrast" }}
-            />
-
-            {/* Dynamic Headlights attached to Moving Truck */}
-            <div className="absolute right-[-15%] bottom-[15%] w-[80px] h-[35px] pointer-events-none bg-gradient-to-r from-amber-300/60 via-amber-200/20 to-transparent [clip-path:polygon(0%_40%,100%_0%,100%_100%,0%_60%)]" />
-
-            {/* Dynamic Speed Trails attached behind Moving Truck */}
-            <motion.div
-              animate={{ opacity: [0.3, 0.9, 0.3] }}
-              transition={{ duration: 0.5, repeat: Infinity }}
-              className="absolute left-[-20%] bottom-[20%] w-[35px] h-[3px] bg-cyan-300/80 rounded-full shadow-[0_0_10px_rgba(56,189,248,1)]"
-            />
-          </motion.div>
 
           {/* Location Pin Radar Waves */}
           <motion.div

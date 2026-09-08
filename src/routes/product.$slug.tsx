@@ -533,7 +533,7 @@ function ProductDetail() {
                   Fabrication Lead Time
                 </span>
                 <span className="text-sm font-bold text-[#0B1736] dark:text-white mt-1 block">
-                  {product.lead_time || "1-2 Business Days"}
+                  {(product as any).lead_time || "1-2 Business Days"}
                 </span>
               </div>
               <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-[#DCE5F2] dark:border-slate-800">

@@ -8,10 +8,10 @@ interface StoreShoppingJourneyAnimationProps {
 
 export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourneyAnimationProps) {
   // Deterministic 4-Stage Synchronized Timeline (16-Second Continuous Loop):
-  // 1. BROWSE: 0s to 4s (0 – 4000ms) -> "1 Browse" active, Phone floats/scales into focus, cursor clicks Add to Cart, cart badge pops 0 -> 1
-  // 2. PLACE ORDER: 4s to 8s (4000 – 8000ms) -> "2 Place Order" active, Checkout moves forward, cursor clicks Place Order, Confirmed checkmark
-  // 3. PACK & SHIP: 8s to 12s (8000 – 12000ms) -> "3 Pack & Ship" active, Conveyor rollers move, boxes translate along belt, scanner laser sweeps
-  // 4. DELIVERED: 12s to 16s (12000 – 16000ms) -> "4 Delivered" active, Truck travels along route, headlights & wind trails, location pin radar, Delivered badge
+  // 1. BROWSE: 0s to 4s (0 – 4000ms) -> "1 Browse" active, Phone scales/floats forward in focus, cursor clicks Add to Cart, cart badge pops 0 -> 1
+  // 2. PLACE ORDER: 4s to 8s (4000 – 8000ms) -> "2 Place Order" active, Checkout moves forward in focus, cursor clicks Place Order, Confirmed checkmark
+  // 3. PACK & SHIP: 8s to 12s (8000 – 12000ms) -> "3 Pack & Ship" active, Conveyor rollers rotate, Boxes translate on belt, robotic laser sweeps
+  // 4. DELIVERED: 12s to 16s (12000 – 16000ms) -> "4 Delivered" active, Truck drives along route, headlights & wind trails, location pin radar, Delivered badge
   const [stage, setStage] = useState<1 | 2 | 3 | 4>(1);
 
   useEffect(() => {
@@ -163,12 +163,12 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       {/* ========================================================================= */}
       {stage === 1 && (
         <>
-          {/* Subtle Focus Ring around Phone */}
+          {/* Subtle Glowing Aura Focus around Smartphone */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: [0, 0.4, 0.2], scale: [0.98, 1.02, 1] }}
+            animate={{ opacity: [0, 0.45, 0.25], scale: [0.98, 1.03, 1] }}
             transition={{ duration: 2.0, repeat: Infinity, repeatType: "reverse" }}
-            className="absolute left-[4%] top-[18%] w-[24%] h-[74%] rounded-[28px] border border-cyan-400/40 pointer-events-none z-15"
+            className="absolute left-[3.5%] top-[17%] w-[25%] h-[75%] rounded-[28px] border-2 border-cyan-400/50 shadow-[0_0_20px_rgba(34,211,238,0.5)] pointer-events-none z-15"
           />
 
           {/* Cursor moving naturally to Phone "Add to Cart" Button */}
@@ -213,12 +213,12 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
       {/* ========================================================================= */}
       {stage === 2 && (
         <>
-          {/* Subtle Focus Ring around Checkout Panel */}
+          {/* Subtle Glowing Aura Focus around Checkout Panel */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: [0, 0.4, 0.2], scale: [0.98, 1.02, 1] }}
+            animate={{ opacity: [0, 0.45, 0.25], scale: [0.98, 1.03, 1] }}
             transition={{ duration: 2.0, repeat: Infinity, repeatType: "reverse" }}
-            className="absolute left-[30.5%] top-[22%] w-[25.5%] h-[66%] rounded-[24px] border border-cyan-400/40 pointer-events-none z-15"
+            className="absolute left-[30%] top-[21%] w-[26%] h-[68%] rounded-[24px] border-2 border-cyan-400/50 shadow-[0_0_20px_rgba(34,211,238,0.5)] pointer-events-none z-15"
           />
 
           {/* Flowing Connection Light along '>>' chevron from Phone to Checkout */}
@@ -297,7 +297,7 @@ export function StoreShoppingJourneyAnimation({ isActive }: StoreShoppingJourney
             ))}
           </div>
 
-          {/* Box Physical Movement Stream along Conveyor */}
+          {/* Boxes Physical Movement Stream along Conveyor */}
           <motion.div
             initial={{ opacity: 0, x: -16 }}
             animate={{ opacity: [0, 0.9, 0.9, 0], x: [-16, 12, 38] }}
